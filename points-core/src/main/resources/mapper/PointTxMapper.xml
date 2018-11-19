@@ -1,0 +1,642 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.dao.PointTxMapper">
+  <resultMap id="BaseResultMap" type="com.example.demo.pojo.PointTx">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="user_points" jdbcType="DOUBLE" property="userPoints" />
+    <result column="old_points" jdbcType="DOUBLE" property="oldPoints" />
+    <result column="new_points" jdbcType="DOUBLE" property="newPoints" />
+    <result column="money" jdbcType="DOUBLE" property="money" />
+    <result column="bankname" jdbcType="VARCHAR" property="bankname" />
+    <result column="banknumber" jdbcType="VARCHAR" property="banknumber" />
+    <result column="uname" jdbcType="VARCHAR" property="uname" />
+    <result column="sqtime" jdbcType="TIMESTAMP" property="sqtime" />
+    <result column="paytime" jdbcType="TIMESTAMP" property="paytime" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, username, user_points, old_points, new_points, money, bankname, banknumber, uname, 
+    sqtime, paytime, status
+  </sql>
+  <select id="selectByExample" parameterType="com.example.demo.pojo.PointTxExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from point_tx
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from point_tx
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from point_tx
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.example.demo.pojo.PointTxExample">
+    delete from point_tx
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.example.demo.pojo.PointTx">
+    insert into point_tx (id, username, user_points, 
+      old_points, new_points, money, 
+      bankname, banknumber, uname, 
+      sqtime, paytime, status
+      )
+    values (#{id,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{userPoints,jdbcType=DOUBLE}, 
+      #{oldPoints,jdbcType=DOUBLE}, #{newPoints,jdbcType=DOUBLE}, #{money,jdbcType=DOUBLE}, 
+      #{bankname,jdbcType=VARCHAR}, #{banknumber,jdbcType=VARCHAR}, #{uname,jdbcType=VARCHAR}, 
+      #{sqtime,jdbcType=TIMESTAMP}, #{paytime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.demo.pojo.PointTx">
+    insert into point_tx
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="username != null">
+        username,
+      </if>
+      <if test="userPoints != null">
+        user_points,
+      </if>
+      <if test="oldPoints != null">
+        old_points,
+      </if>
+      <if test="newPoints != null">
+        new_points,
+      </if>
+      <if test="money != null">
+        money,
+      </if>
+      <if test="bankname != null">
+        bankname,
+      </if>
+      <if test="banknumber != null">
+        banknumber,
+      </if>
+      <if test="uname != null">
+        uname,
+      </if>
+      <if test="sqtime != null">
+        sqtime,
+      </if>
+      <if test="paytime != null">
+        paytime,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="username != null">
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="userPoints != null">
+        #{userPoints,jdbcType=DOUBLE},
+      </if>
+      <if test="oldPoints != null">
+        #{oldPoints,jdbcType=DOUBLE},
+      </if>
+      <if test="newPoints != null">
+        #{newPoints,jdbcType=DOUBLE},
+      </if>
+      <if test="money != null">
+        #{money,jdbcType=DOUBLE},
+      </if>
+      <if test="bankname != null">
+        #{bankname,jdbcType=VARCHAR},
+      </if>
+      <if test="banknumber != null">
+        #{banknumber,jdbcType=VARCHAR},
+      </if>
+      <if test="uname != null">
+        #{uname,jdbcType=VARCHAR},
+      </if>
+      <if test="sqtime != null">
+        #{sqtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="paytime != null">
+        #{paytime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.example.demo.pojo.PointTxExample" resultType="java.lang.Long">
+    select count(*) from point_tx
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update point_tx
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.username != null">
+        username = #{record.username,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userPoints != null">
+        user_points = #{record.userPoints,jdbcType=DOUBLE},
+      </if>
+      <if test="record.oldPoints != null">
+        old_points = #{record.oldPoints,jdbcType=DOUBLE},
+      </if>
+      <if test="record.newPoints != null">
+        new_points = #{record.newPoints,jdbcType=DOUBLE},
+      </if>
+      <if test="record.money != null">
+        money = #{record.money,jdbcType=DOUBLE},
+      </if>
+      <if test="record.bankname != null">
+        bankname = #{record.bankname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.banknumber != null">
+        banknumber = #{record.banknumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.uname != null">
+        uname = #{record.uname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sqtime != null">
+        sqtime = #{record.sqtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.paytime != null">
+        paytime = #{record.paytime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update point_tx
+    set id = #{record.id,jdbcType=INTEGER},
+      username = #{record.username,jdbcType=VARCHAR},
+      user_points = #{record.userPoints,jdbcType=DOUBLE},
+      old_points = #{record.oldPoints,jdbcType=DOUBLE},
+      new_points = #{record.newPoints,jdbcType=DOUBLE},
+      money = #{record.money,jdbcType=DOUBLE},
+      bankname = #{record.bankname,jdbcType=VARCHAR},
+      banknumber = #{record.banknumber,jdbcType=VARCHAR},
+      uname = #{record.uname,jdbcType=VARCHAR},
+      sqtime = #{record.sqtime,jdbcType=TIMESTAMP},
+      paytime = #{record.paytime,jdbcType=TIMESTAMP},
+      status = #{record.status,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.demo.pojo.PointTx">
+    update point_tx
+    <set>
+      <if test="username != null">
+        username = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="userPoints != null">
+        user_points = #{userPoints,jdbcType=DOUBLE},
+      </if>
+      <if test="oldPoints != null">
+        old_points = #{oldPoints,jdbcType=DOUBLE},
+      </if>
+      <if test="newPoints != null">
+        new_points = #{newPoints,jdbcType=DOUBLE},
+      </if>
+      <if test="money != null">
+        money = #{money,jdbcType=DOUBLE},
+      </if>
+      <if test="bankname != null">
+        bankname = #{bankname,jdbcType=VARCHAR},
+      </if>
+      <if test="banknumber != null">
+        banknumber = #{banknumber,jdbcType=VARCHAR},
+      </if>
+      <if test="uname != null">
+        uname = #{uname,jdbcType=VARCHAR},
+      </if>
+      <if test="sqtime != null">
+        sqtime = #{sqtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="paytime != null">
+        paytime = #{paytime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.demo.pojo.PointTx">
+    update point_tx
+    set username = #{username,jdbcType=VARCHAR},
+      user_points = #{userPoints,jdbcType=DOUBLE},
+      old_points = #{oldPoints,jdbcType=DOUBLE},
+      new_points = #{newPoints,jdbcType=DOUBLE},
+      money = #{money,jdbcType=DOUBLE},
+      bankname = #{bankname,jdbcType=VARCHAR},
+      banknumber = #{banknumber,jdbcType=VARCHAR},
+      uname = #{uname,jdbcType=VARCHAR},
+      sqtime = #{sqtime,jdbcType=TIMESTAMP},
+      paytime = #{paytime,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <resultMap id="BaseResultMap" type="com.example.demo.pojo.PointTx">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="user_points" jdbcType="DOUBLE" property="userPoints" />
+    <result column="old_points" jdbcType="DOUBLE" property="oldPoints" />
+    <result column="new_points" jdbcType="DOUBLE" property="newPoints" />
+    <result column="money" jdbcType="DOUBLE" property="money" />
+    <result column="bankname" jdbcType="VARCHAR" property="bankname" />
+    <result column="banknumber" jdbcType="VARCHAR" property="banknumber" />
+    <result column="uname" jdbcType="VARCHAR" property="uname" />
+    <result column="sqtime" jdbcType="TIMESTAMP" property="sqtime" />
+    <result column="paytime" jdbcType="TIMESTAMP" property="paytime" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, username, user_points, old_points, new_points, money, bankname, banknumber, uname, 
+    sqtime, paytime, status
+  </sql>
+  <select id="selectByExample" parameterType="com.example.demo.pojo.PointTxExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from point_tx
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from point_tx
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from point_tx
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.example.demo.pojo.PointTxExample">
+    delete from point_tx
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.example.demo.pojo.PointTx">
+    insert into point_tx (id, username, user_points, 
+      old_points, new_points, money, 
+      bankname, banknumber, uname, 
+      sqtime, paytime, status
+      )
+    values (#{id,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{userPoints,jdbcType=DOUBLE}, 
+      #{oldPoints,jdbcType=DOUBLE}, #{newPoints,jdbcType=DOUBLE}, #{money,jdbcType=DOUBLE}, 
+      #{bankname,jdbcType=VARCHAR}, #{banknumber,jdbcType=VARCHAR}, #{uname,jdbcType=VARCHAR}, 
+      #{sqtime,jdbcType=TIMESTAMP}, #{paytime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.demo.pojo.PointTx">
+    insert into point_tx
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="username != null">
+        username,
+      </if>
+      <if test="userPoints != null">
+        user_points,
+      </if>
+      <if test="oldPoints != null">
+        old_points,
+      </if>
+      <if test="newPoints != null">
+        new_points,
+      </if>
+      <if test="money != null">
+        money,
+      </if>
+      <if test="bankname != null">
+        bankname,
+      </if>
+      <if test="banknumber != null">
+        banknumber,
+      </if>
+      <if test="uname != null">
+        uname,
+      </if>
+      <if test="sqtime != null">
+        sqtime,
+      </if>
+      <if test="paytime != null">
+        paytime,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="username != null">
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="userPoints != null">
+        #{userPoints,jdbcType=DOUBLE},
+      </if>
+      <if test="oldPoints != null">
+        #{oldPoints,jdbcType=DOUBLE},
+      </if>
+      <if test="newPoints != null">
+        #{newPoints,jdbcType=DOUBLE},
+      </if>
+      <if test="money != null">
+        #{money,jdbcType=DOUBLE},
+      </if>
+      <if test="bankname != null">
+        #{bankname,jdbcType=VARCHAR},
+      </if>
+      <if test="banknumber != null">
+        #{banknumber,jdbcType=VARCHAR},
+      </if>
+      <if test="uname != null">
+        #{uname,jdbcType=VARCHAR},
+      </if>
+      <if test="sqtime != null">
+        #{sqtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="paytime != null">
+        #{paytime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.example.demo.pojo.PointTxExample" resultType="java.lang.Long">
+    select count(*) from point_tx
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update point_tx
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.username != null">
+        username = #{record.username,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userPoints != null">
+        user_points = #{record.userPoints,jdbcType=DOUBLE},
+      </if>
+      <if test="record.oldPoints != null">
+        old_points = #{record.oldPoints,jdbcType=DOUBLE},
+      </if>
+      <if test="record.newPoints != null">
+        new_points = #{record.newPoints,jdbcType=DOUBLE},
+      </if>
+      <if test="record.money != null">
+        money = #{record.money,jdbcType=DOUBLE},
+      </if>
+      <if test="record.bankname != null">
+        bankname = #{record.bankname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.banknumber != null">
+        banknumber = #{record.banknumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.uname != null">
+        uname = #{record.uname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sqtime != null">
+        sqtime = #{record.sqtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.paytime != null">
+        paytime = #{record.paytime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update point_tx
+    set id = #{record.id,jdbcType=INTEGER},
+      username = #{record.username,jdbcType=VARCHAR},
+      user_points = #{record.userPoints,jdbcType=DOUBLE},
+      old_points = #{record.oldPoints,jdbcType=DOUBLE},
+      new_points = #{record.newPoints,jdbcType=DOUBLE},
+      money = #{record.money,jdbcType=DOUBLE},
+      bankname = #{record.bankname,jdbcType=VARCHAR},
+      banknumber = #{record.banknumber,jdbcType=VARCHAR},
+      uname = #{record.uname,jdbcType=VARCHAR},
+      sqtime = #{record.sqtime,jdbcType=TIMESTAMP},
+      paytime = #{record.paytime,jdbcType=TIMESTAMP},
+      status = #{record.status,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.demo.pojo.PointTx">
+    update point_tx
+    <set>
+      <if test="username != null">
+        username = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="userPoints != null">
+        user_points = #{userPoints,jdbcType=DOUBLE},
+      </if>
+      <if test="oldPoints != null">
+        old_points = #{oldPoints,jdbcType=DOUBLE},
+      </if>
+      <if test="newPoints != null">
+        new_points = #{newPoints,jdbcType=DOUBLE},
+      </if>
+      <if test="money != null">
+        money = #{money,jdbcType=DOUBLE},
+      </if>
+      <if test="bankname != null">
+        bankname = #{bankname,jdbcType=VARCHAR},
+      </if>
+      <if test="banknumber != null">
+        banknumber = #{banknumber,jdbcType=VARCHAR},
+      </if>
+      <if test="uname != null">
+        uname = #{uname,jdbcType=VARCHAR},
+      </if>
+      <if test="sqtime != null">
+        sqtime = #{sqtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="paytime != null">
+        paytime = #{paytime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.demo.pojo.PointTx">
+    update point_tx
+    set username = #{username,jdbcType=VARCHAR},
+      user_points = #{userPoints,jdbcType=DOUBLE},
+      old_points = #{oldPoints,jdbcType=DOUBLE},
+      new_points = #{newPoints,jdbcType=DOUBLE},
+      money = #{money,jdbcType=DOUBLE},
+      bankname = #{bankname,jdbcType=VARCHAR},
+      banknumber = #{banknumber,jdbcType=VARCHAR},
+      uname = #{uname,jdbcType=VARCHAR},
+      sqtime = #{sqtime,jdbcType=TIMESTAMP},
+      paytime = #{paytime,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
