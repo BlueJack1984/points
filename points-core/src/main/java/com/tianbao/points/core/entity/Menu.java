@@ -1,5 +1,15 @@
 package com.tianbao.points.core.entity;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+/**
+ * 菜单
+ * @author lushusheng 2018-11-20
+ */
+@Data
+@EqualsAndHashCode(callSuper = false)
+@Table(name = "activity")
 public class Menu {
     private Integer id;
 

@@ -446,3 +446,49 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>
+
+
+
+<mapper namespace="com.diich.dao.common.IActivityDao">
+<!-- 活动实体对象的持久化 -->
+<sql id="c_activity">_activity.id, _activity.category_id categoryId,
+      _activity.status, _activity.lang, _activity.uri,
+      _activity.create_time createTime, _activity.create_user_id createUserId,
+      _activity.update_time updateTime, _activity.update_user_id updateUserId,
+      _activity.submit_time submitTime, _activity.publish_time publishTime
+    </sql>
+<sql id="t_activity">activity</sql>
+<select id="queryById" resultType="activityPO">
+  select <include refid="c_activity"/> from <include refid="t_activity"/> _activity
+  where _activity.id = #{id}
+</select>
+
+<update id="update" parameterType="com.diich.po.model.ActivityPO">
+  update  <include refid="t_activity"/>
+  <set>
+    <if test="categoryId != null">category_id = #{categoryId} ,</if>
+    <if test="submitTime != null "> submit_time = #{submitTime},</if>
+    <if test="publishTime != null  "> publish_time = #{publishTime},</if>
+    <if test="status != null">status = #{status},</if>
+    <if test="lang != null">lang = #{lang},</if>
+    <if test="uri != null">uri = #{uri},</if>
+    update_time = #{updateTime},
+    update_user_id = #{updateUserId}
+  </set>
+  where id = #{id}
+</update>
+
+<update id="delete" parameterType="java.lang.Long">
+  update <include refid="t_activity"/>
+  <set>
+    status = 1
+  </set>
+  where id = #{id}
+</update>
+
+<insert id="insert" parameterType="com.diich.po.model.ActivityPO" >
+  insert  into <include refid="t_activity"/>
+  (`id`, `category_id`, `create_time`, `status`, `create_user_id`, `update_time`, `update_user_id`, `submit_time`, `publish_time`)
+  VALUES (#{id}, #{categoryId}, #{createTime}, #{status}, #{createUserId}, #{updateTime}, #{updateUserId}, #{submitTime}, #{publishTime});
+</insert>
+</mapper>
