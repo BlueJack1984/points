@@ -11,9 +11,11 @@ import java.io.Serializable;
  * @Date 2018-11-20
  * @Desc 定义管理员表对应的持久化实体
  */
+
 @Data
 @EqualsAndHashCode(callSuper = false)
-@Table(name = "admin")
+@Entity
+@Table(name = "admin", schema = "test")
 public class Admin implements Serializable {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
