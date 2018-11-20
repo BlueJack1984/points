@@ -5,6 +5,7 @@ import lombok.EqualsAndHashCode;
 
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.io.Serializable;
 
 /**
  * 菜单
@@ -13,7 +14,7 @@ import javax.persistence.Table;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Table(name = "menu")
-public class Menu {
+public class Menu implements Serializable {
     @Id
     private Integer id;
     private String type;
