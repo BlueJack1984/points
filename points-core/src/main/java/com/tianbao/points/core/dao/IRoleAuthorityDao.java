@@ -5,6 +5,6 @@ import com.tianbao.points.core.entity.RoleAuthority;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
-public interface RoleAuthorityDao extends BaseDao<RoleAuthority, Long> {
+public interface IRoleAuthorityDao extends BaseDao<RoleAuthority, Long> {
 
 }

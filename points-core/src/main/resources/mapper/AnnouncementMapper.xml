@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.tianbao.points.core.dao.AnnouncementDao" >
+<mapper namespace="com.tianbao.points.core.dao.IAnnouncementDao" >
   <resultMap id="BaseResultMap" type="com.tianbao.points.core.entity.Announcement" >
     <id column="id" property="id" jdbcType="BIGINT" />
     <result column="title" property="title" jdbcType="VARCHAR" />

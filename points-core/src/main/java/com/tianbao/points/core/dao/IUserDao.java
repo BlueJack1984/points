@@ -5,6 +5,6 @@ import com.tianbao.points.core.entity.User;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
-public interface UserDao extends BaseDao<User, Long> {
+public interface IUserDao extends BaseDao<User, Long> {
 
 }
