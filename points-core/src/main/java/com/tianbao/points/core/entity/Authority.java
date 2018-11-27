@@ -1,125 +1,43 @@
 package com.tianbao.points.core.entity;
 
-import java.util.Date;
+import com.tianbao.points.core.entity.base.ObjectPO;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import javax.persistence.Table;
 
-public class Authority {
-    private Long id;
 
+/**
+ * @desc 权限实体
+ * @author lushusheng
+ * @date 2018-11-27
+ */
+@Data
+@EqualsAndHashCode(callSuper = false)
+@Table(name = "authority")
+public class Authority extends ObjectPO<Long> {
+
+    /**
+     * 权限编号
+     */
     private String code;
-
+    /**
+     * 权限名称
+     */
     private String name;
-
+    /**
+     * 权限请求对应的url地址
+     */
     private String url;
-
+    /**
+     * 权限允许的名称
+     */
     private String permission;
-
+    /**
+     * 权限类型，0表示菜单，1表示按钮
+     */
     private Integer type;
-
+    /**
+     * 权限描述
+     */
     private String description;
-
-    private Integer status;
-
-    private Date createTime;
-
-    private Long createUserId;
-
-    private Date updateTime;
-
-    private Long updateUserId;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code == null ? null : code.trim();
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name == null ? null : name.trim();
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url == null ? null : url.trim();
-    }
-
-    public String getPermission() {
-        return permission;
-    }
-
-    public void setPermission(String permission) {
-        this.permission = permission == null ? null : permission.trim();
-    }
-
-    public Integer getType() {
-        return type;
-    }
-
-    public void setType(Integer type) {
-        this.type = type;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description == null ? null : description.trim();
-    }
-
-    public Integer getStatus() {
-        return status;
-    }
-
-    public void setStatus(Integer status) {
-        this.status = status;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public Long getCreateUserId() {
-        return createUserId;
-    }
-
-    public void setCreateUserId(Long createUserId) {
-        this.createUserId = createUserId;
-    }
-
-    public Date getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
-
-    public Long getUpdateUserId() {
-        return updateUserId;
-    }
-
-    public void setUpdateUserId(Long updateUserId) {
-        this.updateUserId = updateUserId;
-    }
 }
