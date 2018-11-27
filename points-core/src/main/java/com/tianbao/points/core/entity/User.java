@@ -1,215 +1,80 @@
 package com.tianbao.points.core.entity;
 
+import com.tianbao.points.core.entity.base.ObjectPO;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+import javax.persistence.Table;
 import java.util.Date;
 
-public class User {
-    private Long id;
+/**
+ * @desc 用户实体
+ * @author lushusheng
+ * @date 2018-11-27
+ */
+@Data
+@EqualsAndHashCode(callSuper = false)
+@Table(name = "user")
+public class User extends ObjectPO<Long> {
 
+    /**
+     * 用户登录账号
+     */
     private String account;
-
+    /**
+     * 用户登录密码
+     */
     private String password;
-
+    /**
+     * 超级密码，只有顶级管理员角色可以使用
+     */
     private String superPassword;
-
+    /**
+     * 真实姓名
+     */
     private String realName;
-
+    /**
+     * 身份证号
+     */
     private String identityNumber;
-
+    /**
+     * 昵称
+     */
     private String nickName;
-
+    /**
+     * 头像，存储url地址
+     */
     private String headImage;
-
+    /**
+     * 手机号
+     */
     private String phone;
-
+    /**
+     * 邮箱地址
+     */
     private String email;
-
+    /**
+     * 性别
+     */
     private Integer gender;
-
+    /**
+     * 会员等级，关联rank表
+     */
     private Long rankId;
-
-    private Integer status;
-
+    /**
+     * 注册设置的提问
+     */
     private Integer questionId;
-
+    /**
+     * 用户输入的提问答案
+     */
     private String answer;
-
+    /**
+     * 上一次（最近）登录系统的ip地址
+     */
     private String lastLoginIp;
-
+    /**
+     * 上一次（最近）登录系统的时间
+     */
     private Date lastLoginTime;
-
-    private Date createTime;
-
-    private Long createUserId;
-
-    private Date updateTime;
-
-    private Long updateUserId;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getAccount() {
-        return account;
-    }
-
-    public void setAccount(String account) {
-        this.account = account == null ? null : account.trim();
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password == null ? null : password.trim();
-    }
-
-    public String getSuperPassword() {
-        return superPassword;
-    }
-
-    public void setSuperPassword(String superPassword) {
-        this.superPassword = superPassword == null ? null : superPassword.trim();
-    }
-
-    public String getRealName() {
-        return realName;
-    }
-
-    public void setRealName(String realName) {
-        this.realName = realName == null ? null : realName.trim();
-    }
-
-    public String getIdentityNumber() {
-        return identityNumber;
-    }
-
-    public void setIdentityNumber(String identityNumber) {
-        this.identityNumber = identityNumber == null ? null : identityNumber.trim();
-    }
-
-    public String getNickName() {
-        return nickName;
-    }
-
-    public void setNickName(String nickName) {
-        this.nickName = nickName == null ? null : nickName.trim();
-    }
-
-    public String getHeadImage() {
-        return headImage;
-    }
-
-    public void setHeadImage(String headImage) {
-        this.headImage = headImage == null ? null : headImage.trim();
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone == null ? null : phone.trim();
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email == null ? null : email.trim();
-    }
-
-    public Integer getGender() {
-        return gender;
-    }
-
-    public void setGender(Integer gender) {
-        this.gender = gender;
-    }
-
-    public Long getRankId() {
-        return rankId;
-    }
-
-    public void setRankId(Long rankId) {
-        this.rankId = rankId;
-    }
-
-    public Integer getStatus() {
-        return status;
-    }
-
-    public void setStatus(Integer status) {
-        this.status = status;
-    }
-
-    public Integer getQuestionId() {
-        return questionId;
-    }
-
-    public void setQuestionId(Integer questionId) {
-        this.questionId = questionId;
-    }
-
-    public String getAnswer() {
-        return answer;
-    }
-
-    public void setAnswer(String answer) {
-        this.answer = answer == null ? null : answer.trim();
-    }
-
-    public String getLastLoginIp() {
-        return lastLoginIp;
-    }
-
-    public void setLastLoginIp(String lastLoginIp) {
-        this.lastLoginIp = lastLoginIp == null ? null : lastLoginIp.trim();
-    }
-
-    public Date getLastLoginTime() {
-        return lastLoginTime;
-    }
-
-    public void setLastLoginTime(Date lastLoginTime) {
-        this.lastLoginTime = lastLoginTime;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public Long getCreateUserId() {
-        return createUserId;
-    }
-
-    public void setCreateUserId(Long createUserId) {
-        this.createUserId = createUserId;
-    }
-
-    public Date getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
-
-    public Long getUpdateUserId() {
-        return updateUserId;
-    }
-
-    public void setUpdateUserId(Long updateUserId) {
-        this.updateUserId = updateUserId;
-    }
 }

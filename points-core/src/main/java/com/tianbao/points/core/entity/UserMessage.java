@@ -1,95 +1,31 @@
 package com.tianbao.points.core.entity;
 
-import java.util.Date;
+import com.tianbao.points.core.entity.base.ObjectPO;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-public class UserMessage {
-    private Long id;
+import javax.persistence.Table;
 
+/**
+ * @desc 用户留言关联表实体
+ * @author lushusheng
+ * @date 2018-11-27
+ */
+@Data
+@EqualsAndHashCode(callSuper = false)
+@Table(name = "user_message")
+public class UserMessage extends ObjectPO<Long> {
+
+    /**
+     * 留言的id
+     */
     private Long messageId;
-
+    /**
+     * 发送者id
+     */
     private Long senderId;
-
+    /**
+     * 接收者id
+     */
     private Long receiverId;
-
-    private Integer status;
-
-    private Date createTime;
-
-    private Long createUserId;
-
-    private Date updateTime;
-
-    private Long updateUserId;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getMessageId() {
-        return messageId;
-    }
-
-    public void setMessageId(Long messageId) {
-        this.messageId = messageId;
-    }
-
-    public Long getSenderId() {
-        return senderId;
-    }
-
-    public void setSenderId(Long senderId) {
-        this.senderId = senderId;
-    }
-
-    public Long getReceiverId() {
-        return receiverId;
-    }
-
-    public void setReceiverId(Long receiverId) {
-        this.receiverId = receiverId;
-    }
-
-    public Integer getStatus() {
-        return status;
-    }
-
-    public void setStatus(Integer status) {
-        this.status = status;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public Long getCreateUserId() {
-        return createUserId;
-    }
-
-    public void setCreateUserId(Long createUserId) {
-        this.createUserId = createUserId;
-    }
-
-    public Date getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
-
-    public Long getUpdateUserId() {
-        return updateUserId;
-    }
-
-    public void setUpdateUserId(Long updateUserId) {
-        this.updateUserId = updateUserId;
-    }
 }

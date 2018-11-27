@@ -1,105 +1,36 @@
 package com.tianbao.points.core.entity;
 
-import java.util.Date;
+import com.tianbao.points.core.entity.base.ObjectPO;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-public class SystemBonus {
-    private Long id;
+import javax.persistence.Table;
 
+
+/**
+ * @desc 系统积分结算实体
+ * @author lushusheng
+ * @date 2018-11-27
+ */
+@Data
+@EqualsAndHashCode(callSuper = false)
+@Table(name = "system_bonus")
+public class SystemBonus extends ObjectPO<Long> {
+
+    /**
+     * 系统结算前总积分
+     */
     private Double startPoints;
-
+    /**
+     * 系统结算后总积分
+     */
     private Double endPoints;
-
+    /**
+     * 系统结算的权重比率
+     */
     private Double ratio;
-
+    /**
+     * 是否对会员客户端可见，0表示可见，1表示不可见
+     */
     private Integer visible;
-
-    private Integer status;
-
-    private Date createTime;
-
-    private Long createUserId;
-
-    private Date updateTime;
-
-    private Long updateUserId;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Double getStartPoints() {
-        return startPoints;
-    }
-
-    public void setStartPoints(Double startPoints) {
-        this.startPoints = startPoints;
-    }
-
-    public Double getEndPoints() {
-        return endPoints;
-    }
-
-    public void setEndPoints(Double endPoints) {
-        this.endPoints = endPoints;
-    }
-
-    public Double getRatio() {
-        return ratio;
-    }
-
-    public void setRatio(Double ratio) {
-        this.ratio = ratio;
-    }
-
-    public Integer getVisible() {
-        return visible;
-    }
-
-    public void setVisible(Integer visible) {
-        this.visible = visible;
-    }
-
-    public Integer getStatus() {
-        return status;
-    }
-
-    public void setStatus(Integer status) {
-        this.status = status;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public Long getCreateUserId() {
-        return createUserId;
-    }
-
-    public void setCreateUserId(Long createUserId) {
-        this.createUserId = createUserId;
-    }
-
-    public Date getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
-
-    public Long getUpdateUserId() {
-        return updateUserId;
-    }
-
-    public void setUpdateUserId(Long updateUserId) {
-        this.updateUserId = updateUserId;
-    }
 }
