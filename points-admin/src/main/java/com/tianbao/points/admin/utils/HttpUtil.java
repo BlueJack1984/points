@@ -1,4 +1,4 @@
-package com.tianbao.points.core.utils;
+package com.tianbao.points.admin.utils;
 
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpException;

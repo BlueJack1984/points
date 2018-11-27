@@ -1,4 +1,4 @@
-package com.tianbao.points.core.utils;
+package com.tianbao.points.admin.utils;
 
 import org.springframework.web.multipart.MultipartFile;
 import sun.misc.BASE64Decoder;
