@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.example.mybatisdemo.dao.DepartmentMapper" >
-  <resultMap id="BaseResultMap" type="com.example.mybatisdemo.entity.Department" >
+<mapper namespace="com.tianbao.points.core.dao.IDepartmentDao" >
+  <resultMap id="BaseResultMap" type="com.tianbao.points.core.entity.Department" >
     <id column="id" property="id" jdbcType="BIGINT" />
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="parent_id" property="parentId" jdbcType="BIGINT" />
@@ -26,7 +26,7 @@
     delete from department
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.example.mybatisdemo.entity.Department" >
+  <insert id="insert" parameterType="com.tianbao.points.core.entity.Department" >
     insert into department (id, name, parent_id, 
       description, status, create_time, 
       create_user_id, update_time, update_user_id
@@ -36,7 +36,7 @@
       #{createUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.example.mybatisdemo.entity.Department" >
+  <insert id="insertSelective" parameterType="com.tianbao.points.core.entity.Department" >
     insert into department
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -97,7 +97,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.example.mybatisdemo.entity.Department" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.tianbao.points.core.entity.Department" >
     update department
     <set >
       <if test="name != null" >
@@ -127,7 +127,7 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.example.mybatisdemo.entity.Department" >
+  <update id="updateByPrimaryKey" parameterType="com.tianbao.points.core.entity.Department" >
     update department
     set name = #{name,jdbcType=VARCHAR},
       parent_id = #{parentId,jdbcType=BIGINT},

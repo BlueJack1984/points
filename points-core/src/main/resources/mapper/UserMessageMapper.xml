@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.example.mybatisdemo.dao.UserMessageMapper" >
-  <resultMap id="BaseResultMap" type="com.example.mybatisdemo.entity.UserMessage" >
+<mapper namespace="com.tianbao.points.core.dao.IUserMessageDao" >
+  <resultMap id="BaseResultMap" type="com.tianbao.points.core.entity.UserMessage" >
     <id column="id" property="id" jdbcType="BIGINT" />
     <result column="message_id" property="messageId" jdbcType="BIGINT" />
     <result column="sender_id" property="senderId" jdbcType="BIGINT" />
@@ -26,7 +26,7 @@
     delete from user_message
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.example.mybatisdemo.entity.UserMessage" >
+  <insert id="insert" parameterType="com.tianbao.points.core.entity.UserMessage" >
     insert into user_message (id, message_id, sender_id, 
       receiver_id, status, create_time, 
       create_user_id, update_time, update_user_id
@@ -36,7 +36,7 @@
       #{createUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.example.mybatisdemo.entity.UserMessage" >
+  <insert id="insertSelective" parameterType="com.tianbao.points.core.entity.UserMessage" >
     insert into user_message
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -97,7 +97,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.example.mybatisdemo.entity.UserMessage" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.tianbao.points.core.entity.UserMessage" >
     update user_message
     <set >
       <if test="messageId != null" >
@@ -127,7 +127,7 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.example.mybatisdemo.entity.UserMessage" >
+  <update id="updateByPrimaryKey" parameterType="com.tianbao.points.core.entity.UserMessage" >
     update user_message
     set message_id = #{messageId,jdbcType=BIGINT},
       sender_id = #{senderId,jdbcType=BIGINT},

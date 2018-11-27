@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.example.mybatisdemo.dao.SystemBonusMapper" >
-  <resultMap id="BaseResultMap" type="com.example.mybatisdemo.entity.SystemBonus" >
+<mapper namespace="com.tianbao.points.core.dao.ISystemBonusDao" >
+  <resultMap id="BaseResultMap" type="com.tianbao.points.core.entity.SystemBonus" >
     <id column="id" property="id" jdbcType="BIGINT" />
     <result column="start_points" property="startPoints" jdbcType="DOUBLE" />
     <result column="end_points" property="endPoints" jdbcType="DOUBLE" />
@@ -27,7 +27,7 @@
     delete from system_bonus
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.example.mybatisdemo.entity.SystemBonus" >
+  <insert id="insert" parameterType="com.tianbao.points.core.entity.SystemBonus" >
     insert into system_bonus (id, start_points, end_points, 
       ratio, visible, status, 
       create_time, create_user_id, update_time, 
@@ -37,7 +37,7 @@
       #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, 
       #{updateUserId,jdbcType=BIGINT})
   </insert>
-  <insert id="insertSelective" parameterType="com.example.mybatisdemo.entity.SystemBonus" >
+  <insert id="insertSelective" parameterType="com.tianbao.points.core.entity.SystemBonus" >
     insert into system_bonus
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -104,7 +104,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.example.mybatisdemo.entity.SystemBonus" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.tianbao.points.core.entity.SystemBonus" >
     update system_bonus
     <set >
       <if test="startPoints != null" >
@@ -137,7 +137,7 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.example.mybatisdemo.entity.SystemBonus" >
+  <update id="updateByPrimaryKey" parameterType="com.tianbao.points.core.entity.SystemBonus" >
     update system_bonus
     set start_points = #{startPoints,jdbcType=DOUBLE},
       end_points = #{endPoints,jdbcType=DOUBLE},

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.example.mybatisdemo.dao.RankMapper" >
-  <resultMap id="BaseResultMap" type="com.example.mybatisdemo.entity.Rank" >
+<mapper namespace="com.tianbao.points.core.dao.IRankDao" >
+  <resultMap id="BaseResultMap" type="com.tianbao.points.core.entity.Rank" >
     <id column="id" property="id" jdbcType="BIGINT" />
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="alias" property="alias" jdbcType="VARCHAR" />
@@ -27,7 +27,7 @@
     delete from rank
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.example.mybatisdemo.entity.Rank" >
+  <insert id="insert" parameterType="com.tianbao.points.core.entity.Rank" >
     insert into rank (id, name, alias, 
       base_points, base_money, status, 
       create_time, create_user_id, update_time, 
@@ -37,7 +37,7 @@
       #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, 
       #{updateUserId,jdbcType=BIGINT})
   </insert>
-  <insert id="insertSelective" parameterType="com.example.mybatisdemo.entity.Rank" >
+  <insert id="insertSelective" parameterType="com.tianbao.points.core.entity.Rank" >
     insert into rank
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -104,7 +104,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.example.mybatisdemo.entity.Rank" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.tianbao.points.core.entity.Rank" >
     update rank
     <set >
       <if test="name != null" >
@@ -137,7 +137,7 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.example.mybatisdemo.entity.Rank" >
+  <update id="updateByPrimaryKey" parameterType="com.tianbao.points.core.entity.Rank" >
     update rank
     set name = #{name,jdbcType=VARCHAR},
       alias = #{alias,jdbcType=VARCHAR},

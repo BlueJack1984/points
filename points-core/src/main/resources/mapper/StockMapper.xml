@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.example.mybatisdemo.dao.StockMapper" >
-  <resultMap id="BaseResultMap" type="com.example.mybatisdemo.entity.Stock" >
+<mapper namespace="com.tianbao.points.core.dao.IStockDao" >
+  <resultMap id="BaseResultMap" type="com.tianbao.points.core.entity.Stock" >
     <id column="id" property="id" jdbcType="BIGINT" />
     <result column="publish_time" property="publishTime" jdbcType="TIMESTAMP" />
     <result column="status" property="status" jdbcType="INTEGER" />
@@ -33,7 +33,7 @@
     delete from stock
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.example.mybatisdemo.entity.Stock" >
+  <insert id="insert" parameterType="com.tianbao.points.core.entity.Stock" >
     insert into stock (id, publish_time, status, 
       sh_open_exponent, sh_close_exponent, sh_max_exponent, 
       sh_min_exponent, tb_open_exponent, tb_close_exponent, 
@@ -47,7 +47,7 @@
       #{createUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.example.mybatisdemo.entity.Stock" >
+  <insert id="insertSelective" parameterType="com.tianbao.points.core.entity.Stock" >
     insert into stock
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -144,7 +144,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.example.mybatisdemo.entity.Stock" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.tianbao.points.core.entity.Stock" >
     update stock
     <set >
       <if test="publishTime != null" >
@@ -192,7 +192,7 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.example.mybatisdemo.entity.Stock" >
+  <update id="updateByPrimaryKey" parameterType="com.tianbao.points.core.entity.Stock" >
     update stock
     set publish_time = #{publishTime,jdbcType=TIMESTAMP},
       status = #{status,jdbcType=INTEGER},

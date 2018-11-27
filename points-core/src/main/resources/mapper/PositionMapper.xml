@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.example.mybatisdemo.dao.PositionMapper" >
-  <resultMap id="BaseResultMap" type="com.example.mybatisdemo.entity.Position" >
+<mapper namespace="com.tianbao.points.core.dao.IPositionDao" >
+  <resultMap id="BaseResultMap" type="com.tianbao.points.core.entity.Position" >
     <id column="id" property="id" jdbcType="BIGINT" />
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="department_id" property="departmentId" jdbcType="BIGINT" />
@@ -26,7 +26,7 @@
     delete from position
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.example.mybatisdemo.entity.Position" >
+  <insert id="insert" parameterType="com.tianbao.points.core.entity.Position" >
     insert into position (id, name, department_id, 
       description, status, create_time, 
       create_user_id, update_time, update_user_id
@@ -36,7 +36,7 @@
       #{createUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.example.mybatisdemo.entity.Position" >
+  <insert id="insertSelective" parameterType="com.tianbao.points.core.entity.Position" >
     insert into position
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -97,7 +97,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.example.mybatisdemo.entity.Position" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.tianbao.points.core.entity.Position" >
     update position
     <set >
       <if test="name != null" >
@@ -127,7 +127,7 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.example.mybatisdemo.entity.Position" >
+  <update id="updateByPrimaryKey" parameterType="com.tianbao.points.core.entity.Position" >
     update position
     set name = #{name,jdbcType=VARCHAR},
       department_id = #{departmentId,jdbcType=BIGINT},

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.example.mybatisdemo.dao.UserMapper" >
-  <resultMap id="BaseResultMap" type="com.example.mybatisdemo.entity.User" >
+<mapper namespace="com.tianbao.points.core.dao.IUserDao" >
+  <resultMap id="BaseResultMap" type="com.tianbao.points.core.entity.User" >
     <id column="id" property="id" jdbcType="BIGINT" />
     <result column="account" property="account" jdbcType="VARCHAR" />
     <result column="password" property="password" jdbcType="CHAR" />
@@ -39,7 +39,7 @@
     delete from user
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.example.mybatisdemo.entity.User" >
+  <insert id="insert" parameterType="com.tianbao.points.core.entity.User" >
     insert into user (id, account, password, 
       super_password, real_name, identity_number, 
       nick_name, head_image, phone, 
@@ -57,7 +57,7 @@
       #{createUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.example.mybatisdemo.entity.User" >
+  <insert id="insertSelective" parameterType="com.tianbao.points.core.entity.User" >
     insert into user
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -190,7 +190,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.example.mybatisdemo.entity.User" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.tianbao.points.core.entity.User" >
     update user
     <set >
       <if test="account != null" >
@@ -256,7 +256,7 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.example.mybatisdemo.entity.User" >
+  <update id="updateByPrimaryKey" parameterType="com.tianbao.points.core.entity.User" >
     update user
     set account = #{account,jdbcType=VARCHAR},
       password = #{password,jdbcType=CHAR},
