@@ -1,45 +1,52 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.tianbao.points.core.dao.IMessageDao" >
-  <resultMap id="BaseResultMap" type="com.tianbao.points.core.entity.Message" >
+<mapper namespace="com.tianbao.points.core.dao.IAnnouncementDao" >
+  <resultMap id="BaseResultMap" type="com.tianbao.points.core.entity.Announcement" >
     <id column="id" property="id" jdbcType="BIGINT" />
     <result column="title" property="title" jdbcType="VARCHAR" />
     <result column="content" property="content" jdbcType="VARCHAR" />
-    <result column="url_type" property="urlType" jdbcType="INTEGER" />
-    <result column="url" property="url" jdbcType="VARCHAR" />
-    <result column="reply" property="reply" jdbcType="VARCHAR" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="publish_time" property="publishTime" jdbcType="TIMESTAMP" />
     <result column="status" property="status" jdbcType="INTEGER" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="create_user_id" property="createUserId" jdbcType="BIGINT" />
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
     <result column="update_user_id" property="updateUserId" jdbcType="BIGINT" />
   </resultMap>
+  <!-- 首页公告实体对象的持久化 -->
+  <sql id="c_announcement">
+      _announcement.id, _announcement.title, _announcement.content, _announcement.user_id userId,
+      _announcement.status, _announcement.publish_time publishTime, _announcement.create_time createTime,
+      _announcement.create_user_id createUserId, _announcement.update_time updateTime,
+      _announcement.update_user_id updateUserId
+    </sql>
+  <sql id="t_announcement">announcement</sql>
   <sql id="Base_Column_List" >
-    id, title, content, url_type, url, reply, status, create_time, create_user_id, update_time, 
+    id, title, content, user_id, publish_time, status, create_time, create_user_id, update_time,
     update_user_id
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+  <select id="selectByPrimaryKey" resultType="announcement" parameterType="java.lang.Long" >
     select 
-    <include refid="Base_Column_List" />
-    from message
-    where id = #{id,jdbcType=BIGINT}
+    <include refid="c_announcement" />
+    from <include refid="t_announcement"/> _announcement
+    where id = #{id, jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
-    delete from message
+    delete from announcement
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.tianbao.points.core.entity.Message" >
-    insert into message (id, title, content, 
-      url_type, url, reply, 
-      status, create_time, create_user_id, 
-      update_time, update_user_id)
+  <insert id="insert" parameterType="com.tianbao.points.core.entity.Announcement" >
+    insert into announcement (id, title, content, 
+      user_id, publish_time, status, 
+      create_time, create_user_id, update_time, 
+      update_user_id)
     values (#{id,jdbcType=BIGINT}, #{title,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, 
-      #{urlType,jdbcType=INTEGER}, #{url,jdbcType=VARCHAR}, #{reply,jdbcType=VARCHAR}, 
-      #{status,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=BIGINT}, 
-      #{updateTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT})
+      #{userId,jdbcType=BIGINT}, #{publishTime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{updateUserId,jdbcType=BIGINT})
   </insert>
-  <insert id="insertSelective" parameterType="com.tianbao.points.core.entity.Message" >
-    insert into message
+  <insert id="insertSelective" parameterType="com.tianbao.points.core.entity.Announcement" >
+    insert into announcement
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
@@ -50,14 +57,11 @@
       <if test="content != null" >
         content,
       </if>
-      <if test="urlType != null" >
-        url_type,
+      <if test="userId != null" >
+        user_id,
       </if>
-      <if test="url != null" >
-        url,
-      </if>
-      <if test="reply != null" >
-        reply,
+      <if test="publishTime != null" >
+        publish_time,
       </if>
       <if test="status != null" >
         status,
@@ -85,14 +89,11 @@
       <if test="content != null" >
         #{content,jdbcType=VARCHAR},
       </if>
-      <if test="urlType != null" >
-        #{urlType,jdbcType=INTEGER},
+      <if test="userId != null" >
+        #{userId,jdbcType=BIGINT},
       </if>
-      <if test="url != null" >
-        #{url,jdbcType=VARCHAR},
-      </if>
-      <if test="reply != null" >
-        #{reply,jdbcType=VARCHAR},
+      <if test="publishTime != null" >
+        #{publishTime,jdbcType=TIMESTAMP},
       </if>
       <if test="status != null" >
         #{status,jdbcType=INTEGER},
@@ -111,8 +112,8 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.tianbao.points.core.entity.Message" >
-    update message
+  <update id="updateByPrimaryKeySelective" parameterType="com.tianbao.points.core.entity.Announcement" >
+    update announcement
     <set >
       <if test="title != null" >
         title = #{title,jdbcType=VARCHAR},
@@ -120,14 +121,11 @@
       <if test="content != null" >
         content = #{content,jdbcType=VARCHAR},
       </if>
-      <if test="urlType != null" >
-        url_type = #{urlType,jdbcType=INTEGER},
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=BIGINT},
       </if>
-      <if test="url != null" >
-        url = #{url,jdbcType=VARCHAR},
-      </if>
-      <if test="reply != null" >
-        reply = #{reply,jdbcType=VARCHAR},
+      <if test="publishTime != null" >
+        publish_time = #{publishTime,jdbcType=TIMESTAMP},
       </if>
       <if test="status != null" >
         status = #{status,jdbcType=INTEGER},
@@ -147,13 +145,12 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.tianbao.points.core.entity.Message" >
-    update message
+  <update id="updateByPrimaryKey" parameterType="com.tianbao.points.core.entity.Announcement" >
+    update announcement
     set title = #{title,jdbcType=VARCHAR},
       content = #{content,jdbcType=VARCHAR},
-      url_type = #{urlType,jdbcType=INTEGER},
-      url = #{url,jdbcType=VARCHAR},
-      reply = #{reply,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=BIGINT},
+      publish_time = #{publishTime,jdbcType=TIMESTAMP},
       status = #{status,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       create_user_id = #{createUserId,jdbcType=BIGINT},

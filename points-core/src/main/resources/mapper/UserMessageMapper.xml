@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.tianbao.points.core.dao.IPositionDao" >
-  <resultMap id="BaseResultMap" type="com.tianbao.points.core.entity.Position" >
+<mapper namespace="com.tianbao.points.core.dao.IUserMessageDao" >
+  <resultMap id="BaseResultMap" type="com.tianbao.points.core.entity.UserMessage" >
     <id column="id" property="id" jdbcType="BIGINT" />
-    <result column="name" property="name" jdbcType="VARCHAR" />
-    <result column="department_id" property="departmentId" jdbcType="BIGINT" />
-    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="message_id" property="messageId" jdbcType="BIGINT" />
+    <result column="sender_id" property="senderId" jdbcType="BIGINT" />
+    <result column="receiver_id" property="receiverId" jdbcType="BIGINT" />
     <result column="status" property="status" jdbcType="INTEGER" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="create_user_id" property="createUserId" jdbcType="BIGINT" />
@@ -13,43 +13,43 @@
     <result column="update_user_id" property="updateUserId" jdbcType="BIGINT" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, name, department_id, description, status, create_time, create_user_id, update_time, 
+    id, message_id, sender_id, receiver_id, status, create_time, create_user_id, update_time, 
     update_user_id
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
     <include refid="Base_Column_List" />
-    from position
+    from user_message
     where id = #{id,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
-    delete from position
+    delete from user_message
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.tianbao.points.core.entity.Position" >
-    insert into position (id, name, department_id, 
-      description, status, create_time, 
+  <insert id="insert" parameterType="com.tianbao.points.core.entity.UserMessage" >
+    insert into user_message (id, message_id, sender_id, 
+      receiver_id, status, create_time, 
       create_user_id, update_time, update_user_id
       )
-    values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{departmentId,jdbcType=BIGINT}, 
-      #{description,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
+    values (#{id,jdbcType=BIGINT}, #{messageId,jdbcType=BIGINT}, #{senderId,jdbcType=BIGINT}, 
+      #{receiverId,jdbcType=BIGINT}, #{status,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
       #{createUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.tianbao.points.core.entity.Position" >
-    insert into position
+  <insert id="insertSelective" parameterType="com.tianbao.points.core.entity.UserMessage" >
+    insert into user_message
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
       </if>
-      <if test="name != null" >
-        name,
+      <if test="messageId != null" >
+        message_id,
       </if>
-      <if test="departmentId != null" >
-        department_id,
+      <if test="senderId != null" >
+        sender_id,
       </if>
-      <if test="description != null" >
-        description,
+      <if test="receiverId != null" >
+        receiver_id,
       </if>
       <if test="status != null" >
         status,
@@ -71,14 +71,14 @@
       <if test="id != null" >
         #{id,jdbcType=BIGINT},
       </if>
-      <if test="name != null" >
-        #{name,jdbcType=VARCHAR},
+      <if test="messageId != null" >
+        #{messageId,jdbcType=BIGINT},
       </if>
-      <if test="departmentId != null" >
-        #{departmentId,jdbcType=BIGINT},
+      <if test="senderId != null" >
+        #{senderId,jdbcType=BIGINT},
       </if>
-      <if test="description != null" >
-        #{description,jdbcType=VARCHAR},
+      <if test="receiverId != null" >
+        #{receiverId,jdbcType=BIGINT},
       </if>
       <if test="status != null" >
         #{status,jdbcType=INTEGER},
@@ -97,17 +97,17 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.tianbao.points.core.entity.Position" >
-    update position
+  <update id="updateByPrimaryKeySelective" parameterType="com.tianbao.points.core.entity.UserMessage" >
+    update user_message
     <set >
-      <if test="name != null" >
-        name = #{name,jdbcType=VARCHAR},
+      <if test="messageId != null" >
+        message_id = #{messageId,jdbcType=BIGINT},
       </if>
-      <if test="departmentId != null" >
-        department_id = #{departmentId,jdbcType=BIGINT},
+      <if test="senderId != null" >
+        sender_id = #{senderId,jdbcType=BIGINT},
       </if>
-      <if test="description != null" >
-        description = #{description,jdbcType=VARCHAR},
+      <if test="receiverId != null" >
+        receiver_id = #{receiverId,jdbcType=BIGINT},
       </if>
       <if test="status != null" >
         status = #{status,jdbcType=INTEGER},
@@ -127,11 +127,11 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.tianbao.points.core.entity.Position" >
-    update position
-    set name = #{name,jdbcType=VARCHAR},
-      department_id = #{departmentId,jdbcType=BIGINT},
-      description = #{description,jdbcType=VARCHAR},
+  <update id="updateByPrimaryKey" parameterType="com.tianbao.points.core.entity.UserMessage" >
+    update user_message
+    set message_id = #{messageId,jdbcType=BIGINT},
+      sender_id = #{senderId,jdbcType=BIGINT},
+      receiver_id = #{receiverId,jdbcType=BIGINT},
       status = #{status,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       create_user_id = #{createUserId,jdbcType=BIGINT},

@@ -1,43 +1,44 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.tianbao.points.core.dao.IPositionDao" >
-  <resultMap id="BaseResultMap" type="com.tianbao.points.core.entity.Position" >
+<mapper namespace="com.tianbao.points.core.dao.IRoleDao" >
+  <resultMap id="BaseResultMap" type="com.tianbao.points.core.entity.Role" >
     <id column="id" property="id" jdbcType="BIGINT" />
     <result column="name" property="name" jdbcType="VARCHAR" />
-    <result column="department_id" property="departmentId" jdbcType="BIGINT" />
     <result column="description" property="description" jdbcType="VARCHAR" />
     <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="domain" property="domain" jdbcType="INTEGER" />
+    <result column="type" property="type" jdbcType="INTEGER" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="create_user_id" property="createUserId" jdbcType="BIGINT" />
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
     <result column="update_user_id" property="updateUserId" jdbcType="BIGINT" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, name, department_id, description, status, create_time, create_user_id, update_time, 
+    id, name, description, status, domain, type, create_time, create_user_id, update_time, 
     update_user_id
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
     <include refid="Base_Column_List" />
-    from position
+    from role
     where id = #{id,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
-    delete from position
+    delete from role
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.tianbao.points.core.entity.Position" >
-    insert into position (id, name, department_id, 
-      description, status, create_time, 
-      create_user_id, update_time, update_user_id
-      )
-    values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{departmentId,jdbcType=BIGINT}, 
-      #{description,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{createUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT}
-      )
+  <insert id="insert" parameterType="com.tianbao.points.core.entity.Role" >
+    insert into role (id, name, description, 
+      status, domain, type, 
+      create_time, create_user_id, update_time, 
+      update_user_id)
+    values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
+      #{status,jdbcType=INTEGER}, #{domain,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{updateUserId,jdbcType=BIGINT})
   </insert>
-  <insert id="insertSelective" parameterType="com.tianbao.points.core.entity.Position" >
-    insert into position
+  <insert id="insertSelective" parameterType="com.tianbao.points.core.entity.Role" >
+    insert into role
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
@@ -45,14 +46,17 @@
       <if test="name != null" >
         name,
       </if>
-      <if test="departmentId != null" >
-        department_id,
-      </if>
       <if test="description != null" >
         description,
       </if>
       <if test="status != null" >
         status,
+      </if>
+      <if test="domain != null" >
+        domain,
+      </if>
+      <if test="type != null" >
+        type,
       </if>
       <if test="createTime != null" >
         create_time,
@@ -74,14 +78,17 @@
       <if test="name != null" >
         #{name,jdbcType=VARCHAR},
       </if>
-      <if test="departmentId != null" >
-        #{departmentId,jdbcType=BIGINT},
-      </if>
       <if test="description != null" >
         #{description,jdbcType=VARCHAR},
       </if>
       <if test="status != null" >
         #{status,jdbcType=INTEGER},
+      </if>
+      <if test="domain != null" >
+        #{domain,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
       </if>
       <if test="createTime != null" >
         #{createTime,jdbcType=TIMESTAMP},
@@ -97,20 +104,23 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.tianbao.points.core.entity.Position" >
-    update position
+  <update id="updateByPrimaryKeySelective" parameterType="com.tianbao.points.core.entity.Role" >
+    update role
     <set >
       <if test="name != null" >
         name = #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="departmentId != null" >
-        department_id = #{departmentId,jdbcType=BIGINT},
       </if>
       <if test="description != null" >
         description = #{description,jdbcType=VARCHAR},
       </if>
       <if test="status != null" >
         status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="domain != null" >
+        domain = #{domain,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=INTEGER},
       </if>
       <if test="createTime != null" >
         create_time = #{createTime,jdbcType=TIMESTAMP},
@@ -127,12 +137,13 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.tianbao.points.core.entity.Position" >
-    update position
+  <update id="updateByPrimaryKey" parameterType="com.tianbao.points.core.entity.Role" >
+    update role
     set name = #{name,jdbcType=VARCHAR},
-      department_id = #{departmentId,jdbcType=BIGINT},
       description = #{description,jdbcType=VARCHAR},
       status = #{status,jdbcType=INTEGER},
+      domain = #{domain,jdbcType=INTEGER},
+      type = #{type,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       create_user_id = #{createUserId,jdbcType=BIGINT},
       update_time = #{updateTime,jdbcType=TIMESTAMP},

@@ -1,1172 +1,283 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.example.demo.dao.UserMapper">
-  <resultMap id="BaseResultMap" type="com.example.demo.pojo.User">
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="username" jdbcType="VARCHAR" property="username" />
-    <result column="password" jdbcType="VARCHAR" property="password" />
-    <result column="password2" jdbcType="VARCHAR" property="password2" />
-    <result column="truename" jdbcType="VARCHAR" property="truename" />
-    <result column="userid" jdbcType="VARCHAR" property="userid" />
-    <result column="nickname" jdbcType="VARCHAR" property="nickname" />
-    <result column="level" jdbcType="INTEGER" property="level" />
-    <result column="sex" jdbcType="VARCHAR" property="sex" />
-    <result column="phone" jdbcType="VARCHAR" property="phone" />
-    <result column="checkinfo" jdbcType="CHAR" property="checkinfo" />
-    <result column="checktime" jdbcType="TIMESTAMP" property="checktime" />
-    <result column="project" jdbcType="INTEGER" property="project" />
-    <result column="position" jdbcType="INTEGER" property="position" />
-    <result column="province" jdbcType="CHAR" property="province" />
-    <result column="city" jdbcType="CHAR" property="city" />
-    <result column="road" jdbcType="CHAR" property="road" />
-    <result column="numpoints" jdbcType="INTEGER" property="numpoints" />
-    <result column="points" jdbcType="INTEGER" property="points" />
-    <result column="e_points" jdbcType="INTEGER" property="ePoints" />
-    <result column="reg" jdbcType="VARCHAR" property="reg" />
-    <result column="code" jdbcType="VARCHAR" property="code" />
-    <result column="login" jdbcType="CHAR" property="login" />
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tianbao.points.core.dao.IUserDao" >
+  <resultMap id="BaseResultMap" type="com.tianbao.points.core.entity.User" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="account" property="account" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="CHAR" />
+    <result column="super_password" property="superPassword" jdbcType="CHAR" />
+    <result column="real_name" property="realName" jdbcType="VARCHAR" />
+    <result column="identity_number" property="identityNumber" jdbcType="VARCHAR" />
+    <result column="nick_name" property="nickName" jdbcType="VARCHAR" />
+    <result column="head_image" property="headImage" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="gender" property="gender" jdbcType="INTEGER" />
+    <result column="rank_id" property="rankId" jdbcType="BIGINT" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="question_id" property="questionId" jdbcType="INTEGER" />
+    <result column="answer" property="answer" jdbcType="VARCHAR" />
+    <result column="last_login_ip" property="lastLoginIp" jdbcType="VARCHAR" />
+    <result column="last_login_time" property="lastLoginTime" jdbcType="TIMESTAMP" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="create_user_id" property="createUserId" jdbcType="BIGINT" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="update_user_id" property="updateUserId" jdbcType="BIGINT" />
   </resultMap>
-  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.example.demo.pojo.User">
-    <result column="address" jdbcType="LONGVARCHAR" property="address" />
-  </resultMap>
-  <sql id="Example_Where_Clause">
-    <where>
-      <foreach collection="oredCriteria" item="criteria" separator="or">
-        <if test="criteria.valid">
-          <trim prefix="(" prefixOverrides="and" suffix=")">
-            <foreach collection="criteria.criteria" item="criterion">
-              <choose>
-                <when test="criterion.noValue">
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue">
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue">
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue">
-                  and ${criterion.condition}
-                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
-            </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
+  <sql id="Base_Column_List" >
+    id, account, password, super_password, real_name, identity_number, nick_name, head_image, 
+    phone, email, gender, rank_id, status, question_id, answer, last_login_ip, last_login_time, 
+    create_time, create_user_id, update_time, update_user_id
   </sql>
-  <sql id="Update_By_Example_Where_Clause">
-    <where>
-      <foreach collection="example.oredCriteria" item="criteria" separator="or">
-        <if test="criteria.valid">
-          <trim prefix="(" prefixOverrides="and" suffix=")">
-            <foreach collection="criteria.criteria" item="criterion">
-              <choose>
-                <when test="criterion.noValue">
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue">
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue">
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue">
-                  and ${criterion.condition}
-                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
-            </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
-  <sql id="Base_Column_List">
-    id, username, password, password2, truename, userid, nickname, level, sex, phone, 
-    checkinfo, checktime, project, position, province, city, road, numpoints, points, 
-    e_points, reg, code, login
-  </sql>
-  <sql id="Blob_Column_List">
-    address
-  </sql>
-  <select id="selectByExampleWithBLOBs" parameterType="com.example.demo.pojo.UserExample" resultMap="ResultMapWithBLOBs">
-    select
-    <if test="distinct">
-      distinct
-    </if>
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from user
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null">
-      order by ${orderByClause}
-    </if>
-  </select>
-  <select id="selectByExample" parameterType="com.example.demo.pojo.UserExample" resultMap="BaseResultMap">
-    select
-    <if test="distinct">
-      distinct
-    </if>
-    <include refid="Base_Column_List" />
-    from user
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null">
-      order by ${orderByClause}
-    </if>
-  </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
     <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
     from user
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from user
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
   </delete>
-  <delete id="deleteByExample" parameterType="com.example.demo.pojo.UserExample">
-    delete from user
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-  </delete>
-  <insert id="insert" parameterType="com.example.demo.pojo.User">
-    insert into user (id, username, password, 
-      password2, truename, userid, 
-      nickname, level, sex, 
-      phone, checkinfo, checktime, 
-      project, position, province, 
-      city, road, numpoints, points, 
-      e_points, reg, code, 
-      login, address)
-    values (#{id,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
-      #{password2,jdbcType=VARCHAR}, #{truename,jdbcType=VARCHAR}, #{userid,jdbcType=VARCHAR}, 
-      #{nickname,jdbcType=VARCHAR}, #{level,jdbcType=INTEGER}, #{sex,jdbcType=VARCHAR}, 
-      #{phone,jdbcType=VARCHAR}, #{checkinfo,jdbcType=CHAR}, #{checktime,jdbcType=TIMESTAMP}, 
-      #{project,jdbcType=INTEGER}, #{position,jdbcType=INTEGER}, #{province,jdbcType=CHAR}, 
-      #{city,jdbcType=CHAR}, #{road,jdbcType=CHAR}, #{numpoints,jdbcType=INTEGER}, #{points,jdbcType=INTEGER}, 
-      #{ePoints,jdbcType=INTEGER}, #{reg,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, 
-      #{login,jdbcType=CHAR}, #{address,jdbcType=LONGVARCHAR})
+  <insert id="insert" parameterType="com.tianbao.points.core.entity.User" >
+    insert into user (id, account, password, 
+      super_password, real_name, identity_number, 
+      nick_name, head_image, phone, 
+      email, gender, rank_id, 
+      status, question_id, answer, 
+      last_login_ip, last_login_time, create_time, 
+      create_user_id, update_time, update_user_id
+      )
+    values (#{id,jdbcType=BIGINT}, #{account,jdbcType=VARCHAR}, #{password,jdbcType=CHAR}, 
+      #{superPassword,jdbcType=CHAR}, #{realName,jdbcType=VARCHAR}, #{identityNumber,jdbcType=VARCHAR}, 
+      #{nickName,jdbcType=VARCHAR}, #{headImage,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
+      #{email,jdbcType=VARCHAR}, #{gender,jdbcType=INTEGER}, #{rankId,jdbcType=BIGINT}, 
+      #{status,jdbcType=INTEGER}, #{questionId,jdbcType=INTEGER}, #{answer,jdbcType=VARCHAR}, 
+      #{lastLoginIp,jdbcType=VARCHAR}, #{lastLoginTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{createUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT}
+      )
   </insert>
-  <insert id="insertSelective" parameterType="com.example.demo.pojo.User">
+  <insert id="insertSelective" parameterType="com.tianbao.points.core.entity.User" >
     insert into user
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
         id,
       </if>
-      <if test="username != null">
-        username,
+      <if test="account != null" >
+        account,
       </if>
-      <if test="password != null">
+      <if test="password != null" >
         password,
       </if>
-      <if test="password2 != null">
-        password2,
+      <if test="superPassword != null" >
+        super_password,
       </if>
-      <if test="truename != null">
-        truename,
+      <if test="realName != null" >
+        real_name,
       </if>
-      <if test="userid != null">
-        userid,
+      <if test="identityNumber != null" >
+        identity_number,
       </if>
-      <if test="nickname != null">
-        nickname,
+      <if test="nickName != null" >
+        nick_name,
       </if>
-      <if test="level != null">
-        level,
+      <if test="headImage != null" >
+        head_image,
       </if>
-      <if test="sex != null">
-        sex,
-      </if>
-      <if test="phone != null">
+      <if test="phone != null" >
         phone,
       </if>
-      <if test="checkinfo != null">
-        checkinfo,
+      <if test="email != null" >
+        email,
       </if>
-      <if test="checktime != null">
-        checktime,
+      <if test="gender != null" >
+        gender,
       </if>
-      <if test="project != null">
-        project,
+      <if test="rankId != null" >
+        rank_id,
       </if>
-      <if test="position != null">
-        position,
+      <if test="status != null" >
+        status,
       </if>
-      <if test="province != null">
-        province,
+      <if test="questionId != null" >
+        question_id,
       </if>
-      <if test="city != null">
-        city,
+      <if test="answer != null" >
+        answer,
       </if>
-      <if test="road != null">
-        road,
+      <if test="lastLoginIp != null" >
+        last_login_ip,
       </if>
-      <if test="numpoints != null">
-        numpoints,
+      <if test="lastLoginTime != null" >
+        last_login_time,
       </if>
-      <if test="points != null">
-        points,
+      <if test="createTime != null" >
+        create_time,
       </if>
-      <if test="ePoints != null">
-        e_points,
+      <if test="createUserId != null" >
+        create_user_id,
       </if>
-      <if test="reg != null">
-        reg,
+      <if test="updateTime != null" >
+        update_time,
       </if>
-      <if test="code != null">
-        code,
-      </if>
-      <if test="login != null">
-        login,
-      </if>
-      <if test="address != null">
-        address,
+      <if test="updateUserId != null" >
+        update_user_id,
       </if>
     </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
       </if>
-      <if test="username != null">
-        #{username,jdbcType=VARCHAR},
+      <if test="account != null" >
+        #{account,jdbcType=VARCHAR},
       </if>
-      <if test="password != null">
-        #{password,jdbcType=VARCHAR},
+      <if test="password != null" >
+        #{password,jdbcType=CHAR},
       </if>
-      <if test="password2 != null">
-        #{password2,jdbcType=VARCHAR},
+      <if test="superPassword != null" >
+        #{superPassword,jdbcType=CHAR},
       </if>
-      <if test="truename != null">
-        #{truename,jdbcType=VARCHAR},
+      <if test="realName != null" >
+        #{realName,jdbcType=VARCHAR},
       </if>
-      <if test="userid != null">
-        #{userid,jdbcType=VARCHAR},
+      <if test="identityNumber != null" >
+        #{identityNumber,jdbcType=VARCHAR},
       </if>
-      <if test="nickname != null">
-        #{nickname,jdbcType=VARCHAR},
+      <if test="nickName != null" >
+        #{nickName,jdbcType=VARCHAR},
       </if>
-      <if test="level != null">
-        #{level,jdbcType=INTEGER},
+      <if test="headImage != null" >
+        #{headImage,jdbcType=VARCHAR},
       </if>
-      <if test="sex != null">
-        #{sex,jdbcType=VARCHAR},
-      </if>
-      <if test="phone != null">
+      <if test="phone != null" >
         #{phone,jdbcType=VARCHAR},
       </if>
-      <if test="checkinfo != null">
-        #{checkinfo,jdbcType=CHAR},
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
       </if>
-      <if test="checktime != null">
-        #{checktime,jdbcType=TIMESTAMP},
+      <if test="gender != null" >
+        #{gender,jdbcType=INTEGER},
       </if>
-      <if test="project != null">
-        #{project,jdbcType=INTEGER},
+      <if test="rankId != null" >
+        #{rankId,jdbcType=BIGINT},
       </if>
-      <if test="position != null">
-        #{position,jdbcType=INTEGER},
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
       </if>
-      <if test="province != null">
-        #{province,jdbcType=CHAR},
+      <if test="questionId != null" >
+        #{questionId,jdbcType=INTEGER},
       </if>
-      <if test="city != null">
-        #{city,jdbcType=CHAR},
+      <if test="answer != null" >
+        #{answer,jdbcType=VARCHAR},
       </if>
-      <if test="road != null">
-        #{road,jdbcType=CHAR},
+      <if test="lastLoginIp != null" >
+        #{lastLoginIp,jdbcType=VARCHAR},
       </if>
-      <if test="numpoints != null">
-        #{numpoints,jdbcType=INTEGER},
+      <if test="lastLoginTime != null" >
+        #{lastLoginTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="points != null">
-        #{points,jdbcType=INTEGER},
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="ePoints != null">
-        #{ePoints,jdbcType=INTEGER},
+      <if test="createUserId != null" >
+        #{createUserId,jdbcType=BIGINT},
       </if>
-      <if test="reg != null">
-        #{reg,jdbcType=VARCHAR},
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="code != null">
-        #{code,jdbcType=VARCHAR},
-      </if>
-      <if test="login != null">
-        #{login,jdbcType=CHAR},
-      </if>
-      <if test="address != null">
-        #{address,jdbcType=LONGVARCHAR},
+      <if test="updateUserId != null" >
+        #{updateUserId,jdbcType=BIGINT},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.example.demo.pojo.UserExample" resultType="java.lang.Long">
-    select count(*) from user
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-  </select>
-  <update id="updateByExampleSelective" parameterType="map">
+  <update id="updateByPrimaryKeySelective" parameterType="com.tianbao.points.core.entity.User" >
     update user
-    <set>
-      <if test="record.id != null">
-        id = #{record.id,jdbcType=INTEGER},
+    <set >
+      <if test="account != null" >
+        account = #{account,jdbcType=VARCHAR},
       </if>
-      <if test="record.username != null">
-        username = #{record.username,jdbcType=VARCHAR},
+      <if test="password != null" >
+        password = #{password,jdbcType=CHAR},
       </if>
-      <if test="record.password != null">
-        password = #{record.password,jdbcType=VARCHAR},
+      <if test="superPassword != null" >
+        super_password = #{superPassword,jdbcType=CHAR},
       </if>
-      <if test="record.password2 != null">
-        password2 = #{record.password2,jdbcType=VARCHAR},
+      <if test="realName != null" >
+        real_name = #{realName,jdbcType=VARCHAR},
       </if>
-      <if test="record.truename != null">
-        truename = #{record.truename,jdbcType=VARCHAR},
+      <if test="identityNumber != null" >
+        identity_number = #{identityNumber,jdbcType=VARCHAR},
       </if>
-      <if test="record.userid != null">
-        userid = #{record.userid,jdbcType=VARCHAR},
+      <if test="nickName != null" >
+        nick_name = #{nickName,jdbcType=VARCHAR},
       </if>
-      <if test="record.nickname != null">
-        nickname = #{record.nickname,jdbcType=VARCHAR},
+      <if test="headImage != null" >
+        head_image = #{headImage,jdbcType=VARCHAR},
       </if>
-      <if test="record.level != null">
-        level = #{record.level,jdbcType=INTEGER},
-      </if>
-      <if test="record.sex != null">
-        sex = #{record.sex,jdbcType=VARCHAR},
-      </if>
-      <if test="record.phone != null">
-        phone = #{record.phone,jdbcType=VARCHAR},
-      </if>
-      <if test="record.checkinfo != null">
-        checkinfo = #{record.checkinfo,jdbcType=CHAR},
-      </if>
-      <if test="record.checktime != null">
-        checktime = #{record.checktime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="record.project != null">
-        project = #{record.project,jdbcType=INTEGER},
-      </if>
-      <if test="record.position != null">
-        position = #{record.position,jdbcType=INTEGER},
-      </if>
-      <if test="record.province != null">
-        province = #{record.province,jdbcType=CHAR},
-      </if>
-      <if test="record.city != null">
-        city = #{record.city,jdbcType=CHAR},
-      </if>
-      <if test="record.road != null">
-        road = #{record.road,jdbcType=CHAR},
-      </if>
-      <if test="record.numpoints != null">
-        numpoints = #{record.numpoints,jdbcType=INTEGER},
-      </if>
-      <if test="record.points != null">
-        points = #{record.points,jdbcType=INTEGER},
-      </if>
-      <if test="record.ePoints != null">
-        e_points = #{record.ePoints,jdbcType=INTEGER},
-      </if>
-      <if test="record.reg != null">
-        reg = #{record.reg,jdbcType=VARCHAR},
-      </if>
-      <if test="record.code != null">
-        code = #{record.code,jdbcType=VARCHAR},
-      </if>
-      <if test="record.login != null">
-        login = #{record.login,jdbcType=CHAR},
-      </if>
-      <if test="record.address != null">
-        address = #{record.address,jdbcType=LONGVARCHAR},
-      </if>
-    </set>
-    <if test="_parameter != null">
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByExampleWithBLOBs" parameterType="map">
-    update user
-    set id = #{record.id,jdbcType=INTEGER},
-      username = #{record.username,jdbcType=VARCHAR},
-      password = #{record.password,jdbcType=VARCHAR},
-      password2 = #{record.password2,jdbcType=VARCHAR},
-      truename = #{record.truename,jdbcType=VARCHAR},
-      userid = #{record.userid,jdbcType=VARCHAR},
-      nickname = #{record.nickname,jdbcType=VARCHAR},
-      level = #{record.level,jdbcType=INTEGER},
-      sex = #{record.sex,jdbcType=VARCHAR},
-      phone = #{record.phone,jdbcType=VARCHAR},
-      checkinfo = #{record.checkinfo,jdbcType=CHAR},
-      checktime = #{record.checktime,jdbcType=TIMESTAMP},
-      project = #{record.project,jdbcType=INTEGER},
-      position = #{record.position,jdbcType=INTEGER},
-      province = #{record.province,jdbcType=CHAR},
-      city = #{record.city,jdbcType=CHAR},
-      road = #{record.road,jdbcType=CHAR},
-      numpoints = #{record.numpoints,jdbcType=INTEGER},
-      points = #{record.points,jdbcType=INTEGER},
-      e_points = #{record.ePoints,jdbcType=INTEGER},
-      reg = #{record.reg,jdbcType=VARCHAR},
-      code = #{record.code,jdbcType=VARCHAR},
-      login = #{record.login,jdbcType=CHAR},
-      address = #{record.address,jdbcType=LONGVARCHAR}
-    <if test="_parameter != null">
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByExample" parameterType="map">
-    update user
-    set id = #{record.id,jdbcType=INTEGER},
-      username = #{record.username,jdbcType=VARCHAR},
-      password = #{record.password,jdbcType=VARCHAR},
-      password2 = #{record.password2,jdbcType=VARCHAR},
-      truename = #{record.truename,jdbcType=VARCHAR},
-      userid = #{record.userid,jdbcType=VARCHAR},
-      nickname = #{record.nickname,jdbcType=VARCHAR},
-      level = #{record.level,jdbcType=INTEGER},
-      sex = #{record.sex,jdbcType=VARCHAR},
-      phone = #{record.phone,jdbcType=VARCHAR},
-      checkinfo = #{record.checkinfo,jdbcType=CHAR},
-      checktime = #{record.checktime,jdbcType=TIMESTAMP},
-      project = #{record.project,jdbcType=INTEGER},
-      position = #{record.position,jdbcType=INTEGER},
-      province = #{record.province,jdbcType=CHAR},
-      city = #{record.city,jdbcType=CHAR},
-      road = #{record.road,jdbcType=CHAR},
-      numpoints = #{record.numpoints,jdbcType=INTEGER},
-      points = #{record.points,jdbcType=INTEGER},
-      e_points = #{record.ePoints,jdbcType=INTEGER},
-      reg = #{record.reg,jdbcType=VARCHAR},
-      code = #{record.code,jdbcType=VARCHAR},
-      login = #{record.login,jdbcType=CHAR}
-    <if test="_parameter != null">
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.example.demo.pojo.User">
-    update user
-    <set>
-      <if test="username != null">
-        username = #{username,jdbcType=VARCHAR},
-      </if>
-      <if test="password != null">
-        password = #{password,jdbcType=VARCHAR},
-      </if>
-      <if test="password2 != null">
-        password2 = #{password2,jdbcType=VARCHAR},
-      </if>
-      <if test="truename != null">
-        truename = #{truename,jdbcType=VARCHAR},
-      </if>
-      <if test="userid != null">
-        userid = #{userid,jdbcType=VARCHAR},
-      </if>
-      <if test="nickname != null">
-        nickname = #{nickname,jdbcType=VARCHAR},
-      </if>
-      <if test="level != null">
-        level = #{level,jdbcType=INTEGER},
-      </if>
-      <if test="sex != null">
-        sex = #{sex,jdbcType=VARCHAR},
-      </if>
-      <if test="phone != null">
+      <if test="phone != null" >
         phone = #{phone,jdbcType=VARCHAR},
       </if>
-      <if test="checkinfo != null">
-        checkinfo = #{checkinfo,jdbcType=CHAR},
+      <if test="email != null" >
+        email = #{email,jdbcType=VARCHAR},
       </if>
-      <if test="checktime != null">
-        checktime = #{checktime,jdbcType=TIMESTAMP},
+      <if test="gender != null" >
+        gender = #{gender,jdbcType=INTEGER},
       </if>
-      <if test="project != null">
-        project = #{project,jdbcType=INTEGER},
+      <if test="rankId != null" >
+        rank_id = #{rankId,jdbcType=BIGINT},
       </if>
-      <if test="position != null">
-        position = #{position,jdbcType=INTEGER},
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
       </if>
-      <if test="province != null">
-        province = #{province,jdbcType=CHAR},
+      <if test="questionId != null" >
+        question_id = #{questionId,jdbcType=INTEGER},
       </if>
-      <if test="city != null">
-        city = #{city,jdbcType=CHAR},
+      <if test="answer != null" >
+        answer = #{answer,jdbcType=VARCHAR},
       </if>
-      <if test="road != null">
-        road = #{road,jdbcType=CHAR},
+      <if test="lastLoginIp != null" >
+        last_login_ip = #{lastLoginIp,jdbcType=VARCHAR},
       </if>
-      <if test="numpoints != null">
-        numpoints = #{numpoints,jdbcType=INTEGER},
+      <if test="lastLoginTime != null" >
+        last_login_time = #{lastLoginTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="points != null">
-        points = #{points,jdbcType=INTEGER},
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="ePoints != null">
-        e_points = #{ePoints,jdbcType=INTEGER},
+      <if test="createUserId != null" >
+        create_user_id = #{createUserId,jdbcType=BIGINT},
       </if>
-      <if test="reg != null">
-        reg = #{reg,jdbcType=VARCHAR},
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="code != null">
-        code = #{code,jdbcType=VARCHAR},
-      </if>
-      <if test="login != null">
-        login = #{login,jdbcType=CHAR},
-      </if>
-      <if test="address != null">
-        address = #{address,jdbcType=LONGVARCHAR},
+      <if test="updateUserId != null" >
+        update_user_id = #{updateUserId,jdbcType=BIGINT},
       </if>
     </set>
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.example.demo.pojo.User">
+  <update id="updateByPrimaryKey" parameterType="com.tianbao.points.core.entity.User" >
     update user
-    set username = #{username,jdbcType=VARCHAR},
-      password = #{password,jdbcType=VARCHAR},
-      password2 = #{password2,jdbcType=VARCHAR},
-      truename = #{truename,jdbcType=VARCHAR},
-      userid = #{userid,jdbcType=VARCHAR},
-      nickname = #{nickname,jdbcType=VARCHAR},
-      level = #{level,jdbcType=INTEGER},
-      sex = #{sex,jdbcType=VARCHAR},
+    set account = #{account,jdbcType=VARCHAR},
+      password = #{password,jdbcType=CHAR},
+      super_password = #{superPassword,jdbcType=CHAR},
+      real_name = #{realName,jdbcType=VARCHAR},
+      identity_number = #{identityNumber,jdbcType=VARCHAR},
+      nick_name = #{nickName,jdbcType=VARCHAR},
+      head_image = #{headImage,jdbcType=VARCHAR},
       phone = #{phone,jdbcType=VARCHAR},
-      checkinfo = #{checkinfo,jdbcType=CHAR},
-      checktime = #{checktime,jdbcType=TIMESTAMP},
-      project = #{project,jdbcType=INTEGER},
-      position = #{position,jdbcType=INTEGER},
-      province = #{province,jdbcType=CHAR},
-      city = #{city,jdbcType=CHAR},
-      road = #{road,jdbcType=CHAR},
-      numpoints = #{numpoints,jdbcType=INTEGER},
-      points = #{points,jdbcType=INTEGER},
-      e_points = #{ePoints,jdbcType=INTEGER},
-      reg = #{reg,jdbcType=VARCHAR},
-      code = #{code,jdbcType=VARCHAR},
-      login = #{login,jdbcType=CHAR},
-      address = #{address,jdbcType=LONGVARCHAR}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.example.demo.pojo.User">
-    update user
-    set username = #{username,jdbcType=VARCHAR},
-      password = #{password,jdbcType=VARCHAR},
-      password2 = #{password2,jdbcType=VARCHAR},
-      truename = #{truename,jdbcType=VARCHAR},
-      userid = #{userid,jdbcType=VARCHAR},
-      nickname = #{nickname,jdbcType=VARCHAR},
-      level = #{level,jdbcType=INTEGER},
-      sex = #{sex,jdbcType=VARCHAR},
-      phone = #{phone,jdbcType=VARCHAR},
-      checkinfo = #{checkinfo,jdbcType=CHAR},
-      checktime = #{checktime,jdbcType=TIMESTAMP},
-      project = #{project,jdbcType=INTEGER},
-      position = #{position,jdbcType=INTEGER},
-      province = #{province,jdbcType=CHAR},
-      city = #{city,jdbcType=CHAR},
-      road = #{road,jdbcType=CHAR},
-      numpoints = #{numpoints,jdbcType=INTEGER},
-      points = #{points,jdbcType=INTEGER},
-      e_points = #{ePoints,jdbcType=INTEGER},
-      reg = #{reg,jdbcType=VARCHAR},
-      code = #{code,jdbcType=VARCHAR},
-      login = #{login,jdbcType=CHAR}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <resultMap id="BaseResultMap" type="com.example.demo.pojo.User">
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="username" jdbcType="VARCHAR" property="username" />
-    <result column="password" jdbcType="VARCHAR" property="password" />
-    <result column="password2" jdbcType="VARCHAR" property="password2" />
-    <result column="truename" jdbcType="VARCHAR" property="truename" />
-    <result column="userid" jdbcType="VARCHAR" property="userid" />
-    <result column="nickname" jdbcType="VARCHAR" property="nickname" />
-    <result column="level" jdbcType="INTEGER" property="level" />
-    <result column="sex" jdbcType="VARCHAR" property="sex" />
-    <result column="phone" jdbcType="VARCHAR" property="phone" />
-    <result column="checkinfo" jdbcType="CHAR" property="checkinfo" />
-    <result column="checktime" jdbcType="TIMESTAMP" property="checktime" />
-    <result column="project" jdbcType="INTEGER" property="project" />
-    <result column="position" jdbcType="INTEGER" property="position" />
-    <result column="province" jdbcType="CHAR" property="province" />
-    <result column="city" jdbcType="CHAR" property="city" />
-    <result column="road" jdbcType="CHAR" property="road" />
-    <result column="numpoints" jdbcType="INTEGER" property="numpoints" />
-    <result column="points" jdbcType="INTEGER" property="points" />
-    <result column="e_points" jdbcType="INTEGER" property="ePoints" />
-    <result column="reg" jdbcType="VARCHAR" property="reg" />
-    <result column="code" jdbcType="VARCHAR" property="code" />
-    <result column="login" jdbcType="CHAR" property="login" />
-  </resultMap>
-  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.example.demo.pojo.User">
-    <result column="address" jdbcType="LONGVARCHAR" property="address" />
-  </resultMap>
-  <sql id="Example_Where_Clause">
-    <where>
-      <foreach collection="oredCriteria" item="criteria" separator="or">
-        <if test="criteria.valid">
-          <trim prefix="(" prefixOverrides="and" suffix=")">
-            <foreach collection="criteria.criteria" item="criterion">
-              <choose>
-                <when test="criterion.noValue">
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue">
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue">
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue">
-                  and ${criterion.condition}
-                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
-            </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
-  <sql id="Update_By_Example_Where_Clause">
-    <where>
-      <foreach collection="example.oredCriteria" item="criteria" separator="or">
-        <if test="criteria.valid">
-          <trim prefix="(" prefixOverrides="and" suffix=")">
-            <foreach collection="criteria.criteria" item="criterion">
-              <choose>
-                <when test="criterion.noValue">
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue">
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue">
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue">
-                  and ${criterion.condition}
-                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
-            </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
-  <sql id="Base_Column_List">
-    id, username, password, password2, truename, userid, nickname, level, sex, phone, 
-    checkinfo, checktime, project, position, province, city, road, numpoints, points, 
-    e_points, reg, code, login
-  </sql>
-  <sql id="Blob_Column_List">
-    address
-  </sql>
-  <select id="selectByExampleWithBLOBs" parameterType="com.example.demo.pojo.UserExample" resultMap="ResultMapWithBLOBs">
-    select
-    <if test="distinct">
-      distinct
-    </if>
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from user
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null">
-      order by ${orderByClause}
-    </if>
-  </select>
-  <select id="selectByExample" parameterType="com.example.demo.pojo.UserExample" resultMap="BaseResultMap">
-    select
-    <if test="distinct">
-      distinct
-    </if>
-    <include refid="Base_Column_List" />
-    from user
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null">
-      order by ${orderByClause}
-    </if>
-  </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
-    select 
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from user
-    where id = #{id,jdbcType=INTEGER}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from user
-    where id = #{id,jdbcType=INTEGER}
-  </delete>
-  <delete id="deleteByExample" parameterType="com.example.demo.pojo.UserExample">
-    delete from user
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-  </delete>
-  <insert id="insert" parameterType="com.example.demo.pojo.User">
-    insert into user (id, username, password, 
-      password2, truename, userid, 
-      nickname, level, sex, 
-      phone, checkinfo, checktime, 
-      project, position, province, 
-      city, road, numpoints, points, 
-      e_points, reg, code, 
-      login, address)
-    values (#{id,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
-      #{password2,jdbcType=VARCHAR}, #{truename,jdbcType=VARCHAR}, #{userid,jdbcType=VARCHAR}, 
-      #{nickname,jdbcType=VARCHAR}, #{level,jdbcType=INTEGER}, #{sex,jdbcType=VARCHAR}, 
-      #{phone,jdbcType=VARCHAR}, #{checkinfo,jdbcType=CHAR}, #{checktime,jdbcType=TIMESTAMP}, 
-      #{project,jdbcType=INTEGER}, #{position,jdbcType=INTEGER}, #{province,jdbcType=CHAR}, 
-      #{city,jdbcType=CHAR}, #{road,jdbcType=CHAR}, #{numpoints,jdbcType=INTEGER}, #{points,jdbcType=INTEGER}, 
-      #{ePoints,jdbcType=INTEGER}, #{reg,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, 
-      #{login,jdbcType=CHAR}, #{address,jdbcType=LONGVARCHAR})
-  </insert>
-  <insert id="insertSelective" parameterType="com.example.demo.pojo.User">
-    insert into user
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
-      <if test="username != null">
-        username,
-      </if>
-      <if test="password != null">
-        password,
-      </if>
-      <if test="password2 != null">
-        password2,
-      </if>
-      <if test="truename != null">
-        truename,
-      </if>
-      <if test="userid != null">
-        userid,
-      </if>
-      <if test="nickname != null">
-        nickname,
-      </if>
-      <if test="level != null">
-        level,
-      </if>
-      <if test="sex != null">
-        sex,
-      </if>
-      <if test="phone != null">
-        phone,
-      </if>
-      <if test="checkinfo != null">
-        checkinfo,
-      </if>
-      <if test="checktime != null">
-        checktime,
-      </if>
-      <if test="project != null">
-        project,
-      </if>
-      <if test="position != null">
-        position,
-      </if>
-      <if test="province != null">
-        province,
-      </if>
-      <if test="city != null">
-        city,
-      </if>
-      <if test="road != null">
-        road,
-      </if>
-      <if test="numpoints != null">
-        numpoints,
-      </if>
-      <if test="points != null">
-        points,
-      </if>
-      <if test="ePoints != null">
-        e_points,
-      </if>
-      <if test="reg != null">
-        reg,
-      </if>
-      <if test="code != null">
-        code,
-      </if>
-      <if test="login != null">
-        login,
-      </if>
-      <if test="address != null">
-        address,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
-      <if test="username != null">
-        #{username,jdbcType=VARCHAR},
-      </if>
-      <if test="password != null">
-        #{password,jdbcType=VARCHAR},
-      </if>
-      <if test="password2 != null">
-        #{password2,jdbcType=VARCHAR},
-      </if>
-      <if test="truename != null">
-        #{truename,jdbcType=VARCHAR},
-      </if>
-      <if test="userid != null">
-        #{userid,jdbcType=VARCHAR},
-      </if>
-      <if test="nickname != null">
-        #{nickname,jdbcType=VARCHAR},
-      </if>
-      <if test="level != null">
-        #{level,jdbcType=INTEGER},
-      </if>
-      <if test="sex != null">
-        #{sex,jdbcType=VARCHAR},
-      </if>
-      <if test="phone != null">
-        #{phone,jdbcType=VARCHAR},
-      </if>
-      <if test="checkinfo != null">
-        #{checkinfo,jdbcType=CHAR},
-      </if>
-      <if test="checktime != null">
-        #{checktime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="project != null">
-        #{project,jdbcType=INTEGER},
-      </if>
-      <if test="position != null">
-        #{position,jdbcType=INTEGER},
-      </if>
-      <if test="province != null">
-        #{province,jdbcType=CHAR},
-      </if>
-      <if test="city != null">
-        #{city,jdbcType=CHAR},
-      </if>
-      <if test="road != null">
-        #{road,jdbcType=CHAR},
-      </if>
-      <if test="numpoints != null">
-        #{numpoints,jdbcType=INTEGER},
-      </if>
-      <if test="points != null">
-        #{points,jdbcType=INTEGER},
-      </if>
-      <if test="ePoints != null">
-        #{ePoints,jdbcType=INTEGER},
-      </if>
-      <if test="reg != null">
-        #{reg,jdbcType=VARCHAR},
-      </if>
-      <if test="code != null">
-        #{code,jdbcType=VARCHAR},
-      </if>
-      <if test="login != null">
-        #{login,jdbcType=CHAR},
-      </if>
-      <if test="address != null">
-        #{address,jdbcType=LONGVARCHAR},
-      </if>
-    </trim>
-  </insert>
-  <select id="countByExample" parameterType="com.example.demo.pojo.UserExample" resultType="java.lang.Long">
-    select count(*) from user
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-  </select>
-  <update id="updateByExampleSelective" parameterType="map">
-    update user
-    <set>
-      <if test="record.id != null">
-        id = #{record.id,jdbcType=INTEGER},
-      </if>
-      <if test="record.username != null">
-        username = #{record.username,jdbcType=VARCHAR},
-      </if>
-      <if test="record.password != null">
-        password = #{record.password,jdbcType=VARCHAR},
-      </if>
-      <if test="record.password2 != null">
-        password2 = #{record.password2,jdbcType=VARCHAR},
-      </if>
-      <if test="record.truename != null">
-        truename = #{record.truename,jdbcType=VARCHAR},
-      </if>
-      <if test="record.userid != null">
-        userid = #{record.userid,jdbcType=VARCHAR},
-      </if>
-      <if test="record.nickname != null">
-        nickname = #{record.nickname,jdbcType=VARCHAR},
-      </if>
-      <if test="record.level != null">
-        level = #{record.level,jdbcType=INTEGER},
-      </if>
-      <if test="record.sex != null">
-        sex = #{record.sex,jdbcType=VARCHAR},
-      </if>
-      <if test="record.phone != null">
-        phone = #{record.phone,jdbcType=VARCHAR},
-      </if>
-      <if test="record.checkinfo != null">
-        checkinfo = #{record.checkinfo,jdbcType=CHAR},
-      </if>
-      <if test="record.checktime != null">
-        checktime = #{record.checktime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="record.project != null">
-        project = #{record.project,jdbcType=INTEGER},
-      </if>
-      <if test="record.position != null">
-        position = #{record.position,jdbcType=INTEGER},
-      </if>
-      <if test="record.province != null">
-        province = #{record.province,jdbcType=CHAR},
-      </if>
-      <if test="record.city != null">
-        city = #{record.city,jdbcType=CHAR},
-      </if>
-      <if test="record.road != null">
-        road = #{record.road,jdbcType=CHAR},
-      </if>
-      <if test="record.numpoints != null">
-        numpoints = #{record.numpoints,jdbcType=INTEGER},
-      </if>
-      <if test="record.points != null">
-        points = #{record.points,jdbcType=INTEGER},
-      </if>
-      <if test="record.ePoints != null">
-        e_points = #{record.ePoints,jdbcType=INTEGER},
-      </if>
-      <if test="record.reg != null">
-        reg = #{record.reg,jdbcType=VARCHAR},
-      </if>
-      <if test="record.code != null">
-        code = #{record.code,jdbcType=VARCHAR},
-      </if>
-      <if test="record.login != null">
-        login = #{record.login,jdbcType=CHAR},
-      </if>
-      <if test="record.address != null">
-        address = #{record.address,jdbcType=LONGVARCHAR},
-      </if>
-    </set>
-    <if test="_parameter != null">
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByExampleWithBLOBs" parameterType="map">
-    update user
-    set id = #{record.id,jdbcType=INTEGER},
-      username = #{record.username,jdbcType=VARCHAR},
-      password = #{record.password,jdbcType=VARCHAR},
-      password2 = #{record.password2,jdbcType=VARCHAR},
-      truename = #{record.truename,jdbcType=VARCHAR},
-      userid = #{record.userid,jdbcType=VARCHAR},
-      nickname = #{record.nickname,jdbcType=VARCHAR},
-      level = #{record.level,jdbcType=INTEGER},
-      sex = #{record.sex,jdbcType=VARCHAR},
-      phone = #{record.phone,jdbcType=VARCHAR},
-      checkinfo = #{record.checkinfo,jdbcType=CHAR},
-      checktime = #{record.checktime,jdbcType=TIMESTAMP},
-      project = #{record.project,jdbcType=INTEGER},
-      position = #{record.position,jdbcType=INTEGER},
-      province = #{record.province,jdbcType=CHAR},
-      city = #{record.city,jdbcType=CHAR},
-      road = #{record.road,jdbcType=CHAR},
-      numpoints = #{record.numpoints,jdbcType=INTEGER},
-      points = #{record.points,jdbcType=INTEGER},
-      e_points = #{record.ePoints,jdbcType=INTEGER},
-      reg = #{record.reg,jdbcType=VARCHAR},
-      code = #{record.code,jdbcType=VARCHAR},
-      login = #{record.login,jdbcType=CHAR},
-      address = #{record.address,jdbcType=LONGVARCHAR}
-    <if test="_parameter != null">
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByExample" parameterType="map">
-    update user
-    set id = #{record.id,jdbcType=INTEGER},
-      username = #{record.username,jdbcType=VARCHAR},
-      password = #{record.password,jdbcType=VARCHAR},
-      password2 = #{record.password2,jdbcType=VARCHAR},
-      truename = #{record.truename,jdbcType=VARCHAR},
-      userid = #{record.userid,jdbcType=VARCHAR},
-      nickname = #{record.nickname,jdbcType=VARCHAR},
-      level = #{record.level,jdbcType=INTEGER},
-      sex = #{record.sex,jdbcType=VARCHAR},
-      phone = #{record.phone,jdbcType=VARCHAR},
-      checkinfo = #{record.checkinfo,jdbcType=CHAR},
-      checktime = #{record.checktime,jdbcType=TIMESTAMP},
-      project = #{record.project,jdbcType=INTEGER},
-      position = #{record.position,jdbcType=INTEGER},
-      province = #{record.province,jdbcType=CHAR},
-      city = #{record.city,jdbcType=CHAR},
-      road = #{record.road,jdbcType=CHAR},
-      numpoints = #{record.numpoints,jdbcType=INTEGER},
-      points = #{record.points,jdbcType=INTEGER},
-      e_points = #{record.ePoints,jdbcType=INTEGER},
-      reg = #{record.reg,jdbcType=VARCHAR},
-      code = #{record.code,jdbcType=VARCHAR},
-      login = #{record.login,jdbcType=CHAR}
-    <if test="_parameter != null">
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.example.demo.pojo.User">
-    update user
-    <set>
-      <if test="username != null">
-        username = #{username,jdbcType=VARCHAR},
-      </if>
-      <if test="password != null">
-        password = #{password,jdbcType=VARCHAR},
-      </if>
-      <if test="password2 != null">
-        password2 = #{password2,jdbcType=VARCHAR},
-      </if>
-      <if test="truename != null">
-        truename = #{truename,jdbcType=VARCHAR},
-      </if>
-      <if test="userid != null">
-        userid = #{userid,jdbcType=VARCHAR},
-      </if>
-      <if test="nickname != null">
-        nickname = #{nickname,jdbcType=VARCHAR},
-      </if>
-      <if test="level != null">
-        level = #{level,jdbcType=INTEGER},
-      </if>
-      <if test="sex != null">
-        sex = #{sex,jdbcType=VARCHAR},
-      </if>
-      <if test="phone != null">
-        phone = #{phone,jdbcType=VARCHAR},
-      </if>
-      <if test="checkinfo != null">
-        checkinfo = #{checkinfo,jdbcType=CHAR},
-      </if>
-      <if test="checktime != null">
-        checktime = #{checktime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="project != null">
-        project = #{project,jdbcType=INTEGER},
-      </if>
-      <if test="position != null">
-        position = #{position,jdbcType=INTEGER},
-      </if>
-      <if test="province != null">
-        province = #{province,jdbcType=CHAR},
-      </if>
-      <if test="city != null">
-        city = #{city,jdbcType=CHAR},
-      </if>
-      <if test="road != null">
-        road = #{road,jdbcType=CHAR},
-      </if>
-      <if test="numpoints != null">
-        numpoints = #{numpoints,jdbcType=INTEGER},
-      </if>
-      <if test="points != null">
-        points = #{points,jdbcType=INTEGER},
-      </if>
-      <if test="ePoints != null">
-        e_points = #{ePoints,jdbcType=INTEGER},
-      </if>
-      <if test="reg != null">
-        reg = #{reg,jdbcType=VARCHAR},
-      </if>
-      <if test="code != null">
-        code = #{code,jdbcType=VARCHAR},
-      </if>
-      <if test="login != null">
-        login = #{login,jdbcType=CHAR},
-      </if>
-      <if test="address != null">
-        address = #{address,jdbcType=LONGVARCHAR},
-      </if>
-    </set>
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.example.demo.pojo.User">
-    update user
-    set username = #{username,jdbcType=VARCHAR},
-      password = #{password,jdbcType=VARCHAR},
-      password2 = #{password2,jdbcType=VARCHAR},
-      truename = #{truename,jdbcType=VARCHAR},
-      userid = #{userid,jdbcType=VARCHAR},
-      nickname = #{nickname,jdbcType=VARCHAR},
-      level = #{level,jdbcType=INTEGER},
-      sex = #{sex,jdbcType=VARCHAR},
-      phone = #{phone,jdbcType=VARCHAR},
-      checkinfo = #{checkinfo,jdbcType=CHAR},
-      checktime = #{checktime,jdbcType=TIMESTAMP},
-      project = #{project,jdbcType=INTEGER},
-      position = #{position,jdbcType=INTEGER},
-      province = #{province,jdbcType=CHAR},
-      city = #{city,jdbcType=CHAR},
-      road = #{road,jdbcType=CHAR},
-      numpoints = #{numpoints,jdbcType=INTEGER},
-      points = #{points,jdbcType=INTEGER},
-      e_points = #{ePoints,jdbcType=INTEGER},
-      reg = #{reg,jdbcType=VARCHAR},
-      code = #{code,jdbcType=VARCHAR},
-      login = #{login,jdbcType=CHAR},
-      address = #{address,jdbcType=LONGVARCHAR}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.example.demo.pojo.User">
-    update user
-    set username = #{username,jdbcType=VARCHAR},
-      password = #{password,jdbcType=VARCHAR},
-      password2 = #{password2,jdbcType=VARCHAR},
-      truename = #{truename,jdbcType=VARCHAR},
-      userid = #{userid,jdbcType=VARCHAR},
-      nickname = #{nickname,jdbcType=VARCHAR},
-      level = #{level,jdbcType=INTEGER},
-      sex = #{sex,jdbcType=VARCHAR},
-      phone = #{phone,jdbcType=VARCHAR},
-      checkinfo = #{checkinfo,jdbcType=CHAR},
-      checktime = #{checktime,jdbcType=TIMESTAMP},
-      project = #{project,jdbcType=INTEGER},
-      position = #{position,jdbcType=INTEGER},
-      province = #{province,jdbcType=CHAR},
-      city = #{city,jdbcType=CHAR},
-      road = #{road,jdbcType=CHAR},
-      numpoints = #{numpoints,jdbcType=INTEGER},
-      points = #{points,jdbcType=INTEGER},
-      e_points = #{ePoints,jdbcType=INTEGER},
-      reg = #{reg,jdbcType=VARCHAR},
-      code = #{code,jdbcType=VARCHAR},
-      login = #{login,jdbcType=CHAR}
-    where id = #{id,jdbcType=INTEGER}
+      email = #{email,jdbcType=VARCHAR},
+      gender = #{gender,jdbcType=INTEGER},
+      rank_id = #{rankId,jdbcType=BIGINT},
+      status = #{status,jdbcType=INTEGER},
+      question_id = #{questionId,jdbcType=INTEGER},
+      answer = #{answer,jdbcType=VARCHAR},
+      last_login_ip = #{lastLoginIp,jdbcType=VARCHAR},
+      last_login_time = #{lastLoginTime,jdbcType=TIMESTAMP},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_user_id = #{createUserId,jdbcType=BIGINT},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      update_user_id = #{updateUserId,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

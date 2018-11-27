@@ -3,37 +3,33 @@ package com.tianbao.points.core.entity;
 import com.tianbao.points.core.entity.base.ObjectPO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-
 import javax.persistence.Table;
+import java.util.Date;
 
 /**
- * @desc 留言实体
+ * @desc 首页公告实体
  * @author lushusheng
  * @date 2018-11-27
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@Table(name = "message")
-public class Message extends ObjectPO<Long> {
+@Table(name = "announcement")
+public class Announcement extends ObjectPO<Long> {
 
     /**
-     * 留言标题
+     * 公告标题
      */
     private String title;
     /**
-     * 留言内容
+     * 公告内容
      */
     private String content;
     /**
-     * 留言可能存在的url类型
+     * 发布者id
      */
-    private Integer urlType;
+    private Long userId;
     /**
-     * 留言可能存在的url地址
+     * 公告发布时间
      */
-    private String url;
-    /**
-     * 留言的回复
-     */
-    private String reply;
+    private Date publishTime;
 }

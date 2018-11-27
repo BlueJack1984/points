@@ -6,27 +6,22 @@ import lombok.EqualsAndHashCode;
 
 import javax.persistence.Table;
 
-
 /**
- * @desc 职位实体
+ * @desc 角色权限关联表实体
  * @author lushusheng
  * @date 2018-11-27
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@Table(name = "position")
-public class Position extends ObjectPO<Long> {
+@Table(name = "role_authority")
+public class RoleAuthority extends ObjectPO<Long> {
 
     /**
-     * 职位名称
+     * 角色id
      */
-    private String name;
+    private Long roleId;
     /**
-     * 职位所属部门id
+     * 权限id
      */
-    private Long departmentId;
-    /**
-     * 职位的相关描述
-     */
-    private String description;
+    private Long authorityId;
 }
