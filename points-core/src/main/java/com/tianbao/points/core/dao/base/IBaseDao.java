@@ -8,7 +8,7 @@ import org.apache.ibatis.annotations.Mapper;
  * @Desc 持久层基本增删改查接口
  */
 @Mapper
-public interface BaseDao<K, T> {
+public interface IBaseDao<K, T> {
 
     /**
      * @author lushusheng
