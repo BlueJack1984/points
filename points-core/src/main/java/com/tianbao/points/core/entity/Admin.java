@@ -18,7 +18,7 @@ import java.io.Serializable;
 @Table(name = "admin", schema = "test")
 public class Admin implements Serializable {
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Short id;
     /**
      * 用户名称

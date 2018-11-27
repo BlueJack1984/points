@@ -2,10 +2,13 @@ package com.tianbao.points.core.dao;
 
 import com.example.demo.pojo.AdminGroup;
 import com.example.demo.pojo.AdminGroupExample;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
+
+@Mapper
 public interface AdminGroupMapper {
     long countByExample(AdminGroupExample example);
 
