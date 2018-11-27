@@ -1,10 +1,10 @@
 package com.tianbao.points.core.dao;
 
 import com.tianbao.points.core.dao.base.IBaseDao;
-import com.tianbao.points.core.entity.Announcement;
+import com.tianbao.points.core.entity.RoleAuthority;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
-public interface IAnnouncementDaoI extends IBaseDao<Announcement, Long> {
+public interface IRoleAuthorityDao extends IBaseDao<RoleAuthority, Long> {
 
 }
