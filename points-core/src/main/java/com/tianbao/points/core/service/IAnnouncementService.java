@@ -1,6 +1,10 @@
 package com.tianbao.points.core.service;
 
 
+import com.tianbao.points.core.dao.base.IBaseDao;
+import com.tianbao.points.core.entity.Announcement;
+import com.tianbao.points.core.service.base.IBaseService;
+
 /**
  * @desc 返回实体的属性值
  * @author lushusheng
@@ -9,7 +13,7 @@ package com.tianbao.points.core.service;
  * @param message 错误信息，默认正常返回信息"SUCCESS"
  * @param data 返回数据
  */
-public interface IAnnouncementService {
+public interface IAnnouncementService extends IBaseService<Announcement, Long> {
 
 
 }
