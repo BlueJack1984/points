@@ -2,12 +2,12 @@ package com.tianbao.points.core.entity;
 
 import java.util.Date;
 
-public class Position {
+public class Department {
     private Long id;
 
     private String name;
 
-    private Long departmentId;
+    private Long parentId;
 
     private String description;
 
@@ -37,12 +37,12 @@ public class Position {
         this.name = name == null ? null : name.trim();
     }
 
-    public Long getDepartmentId() {
-        return departmentId;
+    public Long getParentId() {
+        return parentId;
     }
 
-    public void setDepartmentId(Long departmentId) {
-        this.departmentId = departmentId;
+    public void setParentId(Long parentId) {
+        this.parentId = parentId;
     }
 
     public String getDescription() {

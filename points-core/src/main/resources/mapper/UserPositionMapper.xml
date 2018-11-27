@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.example.mybatisdemo.dao.MessageMapper" >
-  <resultMap id="BaseResultMap" type="com.example.mybatisdemo.entity.Message" >
+<mapper namespace="com.example.mybatisdemo.dao.UserPositionMapper" >
+  <resultMap id="BaseResultMap" type="com.example.mybatisdemo.entity.UserPosition" >
     <id column="id" property="id" jdbcType="BIGINT" />
-    <result column="title" property="title" jdbcType="VARCHAR" />
-    <result column="content" property="content" jdbcType="VARCHAR" />
-    <result column="url_type" property="urlType" jdbcType="INTEGER" />
-    <result column="url" property="url" jdbcType="VARCHAR" />
-    <result column="reply" property="reply" jdbcType="VARCHAR" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="position_id" property="positionId" jdbcType="BIGINT" />
     <result column="status" property="status" jdbcType="INTEGER" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="create_user_id" property="createUserId" jdbcType="BIGINT" />
@@ -15,49 +12,37 @@
     <result column="update_user_id" property="updateUserId" jdbcType="BIGINT" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, title, content, url_type, url, reply, status, create_time, create_user_id, update_time, 
-    update_user_id
+    id, user_id, position_id, status, create_time, create_user_id, update_time, update_user_id
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
     <include refid="Base_Column_List" />
-    from message
+    from user_position
     where id = #{id,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
-    delete from message
+    delete from user_position
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.example.mybatisdemo.entity.Message" >
-    insert into message (id, title, content, 
-      url_type, url, reply, 
+  <insert id="insert" parameterType="com.example.mybatisdemo.entity.UserPosition" >
+    insert into user_position (id, user_id, position_id, 
       status, create_time, create_user_id, 
       update_time, update_user_id)
-    values (#{id,jdbcType=BIGINT}, #{title,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, 
-      #{urlType,jdbcType=INTEGER}, #{url,jdbcType=VARCHAR}, #{reply,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{positionId,jdbcType=BIGINT}, 
       #{status,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=BIGINT}, 
       #{updateTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT})
   </insert>
-  <insert id="insertSelective" parameterType="com.example.mybatisdemo.entity.Message" >
-    insert into message
+  <insert id="insertSelective" parameterType="com.example.mybatisdemo.entity.UserPosition" >
+    insert into user_position
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
       </if>
-      <if test="title != null" >
-        title,
+      <if test="userId != null" >
+        user_id,
       </if>
-      <if test="content != null" >
-        content,
-      </if>
-      <if test="urlType != null" >
-        url_type,
-      </if>
-      <if test="url != null" >
-        url,
-      </if>
-      <if test="reply != null" >
-        reply,
+      <if test="positionId != null" >
+        position_id,
       </if>
       <if test="status != null" >
         status,
@@ -79,20 +64,11 @@
       <if test="id != null" >
         #{id,jdbcType=BIGINT},
       </if>
-      <if test="title != null" >
-        #{title,jdbcType=VARCHAR},
+      <if test="userId != null" >
+        #{userId,jdbcType=BIGINT},
       </if>
-      <if test="content != null" >
-        #{content,jdbcType=VARCHAR},
-      </if>
-      <if test="urlType != null" >
-        #{urlType,jdbcType=INTEGER},
-      </if>
-      <if test="url != null" >
-        #{url,jdbcType=VARCHAR},
-      </if>
-      <if test="reply != null" >
-        #{reply,jdbcType=VARCHAR},
+      <if test="positionId != null" >
+        #{positionId,jdbcType=BIGINT},
       </if>
       <if test="status != null" >
         #{status,jdbcType=INTEGER},
@@ -111,23 +87,14 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.example.mybatisdemo.entity.Message" >
-    update message
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.mybatisdemo.entity.UserPosition" >
+    update user_position
     <set >
-      <if test="title != null" >
-        title = #{title,jdbcType=VARCHAR},
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=BIGINT},
       </if>
-      <if test="content != null" >
-        content = #{content,jdbcType=VARCHAR},
-      </if>
-      <if test="urlType != null" >
-        url_type = #{urlType,jdbcType=INTEGER},
-      </if>
-      <if test="url != null" >
-        url = #{url,jdbcType=VARCHAR},
-      </if>
-      <if test="reply != null" >
-        reply = #{reply,jdbcType=VARCHAR},
+      <if test="positionId != null" >
+        position_id = #{positionId,jdbcType=BIGINT},
       </if>
       <if test="status != null" >
         status = #{status,jdbcType=INTEGER},
@@ -147,13 +114,10 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.example.mybatisdemo.entity.Message" >
-    update message
-    set title = #{title,jdbcType=VARCHAR},
-      content = #{content,jdbcType=VARCHAR},
-      url_type = #{urlType,jdbcType=INTEGER},
-      url = #{url,jdbcType=VARCHAR},
-      reply = #{reply,jdbcType=VARCHAR},
+  <update id="updateByPrimaryKey" parameterType="com.example.mybatisdemo.entity.UserPosition" >
+    update user_position
+    set user_id = #{userId,jdbcType=BIGINT},
+      position_id = #{positionId,jdbcType=BIGINT},
       status = #{status,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       create_user_id = #{createUserId,jdbcType=BIGINT},

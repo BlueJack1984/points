@@ -3,34 +3,34 @@ package com.tianbao.points.core.entity;
 import java.util.Date;
 
 public class Message {
-    private Integer id;
-
-    private String user;
+    private Long id;
 
     private String title;
 
-    private Date posttime;
+    private String content;
 
-    private Date retime;
+    private Integer urlType;
 
-    private String reuser;
+    private String url;
 
-    private String status;
+    private String reply;
 
-    public Integer getId() {
+    private Integer status;
+
+    private Date createTime;
+
+    private Long createUserId;
+
+    private Date updateTime;
+
+    private Long updateUserId;
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getUser() {
-        return user;
-    }
-
-    public void setUser(String user) {
-        this.user = user == null ? null : user.trim();
     }
 
     public String getTitle() {
@@ -41,35 +41,75 @@ public class Message {
         this.title = title == null ? null : title.trim();
     }
 
-    public Date getPosttime() {
-        return posttime;
+    public String getContent() {
+        return content;
     }
 
-    public void setPosttime(Date posttime) {
-        this.posttime = posttime;
+    public void setContent(String content) {
+        this.content = content == null ? null : content.trim();
     }
 
-    public Date getRetime() {
-        return retime;
+    public Integer getUrlType() {
+        return urlType;
     }
 
-    public void setRetime(Date retime) {
-        this.retime = retime;
+    public void setUrlType(Integer urlType) {
+        this.urlType = urlType;
     }
 
-    public String getReuser() {
-        return reuser;
+    public String getUrl() {
+        return url;
     }
 
-    public void setReuser(String reuser) {
-        this.reuser = reuser == null ? null : reuser.trim();
+    public void setUrl(String url) {
+        this.url = url == null ? null : url.trim();
     }
 
-    public String getStatus() {
+    public String getReply() {
+        return reply;
+    }
+
+    public void setReply(String reply) {
+        this.reply = reply == null ? null : reply.trim();
+    }
+
+    public Integer getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
-        this.status = status == null ? null : status.trim();
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public Long getCreateUserId() {
+        return createUserId;
+    }
+
+    public void setCreateUserId(Long createUserId) {
+        this.createUserId = createUserId;
+    }
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+    }
+
+    public Long getUpdateUserId() {
+        return updateUserId;
+    }
+
+    public void setUpdateUserId(Long updateUserId) {
+        this.updateUserId = updateUserId;
     }
 }

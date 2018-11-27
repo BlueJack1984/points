@@ -3,68 +3,62 @@ package com.tianbao.points.core.entity;
 import java.util.Date;
 
 public class User {
-    private Integer id;
+    private Long id;
 
-    private String username;
+    private String account;
 
     private String password;
 
-    private String password2;
+    private String superPassword;
 
-    private String truename;
+    private String realName;
 
-    private String userid;
+    private String identityNumber;
 
-    private String nickname;
+    private String nickName;
 
-    private Integer level;
-
-    private String sex;
+    private String headImage;
 
     private String phone;
 
-    private String checkinfo;
+    private String email;
 
-    private Date checktime;
+    private Integer gender;
 
-    private Integer project;
+    private Long rankId;
 
-    private Integer position;
+    private Integer status;
 
-    private String province;
+    private Integer questionId;
 
-    private String city;
+    private String answer;
 
-    private String road;
+    private String lastLoginIp;
 
-    private Integer numpoints;
+    private Date lastLoginTime;
 
-    private Integer points;
+    private Date createTime;
 
-    private Integer ePoints;
+    private Long createUserId;
 
-    private String reg;
+    private Date updateTime;
 
-    private String code;
+    private Long updateUserId;
 
-    private String login;
-
-    private String address;
-
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public String getUsername() {
-        return username;
+    public String getAccount() {
+        return account;
     }
 
-    public void setUsername(String username) {
-        this.username = username == null ? null : username.trim();
+    public void setAccount(String account) {
+        this.account = account == null ? null : account.trim();
     }
 
     public String getPassword() {
@@ -75,52 +69,44 @@ public class User {
         this.password = password == null ? null : password.trim();
     }
 
-    public String getPassword2() {
-        return password2;
+    public String getSuperPassword() {
+        return superPassword;
     }
 
-    public void setPassword2(String password2) {
-        this.password2 = password2 == null ? null : password2.trim();
+    public void setSuperPassword(String superPassword) {
+        this.superPassword = superPassword == null ? null : superPassword.trim();
     }
 
-    public String getTruename() {
-        return truename;
+    public String getRealName() {
+        return realName;
     }
 
-    public void setTruename(String truename) {
-        this.truename = truename == null ? null : truename.trim();
+    public void setRealName(String realName) {
+        this.realName = realName == null ? null : realName.trim();
     }
 
-    public String getUserid() {
-        return userid;
+    public String getIdentityNumber() {
+        return identityNumber;
     }
 
-    public void setUserid(String userid) {
-        this.userid = userid == null ? null : userid.trim();
+    public void setIdentityNumber(String identityNumber) {
+        this.identityNumber = identityNumber == null ? null : identityNumber.trim();
     }
 
-    public String getNickname() {
-        return nickname;
+    public String getNickName() {
+        return nickName;
     }
 
-    public void setNickname(String nickname) {
-        this.nickname = nickname == null ? null : nickname.trim();
+    public void setNickName(String nickName) {
+        this.nickName = nickName == null ? null : nickName.trim();
     }
 
-    public Integer getLevel() {
-        return level;
+    public String getHeadImage() {
+        return headImage;
     }
 
-    public void setLevel(Integer level) {
-        this.level = level;
-    }
-
-    public String getSex() {
-        return sex;
-    }
-
-    public void setSex(String sex) {
-        this.sex = sex == null ? null : sex.trim();
+    public void setHeadImage(String headImage) {
+        this.headImage = headImage == null ? null : headImage.trim();
     }
 
     public String getPhone() {
@@ -131,115 +117,99 @@ public class User {
         this.phone = phone == null ? null : phone.trim();
     }
 
-    public String getCheckinfo() {
-        return checkinfo;
+    public String getEmail() {
+        return email;
     }
 
-    public void setCheckinfo(String checkinfo) {
-        this.checkinfo = checkinfo == null ? null : checkinfo.trim();
+    public void setEmail(String email) {
+        this.email = email == null ? null : email.trim();
     }
 
-    public Date getChecktime() {
-        return checktime;
+    public Integer getGender() {
+        return gender;
     }
 
-    public void setChecktime(Date checktime) {
-        this.checktime = checktime;
+    public void setGender(Integer gender) {
+        this.gender = gender;
     }
 
-    public Integer getProject() {
-        return project;
+    public Long getRankId() {
+        return rankId;
     }
 
-    public void setProject(Integer project) {
-        this.project = project;
+    public void setRankId(Long rankId) {
+        this.rankId = rankId;
     }
 
-    public Integer getPosition() {
-        return position;
+    public Integer getStatus() {
+        return status;
     }
 
-    public void setPosition(Integer position) {
-        this.position = position;
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 
-    public String getProvince() {
-        return province;
+    public Integer getQuestionId() {
+        return questionId;
     }
 
-    public void setProvince(String province) {
-        this.province = province == null ? null : province.trim();
+    public void setQuestionId(Integer questionId) {
+        this.questionId = questionId;
     }
 
-    public String getCity() {
-        return city;
+    public String getAnswer() {
+        return answer;
     }
 
-    public void setCity(String city) {
-        this.city = city == null ? null : city.trim();
+    public void setAnswer(String answer) {
+        this.answer = answer == null ? null : answer.trim();
     }
 
-    public String getRoad() {
-        return road;
+    public String getLastLoginIp() {
+        return lastLoginIp;
     }
 
-    public void setRoad(String road) {
-        this.road = road == null ? null : road.trim();
+    public void setLastLoginIp(String lastLoginIp) {
+        this.lastLoginIp = lastLoginIp == null ? null : lastLoginIp.trim();
     }
 
-    public Integer getNumpoints() {
-        return numpoints;
+    public Date getLastLoginTime() {
+        return lastLoginTime;
     }
 
-    public void setNumpoints(Integer numpoints) {
-        this.numpoints = numpoints;
+    public void setLastLoginTime(Date lastLoginTime) {
+        this.lastLoginTime = lastLoginTime;
     }
 
-    public Integer getPoints() {
-        return points;
+    public Date getCreateTime() {
+        return createTime;
     }
 
-    public void setPoints(Integer points) {
-        this.points = points;
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 
-    public Integer getePoints() {
-        return ePoints;
+    public Long getCreateUserId() {
+        return createUserId;
     }
 
-    public void setePoints(Integer ePoints) {
-        this.ePoints = ePoints;
+    public void setCreateUserId(Long createUserId) {
+        this.createUserId = createUserId;
     }
 
-    public String getReg() {
-        return reg;
+    public Date getUpdateTime() {
+        return updateTime;
     }
 
-    public void setReg(String reg) {
-        this.reg = reg == null ? null : reg.trim();
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
     }
 
-    public String getCode() {
-        return code;
+    public Long getUpdateUserId() {
+        return updateUserId;
     }
 
-    public void setCode(String code) {
-        this.code = code == null ? null : code.trim();
-    }
-
-    public String getLogin() {
-        return login;
-    }
-
-    public void setLogin(String login) {
-        this.login = login == null ? null : login.trim();
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address == null ? null : address.trim();
+    public void setUpdateUserId(Long updateUserId) {
+        this.updateUserId = updateUserId;
     }
 }

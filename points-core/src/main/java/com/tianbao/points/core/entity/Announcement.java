@@ -2,14 +2,16 @@ package com.tianbao.points.core.entity;
 
 import java.util.Date;
 
-public class Position {
+public class Announcement {
     private Long id;
 
-    private String name;
+    private String title;
 
-    private Long departmentId;
+    private String content;
 
-    private String description;
+    private Long userId;
+
+    private Date publishTime;
 
     private Integer status;
 
@@ -29,28 +31,36 @@ public class Position {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
-    public void setName(String name) {
-        this.name = name == null ? null : name.trim();
+    public void setTitle(String title) {
+        this.title = title == null ? null : title.trim();
     }
 
-    public Long getDepartmentId() {
-        return departmentId;
+    public String getContent() {
+        return content;
     }
 
-    public void setDepartmentId(Long departmentId) {
-        this.departmentId = departmentId;
+    public void setContent(String content) {
+        this.content = content == null ? null : content.trim();
     }
 
-    public String getDescription() {
-        return description;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setDescription(String description) {
-        this.description = description == null ? null : description.trim();
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public Date getPublishTime() {
+        return publishTime;
+    }
+
+    public void setPublishTime(Date publishTime) {
+        this.publishTime = publishTime;
     }
 
     public Integer getStatus() {

@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.mybatisdemo.dao.StockMapper" >
+  <resultMap id="BaseResultMap" type="com.example.mybatisdemo.entity.Stock" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="publish_time" property="publishTime" jdbcType="TIMESTAMP" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="sh_open_exponent" property="shOpenExponent" jdbcType="DOUBLE" />
+    <result column="sh_close_exponent" property="shCloseExponent" jdbcType="DOUBLE" />
+    <result column="sh_max_exponent" property="shMaxExponent" jdbcType="DOUBLE" />
+    <result column="sh_min_exponent" property="shMinExponent" jdbcType="DOUBLE" />
+    <result column="tb_open_exponent" property="tbOpenExponent" jdbcType="DOUBLE" />
+    <result column="tb_close_exponent" property="tbCloseExponent" jdbcType="DOUBLE" />
+    <result column="tb_max_exponent" property="tbMaxExponent" jdbcType="DOUBLE" />
+    <result column="tb_min_exponent" property="tbMinExponent" jdbcType="DOUBLE" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="create_user_id" property="createUserId" jdbcType="BIGINT" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="update_user_id" property="updateUserId" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, publish_time, status, sh_open_exponent, sh_close_exponent, sh_max_exponent, sh_min_exponent, 
+    tb_open_exponent, tb_close_exponent, tb_max_exponent, tb_min_exponent, create_time, 
+    create_user_id, update_time, update_user_id
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from stock
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from stock
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.example.mybatisdemo.entity.Stock" >
+    insert into stock (id, publish_time, status, 
+      sh_open_exponent, sh_close_exponent, sh_max_exponent, 
+      sh_min_exponent, tb_open_exponent, tb_close_exponent, 
+      tb_max_exponent, tb_min_exponent, create_time, 
+      create_user_id, update_time, update_user_id
+      )
+    values (#{id,jdbcType=BIGINT}, #{publishTime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}, 
+      #{shOpenExponent,jdbcType=DOUBLE}, #{shCloseExponent,jdbcType=DOUBLE}, #{shMaxExponent,jdbcType=DOUBLE}, 
+      #{shMinExponent,jdbcType=DOUBLE}, #{tbOpenExponent,jdbcType=DOUBLE}, #{tbCloseExponent,jdbcType=DOUBLE}, 
+      #{tbMaxExponent,jdbcType=DOUBLE}, #{tbMinExponent,jdbcType=DOUBLE}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{createUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.mybatisdemo.entity.Stock" >
+    insert into stock
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="publishTime != null" >
+        publish_time,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="shOpenExponent != null" >
+        sh_open_exponent,
+      </if>
+      <if test="shCloseExponent != null" >
+        sh_close_exponent,
+      </if>
+      <if test="shMaxExponent != null" >
+        sh_max_exponent,
+      </if>
+      <if test="shMinExponent != null" >
+        sh_min_exponent,
+      </if>
+      <if test="tbOpenExponent != null" >
+        tb_open_exponent,
+      </if>
+      <if test="tbCloseExponent != null" >
+        tb_close_exponent,
+      </if>
+      <if test="tbMaxExponent != null" >
+        tb_max_exponent,
+      </if>
+      <if test="tbMinExponent != null" >
+        tb_min_exponent,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="createUserId != null" >
+        create_user_id,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="updateUserId != null" >
+        update_user_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="publishTime != null" >
+        #{publishTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="shOpenExponent != null" >
+        #{shOpenExponent,jdbcType=DOUBLE},
+      </if>
+      <if test="shCloseExponent != null" >
+        #{shCloseExponent,jdbcType=DOUBLE},
+      </if>
+      <if test="shMaxExponent != null" >
+        #{shMaxExponent,jdbcType=DOUBLE},
+      </if>
+      <if test="shMinExponent != null" >
+        #{shMinExponent,jdbcType=DOUBLE},
+      </if>
+      <if test="tbOpenExponent != null" >
+        #{tbOpenExponent,jdbcType=DOUBLE},
+      </if>
+      <if test="tbCloseExponent != null" >
+        #{tbCloseExponent,jdbcType=DOUBLE},
+      </if>
+      <if test="tbMaxExponent != null" >
+        #{tbMaxExponent,jdbcType=DOUBLE},
+      </if>
+      <if test="tbMinExponent != null" >
+        #{tbMinExponent,jdbcType=DOUBLE},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null" >
+        #{createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null" >
+        #{updateUserId,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.mybatisdemo.entity.Stock" >
+    update stock
+    <set >
+      <if test="publishTime != null" >
+        publish_time = #{publishTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="shOpenExponent != null" >
+        sh_open_exponent = #{shOpenExponent,jdbcType=DOUBLE},
+      </if>
+      <if test="shCloseExponent != null" >
+        sh_close_exponent = #{shCloseExponent,jdbcType=DOUBLE},
+      </if>
+      <if test="shMaxExponent != null" >
+        sh_max_exponent = #{shMaxExponent,jdbcType=DOUBLE},
+      </if>
+      <if test="shMinExponent != null" >
+        sh_min_exponent = #{shMinExponent,jdbcType=DOUBLE},
+      </if>
+      <if test="tbOpenExponent != null" >
+        tb_open_exponent = #{tbOpenExponent,jdbcType=DOUBLE},
+      </if>
+      <if test="tbCloseExponent != null" >
+        tb_close_exponent = #{tbCloseExponent,jdbcType=DOUBLE},
+      </if>
+      <if test="tbMaxExponent != null" >
+        tb_max_exponent = #{tbMaxExponent,jdbcType=DOUBLE},
+      </if>
+      <if test="tbMinExponent != null" >
+        tb_min_exponent = #{tbMinExponent,jdbcType=DOUBLE},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null" >
+        create_user_id = #{createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null" >
+        update_user_id = #{updateUserId,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.mybatisdemo.entity.Stock" >
+    update stock
+    set publish_time = #{publishTime,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=INTEGER},
+      sh_open_exponent = #{shOpenExponent,jdbcType=DOUBLE},
+      sh_close_exponent = #{shCloseExponent,jdbcType=DOUBLE},
+      sh_max_exponent = #{shMaxExponent,jdbcType=DOUBLE},
+      sh_min_exponent = #{shMinExponent,jdbcType=DOUBLE},
+      tb_open_exponent = #{tbOpenExponent,jdbcType=DOUBLE},
+      tb_close_exponent = #{tbCloseExponent,jdbcType=DOUBLE},
+      tb_max_exponent = #{tbMaxExponent,jdbcType=DOUBLE},
+      tb_min_exponent = #{tbMinExponent,jdbcType=DOUBLE},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_user_id = #{createUserId,jdbcType=BIGINT},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      update_user_id = #{updateUserId,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

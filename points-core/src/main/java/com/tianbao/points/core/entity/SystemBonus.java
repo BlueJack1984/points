@@ -2,14 +2,16 @@ package com.tianbao.points.core.entity;
 
 import java.util.Date;
 
-public class Position {
+public class SystemBonus {
     private Long id;
 
-    private String name;
+    private Double startPoints;
 
-    private Long departmentId;
+    private Double endPoints;
 
-    private String description;
+    private Double ratio;
+
+    private Integer visible;
 
     private Integer status;
 
@@ -29,28 +31,36 @@ public class Position {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public Double getStartPoints() {
+        return startPoints;
     }
 
-    public void setName(String name) {
-        this.name = name == null ? null : name.trim();
+    public void setStartPoints(Double startPoints) {
+        this.startPoints = startPoints;
     }
 
-    public Long getDepartmentId() {
-        return departmentId;
+    public Double getEndPoints() {
+        return endPoints;
     }
 
-    public void setDepartmentId(Long departmentId) {
-        this.departmentId = departmentId;
+    public void setEndPoints(Double endPoints) {
+        this.endPoints = endPoints;
     }
 
-    public String getDescription() {
-        return description;
+    public Double getRatio() {
+        return ratio;
     }
 
-    public void setDescription(String description) {
-        this.description = description == null ? null : description.trim();
+    public void setRatio(Double ratio) {
+        this.ratio = ratio;
+    }
+
+    public Integer getVisible() {
+        return visible;
+    }
+
+    public void setVisible(Integer visible) {
+        this.visible = visible;
     }
 
     public Integer getStatus() {

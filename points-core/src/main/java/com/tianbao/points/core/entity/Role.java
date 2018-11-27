@@ -2,16 +2,18 @@ package com.tianbao.points.core.entity;
 
 import java.util.Date;
 
-public class Position {
+public class Role {
     private Long id;
 
     private String name;
 
-    private Long departmentId;
-
     private String description;
 
     private Integer status;
+
+    private Integer domain;
+
+    private Integer type;
 
     private Date createTime;
 
@@ -37,14 +39,6 @@ public class Position {
         this.name = name == null ? null : name.trim();
     }
 
-    public Long getDepartmentId() {
-        return departmentId;
-    }
-
-    public void setDepartmentId(Long departmentId) {
-        this.departmentId = departmentId;
-    }
-
     public String getDescription() {
         return description;
     }
@@ -59,6 +53,22 @@ public class Position {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public Integer getDomain() {
+        return domain;
+    }
+
+    public void setDomain(Integer domain) {
+        this.domain = domain;
+    }
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
     }
 
     public Date getCreateTime() {

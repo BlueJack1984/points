@@ -2,14 +2,16 @@ package com.tianbao.points.core.entity;
 
 import java.util.Date;
 
-public class Position {
+public class Rank {
     private Long id;
 
     private String name;
 
-    private Long departmentId;
+    private String alias;
 
-    private String description;
+    private Integer basePoints;
+
+    private Double baseMoney;
 
     private Integer status;
 
@@ -37,20 +39,28 @@ public class Position {
         this.name = name == null ? null : name.trim();
     }
 
-    public Long getDepartmentId() {
-        return departmentId;
+    public String getAlias() {
+        return alias;
     }
 
-    public void setDepartmentId(Long departmentId) {
-        this.departmentId = departmentId;
+    public void setAlias(String alias) {
+        this.alias = alias == null ? null : alias.trim();
     }
 
-    public String getDescription() {
-        return description;
+    public Integer getBasePoints() {
+        return basePoints;
     }
 
-    public void setDescription(String description) {
-        this.description = description == null ? null : description.trim();
+    public void setBasePoints(Integer basePoints) {
+        this.basePoints = basePoints;
+    }
+
+    public Double getBaseMoney() {
+        return baseMoney;
+    }
+
+    public void setBaseMoney(Double baseMoney) {
+        this.baseMoney = baseMoney;
     }
 
     public Integer getStatus() {

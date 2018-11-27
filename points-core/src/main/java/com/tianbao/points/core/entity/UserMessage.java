@@ -2,14 +2,14 @@ package com.tianbao.points.core.entity;
 
 import java.util.Date;
 
-public class Position {
+public class UserMessage {
     private Long id;
 
-    private String name;
+    private Long messageId;
 
-    private Long departmentId;
+    private Long senderId;
 
-    private String description;
+    private Long receiverId;
 
     private Integer status;
 
@@ -29,28 +29,28 @@ public class Position {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public Long getMessageId() {
+        return messageId;
     }
 
-    public void setName(String name) {
-        this.name = name == null ? null : name.trim();
+    public void setMessageId(Long messageId) {
+        this.messageId = messageId;
     }
 
-    public Long getDepartmentId() {
-        return departmentId;
+    public Long getSenderId() {
+        return senderId;
     }
 
-    public void setDepartmentId(Long departmentId) {
-        this.departmentId = departmentId;
+    public void setSenderId(Long senderId) {
+        this.senderId = senderId;
     }
 
-    public String getDescription() {
-        return description;
+    public Long getReceiverId() {
+        return receiverId;
     }
 
-    public void setDescription(String description) {
-        this.description = description == null ? null : description.trim();
+    public void setReceiverId(Long receiverId) {
+        this.receiverId = receiverId;
     }
 
     public Integer getStatus() {

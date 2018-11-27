@@ -2,12 +2,18 @@ package com.tianbao.points.core.entity;
 
 import java.util.Date;
 
-public class Position {
+public class Authority {
     private Long id;
+
+    private String code;
 
     private String name;
 
-    private Long departmentId;
+    private String url;
+
+    private String permission;
+
+    private Integer type;
 
     private String description;
 
@@ -29,6 +35,14 @@ public class Position {
         this.id = id;
     }
 
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code == null ? null : code.trim();
+    }
+
     public String getName() {
         return name;
     }
@@ -37,12 +51,28 @@ public class Position {
         this.name = name == null ? null : name.trim();
     }
 
-    public Long getDepartmentId() {
-        return departmentId;
+    public String getUrl() {
+        return url;
     }
 
-    public void setDepartmentId(Long departmentId) {
-        this.departmentId = departmentId;
+    public void setUrl(String url) {
+        this.url = url == null ? null : url.trim();
+    }
+
+    public String getPermission() {
+        return permission;
+    }
+
+    public void setPermission(String permission) {
+        this.permission = permission == null ? null : permission.trim();
+    }
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
     }
 
     public String getDescription() {

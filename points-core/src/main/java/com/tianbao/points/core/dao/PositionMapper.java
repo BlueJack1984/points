@@ -1,29 +1,15 @@
 package com.tianbao.points.core.dao;
 
-import com.example.demo.pojo.Position;
-import com.example.demo.pojo.PositionExample;
-import org.apache.ibatis.annotations.Param;
-
-import java.util.List;
+import com.example.mybatisdemo.entity.Position;
 
 public interface PositionMapper {
-    long countByExample(PositionExample example);
-
-    int deleteByExample(PositionExample example);
-
-    int deleteByPrimaryKey(Integer id);
+    int deleteByPrimaryKey(Long id);
 
     int insert(Position record);
 
     int insertSelective(Position record);
 
-    List<Position> selectByExample(PositionExample example);
-
-    Position selectByPrimaryKey(Integer id);
-
-    int updateByExampleSelective(@Param("record") Position record, @Param("example") PositionExample example);
-
-    int updateByExample(@Param("record") Position record, @Param("example") PositionExample example);
+    Position selectByPrimaryKey(Long id);
 
     int updateByPrimaryKeySelective(Position record);
 

@@ -1,38 +1,17 @@
 package com.tianbao.points.core.dao;
 
-import com.example.demo.pojo.Message;
-import com.example.demo.pojo.MessageExample;
-import com.example.demo.pojo.MessageWithBLOBs;
-import org.apache.ibatis.annotations.Param;
-
-import java.util.List;
+import com.example.mybatisdemo.entity.Message;
 
 public interface MessageMapper {
-    long countByExample(MessageExample example);
+    int deleteByPrimaryKey(Long id);
 
-    int deleteByExample(MessageExample example);
+    int insert(Message record);
 
-    int deleteByPrimaryKey(Integer id);
+    int insertSelective(Message record);
 
-    int insert(MessageWithBLOBs record);
+    Message selectByPrimaryKey(Long id);
 
-    int insertSelective(MessageWithBLOBs record);
-
-    List<MessageWithBLOBs> selectByExampleWithBLOBs(MessageExample example);
-
-    List<Message> selectByExample(MessageExample example);
-
-    MessageWithBLOBs selectByPrimaryKey(Integer id);
-
-    int updateByExampleSelective(@Param("record") MessageWithBLOBs record, @Param("example") MessageExample example);
-
-    int updateByExampleWithBLOBs(@Param("record") MessageWithBLOBs record, @Param("example") MessageExample example);
-
-    int updateByExample(@Param("record") Message record, @Param("example") MessageExample example);
-
-    int updateByPrimaryKeySelective(MessageWithBLOBs record);
-
-    int updateByPrimaryKeyWithBLOBs(MessageWithBLOBs record);
+    int updateByPrimaryKeySelective(Message record);
 
     int updateByPrimaryKey(Message record);
 }
