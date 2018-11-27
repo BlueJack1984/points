@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.example.mybatisdemo.dao.AuthorityMapper" >
-  <resultMap id="BaseResultMap" type="com.example.mybatisdemo.entity.Authority" >
+<mapper namespace="com.tianbao.points.core.dao.IAuthorityDao" >
+  <resultMap id="BaseResultMap" type="com.tianbao.points.core.entity.Authority" >
     <id column="id" property="id" jdbcType="BIGINT" />
     <result column="code" property="code" jdbcType="VARCHAR" />
     <result column="name" property="name" jdbcType="VARCHAR" />
@@ -29,7 +29,7 @@
     delete from authority
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.example.mybatisdemo.entity.Authority" >
+  <insert id="insert" parameterType="com.tianbao.points.core.entity.Authority" >
     insert into authority (id, code, name, 
       url, permission, type, 
       description, status, create_time, 
@@ -41,7 +41,7 @@
       #{createUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.example.mybatisdemo.entity.Authority" >
+  <insert id="insertSelective" parameterType="com.tianbao.points.core.entity.Authority" >
     insert into authority
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -120,7 +120,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.example.mybatisdemo.entity.Authority" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.tianbao.points.core.entity.Authority" >
     update authority
     <set >
       <if test="code != null" >
@@ -159,7 +159,7 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.example.mybatisdemo.entity.Authority" >
+  <update id="updateByPrimaryKey" parameterType="com.tianbao.points.core.entity.Authority" >
     update authority
     set code = #{code,jdbcType=VARCHAR},
       name = #{name,jdbcType=VARCHAR},

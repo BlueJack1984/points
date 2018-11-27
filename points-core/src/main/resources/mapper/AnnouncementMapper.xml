@@ -13,21 +13,29 @@
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
     <result column="update_user_id" property="updateUserId" jdbcType="BIGINT" />
   </resultMap>
+  <!-- 首页公告实体对象的持久化 -->
+  <sql id="c_announcement">
+      _announcement.id, _announcement.title, _announcement.content, _announcement.user_id userId,
+      _announcement.status, _announcement.publish_time publishTime, _announcement.create_time createTime,
+      _announcement.create_user_id createUserId, _announcement.update_time updateTime,
+      _announcement.update_user_id updateUserId
+    </sql>
+  <sql id="t_announcement">announcement</sql>
   <sql id="Base_Column_List" >
-    id, title, content, user_id, publish_time, status, create_time, create_user_id, update_time, 
+    id, title, content, user_id, publish_time, status, create_time, create_user_id, update_time,
     update_user_id
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+  <select id="selectByPrimaryKey" resultType="announcement" parameterType="java.lang.Long" >
     select 
-    <include refid="Base_Column_List" />
-    from announcement
-    where id = #{id,jdbcType=BIGINT}
+    <include refid="c_announcement" />
+    from <include refid="t_announcement"/> _announcement
+    where id = #{id, jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from announcement
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.example.mybatisdemo.entity.Announcement" >
+  <insert id="insert" parameterType="com.tianbao.points.core.entity.Announcement" >
     insert into announcement (id, title, content, 
       user_id, publish_time, status, 
       create_time, create_user_id, update_time, 
@@ -37,7 +45,7 @@
       #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, 
       #{updateUserId,jdbcType=BIGINT})
   </insert>
-  <insert id="insertSelective" parameterType="com.example.mybatisdemo.entity.Announcement" >
+  <insert id="insertSelective" parameterType="com.tianbao.points.core.entity.Announcement" >
     insert into announcement
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -104,7 +112,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.example.mybatisdemo.entity.Announcement" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.tianbao.points.core.entity.Announcement" >
     update announcement
     <set >
       <if test="title != null" >
@@ -137,7 +145,7 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.example.mybatisdemo.entity.Announcement" >
+  <update id="updateByPrimaryKey" parameterType="com.tianbao.points.core.entity.Announcement" >
     update announcement
     set title = #{title,jdbcType=VARCHAR},
       content = #{content,jdbcType=VARCHAR},
