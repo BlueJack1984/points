@@ -16,13 +16,24 @@ import javax.persistence.Table;
 @Table(name = "message")
 public class Message extends ObjectPO<Long> {
 
+    /**
+     * 留言标题
+     */
     private String title;
-
+    /**
+     * 留言内容
+     */
     private String content;
-
+    /**
+     * 留言可能存在的url类型
+     */
     private Integer urlType;
-
+    /**
+     * 留言可能存在的url地址
+     */
     private String url;
-
+    /**
+     * 留言的回复
+     */
     private String reply;
 }

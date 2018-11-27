@@ -1,105 +1,36 @@
 package com.tianbao.points.core.entity;
 
-import java.util.Date;
+import com.tianbao.points.core.entity.base.ObjectPO;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-public class Role {
-    private Long id;
+import javax.persistence.Table;
 
+/**
+ * @desc 角色实体
+ * @author lushusheng
+ * @date 2018-11-27
+ */
+@Data
+@EqualsAndHashCode(callSuper = false)
+@Table(name = "role")
+public class Role extends ObjectPO<Long> {
+
+    /**
+     * 角色名称
+     */
     private String name;
-
+    /**
+     * 角色描述
+     */
     private String description;
-
-    private Integer status;
-
+    /**
+     * 平台作用域：0表示管理后台，1表示会员客户端app
+     */
     private Integer domain;
-
+    /**
+     * 平台用户类型，做权限的时候再详细考虑
+     * todo
+     */
     private Integer type;
-
-    private Date createTime;
-
-    private Long createUserId;
-
-    private Date updateTime;
-
-    private Long updateUserId;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name == null ? null : name.trim();
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description == null ? null : description.trim();
-    }
-
-    public Integer getStatus() {
-        return status;
-    }
-
-    public void setStatus(Integer status) {
-        this.status = status;
-    }
-
-    public Integer getDomain() {
-        return domain;
-    }
-
-    public void setDomain(Integer domain) {
-        this.domain = domain;
-    }
-
-    public Integer getType() {
-        return type;
-    }
-
-    public void setType(Integer type) {
-        this.type = type;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public Long getCreateUserId() {
-        return createUserId;
-    }
-
-    public void setCreateUserId(Long createUserId) {
-        this.createUserId = createUserId;
-    }
-
-    public Date getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
-
-    public Long getUpdateUserId() {
-        return updateUserId;
-    }
-
-    public void setUpdateUserId(Long updateUserId) {
-        this.updateUserId = updateUserId;
-    }
 }
