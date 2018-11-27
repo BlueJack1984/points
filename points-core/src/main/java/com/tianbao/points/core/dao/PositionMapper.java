@@ -1,6 +1,6 @@
 package com.tianbao.points.core.dao;
 
-import com.example.mybatisdemo.entity.Position;
+import com.tianbao.points.core.entity.Position;
 
 public interface PositionMapper {
     int deleteByPrimaryKey(Long id);

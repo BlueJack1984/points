@@ -1,6 +1,6 @@
 package com.tianbao.points.core.dao;
 
-import com.example.mybatisdemo.entity.Rank;
+import com.tianbao.points.core.entity.Rank;
 
 public interface RankMapper {
     int deleteByPrimaryKey(Long id);

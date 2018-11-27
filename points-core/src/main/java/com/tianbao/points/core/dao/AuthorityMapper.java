@@ -1,6 +1,6 @@
 package com.tianbao.points.core.dao;
 
-import com.example.mybatisdemo.entity.Authority;
+import com.tianbao.points.core.entity.Authority;
 
 public interface AuthorityMapper {
     int deleteByPrimaryKey(Long id);

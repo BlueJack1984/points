@@ -1,6 +1,6 @@
 package com.tianbao.points.core.dao;
 
-import com.example.mybatisdemo.entity.SystemBonus;
+import com.tianbao.points.core.entity.SystemBonus;
 
 public interface SystemBonusMapper {
     int deleteByPrimaryKey(Long id);

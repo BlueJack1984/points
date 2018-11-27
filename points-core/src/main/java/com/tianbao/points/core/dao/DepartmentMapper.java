@@ -1,6 +1,6 @@
 package com.tianbao.points.core.dao;
 
-import com.example.mybatisdemo.entity.Department;
+import com.tianbao.points.core.entity.Department;
 
 public interface DepartmentMapper {
     int deleteByPrimaryKey(Long id);

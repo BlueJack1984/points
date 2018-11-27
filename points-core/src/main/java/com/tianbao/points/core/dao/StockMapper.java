@@ -1,6 +1,6 @@
 package com.tianbao.points.core.dao;
 
-import com.example.mybatisdemo.entity.Stock;
+import com.tianbao.points.core.entity.Stock;
 
 public interface StockMapper {
     int deleteByPrimaryKey(Long id);

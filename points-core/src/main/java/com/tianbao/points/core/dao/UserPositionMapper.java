@@ -1,6 +1,6 @@
 package com.tianbao.points.core.dao;
 
-import com.example.mybatisdemo.entity.UserPosition;
+import com.tianbao.points.core.entity.UserPosition;
 
 public interface UserPositionMapper {
     int deleteByPrimaryKey(Long id);

@@ -1,6 +1,6 @@
 package com.tianbao.points.core.dao;
 
-import com.example.mybatisdemo.entity.Message;
+import com.tianbao.points.core.entity.Message;
 
 public interface MessageMapper {
     int deleteByPrimaryKey(Long id);

@@ -1,6 +1,6 @@
 package com.tianbao.points.core.dao;
 
-import com.example.mybatisdemo.entity.Announcement;
+import com.tianbao.points.core.entity.Announcement;
 
 public interface AnnouncementMapper {
     int deleteByPrimaryKey(Long id);

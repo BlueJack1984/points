@@ -1,6 +1,6 @@
 package com.tianbao.points.core.dao;
 
-import com.example.mybatisdemo.entity.UserRole;
+import com.tianbao.points.core.entity.UserRole;
 
 public interface UserRoleMapper {
     int deleteByPrimaryKey(Long id);
