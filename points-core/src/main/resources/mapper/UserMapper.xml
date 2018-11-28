@@ -2,49 +2,40 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.tianbao.points.core.dao.IUserDao" >
 
-  <!-- 会员等级实体对象的持久化 -->
-  <sql id="c_rank">
-      _rank.id, _rank.name, _rank.alias, _rank.base_points basePoints,
-      _rank.base_money baseMoney, _rank.status,
-     _rank.create_time createTime, _rank.create_user_id createUserId,
-     _rank.update_time updateTime, _rank.update_user_id updateUserId
+  <!-- 用户实体对象的持久化 -->
+  <sql id="c_user">
+     `_user`.id, `_user`.account, `_user`.password, `_user`.super_password superPassword,
+     `_user`.real_name realName, `_user`.identity_number identityNumber, `_user`.nick_name nickName, `_user`.head_image headImage,
+     `_user`.phone, `_user`.email, `_user`.gender, `_user`.rank_id rankId, `_user`.status,
+     `_user`.question_id questionId, `_user`.answer, `_user`.last_login_ip lastLoginIp, `_user`.last_login_time lastLoginTime,
+     `_user`.create_time createTime, `_user`.create_user_id createUserId,
+     `_user`.update_time updateTime, `_user`.update_user_id updateUserId
   </sql>
-  <sql id="t_rank">rank</sql>
-  <sql id="Base_Column_List" >
-    id, account, password, super_password, real_name, identity_number, nick_name, head_image, 
-    phone, email, gender, rank_id, status, question_id, answer, last_login_ip, last_login_time, 
-    create_time, create_user_id, update_time, update_user_id
-  </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
-    select 
-    <include refid="Base_Column_List" />
-    from user
+  <sql id="t_user">`user`</sql>
+
+  <select id="selectByPrimaryKey" resultMap="user" parameterType="java.lang.Long" >
+    select <include refid="c_user"/>
+    from <include refid="t_user"/> `_user`
     where id = #{id,jdbcType=BIGINT}
   </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
-    delete from user
+    delete from <include refid="t_user"/>
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.tianbao.points.core.entity.User" >
-    insert into user (id, account, password, 
-      super_password, real_name, identity_number, 
-      nick_name, head_image, phone, 
-      email, gender, rank_id, 
-      status, question_id, answer, 
-      last_login_ip, last_login_time, create_time, 
-      create_user_id, update_time, update_user_id
-      )
-    values (#{id,jdbcType=BIGINT}, #{account,jdbcType=VARCHAR}, #{password,jdbcType=CHAR}, 
-      #{superPassword,jdbcType=CHAR}, #{realName,jdbcType=VARCHAR}, #{identityNumber,jdbcType=VARCHAR}, 
-      #{nickName,jdbcType=VARCHAR}, #{headImage,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
-      #{email,jdbcType=VARCHAR}, #{gender,jdbcType=INTEGER}, #{rankId,jdbcType=BIGINT}, 
-      #{status,jdbcType=INTEGER}, #{questionId,jdbcType=INTEGER}, #{answer,jdbcType=VARCHAR}, 
-      #{lastLoginIp,jdbcType=VARCHAR}, #{lastLoginTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{createUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT}
-      )
+
+  <insert id="insert" parameterType="user" >
+    insert into <include refid="t_user"/>
+    (id, account, password, super_password, real_name, identity_number, nick_name, head_image, phone,
+    email, gender, rank_id, status, question_id, answer, last_login_ip, last_login_time, create_time,
+    create_user_id, update_time, update_user_id)
+    values (#{id}, #{account}, #{password}, #{superPassword}, #{realName}, #{identityNumber}, #{nickName},
+    #{headImage}, #{phone}, #{email}, #{gender}, #{rankId}, #{status}, #{questionId}, #{answer},
+    #{lastLoginIp}, #{lastLoginTime}, #{createTime}, #{createUserId}, #{updateTime}, #{updateUserId})
   </insert>
-  <insert id="insertSelective" parameterType="com.tianbao.points.core.entity.User" >
-    insert into user
+
+  <insert id="insertSelective" parameterType="user" >
+    insert into <include refid="t_user"/>
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
@@ -112,158 +103,160 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
-        #{id,jdbcType=BIGINT},
+        #{id},
       </if>
       <if test="account != null" >
-        #{account,jdbcType=VARCHAR},
+        #{account},
       </if>
       <if test="password != null" >
-        #{password,jdbcType=CHAR},
+        #{password},
       </if>
       <if test="superPassword != null" >
-        #{superPassword,jdbcType=CHAR},
+        #{superPassword},
       </if>
       <if test="realName != null" >
-        #{realName,jdbcType=VARCHAR},
+        #{realName},
       </if>
       <if test="identityNumber != null" >
-        #{identityNumber,jdbcType=VARCHAR},
+        #{identityNumber},
       </if>
       <if test="nickName != null" >
-        #{nickName,jdbcType=VARCHAR},
+        #{nickName},
       </if>
       <if test="headImage != null" >
-        #{headImage,jdbcType=VARCHAR},
+        #{headImage},
       </if>
       <if test="phone != null" >
-        #{phone,jdbcType=VARCHAR},
+        #{phone},
       </if>
       <if test="email != null" >
-        #{email,jdbcType=VARCHAR},
+        #{email},
       </if>
       <if test="gender != null" >
-        #{gender,jdbcType=INTEGER},
+        #{gender},
       </if>
       <if test="rankId != null" >
-        #{rankId,jdbcType=BIGINT},
+        #{rankId},
       </if>
       <if test="status != null" >
-        #{status,jdbcType=INTEGER},
+        #{status},
       </if>
       <if test="questionId != null" >
-        #{questionId,jdbcType=INTEGER},
+        #{questionId},
       </if>
       <if test="answer != null" >
-        #{answer,jdbcType=VARCHAR},
+        #{answer},
       </if>
       <if test="lastLoginIp != null" >
-        #{lastLoginIp,jdbcType=VARCHAR},
+        #{lastLoginIp},
       </if>
       <if test="lastLoginTime != null" >
-        #{lastLoginTime,jdbcType=TIMESTAMP},
+        #{lastLoginTime},
       </if>
       <if test="createTime != null" >
-        #{createTime,jdbcType=TIMESTAMP},
+        #{createTime},
       </if>
       <if test="createUserId != null" >
-        #{createUserId,jdbcType=BIGINT},
+        #{createUserId},
       </if>
       <if test="updateTime != null" >
-        #{updateTime,jdbcType=TIMESTAMP},
+        #{updateTime},
       </if>
       <if test="updateUserId != null" >
-        #{updateUserId,jdbcType=BIGINT},
+        #{updateUserId},
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.tianbao.points.core.entity.User" >
-    update user
+
+  <update id="updateByPrimaryKeySelective" parameterType="user" >
+    update <include refid="t_user"/>
     <set >
       <if test="account != null" >
-        account = #{account,jdbcType=VARCHAR},
+        account = #{account},
       </if>
       <if test="password != null" >
-        password = #{password,jdbcType=CHAR},
+        password = #{password},
       </if>
       <if test="superPassword != null" >
-        super_password = #{superPassword,jdbcType=CHAR},
+        super_password = #{superPassword},
       </if>
       <if test="realName != null" >
-        real_name = #{realName,jdbcType=VARCHAR},
+        real_name = #{realName},
       </if>
       <if test="identityNumber != null" >
-        identity_number = #{identityNumber,jdbcType=VARCHAR},
+        identity_number = #{identityNumber},
       </if>
       <if test="nickName != null" >
-        nick_name = #{nickName,jdbcType=VARCHAR},
+        nick_name = #{nickName},
       </if>
       <if test="headImage != null" >
-        head_image = #{headImage,jdbcType=VARCHAR},
+        head_image = #{headImage},
       </if>
       <if test="phone != null" >
-        phone = #{phone,jdbcType=VARCHAR},
+        phone = #{phone},
       </if>
       <if test="email != null" >
-        email = #{email,jdbcType=VARCHAR},
+        email = #{email},
       </if>
       <if test="gender != null" >
-        gender = #{gender,jdbcType=INTEGER},
+        gender = #{gender},
       </if>
       <if test="rankId != null" >
-        rank_id = #{rankId,jdbcType=BIGINT},
+        rank_id = #{rankId},
       </if>
       <if test="status != null" >
-        status = #{status,jdbcType=INTEGER},
+        status = #{status},
       </if>
       <if test="questionId != null" >
-        question_id = #{questionId,jdbcType=INTEGER},
+        question_id = #{questionId},
       </if>
       <if test="answer != null" >
-        answer = #{answer,jdbcType=VARCHAR},
+        answer = #{answer},
       </if>
       <if test="lastLoginIp != null" >
-        last_login_ip = #{lastLoginIp,jdbcType=VARCHAR},
+        last_login_ip = #{lastLoginIp},
       </if>
       <if test="lastLoginTime != null" >
-        last_login_time = #{lastLoginTime,jdbcType=TIMESTAMP},
+        last_login_time = #{lastLoginTime},
       </if>
       <if test="createTime != null" >
-        create_time = #{createTime,jdbcType=TIMESTAMP},
+        create_time = #{createTime},
       </if>
       <if test="createUserId != null" >
-        create_user_id = #{createUserId,jdbcType=BIGINT},
+        create_user_id = #{createUserId},
       </if>
       <if test="updateTime != null" >
-        update_time = #{updateTime,jdbcType=TIMESTAMP},
+        update_time = #{updateTime},
       </if>
       <if test="updateUserId != null" >
-        update_user_id = #{updateUserId,jdbcType=BIGINT},
+        update_user_id = #{updateUserId},
       </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.tianbao.points.core.entity.User" >
-    update user
-    set account = #{account,jdbcType=VARCHAR},
-      password = #{password,jdbcType=CHAR},
-      super_password = #{superPassword,jdbcType=CHAR},
-      real_name = #{realName,jdbcType=VARCHAR},
-      identity_number = #{identityNumber,jdbcType=VARCHAR},
-      nick_name = #{nickName,jdbcType=VARCHAR},
-      head_image = #{headImage,jdbcType=VARCHAR},
-      phone = #{phone,jdbcType=VARCHAR},
-      email = #{email,jdbcType=VARCHAR},
-      gender = #{gender,jdbcType=INTEGER},
-      rank_id = #{rankId,jdbcType=BIGINT},
-      status = #{status,jdbcType=INTEGER},
-      question_id = #{questionId,jdbcType=INTEGER},
-      answer = #{answer,jdbcType=VARCHAR},
-      last_login_ip = #{lastLoginIp,jdbcType=VARCHAR},
-      last_login_time = #{lastLoginTime,jdbcType=TIMESTAMP},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      create_user_id = #{createUserId,jdbcType=BIGINT},
-      update_time = #{updateTime,jdbcType=TIMESTAMP},
-      update_user_id = #{updateUserId,jdbcType=BIGINT}
+
+  <update id="updateByPrimaryKey" parameterType="user" >
+    update <include refid="t_user"/>
+    set account = #{account},
+      password = #{password},
+      super_password = #{superPassword},
+      real_name = #{realName},
+      identity_number = #{identityNumber},
+      nick_name = #{nickName},
+      head_image = #{headImage},
+      phone = #{phone},
+      email = #{email},
+      gender = #{gender},
+      rank_id = #{rankId},
+      status = #{status},
+      question_id = #{questionId},
+      answer = #{answer},
+      last_login_ip = #{lastLoginIp},
+      last_login_time = #{lastLoginTime},
+      create_time = #{createTime},
+      create_user_id = #{createUserId},
+      update_time = #{updateTime},
+      update_user_id = #{updateUserId}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

@@ -2,40 +2,34 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.tianbao.points.core.dao.IRoleDao" >
 
-  <!-- 会员等级实体对象的持久化 -->
-  <sql id="c_rank">
-      _rank.id, _rank.name, _rank.alias, _rank.base_points basePoints,
-      _rank.base_money baseMoney, _rank.status,
-     _rank.create_time createTime, _rank.create_user_id createUserId,
-     _rank.update_time updateTime, _rank.update_user_id updateUserId
+  <!-- 角色实体对象的持久化 -->
+  <sql id="c_role">
+      _role.id, _role.name, _role.description, _rank.domain, _role.type, _rank.status,
+      _role.create_time createTime, _role.create_user_id createUserId,
+      _role.update_time updateTime, _role.update_user_id updateUserId
   </sql>
-  <sql id="t_rank">rank</sql>
-  <sql id="Base_Column_List" >
-    id, name, description, status, domain, type, create_time, create_user_id, update_time, 
-    update_user_id
-  </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
-    select 
-    <include refid="Base_Column_List" />
-    from role
+  <sql id="t_role">role</sql>
+
+  <select id="selectByPrimaryKey" resultMap="role" parameterType="java.lang.Long" >
+    select <include refid="c_role"/>
+    from <include refid="t_role"/>  _role
     where id = #{id,jdbcType=BIGINT}
   </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
-    delete from role
+    delete from <include refid="t_role"/>
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.tianbao.points.core.entity.Role" >
-    insert into role (id, name, description, 
-      status, domain, type, 
-      create_time, create_user_id, update_time, 
-      update_user_id)
-    values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
-      #{status,jdbcType=INTEGER}, #{domain,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, 
-      #{updateUserId,jdbcType=BIGINT})
+
+  <insert id="insert" parameterType="role" >
+    insert into <include refid="t_role"/>
+    (id, name, description, status, domain, type, create_time, create_user_id, update_time, update_user_id)
+    values (#{id}, #{name}, #{description}, #{status}, #{domain}, #{type},
+    #{createTime}, #{createUserId}, #{updateTime}, #{updateUserId})
   </insert>
-  <insert id="insertSelective" parameterType="com.tianbao.points.core.entity.Role" >
-    insert into role
+
+  <insert id="insertSelective" parameterType="role" >
+    insert into <include refid="t_role"/>
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
@@ -70,81 +64,83 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
-        #{id,jdbcType=BIGINT},
+        #{id},
       </if>
       <if test="name != null" >
-        #{name,jdbcType=VARCHAR},
+        #{name},
       </if>
       <if test="description != null" >
-        #{description,jdbcType=VARCHAR},
+        #{description},
       </if>
       <if test="status != null" >
-        #{status,jdbcType=INTEGER},
+        #{status},
       </if>
       <if test="domain != null" >
-        #{domain,jdbcType=INTEGER},
+        #{domain},
       </if>
       <if test="type != null" >
-        #{type,jdbcType=INTEGER},
+        #{type},
       </if>
       <if test="createTime != null" >
-        #{createTime,jdbcType=TIMESTAMP},
+        #{createTime},
       </if>
       <if test="createUserId != null" >
-        #{createUserId,jdbcType=BIGINT},
+        #{createUserId},
       </if>
       <if test="updateTime != null" >
-        #{updateTime,jdbcType=TIMESTAMP},
+        #{updateTime},
       </if>
       <if test="updateUserId != null" >
-        #{updateUserId,jdbcType=BIGINT},
+        #{updateUserId},
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.tianbao.points.core.entity.Role" >
-    update role
+
+  <update id="updateByPrimaryKeySelective" parameterType="role" >
+    update <include refid="t_role"/>
     <set >
       <if test="name != null" >
-        name = #{name,jdbcType=VARCHAR},
+        name = #{name},
       </if>
       <if test="description != null" >
-        description = #{description,jdbcType=VARCHAR},
+        description = #{description},
       </if>
       <if test="status != null" >
-        status = #{status,jdbcType=INTEGER},
+        status = #{status},
       </if>
       <if test="domain != null" >
-        domain = #{domain,jdbcType=INTEGER},
+        domain = #{domain},
       </if>
       <if test="type != null" >
-        type = #{type,jdbcType=INTEGER},
+        type = #{type},
       </if>
       <if test="createTime != null" >
-        create_time = #{createTime,jdbcType=TIMESTAMP},
+        create_time = #{createTime},
       </if>
       <if test="createUserId != null" >
-        create_user_id = #{createUserId,jdbcType=BIGINT},
+        create_user_id = #{createUserId},
       </if>
       <if test="updateTime != null" >
-        update_time = #{updateTime,jdbcType=TIMESTAMP},
+        update_time = #{updateTime},
       </if>
       <if test="updateUserId != null" >
-        update_user_id = #{updateUserId,jdbcType=BIGINT},
+        update_user_id = #{updateUserId},
       </if>
     </set>
-    where id = #{id,jdbcType=BIGINT}
+    where id = #{id}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.tianbao.points.core.entity.Role" >
-    update role
-    set name = #{name,jdbcType=VARCHAR},
-      description = #{description,jdbcType=VARCHAR},
-      status = #{status,jdbcType=INTEGER},
-      domain = #{domain,jdbcType=INTEGER},
-      type = #{type,jdbcType=INTEGER},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      create_user_id = #{createUserId,jdbcType=BIGINT},
-      update_time = #{updateTime,jdbcType=TIMESTAMP},
-      update_user_id = #{updateUserId,jdbcType=BIGINT}
+
+  <update id="updateByPrimaryKey" parameterType="role" >
+    update <include refid="t_role"/>
+    set name = #{name},
+      description = #{description},
+      status = #{status},
+      domain = #{domain},
+      type = #{type},
+      create_time = #{createTime},
+      create_user_id = #{createUserId},
+      update_time = #{updateTime},
+      update_user_id = #{updateUserId}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

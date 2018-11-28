@@ -2,37 +2,33 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.tianbao.points.core.dao.IUserPositionDao" >
 
-  <!-- 会员等级实体对象的持久化 -->
-  <sql id="c_rank">
-      _rank.id, _rank.name, _rank.alias, _rank.base_points basePoints,
-      _rank.base_money baseMoney, _rank.status,
-     _rank.create_time createTime, _rank.create_user_id createUserId,
-     _rank.update_time updateTime, _rank.update_user_id updateUserId
+  <!--用户职位关联表实体对象的持久化 -->
+  <sql id="c_user_position">
+      _user_position.id, _user_position.user_id userId, _user_position.position_id positionId, _user_position.status,
+     _user_position.create_time createTime, _user_position.create_user_id createUserId,
+     _user_position.update_time updateTime, _user_position.update_user_id updateUserId
   </sql>
-  <sql id="t_rank">rank</sql>
-  <sql id="Base_Column_List" >
-    id, user_id, position_id, status, create_time, create_user_id, update_time, update_user_id
-  </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
-    select 
-    <include refid="Base_Column_List" />
-    from user_position
+  <sql id="t_user_position">user_position</sql>
+
+  <select id="selectByPrimaryKey" resultMap="userPosition" parameterType="java.lang.Long" >
+    select <include refid="c_user_position"/>
+    from <include refid="t_user_position"/> _user_position
     where id = #{id,jdbcType=BIGINT}
   </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
-    delete from user_position
+    delete from <include refid="t_user_position"/>
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.tianbao.points.core.entity.UserPosition" >
-    insert into user_position (id, user_id, position_id, 
-      status, create_time, create_user_id, 
-      update_time, update_user_id)
-    values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{positionId,jdbcType=BIGINT}, 
-      #{status,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=BIGINT}, 
-      #{updateTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT})
+
+  <insert id="insert" parameterType="userPosition" >
+    insert into <include refid="t_user_position"/>
+    (id, user_id, position_id, status, create_time, create_user_id, update_time, update_user_id)
+    values (#{id}, #{userId}, #{positionId}, #{status}, #{createTime}, #{createUserId}, #{updateTime}, #{updateUserId})
   </insert>
-  <insert id="insertSelective" parameterType="com.tianbao.points.core.entity.UserPosition" >
-    insert into user_position
+
+  <insert id="insertSelective" parameterType="userPosition" >
+    insert into <include refid="t_user_position"/>
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
@@ -61,67 +57,69 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
-        #{id,jdbcType=BIGINT},
+        #{id},
       </if>
       <if test="userId != null" >
-        #{userId,jdbcType=BIGINT},
+        #{userId},
       </if>
       <if test="positionId != null" >
-        #{positionId,jdbcType=BIGINT},
+        #{positionId},
       </if>
       <if test="status != null" >
-        #{status,jdbcType=INTEGER},
+        #{status},
       </if>
       <if test="createTime != null" >
-        #{createTime,jdbcType=TIMESTAMP},
+        #{createTime},
       </if>
       <if test="createUserId != null" >
-        #{createUserId,jdbcType=BIGINT},
+        #{createUserId},
       </if>
       <if test="updateTime != null" >
-        #{updateTime,jdbcType=TIMESTAMP},
+        #{updateTime},
       </if>
       <if test="updateUserId != null" >
-        #{updateUserId,jdbcType=BIGINT},
+        #{updateUserId},
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.tianbao.points.core.entity.UserPosition" >
-    update user_position
+
+  <update id="updateByPrimaryKeySelective" parameterType="userPosition" >
+    update <include refid="t_user_position"/>
     <set >
       <if test="userId != null" >
-        user_id = #{userId,jdbcType=BIGINT},
+        user_id = #{userId},
       </if>
       <if test="positionId != null" >
-        position_id = #{positionId,jdbcType=BIGINT},
+        position_id = #{positionId},
       </if>
       <if test="status != null" >
-        status = #{status,jdbcType=INTEGER},
+        status = #{status},
       </if>
       <if test="createTime != null" >
-        create_time = #{createTime,jdbcType=TIMESTAMP},
+        create_time = #{createTime},
       </if>
       <if test="createUserId != null" >
-        create_user_id = #{createUserId,jdbcType=BIGINT},
+        create_user_id = #{createUserId},
       </if>
       <if test="updateTime != null" >
-        update_time = #{updateTime,jdbcType=TIMESTAMP},
+        update_time = #{updateTime},
       </if>
       <if test="updateUserId != null" >
-        update_user_id = #{updateUserId,jdbcType=BIGINT},
+        update_user_id = #{updateUserId},
       </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.tianbao.points.core.entity.UserPosition" >
-    update user_position
-    set user_id = #{userId,jdbcType=BIGINT},
-      position_id = #{positionId,jdbcType=BIGINT},
-      status = #{status,jdbcType=INTEGER},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      create_user_id = #{createUserId,jdbcType=BIGINT},
-      update_time = #{updateTime,jdbcType=TIMESTAMP},
-      update_user_id = #{updateUserId,jdbcType=BIGINT}
+
+  <update id="updateByPrimaryKey" parameterType="userPosition" >
+    update <include refid="t_user_position"/>
+    set user_id = #{userId},
+      position_id = #{positionId},
+      status = #{status},
+      create_time = #{createTime},
+      create_user_id = #{createUserId},
+      update_time = #{updateTime},
+      update_user_id = #{updateUserId}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

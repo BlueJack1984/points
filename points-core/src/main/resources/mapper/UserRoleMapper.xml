@@ -2,37 +2,33 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.tianbao.points.core.dao.IUserRoleDao" >
 
-  <!-- 会员等级实体对象的持久化 -->
-  <sql id="c_rank">
-      _rank.id, _rank.name, _rank.alias, _rank.base_points basePoints,
-      _rank.base_money baseMoney, _rank.status,
-     _rank.create_time createTime, _rank.create_user_id createUserId,
-     _rank.update_time updateTime, _rank.update_user_id updateUserId
+  <!-- 用户角色关联表实体对象的持久化 -->
+  <sql id="c_user_role">
+      _user_role.id, _user_role.user_id userId, _user_role.role_id roleId, _user_role.status,
+     _user_role.create_time createTime, _user_role.create_user_id createUserId,
+     _user_role.update_time updateTime, _user_role.update_user_id updateUserId
   </sql>
-  <sql id="t_rank">rank</sql>
-  <sql id="Base_Column_List" >
-    id, user_id, role_id, status, create_time, create_user_id, update_time, update_user_id
-  </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
-    select 
-    <include refid="Base_Column_List" />
-    from user_role
+  <sql id="t_user_role">user_role</sql>
+
+  <select id="selectByPrimaryKey" resultMap="userRole" parameterType="java.lang.Long" >
+    select <include refid="c_user_role"/>
+    from <include refid="t_user_role"/> _user_role
     where id = #{id,jdbcType=BIGINT}
   </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
-    delete from user_role
+    delete from <include refid="t_user_role"/>
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.tianbao.points.core.entity.UserRole" >
-    insert into user_role (id, user_id, role_id, 
-      status, create_time, create_user_id, 
-      update_time, update_user_id)
-    values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{roleId,jdbcType=BIGINT}, 
-      #{status,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=BIGINT}, 
-      #{updateTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT})
+
+  <insert id="insert" parameterType="userRole" >
+    insert into <include refid="t_user_role"/>
+    (id, user_id, role_id, status, create_time, create_user_id, update_time, update_user_id)
+    values (#{id}, #{userId}, #{roleId}, #{status}, #{createTime}, #{createUserId}, #{updateTime}, #{updateUserId})
   </insert>
-  <insert id="insertSelective" parameterType="com.tianbao.points.core.entity.UserRole" >
-    insert into user_role
+
+  <insert id="insertSelective" parameterType="userRole" >
+    insert into <include refid="t_user_role"/>
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
@@ -61,67 +57,68 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
-        #{id,jdbcType=BIGINT},
+        #{id},
       </if>
       <if test="userId != null" >
-        #{userId,jdbcType=BIGINT},
+        #{userId},
       </if>
       <if test="roleId != null" >
-        #{roleId,jdbcType=BIGINT},
+        #{roleId},
       </if>
       <if test="status != null" >
-        #{status,jdbcType=INTEGER},
+        #{status},
       </if>
       <if test="createTime != null" >
-        #{createTime,jdbcType=TIMESTAMP},
+        #{createTime},
       </if>
       <if test="createUserId != null" >
-        #{createUserId,jdbcType=BIGINT},
+        #{createUserId},
       </if>
       <if test="updateTime != null" >
-        #{updateTime,jdbcType=TIMESTAMP},
+        #{updateTime},
       </if>
       <if test="updateUserId != null" >
-        #{updateUserId,jdbcType=BIGINT},
+        #{updateUserId},
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.tianbao.points.core.entity.UserRole" >
-    update user_role
+  <update id="updateByPrimaryKeySelective" parameterType="userRole" >
+    update <include refid="t_user_role"/>
     <set >
       <if test="userId != null" >
-        user_id = #{userId,jdbcType=BIGINT},
+        user_id = #{userId},
       </if>
       <if test="roleId != null" >
-        role_id = #{roleId,jdbcType=BIGINT},
+        role_id = #{roleId},
       </if>
       <if test="status != null" >
-        status = #{status,jdbcType=INTEGER},
+        status = #{status},
       </if>
       <if test="createTime != null" >
-        create_time = #{createTime,jdbcType=TIMESTAMP},
+        create_time = #{createTime},
       </if>
       <if test="createUserId != null" >
-        create_user_id = #{createUserId,jdbcType=BIGINT},
+        create_user_id = #{createUserId},
       </if>
       <if test="updateTime != null" >
-        update_time = #{updateTime,jdbcType=TIMESTAMP},
+        update_time = #{updateTime},
       </if>
       <if test="updateUserId != null" >
-        update_user_id = #{updateUserId,jdbcType=BIGINT},
+        update_user_id = #{updateUserId},
       </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.tianbao.points.core.entity.UserRole" >
-    update user_role
-    set user_id = #{userId,jdbcType=BIGINT},
-      role_id = #{roleId,jdbcType=BIGINT},
-      status = #{status,jdbcType=INTEGER},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      create_user_id = #{createUserId,jdbcType=BIGINT},
-      update_time = #{updateTime,jdbcType=TIMESTAMP},
-      update_user_id = #{updateUserId,jdbcType=BIGINT}
+
+  <update id="updateByPrimaryKey" parameterType="userRole" >
+    update <include refid="t_user_role"/>
+    set user_id = #{userId},
+      role_id = #{roleId},
+      status = #{status},
+      create_time = #{createTime},
+      create_user_id = #{createUserId},
+      update_time = #{updateTime,
+      update_user_id = #{updateUserId}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

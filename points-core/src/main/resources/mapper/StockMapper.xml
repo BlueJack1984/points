@@ -2,45 +2,39 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.tianbao.points.core.dao.IStockDao" >
 
-  <!-- 会员等级实体对象的持久化 -->
-  <sql id="c_rank">
-      _rank.id, _rank.name, _rank.alias, _rank.base_points basePoints,
-      _rank.base_money baseMoney, _rank.status,
-     _rank.create_time createTime, _rank.create_user_id createUserId,
-     _rank.update_time updateTime, _rank.update_user_id updateUserId
+  <!-- 股票证券指数实体对象的持久化 -->
+  <sql id="c_stock">
+     _stock.id, _stock.publish_time publishTime, _stock.status, _rank.sh_open_exponent shOpenExponent,
+     _stock.sh_close_exponent shCloseExponent, _stock.sh_max_exponent shMaxExponent, _stock.sh_min_exponent shMinExponent,
+     _stock.tb_open_exponent tbOpenExponent, _stock.tb_close_exponent tbCloseExponent,
+     _stock.tb_max_exponent tbMaxExponent, _stock.tb_min_exponent tbMinExponent,
+     _stock.create_time createTime, _stock.create_user_id createUserId,
+     _stock.update_time updateTime, _stock.update_user_id updateUserId
   </sql>
-  <sql id="t_rank">rank</sql>
-  <sql id="Base_Column_List" >
-    id, publish_time, status, sh_open_exponent, sh_close_exponent, sh_max_exponent, sh_min_exponent, 
-    tb_open_exponent, tb_close_exponent, tb_max_exponent, tb_min_exponent, create_time, 
-    create_user_id, update_time, update_user_id
-  </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
-    select 
-    <include refid="Base_Column_List" />
-    from stock
+  <sql id="t_stock">stock</sql>
+
+  <select id="selectByPrimaryKey" resultMap="stock" parameterType="java.lang.Long" >
+    select <include refid="c_stock"/>
+    from <include refid="t_stock"/> _stock
     where id = #{id,jdbcType=BIGINT}
   </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
-    delete from stock
+    delete from <include refid="t_stock"/>
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.tianbao.points.core.entity.Stock" >
-    insert into stock (id, publish_time, status, 
-      sh_open_exponent, sh_close_exponent, sh_max_exponent, 
-      sh_min_exponent, tb_open_exponent, tb_close_exponent, 
-      tb_max_exponent, tb_min_exponent, create_time, 
-      create_user_id, update_time, update_user_id
-      )
-    values (#{id,jdbcType=BIGINT}, #{publishTime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}, 
-      #{shOpenExponent,jdbcType=DOUBLE}, #{shCloseExponent,jdbcType=DOUBLE}, #{shMaxExponent,jdbcType=DOUBLE}, 
-      #{shMinExponent,jdbcType=DOUBLE}, #{tbOpenExponent,jdbcType=DOUBLE}, #{tbCloseExponent,jdbcType=DOUBLE}, 
-      #{tbMaxExponent,jdbcType=DOUBLE}, #{tbMinExponent,jdbcType=DOUBLE}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{createUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT}
-      )
+
+  <insert id="insert" parameterType="stock" >
+    insert into <include refid="t_stock"/>
+    (id, publish_time, status, sh_open_exponent, sh_close_exponent, sh_max_exponent, sh_min_exponent, tb_open_exponent,
+    tb_close_exponent, tb_max_exponent, tb_min_exponent, create_time, create_user_id, update_time, update_user_id)
+    values (#{id}, #{publishTime}, #{status}, #{shOpenExponent}, #{shCloseExponent}, #{shMaxExponent}, #{shMinExponent},
+    #{tbOpenExponent}, #{tbCloseExponent}, #{tbMaxExponent}, #{tbMinExponent}, #{createTime}, #{createUserId},
+    #{updateTime}, #{updateUserId})
   </insert>
-  <insert id="insertSelective" parameterType="com.tianbao.points.core.entity.Stock" >
-    insert into stock
+
+  <insert id="insertSelective" parameterType="stock" >
+    insert into <include refid="t_stock"/>
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
@@ -90,116 +84,118 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
-        #{id,jdbcType=BIGINT},
+        #{id},
       </if>
       <if test="publishTime != null" >
-        #{publishTime,jdbcType=TIMESTAMP},
+        #{publishTime},
       </if>
       <if test="status != null" >
-        #{status,jdbcType=INTEGER},
+        #{status},
       </if>
       <if test="shOpenExponent != null" >
-        #{shOpenExponent,jdbcType=DOUBLE},
+        #{shOpenExponent},
       </if>
       <if test="shCloseExponent != null" >
-        #{shCloseExponent,jdbcType=DOUBLE},
+        #{shCloseExponent},
       </if>
       <if test="shMaxExponent != null" >
-        #{shMaxExponent,jdbcType=DOUBLE},
+        #{shMaxExponent},
       </if>
       <if test="shMinExponent != null" >
-        #{shMinExponent,jdbcType=DOUBLE},
+        #{shMinExponent},
       </if>
       <if test="tbOpenExponent != null" >
-        #{tbOpenExponent,jdbcType=DOUBLE},
+        #{tbOpenExponent},
       </if>
       <if test="tbCloseExponent != null" >
-        #{tbCloseExponent,jdbcType=DOUBLE},
+        #{tbCloseExponent},
       </if>
       <if test="tbMaxExponent != null" >
-        #{tbMaxExponent,jdbcType=DOUBLE},
+        #{tbMaxExponent},
       </if>
       <if test="tbMinExponent != null" >
-        #{tbMinExponent,jdbcType=DOUBLE},
+        #{tbMinExponent},
       </if>
       <if test="createTime != null" >
-        #{createTime,jdbcType=TIMESTAMP},
+        #{createTime},
       </if>
       <if test="createUserId != null" >
-        #{createUserId,jdbcType=BIGINT},
+        #{createUserId},
       </if>
       <if test="updateTime != null" >
-        #{updateTime,jdbcType=TIMESTAMP},
+        #{updateTime},
       </if>
       <if test="updateUserId != null" >
         #{updateUserId,jdbcType=BIGINT},
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.tianbao.points.core.entity.Stock" >
-    update stock
+
+  <update id="updateByPrimaryKeySelective" parameterType="stock" >
+    update <include refid="t_stock"/>
     <set >
       <if test="publishTime != null" >
-        publish_time = #{publishTime,jdbcType=TIMESTAMP},
+        publish_time = #{publishTime},
       </if>
       <if test="status != null" >
-        status = #{status,jdbcType=INTEGER},
+        status = #{status},
       </if>
       <if test="shOpenExponent != null" >
-        sh_open_exponent = #{shOpenExponent,jdbcType=DOUBLE},
+        sh_open_exponent = #{shOpenExponent},
       </if>
       <if test="shCloseExponent != null" >
-        sh_close_exponent = #{shCloseExponent,jdbcType=DOUBLE},
+        sh_close_exponent = #{shCloseExponent},
       </if>
       <if test="shMaxExponent != null" >
-        sh_max_exponent = #{shMaxExponent,jdbcType=DOUBLE},
+        sh_max_exponent = #{shMaxExponent},
       </if>
       <if test="shMinExponent != null" >
-        sh_min_exponent = #{shMinExponent,jdbcType=DOUBLE},
+        sh_min_exponent = #{shMinExponent},
       </if>
       <if test="tbOpenExponent != null" >
-        tb_open_exponent = #{tbOpenExponent,jdbcType=DOUBLE},
+        tb_open_exponent = #{tbOpenExponent},
       </if>
       <if test="tbCloseExponent != null" >
-        tb_close_exponent = #{tbCloseExponent,jdbcType=DOUBLE},
+        tb_close_exponent = #{tbCloseExponent},
       </if>
       <if test="tbMaxExponent != null" >
-        tb_max_exponent = #{tbMaxExponent,jdbcType=DOUBLE},
+        tb_max_exponent = #{tbMaxExponent},
       </if>
       <if test="tbMinExponent != null" >
-        tb_min_exponent = #{tbMinExponent,jdbcType=DOUBLE},
+        tb_min_exponent = #{tbMinExponent},
       </if>
       <if test="createTime != null" >
-        create_time = #{createTime,jdbcType=TIMESTAMP},
+        create_time = #{createTime},
       </if>
       <if test="createUserId != null" >
-        create_user_id = #{createUserId,jdbcType=BIGINT},
+        create_user_id = #{createUserId},
       </if>
       <if test="updateTime != null" >
-        update_time = #{updateTime,jdbcType=TIMESTAMP},
+        update_time = #{updateTime},
       </if>
       <if test="updateUserId != null" >
-        update_user_id = #{updateUserId,jdbcType=BIGINT},
+        update_user_id = #{updateUserId},
       </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.tianbao.points.core.entity.Stock" >
-    update stock
-    set publish_time = #{publishTime,jdbcType=TIMESTAMP},
-      status = #{status,jdbcType=INTEGER},
-      sh_open_exponent = #{shOpenExponent,jdbcType=DOUBLE},
-      sh_close_exponent = #{shCloseExponent,jdbcType=DOUBLE},
-      sh_max_exponent = #{shMaxExponent,jdbcType=DOUBLE},
-      sh_min_exponent = #{shMinExponent,jdbcType=DOUBLE},
-      tb_open_exponent = #{tbOpenExponent,jdbcType=DOUBLE},
-      tb_close_exponent = #{tbCloseExponent,jdbcType=DOUBLE},
-      tb_max_exponent = #{tbMaxExponent,jdbcType=DOUBLE},
-      tb_min_exponent = #{tbMinExponent,jdbcType=DOUBLE},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      create_user_id = #{createUserId,jdbcType=BIGINT},
-      update_time = #{updateTime,jdbcType=TIMESTAMP},
-      update_user_id = #{updateUserId,jdbcType=BIGINT}
+
+  <update id="updateByPrimaryKey" parameterType="stock" >
+    update <include refid="t_stock"/>
+    set publish_time = #{publishTime},
+      status = #{status},
+      sh_open_exponent = #{shOpenExponent},
+      sh_close_exponent = #{shCloseExponent},
+      sh_max_exponent = #{shMaxExponent},
+      sh_min_exponent = #{shMinExponent},
+      tb_open_exponent = #{tbOpenExponent},
+      tb_close_exponent = #{tbCloseExponent},
+      tb_max_exponent = #{tbMaxExponent},
+      tb_min_exponent = #{tbMinExponent},
+      create_time = #{createTime},
+      create_user_id = #{createUserId},
+      update_time = #{updateTime},
+      update_user_id = #{updateUserId}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>
