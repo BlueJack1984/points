@@ -10,6 +10,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+
 
 /**
  * @desc 首页公告服务接口
@@ -38,6 +40,11 @@ public class AnnouncementServiceImpl implements IAnnouncementService {
     @Override
     public void save(Announcement record) throws ApplicationException {
 
+        record.setStatus(0);
+        record.setCreateTime(new Date());
+        record.setCreateUserId(record.getUserId());
+        record.setUpdateTime(new Date());
+        record.setUpdateUserId(record.getUserId());
         try {
             iAnnouncementDao.insert(record);
         }catch(Exception e) {
