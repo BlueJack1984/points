@@ -2,6 +2,7 @@ package com.tianbao.points.admin.controller;
 
 
 import com.tianbao.points.core.dto.response.OutputResult;
+import com.tianbao.points.core.service.IAnnouncementService;
 import com.tianbao.points.core.service.base.IBaseService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/announcement")
 public class AnnouncementController {
 
-    private final IBaseService iBaseServer;
+    private final IAnnouncementService announcementServer;
 
     /**
      * @desc 首页公告入口
