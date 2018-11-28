@@ -32,6 +32,30 @@ public class UserServiceImpl implements IUserService {
         return null;
     }
 
+    /**
+     * @author lushusheng
+     * @Date 2018-11-28
+     * @Desc 更新用户的登录密码，这里不是指超级密码
+     * @return 无返回，操作错误抛出异常
+     * @update
+     */
+    @Override
+    public void updatePassword(Long id) throws ApplicationException {
+
+    }
+
+    /**
+     * @author lushusheng
+     * @Date 2018-11-28
+     * @Desc 更新用户的超级密码，这个用户只有一个，顶级管理员，所以要先判断身份
+     * @return 无返回，操作错误抛出异常
+     * @update
+     */
+    @Override
+    public void updateSuperPassword(Long id) throws ApplicationException {
+
+    }
+
     @Override
     public void deleteById(Long id) throws ApplicationException {
 
