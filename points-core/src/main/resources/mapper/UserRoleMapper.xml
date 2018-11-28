@@ -117,7 +117,7 @@
       status = #{status},
       create_time = #{createTime},
       create_user_id = #{createUserId},
-      update_time = #{updateTime,
+      update_time = #{updateTime},
       update_user_id = #{updateUserId}
     where id = #{id,jdbcType=BIGINT}
   </update>
