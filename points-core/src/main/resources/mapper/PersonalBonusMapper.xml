@@ -1,24 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.tianbao.points.core.dao.IPersonalBonusDao" >
-  <resultMap id="BaseResultMap" type="com.tianbao.points.core.entity.PersonalBonus" >
-    <id column="id" property="id" jdbcType="BIGINT" />
-    <result column="user_id" property="userId" jdbcType="BIGINT" />
-    <result column="system_bonus_id" property="systemBonusId" jdbcType="BIGINT" />
-    <result column="points" property="points" jdbcType="DOUBLE" />
-    <result column="ratio" property="ratio" jdbcType="DOUBLE" />
-    <result column="visible" property="visible" jdbcType="INTEGER" />
-    <result column="status" property="status" jdbcType="INTEGER" />
-    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
-    <result column="create_user_id" property="createUserId" jdbcType="BIGINT" />
-    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
-    <result column="update_user_id" property="updateUserId" jdbcType="BIGINT" />
-  </resultMap>
-  <sql id="Base_Column_List" >
-    id, user_id, system_bonus_id, points, ratio, visible, status, create_time, create_user_id, 
-    update_time, update_user_id
+
+  <!-- 留言实体对象的持久化 -->
+  <sql id="c_personal_bonus">
+      _message.id, _message.user_id userId, _message.system_bonus_id systemBonusId, _message.points,
+      _message.ratio, _message.visible, _message.status,
+      _message.create_time createTime, _message.create_user_id createUserId,
+      _message.update_time updateTime, _message.update_user_id updateUserId
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+  <sql id="t_personal_bonus">personal_bonus</sql>
+
+  <select id="selectByPrimaryKey" resultMap="personal" parameterType="java.lang.Long" >
     select 
     <include refid="Base_Column_List" />
     from personal_bonus

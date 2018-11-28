@@ -1,6 +1,7 @@
 package com.tianbao.points.core.service.impl;
 
 
+import com.tianbao.points.core.constant.StatusCode;
 import com.tianbao.points.core.dao.IAnnouncementDao;
 import com.tianbao.points.core.entity.Announcement;
 import com.tianbao.points.core.exception.ApplicationException;
@@ -9,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 
@@ -38,19 +40,14 @@ public class AnnouncementServiceImpl implements IAnnouncementService {
     }
 
     @Override
+    @Transactional
     public void save(Announcement record) throws ApplicationException {
-
-        record.setStatus(0);
+        record.setStatus(StatusCode.NORMAL.getCode());
         record.setCreateTime(new Date());
-        record.setCreateUserId(record.getUserId());
         record.setUpdateTime(new Date());
+        record.setCreateUserId(record.getUserId());
         record.setUpdateUserId(record.getUserId());
-        try {
-            iAnnouncementDao.insert(record);
-        }catch(Exception e) {
-            logger.info(e.getMessage());
-            throw new ApplicationException();
-        }
+        iAnnouncementDao.insert(record);
     }
 
     @Override
@@ -60,7 +57,8 @@ public class AnnouncementServiceImpl implements IAnnouncementService {
 
     @Override
     public Announcement selectById(Long id) throws ApplicationException {
-        return null;
+        Announcement announcement = iAnnouncementDao.selectByPrimaryKey(id);
+        return announcement;
     }
 
     @Override

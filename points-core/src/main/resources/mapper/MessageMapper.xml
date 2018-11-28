@@ -1,45 +1,36 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.tianbao.points.core.dao.IMessageDao" >
-  <resultMap id="BaseResultMap" type="com.tianbao.points.core.entity.Message" >
-    <id column="id" property="id" jdbcType="BIGINT" />
-    <result column="title" property="title" jdbcType="VARCHAR" />
-    <result column="content" property="content" jdbcType="VARCHAR" />
-    <result column="url_type" property="urlType" jdbcType="INTEGER" />
-    <result column="url" property="url" jdbcType="VARCHAR" />
-    <result column="reply" property="reply" jdbcType="VARCHAR" />
-    <result column="status" property="status" jdbcType="INTEGER" />
-    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
-    <result column="create_user_id" property="createUserId" jdbcType="BIGINT" />
-    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
-    <result column="update_user_id" property="updateUserId" jdbcType="BIGINT" />
-  </resultMap>
-  <sql id="Base_Column_List" >
-    id, title, content, url_type, url, reply, status, create_time, create_user_id, update_time, 
-    update_user_id
+
+  <!-- 留言实体对象的持久化 -->
+  <sql id="c_message">
+      _message.id, _message.title, _message.content, _message.status,
+      _message.url, _message.reply, _message.url_type urlType,
+      _message.create_time createTime, _message.create_user_id createUserId,
+      _message.update_time updateTime, _message.update_user_id updateUserId
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
-    select 
-    <include refid="Base_Column_List" />
-    from message
+  <sql id="t_message">message</sql>
+
+  <select id="selectByPrimaryKey" resultMap="message" parameterType="java.lang.Long" >
+    select <include refid="c_message"/>
+    from <include refid="t_message"/>
     where id = #{id,jdbcType=BIGINT}
   </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
-    delete from message
+    delete from <include refid="t_message"/>
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.tianbao.points.core.entity.Message" >
-    insert into message (id, title, content, 
-      url_type, url, reply, 
-      status, create_time, create_user_id, 
-      update_time, update_user_id)
-    values (#{id,jdbcType=BIGINT}, #{title,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, 
-      #{urlType,jdbcType=INTEGER}, #{url,jdbcType=VARCHAR}, #{reply,jdbcType=VARCHAR}, 
-      #{status,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=BIGINT}, 
-      #{updateTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT})
+
+  <insert id="insert" parameterType="message" >
+    insert into <include refid="t_message"/>
+    (id, title, content, url_type, url, reply, status, create_time, create_user_id, update_time, update_user_id)
+    values (#{id}, #{title}, #{content}, #{urlType}, #{url}, #{reply}, #{status},
+    #{createTime}, #{createUserId}, #{updateTime}, #{updateUserId})
   </insert>
-  <insert id="insertSelective" parameterType="com.tianbao.points.core.entity.Message" >
-    insert into message
+
+  <insert id="insertSelective" parameterType="message" >
+    insert into <include refid="t_message"/>
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
@@ -77,88 +68,89 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
-        #{id,jdbcType=BIGINT},
+        #{id},
       </if>
       <if test="title != null" >
-        #{title,jdbcType=VARCHAR},
+        #{title},
       </if>
       <if test="content != null" >
-        #{content,jdbcType=VARCHAR},
+        #{content},
       </if>
       <if test="urlType != null" >
-        #{urlType,jdbcType=INTEGER},
+        #{urlType},
       </if>
       <if test="url != null" >
-        #{url,jdbcType=VARCHAR},
+        #{url},
       </if>
       <if test="reply != null" >
-        #{reply,jdbcType=VARCHAR},
+        #{reply},
       </if>
       <if test="status != null" >
-        #{status,jdbcType=INTEGER},
+        #{status},
       </if>
       <if test="createTime != null" >
-        #{createTime,jdbcType=TIMESTAMP},
+        #{createTime},
       </if>
       <if test="createUserId != null" >
-        #{createUserId,jdbcType=BIGINT},
+        #{createUserId},
       </if>
       <if test="updateTime != null" >
-        #{updateTime,jdbcType=TIMESTAMP},
+        #{updateTime},
       </if>
       <if test="updateUserId != null" >
-        #{updateUserId,jdbcType=BIGINT},
+        #{updateUserId},
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.tianbao.points.core.entity.Message" >
-    update message
+
+  <update id="updateByPrimaryKeySelective" parameterType="message" >
+    update <include refid="t_message"/>
     <set >
       <if test="title != null" >
-        title = #{title,jdbcType=VARCHAR},
+        title = #{title},
       </if>
       <if test="content != null" >
-        content = #{content,jdbcType=VARCHAR},
+        content = #{content},
       </if>
       <if test="urlType != null" >
-        url_type = #{urlType,jdbcType=INTEGER},
+        url_type = #{urlType},
       </if>
       <if test="url != null" >
-        url = #{url,jdbcType=VARCHAR},
+        url = #{url},
       </if>
       <if test="reply != null" >
-        reply = #{reply,jdbcType=VARCHAR},
+        reply = #{reply},
       </if>
       <if test="status != null" >
-        status = #{status,jdbcType=INTEGER},
+        status = #{status},
       </if>
       <if test="createTime != null" >
-        create_time = #{createTime,jdbcType=TIMESTAMP},
+        create_time = #{createTime},
       </if>
       <if test="createUserId != null" >
-        create_user_id = #{createUserId,jdbcType=BIGINT},
+        create_user_id = #{createUserId},
       </if>
       <if test="updateTime != null" >
-        update_time = #{updateTime,jdbcType=TIMESTAMP},
+        update_time = #{updateTime},
       </if>
       <if test="updateUserId != null" >
-        update_user_id = #{updateUserId,jdbcType=BIGINT},
+        update_user_id = #{updateUserId},
       </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.tianbao.points.core.entity.Message" >
-    update message
-    set title = #{title,jdbcType=VARCHAR},
-      content = #{content,jdbcType=VARCHAR},
-      url_type = #{urlType,jdbcType=INTEGER},
-      url = #{url,jdbcType=VARCHAR},
-      reply = #{reply,jdbcType=VARCHAR},
-      status = #{status,jdbcType=INTEGER},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      create_user_id = #{createUserId,jdbcType=BIGINT},
-      update_time = #{updateTime,jdbcType=TIMESTAMP},
-      update_user_id = #{updateUserId,jdbcType=BIGINT}
+  <update id="updateByPrimaryKey" parameterType="message" >
+    update <include refid="t_message"/>
+    set title = #{title},
+      content = #{content},
+      url_type = #{urlType},
+      url = #{url},
+      reply = #{reply},
+      status = #{status},
+      create_time = #{createTime},
+      create_user_id = #{createUserId},
+      update_time = #{updateTime},
+      update_user_id = #{updateUserId}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

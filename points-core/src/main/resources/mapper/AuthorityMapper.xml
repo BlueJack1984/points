@@ -1,48 +1,37 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.tianbao.points.core.dao.IAuthorityDao" >
-  <resultMap id="BaseResultMap" type="com.tianbao.points.core.entity.Authority" >
-    <id column="id" property="id" jdbcType="BIGINT" />
-    <result column="code" property="code" jdbcType="VARCHAR" />
-    <result column="name" property="name" jdbcType="VARCHAR" />
-    <result column="url" property="url" jdbcType="VARCHAR" />
-    <result column="permission" property="permission" jdbcType="VARCHAR" />
-    <result column="type" property="type" jdbcType="INTEGER" />
-    <result column="description" property="description" jdbcType="VARCHAR" />
-    <result column="status" property="status" jdbcType="INTEGER" />
-    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
-    <result column="create_user_id" property="createUserId" jdbcType="BIGINT" />
-    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
-    <result column="update_user_id" property="updateUserId" jdbcType="BIGINT" />
-  </resultMap>
-  <sql id="Base_Column_List" >
-    id, code, name, url, permission, type, description, status, create_time, create_user_id, 
-    update_time, update_user_id
-  </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
-    select 
-    <include refid="Base_Column_List" />
-    from authority
+
+  <!-- 权限实体对象的持久化 -->
+  <sql id="c_authority">
+      _authority.id, _authority.code, _authority.name, _authority.url, _authority.permission,
+      _authority.status, _authority.type, _authority.description, _authority.create_time createTime,
+      _authority.create_user_id createUserId, _authority.update_time updateTime,
+      _authority.update_user_id updateUserId
+    </sql>
+  <sql id="t_authority">authority</sql>
+
+  <select id="selectByPrimaryKey" resultMap="authority" parameterType="java.lang.Long" >
+    select <include refid="c_authority"/>
+    from <include refid="t_authority"/> _authority
     where id = #{id,jdbcType=BIGINT}
   </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
-    delete from authority
+    delete from <include refid="t_authority"/>
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.tianbao.points.core.entity.Authority" >
-    insert into authority (id, code, name, 
-      url, permission, type, 
-      description, status, create_time, 
-      create_user_id, update_time, update_user_id
-      )
-    values (#{id,jdbcType=BIGINT}, #{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
-      #{url,jdbcType=VARCHAR}, #{permission,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, 
-      #{description,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{createUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT}
-      )
+
+  <insert id="insert" parameterType="authority" useGeneratedKeys="true" keyProperty="id">
+    insert into <include refid="t_authority"/>
+    (id, code, name, url, permission, type, description, status, create_time,
+      create_user_id, update_time, update_user_id)
+    values (#{id}, #{code}, #{name}, #{url}, #{permission}, #{type}, #{description}, #{status},
+    #{createTime}, #{createUserId}, #{updateTime}, #{updateUserId})
   </insert>
-  <insert id="insertSelective" parameterType="com.tianbao.points.core.entity.Authority" >
-    insert into authority
+
+  <insert id="insertSelective" parameterType="authority" >
+    insert into <include refid="t_authority"/>
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
@@ -83,95 +72,95 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
-        #{id,jdbcType=BIGINT},
+        #{id},
       </if>
       <if test="code != null" >
-        #{code,jdbcType=VARCHAR},
+        #{code},
       </if>
       <if test="name != null" >
-        #{name,jdbcType=VARCHAR},
+        #{name},
       </if>
       <if test="url != null" >
-        #{url,jdbcType=VARCHAR},
+        #{url},
       </if>
       <if test="permission != null" >
-        #{permission,jdbcType=VARCHAR},
+        #{permission},
       </if>
       <if test="type != null" >
-        #{type,jdbcType=INTEGER},
+        #{type},
       </if>
       <if test="description != null" >
-        #{description,jdbcType=VARCHAR},
+        #{description},
       </if>
       <if test="status != null" >
-        #{status,jdbcType=INTEGER},
+        #{status},
       </if>
       <if test="createTime != null" >
-        #{createTime,jdbcType=TIMESTAMP},
+        #{createTime},
       </if>
       <if test="createUserId != null" >
-        #{createUserId,jdbcType=BIGINT},
+        #{createUserId},
       </if>
       <if test="updateTime != null" >
-        #{updateTime,jdbcType=TIMESTAMP},
+        #{updateTime},
       </if>
       <if test="updateUserId != null" >
-        #{updateUserId,jdbcType=BIGINT},
+        #{updateUserId},
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.tianbao.points.core.entity.Authority" >
-    update authority
+  <update id="updateByPrimaryKeySelective" parameterType="authority" >
+    update <include refid="t_authority"/>
     <set >
       <if test="code != null" >
-        code = #{code,jdbcType=VARCHAR},
+        code = #{code},
       </if>
       <if test="name != null" >
-        name = #{name,jdbcType=VARCHAR},
+        name = #{name},
       </if>
       <if test="url != null" >
-        url = #{url,jdbcType=VARCHAR},
+        url = #{url},
       </if>
       <if test="permission != null" >
-        permission = #{permission,jdbcType=VARCHAR},
+        permission = #{permission},
       </if>
       <if test="type != null" >
-        type = #{type,jdbcType=INTEGER},
+        type = #{type},
       </if>
       <if test="description != null" >
-        description = #{description,jdbcType=VARCHAR},
+        description = #{description},
       </if>
       <if test="status != null" >
-        status = #{status,jdbcType=INTEGER},
+        status = #{status},
       </if>
       <if test="createTime != null" >
-        create_time = #{createTime,jdbcType=TIMESTAMP},
+        create_time = #{createTime},
       </if>
       <if test="createUserId != null" >
-        create_user_id = #{createUserId,jdbcType=BIGINT},
+        create_user_id = #{createUserId},
       </if>
       <if test="updateTime != null" >
-        update_time = #{updateTime,jdbcType=TIMESTAMP},
+        update_time = #{updateTime},
       </if>
       <if test="updateUserId != null" >
-        update_user_id = #{updateUserId,jdbcType=BIGINT},
+        update_user_id = #{updateUserId},
       </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.tianbao.points.core.entity.Authority" >
-    update authority
-    set code = #{code,jdbcType=VARCHAR},
-      name = #{name,jdbcType=VARCHAR},
-      url = #{url,jdbcType=VARCHAR},
-      permission = #{permission,jdbcType=VARCHAR},
-      type = #{type,jdbcType=INTEGER},
-      description = #{description,jdbcType=VARCHAR},
-      status = #{status,jdbcType=INTEGER},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      create_user_id = #{createUserId,jdbcType=BIGINT},
-      update_time = #{updateTime,jdbcType=TIMESTAMP},
-      update_user_id = #{updateUserId,jdbcType=BIGINT}
+  <update id="updateByPrimaryKey" parameterType="authority" >
+    update <include refid="t_authority"/>
+    set code = #{code},
+      name = #{name},
+      url = #{url},
+      permission = #{permission},
+      type = #{type},
+      description = #{description},
+      status = #{status},
+      create_time = #{createTime},
+      create_user_id = #{createUserId},
+      update_time = #{updateTime},
+      update_user_id = #{updateUserId}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

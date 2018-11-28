@@ -35,9 +35,9 @@ public class AnnouncementController {
     private static final SimpleDateFormat SDF = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     /**
-     * @desc 首页公告入口
-     * @author lushusheng 2018-10-09
-     * @param activity activity实体对象
+     * @desc 保存一条公告数据
+     * @author lushusheng 2018-11-28
+     * @param announcementInput 首页公告实体属性：标题内容等
      * @param currentId 当前用户id
      * @return 是否保存成功
      * @throws ApplicationException 保存异常
@@ -58,5 +58,23 @@ public class AnnouncementController {
         announcement.setUserId(currentId);
         announcementServer.save(announcement);
         return new OutputResult<>();
+    }
+
+    /**
+     * @desc 根据id查询一条公告数据
+     * @author lushusheng 2018-11-28
+     * @param id 要查询的公告id
+     * @param currentId 当前用户id
+     * @return 返回查询的公告实体数据
+     * @throws ApplicationException 查询异常
+     */
+    @CrossOrigin
+    @GetMapping("/get/{id}")
+    public OutputResult<Announcement> get(
+            @PathVariable Long id,
+            @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId)throws ApplicationException {
+
+        Announcement announcement = announcementServer.selectById(id);
+        return new OutputResult<>(announcement);
     }
 }
