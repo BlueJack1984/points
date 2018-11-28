@@ -1,29 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.tianbao.points.core.dao.IUserDao" >
-  <resultMap id="BaseResultMap" type="com.tianbao.points.core.entity.User" >
-    <id column="id" property="id" jdbcType="BIGINT" />
-    <result column="account" property="account" jdbcType="VARCHAR" />
-    <result column="password" property="password" jdbcType="CHAR" />
-    <result column="super_password" property="superPassword" jdbcType="CHAR" />
-    <result column="real_name" property="realName" jdbcType="VARCHAR" />
-    <result column="identity_number" property="identityNumber" jdbcType="VARCHAR" />
-    <result column="nick_name" property="nickName" jdbcType="VARCHAR" />
-    <result column="head_image" property="headImage" jdbcType="VARCHAR" />
-    <result column="phone" property="phone" jdbcType="VARCHAR" />
-    <result column="email" property="email" jdbcType="VARCHAR" />
-    <result column="gender" property="gender" jdbcType="INTEGER" />
-    <result column="rank_id" property="rankId" jdbcType="BIGINT" />
-    <result column="status" property="status" jdbcType="INTEGER" />
-    <result column="question_id" property="questionId" jdbcType="INTEGER" />
-    <result column="answer" property="answer" jdbcType="VARCHAR" />
-    <result column="last_login_ip" property="lastLoginIp" jdbcType="VARCHAR" />
-    <result column="last_login_time" property="lastLoginTime" jdbcType="TIMESTAMP" />
-    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
-    <result column="create_user_id" property="createUserId" jdbcType="BIGINT" />
-    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
-    <result column="update_user_id" property="updateUserId" jdbcType="BIGINT" />
-  </resultMap>
+
+  <!-- 会员等级实体对象的持久化 -->
+  <sql id="c_rank">
+      _rank.id, _rank.name, _rank.alias, _rank.base_points basePoints,
+      _rank.base_money baseMoney, _rank.status,
+     _rank.create_time createTime, _rank.create_user_id createUserId,
+     _rank.update_time updateTime, _rank.update_user_id updateUserId
+  </sql>
+  <sql id="t_rank">rank</sql>
   <sql id="Base_Column_List" >
     id, account, password, super_password, real_name, identity_number, nick_name, head_image, 
     phone, email, gender, rank_id, status, question_id, answer, last_login_ip, last_login_time, 

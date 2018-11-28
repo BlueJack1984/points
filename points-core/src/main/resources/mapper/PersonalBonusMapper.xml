@@ -2,37 +2,36 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.tianbao.points.core.dao.IPersonalBonusDao" >
 
-  <!-- 留言实体对象的持久化 -->
+  <!-- 个人积分增值实体对象的持久化 -->
   <sql id="c_personal_bonus">
-      _message.id, _message.user_id userId, _message.system_bonus_id systemBonusId, _message.points,
-      _message.ratio, _message.visible, _message.status,
-      _message.create_time createTime, _message.create_user_id createUserId,
-      _message.update_time updateTime, _message.update_user_id updateUserId
+      _personal_bonus.id, _personal_bonus.user_id userId, _personal_bonus.system_bonus_id systemBonusId,
+      _personal_bonus.points, _personal_bonus.ratio, _personal_bonus.visible, _personal_bonus.status,
+      _personal_bonus.create_time createTime, _personal_bonus.create_user_id createUserId,
+      _personal_bonus.update_time updateTime, _personal_bonus.update_user_id updateUserId
   </sql>
   <sql id="t_personal_bonus">personal_bonus</sql>
 
-  <select id="selectByPrimaryKey" resultMap="personal" parameterType="java.lang.Long" >
-    select 
-    <include refid="Base_Column_List" />
-    from personal_bonus
+  <select id="selectByPrimaryKey" resultMap="personalBonus" parameterType="java.lang.Long" >
+    select <include refid="c_personal_bonus"/>
+    from <include refid="t_personal_bonus"/> _personal_bonus
     where id = #{id,jdbcType=BIGINT}
   </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
-    delete from personal_bonus
+    delete from <include refid="t_personal_bonus"/>
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.tianbao.points.core.entity.PersonalBonus" >
-    insert into personal_bonus (id, user_id, system_bonus_id, 
-      points, ratio, visible, 
-      status, create_time, create_user_id, 
+
+  <insert id="insert" parameterType="personalBonus" >
+    insert into <include refid="t_personal_bonus"/>
+    (id, user_id, system_bonus_id, points, ratio, visible, status, create_time, create_user_id,
       update_time, update_user_id)
-    values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{systemBonusId,jdbcType=BIGINT}, 
-      #{points,jdbcType=DOUBLE}, #{ratio,jdbcType=DOUBLE}, #{visible,jdbcType=INTEGER}, 
-      #{status,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=BIGINT}, 
-      #{updateTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT})
+    values (#{id}, #{userId}, #{systemBonusId}, #{points}, #{ratio}, #{visible},
+      #{status}, #{createTime}, #{createUserId}, #{updateTime}, #{updateUserId})
   </insert>
-  <insert id="insertSelective" parameterType="com.tianbao.points.core.entity.PersonalBonus" >
-    insert into personal_bonus
+
+  <insert id="insertSelective" parameterType="personalBonus" >
+    insert into <include refid="t_personal_bonus"/>
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
@@ -70,88 +69,90 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
-        #{id,jdbcType=BIGINT},
+        #{id},
       </if>
       <if test="userId != null" >
-        #{userId,jdbcType=BIGINT},
+        #{userId},
       </if>
       <if test="systemBonusId != null" >
-        #{systemBonusId,jdbcType=BIGINT},
+        #{systemBonusId},
       </if>
       <if test="points != null" >
-        #{points,jdbcType=DOUBLE},
+        #{points},
       </if>
       <if test="ratio != null" >
-        #{ratio,jdbcType=DOUBLE},
+        #{ratio},
       </if>
       <if test="visible != null" >
-        #{visible,jdbcType=INTEGER},
+        #{visible},
       </if>
       <if test="status != null" >
-        #{status,jdbcType=INTEGER},
+        #{status},
       </if>
       <if test="createTime != null" >
-        #{createTime,jdbcType=TIMESTAMP},
+        #{createTime},
       </if>
       <if test="createUserId != null" >
-        #{createUserId,jdbcType=BIGINT},
+        #{createUserId},
       </if>
       <if test="updateTime != null" >
-        #{updateTime,jdbcType=TIMESTAMP},
+        #{updateTime},
       </if>
       <if test="updateUserId != null" >
-        #{updateUserId,jdbcType=BIGINT},
+        #{updateUserId},
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.tianbao.points.core.entity.PersonalBonus" >
-    update personal_bonus
+
+  <update id="updateByPrimaryKeySelective" parameterType="personalBonus" >
+    update <include refid="t_personal_bonus"/>
     <set >
       <if test="userId != null" >
-        user_id = #{userId,jdbcType=BIGINT},
+        user_id = #{userId},
       </if>
       <if test="systemBonusId != null" >
-        system_bonus_id = #{systemBonusId,jdbcType=BIGINT},
+        system_bonus_id = #{systemBonusId},
       </if>
       <if test="points != null" >
-        points = #{points,jdbcType=DOUBLE},
+        points = #{points},
       </if>
       <if test="ratio != null" >
-        ratio = #{ratio,jdbcType=DOUBLE},
+        ratio = #{ratio},
       </if>
       <if test="visible != null" >
-        visible = #{visible,jdbcType=INTEGER},
+        visible = #{visible},
       </if>
       <if test="status != null" >
-        status = #{status,jdbcType=INTEGER},
+        status = #{status},
       </if>
       <if test="createTime != null" >
-        create_time = #{createTime,jdbcType=TIMESTAMP},
+        create_time = #{createTime},
       </if>
       <if test="createUserId != null" >
-        create_user_id = #{createUserId,jdbcType=BIGINT},
+        create_user_id = #{createUserId},
       </if>
       <if test="updateTime != null" >
-        update_time = #{updateTime,jdbcType=TIMESTAMP},
+        update_time = #{updateTime},
       </if>
       <if test="updateUserId != null" >
-        update_user_id = #{updateUserId,jdbcType=BIGINT},
+        update_user_id = #{updateUserId},
       </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.tianbao.points.core.entity.PersonalBonus" >
-    update personal_bonus
-    set user_id = #{userId,jdbcType=BIGINT},
-      system_bonus_id = #{systemBonusId,jdbcType=BIGINT},
-      points = #{points,jdbcType=DOUBLE},
-      ratio = #{ratio,jdbcType=DOUBLE},
-      visible = #{visible,jdbcType=INTEGER},
-      status = #{status,jdbcType=INTEGER},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      create_user_id = #{createUserId,jdbcType=BIGINT},
-      update_time = #{updateTime,jdbcType=TIMESTAMP},
-      update_user_id = #{updateUserId,jdbcType=BIGINT}
+
+  <update id="updateByPrimaryKey" parameterType="personalBonus" >
+    update <include refid="t_personal_bonus"/>
+    set user_id = #{userId},
+      system_bonus_id = #{systemBonusId},
+      points = #{points},
+      ratio = #{ratio},
+      visible = #{visible},
+      status = #{status},
+      create_time = #{createTime},
+      create_user_id = #{createUserId},
+      update_time = #{updateTime},
+      update_user_id = #{updateUserId}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

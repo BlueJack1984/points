@@ -1,44 +1,36 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.tianbao.points.core.dao.IRankDao" >
-  <resultMap id="BaseResultMap" type="com.tianbao.points.core.entity.Rank" >
-    <id column="id" property="id" jdbcType="BIGINT" />
-    <result column="name" property="name" jdbcType="VARCHAR" />
-    <result column="alias" property="alias" jdbcType="VARCHAR" />
-    <result column="base_points" property="basePoints" jdbcType="INTEGER" />
-    <result column="base_money" property="baseMoney" jdbcType="DOUBLE" />
-    <result column="status" property="status" jdbcType="INTEGER" />
-    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
-    <result column="create_user_id" property="createUserId" jdbcType="BIGINT" />
-    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
-    <result column="update_user_id" property="updateUserId" jdbcType="BIGINT" />
-  </resultMap>
-  <sql id="Base_Column_List" >
-    id, name, alias, base_points, base_money, status, create_time, create_user_id, update_time, 
-    update_user_id
+
+  <!-- 会员等级实体对象的持久化 -->
+  <sql id="c_rank">
+      _rank.id, _rank.name, _rank.alias, _rank.base_points basePoints,
+      _rank.base_money baseMoney, _rank.status,
+     _rank.create_time createTime, _rank.create_user_id createUserId,
+     _rank.update_time updateTime, _rank.update_user_id updateUserId
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
-    select 
-    <include refid="Base_Column_List" />
-    from rank
+  <sql id="t_rank">rank</sql>
+
+  <select id="selectByPrimaryKey" resultMap="rank" parameterType="java.lang.Long" >
+    select <include refid="c_rank"/>
+    from <include refid="c_rank"/> _rank
     where id = #{id,jdbcType=BIGINT}
   </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
-    delete from rank
+    delete from <include refid="c_rank"/>
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.tianbao.points.core.entity.Rank" >
-    insert into rank (id, name, alias, 
-      base_points, base_money, status, 
-      create_time, create_user_id, update_time, 
-      update_user_id)
-    values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{alias,jdbcType=VARCHAR}, 
-      #{basePoints,jdbcType=INTEGER}, #{baseMoney,jdbcType=DOUBLE}, #{status,jdbcType=INTEGER}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, 
-      #{updateUserId,jdbcType=BIGINT})
+
+  <insert id="insert" parameterType="rank" >
+    insert into <include refid="c_rank"/>
+    (id, name, alias, base_points, base_money, status, create_time, create_user_id, update_time, update_user_id)
+    values (#{id}, #{name}, #{alias}, #{basePoints}, #{baseMoney}, #{status},
+      #{createTime}, #{createUserId}, #{updateTime}, #{updateUserId})
   </insert>
-  <insert id="insertSelective" parameterType="com.tianbao.points.core.entity.Rank" >
-    insert into rank
+
+  <insert id="insertSelective" parameterType="rank" >
+    insert into <include refid="c_rank"/>
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
@@ -73,81 +65,83 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
-        #{id,jdbcType=BIGINT},
+        #{id},
       </if>
       <if test="name != null" >
-        #{name,jdbcType=VARCHAR},
+        #{name},
       </if>
       <if test="alias != null" >
-        #{alias,jdbcType=VARCHAR},
+        #{alias},
       </if>
       <if test="basePoints != null" >
-        #{basePoints,jdbcType=INTEGER},
+        #{basePoints},
       </if>
       <if test="baseMoney != null" >
-        #{baseMoney,jdbcType=DOUBLE},
+        #{baseMoney},
       </if>
       <if test="status != null" >
-        #{status,jdbcType=INTEGER},
+        #{status},
       </if>
       <if test="createTime != null" >
-        #{createTime,jdbcType=TIMESTAMP},
+        #{createTime},
       </if>
       <if test="createUserId != null" >
-        #{createUserId,jdbcType=BIGINT},
+        #{createUserId},
       </if>
       <if test="updateTime != null" >
-        #{updateTime,jdbcType=TIMESTAMP},
+        #{updateTime},
       </if>
       <if test="updateUserId != null" >
-        #{updateUserId,jdbcType=BIGINT},
+        #{updateUserId},
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.tianbao.points.core.entity.Rank" >
-    update rank
+
+  <update id="updateByPrimaryKeySelective" parameterType="rank" >
+    update <include refid="c_rank"/>
     <set >
       <if test="name != null" >
-        name = #{name,jdbcType=VARCHAR},
+        name = #{name},
       </if>
       <if test="alias != null" >
-        alias = #{alias,jdbcType=VARCHAR},
+        alias = #{alias},
       </if>
       <if test="basePoints != null" >
-        base_points = #{basePoints,jdbcType=INTEGER},
+        base_points = #{basePoints},
       </if>
       <if test="baseMoney != null" >
-        base_money = #{baseMoney,jdbcType=DOUBLE},
+        base_money = #{baseMoney},
       </if>
       <if test="status != null" >
-        status = #{status,jdbcType=INTEGER},
+        status = #{status},
       </if>
       <if test="createTime != null" >
-        create_time = #{createTime,jdbcType=TIMESTAMP},
+        create_time = #{createTime},
       </if>
       <if test="createUserId != null" >
-        create_user_id = #{createUserId,jdbcType=BIGINT},
+        create_user_id = #{createUserId},
       </if>
       <if test="updateTime != null" >
-        update_time = #{updateTime,jdbcType=TIMESTAMP},
+        update_time = #{updateTime},
       </if>
       <if test="updateUserId != null" >
-        update_user_id = #{updateUserId,jdbcType=BIGINT},
+        update_user_id = #{updateUserId},
       </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.tianbao.points.core.entity.Rank" >
-    update rank
-    set name = #{name,jdbcType=VARCHAR},
-      alias = #{alias,jdbcType=VARCHAR},
-      base_points = #{basePoints,jdbcType=INTEGER},
-      base_money = #{baseMoney,jdbcType=DOUBLE},
-      status = #{status,jdbcType=INTEGER},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      create_user_id = #{createUserId,jdbcType=BIGINT},
-      update_time = #{updateTime,jdbcType=TIMESTAMP},
-      update_user_id = #{updateUserId,jdbcType=BIGINT}
+
+  <update id="updateByPrimaryKey" parameterType="rank" >
+    update <include refid="c_rank"/>
+    set name = #{name},
+      alias = #{alias},
+      base_points = #{basePoints},
+      base_money = #{baseMoney},
+      status = #{status},
+      create_time = #{createTime},
+      create_user_id = #{createUserId},
+      update_time = #{updateTime},
+      update_user_id = #{updateUserId}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

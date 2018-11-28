@@ -13,7 +13,7 @@
 
   <select id="selectByPrimaryKey" resultMap="message" parameterType="java.lang.Long" >
     select <include refid="c_message"/>
-    from <include refid="t_message"/>
+    from <include refid="t_message"/> _message
     where id = #{id,jdbcType=BIGINT}
   </select>
 
