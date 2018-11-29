@@ -1,0 +1,53 @@
+package com.tianbao.points.core.service.impl;
+
+import com.tianbao.points.core.dao.IDepartmentDao;
+import com.tianbao.points.core.entity.Department;
+import com.tianbao.points.core.exception.ApplicationException;
+import com.tianbao.points.core.service.IDepartmentService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+/**
+ * @desc 部门服务接口
+ * @author lushusheng
+ * @date 2018-11-27
+ *
+ */
+@Service
+@RequiredArgsConstructor
+public class DepartmentServiceImpl implements IDepartmentService {
+    /**
+     * 注入部门dao
+     */
+    private final IDepartmentDao iDepartmentDao;
+
+    @Override
+    public void deleteById(Long id) throws ApplicationException {
+
+    }
+
+    @Override
+    public void save(Department record) throws ApplicationException {
+
+    }
+
+    @Override
+    public void saveSelective(Department record) throws ApplicationException {
+
+    }
+
+    @Override
+    public Department selectById(Long id) throws ApplicationException {
+        return null;
+    }
+
+    @Override
+    public void updateByIdSelective(Department record) throws ApplicationException {
+
+    }
+
+    @Override
+    public void updateById(Department record) throws ApplicationException {
+
+    }
+}
