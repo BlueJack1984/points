@@ -134,4 +134,14 @@
       update_user_id = #{updateUserId}
     where id = #{id,jdbcType=BIGINT}
   </update>
+
+  <!-- 根据id集合来查询部门信息列表-->
+  <select id="selectListByIds" resultType="department">
+    select <include refid="c_department"/>
+    from  <include refid="t_department"/> _department
+    where _department.id in
+    <foreach item="id" index="index" collection="ids" open="(" separator="," close=")">
+      #{id}
+    </foreach>
+  </select>
 </mapper>

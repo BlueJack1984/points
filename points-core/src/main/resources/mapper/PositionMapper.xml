@@ -134,4 +134,12 @@
       update_user_id = #{updateUserId}
     where id = #{id,jdbcType=BIGINT}
   </update>
+
+  <!-- 根据用户id来查询职位基本信息列表-->
+  <select id="selectListByUserId" resultType="position">
+    select <include refid="c_position" />
+    from <include refid="t_position" /> `_position`
+    where `_position`.status = 0 and `_position`.id in(
+    select up.position_id from user_position as up where up.status = 0 and up.user_id = #{userId})
+  </select>
 </mapper>

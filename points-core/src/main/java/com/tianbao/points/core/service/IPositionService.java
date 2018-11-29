@@ -19,6 +19,7 @@ public interface IPositionService extends IBaseService<Position, Long> {
      * @author lushusheng
      * @Date 2018-11-29
      * @Desc 根据用户id查询职位列表,个人档案部分使用
+     * @param userId 用户id
      * @return 返回职位列表
      * @update
      */
