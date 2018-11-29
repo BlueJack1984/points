@@ -4,13 +4,13 @@
 
   <!-- 角色实体对象的持久化 -->
   <sql id="c_role">
-      _role.id, _role.name, _role.description, _rank.domain, _role.type, _rank.status,
+      _role.id, _role.name, _role.description, _role.domain, _role.type, _role.status,
       _role.create_time createTime, _role.create_user_id createUserId,
       _role.update_time updateTime, _role.update_user_id updateUserId
   </sql>
   <sql id="t_role">role</sql>
 
-  <select id="selectByPrimaryKey" resultMap="role" parameterType="java.lang.Long" >
+  <select id="selectByPrimaryKey" resultType="role" parameterType="java.lang.Long" >
     select <include refid="c_role"/>
     from <include refid="t_role"/>  _role
     where id = #{id,jdbcType=BIGINT}

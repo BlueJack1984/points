@@ -11,7 +11,7 @@
   </sql>
   <sql id="t_system_bonus">system_bonus</sql>
 
-  <select id="selectByPrimaryKey" resultMap="systemBonus" parameterType="java.lang.Long" >
+  <select id="selectByPrimaryKey" resultType="systemBonus" parameterType="java.lang.Long" >
     select <include refid="c_system_bonus"/>
     from <include refid="t_system_bonus"/> _system_bonus
     where id = #{id,jdbcType=BIGINT}

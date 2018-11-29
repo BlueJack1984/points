@@ -10,7 +10,7 @@
   </sql>
   <sql id="t_user_role">user_role</sql>
 
-  <select id="selectByPrimaryKey" resultMap="userRole" parameterType="java.lang.Long" >
+  <select id="selectByPrimaryKey" resultType="userRole" parameterType="java.lang.Long" >
     select <include refid="c_user_role"/>
     from <include refid="t_user_role"/> _user_role
     where id = #{id,jdbcType=BIGINT}

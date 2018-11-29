@@ -11,7 +11,7 @@
     </sql>
   <sql id="t_authority">authority</sql>
 
-  <select id="selectByPrimaryKey" resultMap="authority" parameterType="java.lang.Long" >
+  <select id="selectByPrimaryKey" resultType="authority" parameterType="java.lang.Long" >
     select <include refid="c_authority"/>
     from <include refid="t_authority"/> _authority
     where id = #{id,jdbcType=BIGINT}

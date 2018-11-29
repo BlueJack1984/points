@@ -11,7 +11,7 @@
     </sql>
   <sql id="t_department">department</sql>
 
-  <select id="selectByPrimaryKey" resultMap="department" parameterType="java.lang.Long" >
+  <select id="selectByPrimaryKey" resultType="department" parameterType="java.lang.Long" >
     select <include refid="c_department" />
     from <include refid="t_department" /> _department
     where id = #{id,jdbcType=BIGINT}

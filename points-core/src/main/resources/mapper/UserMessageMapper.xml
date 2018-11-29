@@ -11,7 +11,7 @@
   </sql>
   <sql id="t_user_message">user_message</sql>
 
-  <select id="selectByPrimaryKey" resultMap="userMessage" parameterType="java.lang.Long" >
+  <select id="selectByPrimaryKey" resultType="userMessage" parameterType="java.lang.Long" >
     select <include refid="c_user_message"/>
     from <include refid="t_user_message"/> _user_message
     where id = #{id,jdbcType=BIGINT}

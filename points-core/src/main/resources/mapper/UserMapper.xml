@@ -13,7 +13,7 @@
   </sql>
   <sql id="t_user">`user`</sql>
 
-  <select id="selectByPrimaryKey" resultMap="user" parameterType="java.lang.Long" >
+  <select id="selectByPrimaryKey" resultType="user" parameterType="java.lang.Long" >
     select <include refid="c_user"/>
     from <include refid="t_user"/> `_user`
     where id = #{id,jdbcType=BIGINT} and status = 0

@@ -13,7 +13,7 @@
   </sql>
   <sql id="t_stock">stock</sql>
 
-  <select id="selectByPrimaryKey" resultMap="stock" parameterType="java.lang.Long" >
+  <select id="selectByPrimaryKey" resultType="stock" parameterType="java.lang.Long" >
     select <include refid="c_stock"/>
     from <include refid="t_stock"/> _stock
     where id = #{id,jdbcType=BIGINT}
