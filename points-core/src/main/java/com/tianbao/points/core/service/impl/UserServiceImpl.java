@@ -2,12 +2,18 @@ package com.tianbao.points.core.service.impl;
 
 
 import com.tianbao.points.core.dao.IUserDao;
+import com.tianbao.points.core.dto.PositionDTO;
 import com.tianbao.points.core.dto.UserDTO;
 import com.tianbao.points.core.entity.User;
 import com.tianbao.points.core.exception.ApplicationException;
+import com.tianbao.points.core.service.IPositionService;
+import com.tianbao.points.core.service.IRoleService;
 import com.tianbao.points.core.service.IUserService;
+import com.tianbao.points.core.utils.BeanHelper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * @desc 首页公告服务接口
@@ -18,8 +24,18 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements IUserService {
-
+    /**
+     * 注入用户服务dao
+     */
     private final IUserDao iUserDao;
+    /**
+     * 注入职位服务service
+     */
+    private final IPositionService positionServer;
+    /**
+     * 注入角色服务service
+     */
+    private final IRoleService roleServer;
     /**
      * @author lushusheng
      * @Date 2018-11-28
@@ -29,7 +45,15 @@ public class UserServiceImpl implements IUserService {
      */
     @Override
     public UserDTO getPersonalInfo(Long id) throws ApplicationException {
-        return null;
+        UserDTO userDTO = new UserDTO();
+        //获取用户基本信息
+        User user = iUserDao.selectByPrimaryKey(id);
+        BeanHelper.copyProperties(userDTO, user);
+        //根据用户id获取相关职位信息
+        List<PositionDTO> positionDTOList = positionServer.getListByUserId(id);
+        userDTO.setPositionDTOList(positionDTOList);
+        //根据用户id获取用户角色信息
+        return userDTO;
     }
 
     /**
