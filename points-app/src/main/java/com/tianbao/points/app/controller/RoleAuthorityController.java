@@ -1,4 +1,4 @@
 package com.tianbao.points.app.controller;
 
-public class AA {
+public class RoleAuthorityController {
 }
