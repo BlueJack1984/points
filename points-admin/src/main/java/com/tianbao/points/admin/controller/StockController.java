@@ -115,10 +115,26 @@ public class StockController {
     public OutputResult<Stock> update(
             @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
             @RequestBody @Valid StockUpdateInput stockUpdateInput)throws ApplicationException {
-        Stock stock = new Stock();
+        //首先将实体查询出来
+        Stock stock = stockServer.selectById(stockUpdateInput.getId());
+        if(stock == null) {
+            throw new ApplicationException(1, "修改证券指数实体id参数错误");
+        }
+        copyProperties(stock, stockUpdateInput);
+        stockServer.updateById(stock);
+        return new OutputResult<>(stock);
+    }
+    /**
+     * @author lushusheng
+     * @Date 2018-11-29
+     * @Desc 拷贝输入实体的属性到stock实体中
+     * @return 无返回值，参数不合法则抛出异常
+     * @update
+     */
+    private void copyProperties(Stock target, StockUpdateInput source) throws ApplicationException {
         Date publishTime = null;
         try {
-            publishTime = SDF.parse(stockUpdateInput.getPublishTime());
+            publishTime = SDF.parse(source.getPublishTime());
         }catch(Exception e) {
             log.info(e.getMessage());
             throw new ApplicationException(1, e.getMessage());
@@ -133,7 +149,6 @@ public class StockController {
         stock.setTbMaxExponent(stockUpdateInput.getTbMaxExponent());
         stock.setTbMinExponent(stockUpdateInput.getTbMinExponent());
         stockServer.updateByIdSelective();
-        return new OutputResult<>();
     }
 
     /**
