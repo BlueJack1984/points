@@ -2,6 +2,7 @@ package com.tianbao.points.core.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.tianbao.points.core.constant.StatusCode;
 import com.tianbao.points.core.dao.IStockDao;
 import com.tianbao.points.core.entity.Stock;
 import com.tianbao.points.core.exception.ApplicationException;
@@ -34,19 +35,23 @@ public class StockServiceImpl implements IStockService {
      * @return 无返回
      * @update
      */
+    @Transactional
     @Override
     public void deleteById(Long id) throws ApplicationException {
         iStockDao.deleteByPrimaryKey(id);
     }
 
+    @Transactional
     @Override
-    public void save(Stock record) throws ApplicationException {
+    public Stock save(Stock record) throws ApplicationException {
+        record.setStatus(StatusCode.NORMAL.getCode());
 
+        return null;
     }
 
     @Override
-    public void saveSelective(Stock record) throws ApplicationException {
-
+    public Stock saveSelective(Stock record) throws ApplicationException {
+        return null;
     }
 
     /**
@@ -63,14 +68,23 @@ public class StockServiceImpl implements IStockService {
         return stock;
     }
 
+    @Transactional
     @Override
     public void updateByIdSelective(Stock record) throws ApplicationException {
 
     }
-
+    /**
+     * @author lushusheng
+     * @Date 2018-11-29
+     * @Desc 根据实体id更新证券指数数据
+     * @param record 表示要更新的实体
+     * @return 无返回
+     * @update
+     */
+    @Transactional
     @Override
     public void updateById(Stock record) throws ApplicationException {
-
+        iStockDao.updateByPrimaryKey(record);
     }
 
     /**

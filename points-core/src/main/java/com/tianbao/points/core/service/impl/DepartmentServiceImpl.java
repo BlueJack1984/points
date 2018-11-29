@@ -29,13 +29,13 @@ public class DepartmentServiceImpl implements IDepartmentService {
     }
 
     @Override
-    public void save(Department record) throws ApplicationException {
-
+    public Department save(Department record) throws ApplicationException {
+        return null;
     }
 
     @Override
-    public void saveSelective(Department record) throws ApplicationException {
-
+    public Department saveSelective(Department record) throws ApplicationException {
+        return null;
     }
 
     @Override

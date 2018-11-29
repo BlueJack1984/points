@@ -39,7 +39,7 @@ public class AnnouncementController {
      * @author lushusheng 2018-11-28
      * @param announcementInput 首页公告实体属性：标题内容等
      * @param currentId 当前用户id
-     * @return 是否保存成功
+     * @return 保存成功实体数据
      * @throws ApplicationException 保存异常
      */
     @ApiOperation(value = "首页公告实体保存", notes = "根据announcementInput和当前用户currentId进行保存操作")
@@ -49,7 +49,7 @@ public class AnnouncementController {
     })
     @CrossOrigin
     @PostMapping("/save")
-    public OutputResult<Void> save(
+    public OutputResult<Announcement> save(
             @RequestBody @Valid AnnouncementInput announcementInput,
             @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId) throws Exception {
         Date publishTime = SDF.parse(announcementInput.getPublishTime());
@@ -59,7 +59,7 @@ public class AnnouncementController {
         announcement.setPublishTime(publishTime);
         announcement.setUserId(currentId);
         announcementServer.save(announcement);
-        return new OutputResult<>();
+        return new OutputResult<>(announcement);
     }
 
     /**

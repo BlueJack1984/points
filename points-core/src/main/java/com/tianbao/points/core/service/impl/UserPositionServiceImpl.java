@@ -28,13 +28,13 @@ public class UserPositionServiceImpl implements IUserPositionService {
     }
 
     @Override
-    public void save(UserPosition record) throws ApplicationException {
-
+    public UserPosition save(UserPosition record) throws ApplicationException {
+        return null;
     }
 
     @Override
-    public void saveSelective(UserPosition record) throws ApplicationException {
-
+    public UserPosition saveSelective(UserPosition record) throws ApplicationException {
+        return null;
     }
 
     @Override

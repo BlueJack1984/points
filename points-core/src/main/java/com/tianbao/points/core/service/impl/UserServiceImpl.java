@@ -92,13 +92,13 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public void save(User record) throws ApplicationException {
-
+    public User save(User record) throws ApplicationException {
+        return null;
     }
 
     @Override
-    public void saveSelective(User record) throws ApplicationException {
-
+    public User saveSelective(User record) throws ApplicationException {
+        return null;
     }
 
     @Override

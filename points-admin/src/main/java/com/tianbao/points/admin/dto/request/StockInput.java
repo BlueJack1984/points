@@ -16,7 +16,7 @@ import javax.validation.constraints.NotEmpty;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class StockInsertInput {
+public class StockInput {
     /**
      * 发布时间
      */

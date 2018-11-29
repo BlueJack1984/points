@@ -2,7 +2,7 @@ package com.tianbao.points.admin.controller;
 
 
 import com.github.pagehelper.PageInfo;
-import com.tianbao.points.admin.dto.request.StockUpdateInput;
+import com.tianbao.points.admin.dto.request.StockInput;
 import com.tianbao.points.core.dto.response.OutputListResult;
 import com.tianbao.points.core.dto.response.OutputResult;
 import com.tianbao.points.core.entity.Stock;
@@ -109,18 +109,22 @@ public class StockController {
     @ApiOperation(value = "修改一条证券指数数据", notes = "修改一条证券指数数据")
     @ApiImplicitParams({
         @ApiImplicitParam(paramType = "header", dataType = "Long", name = "currentId", value = "当前用户id", required = true),
-        @ApiImplicitParam(paramType = "query", dataType = "Long", name = "id", value = "证券指数实体id", required = true)})
+        @ApiImplicitParam(paramType = "header", dataType = "Long", name = "id", value = "实体id", required = true),
+        @ApiImplicitParam(paramType = "query", dataType = "StockInput", name = "stockInput", value = "证券指数实体更新属性", required = true)})
     @CrossOrigin
-    @PostMapping("/update")
+    @PostMapping("/update/{id}")
     public OutputResult<Stock> update(
             @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
-            @RequestBody @Valid StockUpdateInput stockUpdateInput)throws ApplicationException {
+            @PathVariable("id") Long id,
+            @RequestBody StockInput stockInput)throws ApplicationException {
         //首先将实体查询出来
-        Stock stock = stockServer.selectById(stockUpdateInput.getId());
+        Stock stock = stockServer.selectById(id);
         if(stock == null) {
             throw new ApplicationException(1, "修改证券指数实体id参数错误");
         }
-        copyProperties(stock, stockUpdateInput);
+        copyProperties(stock, stockInput);
+        stock.setUpdateUserId(currentId);
+        stock.setUpdateTime(new Date());
         stockServer.updateById(stock);
         return new OutputResult<>(stock);
     }
@@ -131,7 +135,7 @@ public class StockController {
      * @return 无返回值，参数不合法则抛出异常
      * @update
      */
-    private void copyProperties(Stock target, StockUpdateInput source) throws ApplicationException {
+    private void copyProperties(Stock target, StockInput source) throws ApplicationException {
         Date publishTime = null;
         try {
             publishTime = SDF.parse(source.getPublishTime());
@@ -139,16 +143,31 @@ public class StockController {
             log.info(e.getMessage());
             throw new ApplicationException(1, e.getMessage());
         }
-        stock.setPublishTime(publishTime);
-        stock.setShOpenExponent(stockUpdateInput.getShOpenExponent());
-        stock.setShCloseExponent(stockUpdateInput.getShCloseExponent());
-        stock.setShMaxExponent(stockUpdateInput.getShMaxExponent());
-        stock.setShMinExponent(stockUpdateInput.getShMinExponent());
-        stock.setTbOpenExponent(stockUpdateInput.getTbOpenExponent());
-        stock.setTbCloseExponent(stockUpdateInput.getTbCloseExponent());
-        stock.setTbMaxExponent(stockUpdateInput.getTbMaxExponent());
-        stock.setTbMinExponent(stockUpdateInput.getTbMinExponent());
-        stockServer.updateByIdSelective();
+        target.setPublishTime(publishTime);
+        if(source.getShOpenExponent() != null && source.getShOpenExponent().doubleValue() >= 0) {
+            target.setShOpenExponent(source.getShOpenExponent());
+        }
+        if(source.getShCloseExponent() != null && source.getShCloseExponent().doubleValue() >= 0) {
+            target.setShCloseExponent(source.getShCloseExponent());
+        }
+        if(source.getShMaxExponent() != null && source.getShMaxExponent().doubleValue() >= 0) {
+            target.setShMaxExponent(source.getShMaxExponent());
+        }
+        if(source.getShMinExponent() != null && source.getShMinExponent().doubleValue() >= 0) {
+            target.setShMinExponent(source.getShMinExponent());
+        }
+        if(source.getTbOpenExponent() != null && source.getTbOpenExponent().doubleValue() >= 0) {
+            target.setTbOpenExponent(source.getTbOpenExponent());
+        }
+        if(source.getTbCloseExponent() != null && source.getTbCloseExponent().doubleValue() >= 0) {
+            target.setTbCloseExponent(source.getTbCloseExponent());
+        }
+        if(source.getTbMaxExponent() != null && source.getTbMaxExponent().doubleValue() >= 0) {
+            target.setTbMaxExponent(source.getTbMaxExponent());
+        }
+        if(source.getTbMinExponent() != null && source.getTbMinExponent().doubleValue() >= 0) {
+            target.setTbMinExponent(source.getTbMinExponent());
+        }
     }
 
     /**
@@ -161,13 +180,15 @@ public class StockController {
     @ApiOperation(value = "保存一条证券指数数据", notes = "保存一条证券指数数据")
     @ApiImplicitParams({
         @ApiImplicitParam(paramType = "header", dataType = "Long", name = "currentId", value = "当前用户id", required = true),
-        @ApiImplicitParam(paramType = "query", dataType = "Long", name = "id", value = "证券指数实体id", required = true)})
+        @ApiImplicitParam(paramType = "query", dataType = "StockInput", name = "stockInput", value = "新建证券指数实体属性", required = true)})
     @CrossOrigin
-    @GetMapping("/delete/{id}")
-    public OutputResult<Void> delete(
+    @PostMapping("/save")
+    public OutputResult<Stock> delete(
             @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
-            @PathVariable("id") Long id)throws ApplicationException {
-        stockServer.deleteById(id);
-        return new OutputResult<>();
+            @RequestBody @Valid  StockInput stockInput)throws ApplicationException {
+        Stock stock = new Stock();
+        copyProperties(stock, stockInput);
+        stockServer.save(stock);
+        return new OutputResult<>(stock);
     }
 }
