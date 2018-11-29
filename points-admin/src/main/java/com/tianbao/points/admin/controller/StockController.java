@@ -1,12 +1,24 @@
 package com.tianbao.points.admin.controller;
 
 
+import com.github.pagehelper.PageInfo;
+import com.tianbao.points.admin.dto.request.StockUpdateInput;
+import com.tianbao.points.core.dto.response.OutputListResult;
+import com.tianbao.points.core.dto.response.OutputResult;
+import com.tianbao.points.core.entity.Stock;
+import com.tianbao.points.core.exception.ApplicationException;
 import com.tianbao.points.core.service.IStockService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * @desc 股票证券指数服务入口
@@ -24,4 +36,123 @@ public class StockController {
      * 注入股票证券指数服务service
      */
     private final IStockService stockServer;
+    private static final SimpleDateFormat SDF = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    /**
+     * @author lushusheng
+     * @Date 2018-11-28
+     * @Desc 获取股票证券指数列表
+     * @return 返回查询到的数据列表
+     * @update
+     */
+    @ApiOperation(value = "获取股票证券指数列表", notes = "分页进行查询操作")
+    @ApiImplicitParams({
+        @ApiImplicitParam(paramType = "header", dataType = "Long", name = "currentId", value = "当前用户id", required = true),
+        @ApiImplicitParam(paramType = "query", dataType = "Integer", name = "pageNo", value = "显示页码", required = false),
+        @ApiImplicitParam(paramType = "query", dataType = "Integer", name = "pageSize", value = "数据条数", required = false)})
+    @CrossOrigin
+    @GetMapping("/list/page")
+    public OutputListResult<Stock> getListPage(
+            @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
+            @RequestParam(value = "pageNo", required = false, defaultValue = "1")Integer pageNo,
+            @RequestParam(value = "pageSize", required = false, defaultValue = "25")Integer pageSize)throws ApplicationException {
+        PageInfo<Stock> pageInfo = stockServer.getListPage(pageNo, pageSize);
+        return new OutputListResult<>(pageInfo);
+    }
+
+    /**
+     * @author lushusheng
+     * @Date 2018-11-28
+     * @Desc 根据实体id查询证券指数数据
+     * @return 返回查询到的单个实体数据
+     * @update
+     */
+    @ApiOperation(value = "查询证券指数数据", notes = "根据实体id查询证券指数数据")
+    @ApiImplicitParams({
+        @ApiImplicitParam(paramType = "header", dataType = "Long", name = "currentId", value = "当前用户id", required = true),
+        @ApiImplicitParam(paramType = "query", dataType = "Long", name = "id", value = "证券指数实体id", required = true)})
+    @CrossOrigin
+    @GetMapping("/get/{id}")
+    public OutputResult<Stock> get(
+            @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
+            @PathVariable("id") Long id)throws ApplicationException {
+        Stock stock = stockServer.selectById(id);
+        return new OutputResult<>(stock);
+    }
+
+    /**
+     * @author lushusheng
+     * @Date 2018-11-28
+     * @Desc 根据实体id删除特定证券指数数据
+     * @return 返回操作结果
+     * @update
+     */
+    @ApiOperation(value = "删除特定证券指数数据", notes = "根据实体id删除特定证券指数数据")
+    @ApiImplicitParams({
+        @ApiImplicitParam(paramType = "header", dataType = "Long", name = "currentId", value = "当前用户id", required = true),
+        @ApiImplicitParam(paramType = "query", dataType = "Long", name = "id", value = "证券指数实体id", required = true)})
+    @CrossOrigin
+    @GetMapping("/delete/{id}")
+    public OutputResult<Void> delete(
+            @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
+            @PathVariable("id") Long id)throws ApplicationException {
+        stockServer.deleteById(id);
+        return new OutputResult<>();
+    }
+
+    /**
+     * @author lushusheng
+     * @Date 2018-11-29
+     * @Desc 修改一条证券指数数据
+     * @return 返回修改后的实体，以便于回显
+     * @update
+     */
+    @ApiOperation(value = "修改一条证券指数数据", notes = "修改一条证券指数数据")
+    @ApiImplicitParams({
+        @ApiImplicitParam(paramType = "header", dataType = "Long", name = "currentId", value = "当前用户id", required = true),
+        @ApiImplicitParam(paramType = "query", dataType = "Long", name = "id", value = "证券指数实体id", required = true)})
+    @CrossOrigin
+    @PostMapping("/update")
+    public OutputResult<Stock> update(
+            @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
+            @RequestBody @Valid StockUpdateInput stockUpdateInput)throws ApplicationException {
+        Stock stock = new Stock();
+        Date publishTime = null;
+        try {
+            publishTime = SDF.parse(stockUpdateInput.getPublishTime());
+        }catch(Exception e) {
+            log.info(e.getMessage());
+            throw new ApplicationException(1, e.getMessage());
+        }
+        stock.setPublishTime(publishTime);
+        stock.setShOpenExponent(stockUpdateInput.getShOpenExponent());
+        stock.setShCloseExponent(stockUpdateInput.getShCloseExponent());
+        stock.setShMaxExponent(stockUpdateInput.getShMaxExponent());
+        stock.setShMinExponent(stockUpdateInput.getShMinExponent());
+        stock.setTbOpenExponent(stockUpdateInput.getTbOpenExponent());
+        stock.setTbCloseExponent(stockUpdateInput.getTbCloseExponent());
+        stock.setTbMaxExponent(stockUpdateInput.getTbMaxExponent());
+        stock.setTbMinExponent(stockUpdateInput.getTbMinExponent());
+        stockServer.updateByIdSelective();
+        return new OutputResult<>();
+    }
+
+    /**
+     * @author lushusheng
+     * @Date 2018-11-28
+     * @Desc 保存一条证券指数数据
+     * @return 返回保存的实体，以便于回显
+     * @update
+     */
+    @ApiOperation(value = "保存一条证券指数数据", notes = "保存一条证券指数数据")
+    @ApiImplicitParams({
+        @ApiImplicitParam(paramType = "header", dataType = "Long", name = "currentId", value = "当前用户id", required = true),
+        @ApiImplicitParam(paramType = "query", dataType = "Long", name = "id", value = "证券指数实体id", required = true)})
+    @CrossOrigin
+    @GetMapping("/delete/{id}")
+    public OutputResult<Void> delete(
+            @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
+            @PathVariable("id") Long id)throws ApplicationException {
+        stockServer.deleteById(id);
+        return new OutputResult<>();
+    }
 }

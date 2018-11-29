@@ -5,6 +5,9 @@ import com.tianbao.points.core.dto.response.OutputResult;
 import com.tianbao.points.core.exception.ApplicationException;
 import com.tianbao.points.core.service.IUserService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -33,8 +36,10 @@ public class UserController {
      * @return 返回查询到用户数据
      * @update
      */
+    @ApiOperation(value = "查询用户管理员档案信息", notes = "根据当前用户currentId进行查询操作")
+    @ApiImplicitParams({@ApiImplicitParam(paramType = "header", dataType = "Long", name = "currentId", value = "当前用户id", required = true)})
     @CrossOrigin
-    @GetMapping("/personal/get")
+    @GetMapping("/personal")
     public OutputResult<UserDTO> getPersonalInfo(
             @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId)throws ApplicationException {
         UserDTO userDTO = userServer.getPersonalInfo(currentId);

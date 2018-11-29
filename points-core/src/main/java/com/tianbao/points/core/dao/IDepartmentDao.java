@@ -7,6 +7,11 @@ import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
+/**
+ * @author lushusheng
+ * @Date 2018-11-29
+ * @Desc 持久层拓展接口
+ */
 @Mapper
 public interface IDepartmentDao extends IBaseDao<Department, Long> {
 

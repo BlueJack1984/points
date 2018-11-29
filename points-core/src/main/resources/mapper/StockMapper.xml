@@ -16,11 +16,12 @@
   <select id="selectByPrimaryKey" resultType="stock" parameterType="java.lang.Long" >
     select <include refid="c_stock"/>
     from <include refid="t_stock"/> _stock
-    where id = #{id,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT} and _stock.status = 0
   </select>
 
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
-    delete from <include refid="t_stock"/>
+    update <include refid="t_stock"/>
+    set status = 1
     where id = #{id,jdbcType=BIGINT}
   </delete>
 
@@ -198,4 +199,12 @@
       update_user_id = #{updateUserId}
     where id = #{id,jdbcType=BIGINT}
   </update>
+
+  <!--使用pagehelper物理分页查询证券指数信息列表-->
+  <select id="selectListPage">
+    select <include refid="c_stock"/>
+    from <include refid="t_stock"/> _stock
+    where _stock.status = 0
+    order by _stock.publish_time desc
+  </select>
 </mapper>
