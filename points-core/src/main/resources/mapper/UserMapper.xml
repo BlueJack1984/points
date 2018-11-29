@@ -16,7 +16,7 @@
   <select id="selectByPrimaryKey" resultMap="user" parameterType="java.lang.Long" >
     select <include refid="c_user"/>
     from <include refid="t_user"/> `_user`
-    where id = #{id,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT} and status = 0
   </select>
 
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >

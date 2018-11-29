@@ -139,7 +139,7 @@
   <select id="selectListByIds" resultType="department">
     select <include refid="c_department"/>
     from  <include refid="t_department"/> _department
-    where _department.id in
+    where _department.status = 0 and _department.id in
     <foreach item="id" index="index" collection="ids" open="(" separator="," close=")">
       #{id}
     </foreach>

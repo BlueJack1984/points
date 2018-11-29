@@ -19,8 +19,9 @@ public class UserDTO extends User {
     /**
      * 包装用户的角色属性
      * 主要确定是否超级管理员或者下级管理员
+     * 考虑到兼容用户可以多角色的情况
      */
-    private Role role;
+    private List<Role> roleList;
     /**
      * 包装用户的职位属性
      * 用户可具有多个部门的多个职位

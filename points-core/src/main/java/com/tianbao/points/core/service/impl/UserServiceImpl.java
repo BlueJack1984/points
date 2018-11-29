@@ -4,6 +4,7 @@ package com.tianbao.points.core.service.impl;
 import com.tianbao.points.core.dao.IUserDao;
 import com.tianbao.points.core.dto.PositionDTO;
 import com.tianbao.points.core.dto.UserDTO;
+import com.tianbao.points.core.entity.Role;
 import com.tianbao.points.core.entity.User;
 import com.tianbao.points.core.exception.ApplicationException;
 import com.tianbao.points.core.service.IPositionService;
@@ -40,6 +41,9 @@ public class UserServiceImpl implements IUserService {
      * @author lushusheng
      * @Date 2018-11-28
      * @Desc 获取用户的个人档案资料，包装了职位和角色信息
+     * 角色和用户的关系是一对多关系，一个角色对应着多个用户
+     * 角色和权限的关系是多对多关系。即一个角色有着多种权限，
+     * 同样，一个权限可以分给不同角色。
      * @return 返回查询数据
      * @update
      */
@@ -53,6 +57,8 @@ public class UserServiceImpl implements IUserService {
         List<PositionDTO> positionDTOList = positionServer.getListByUserId(id);
         userDTO.setPositionDTOList(positionDTOList);
         //根据用户id获取用户角色信息
+        List<Role> roleList = roleServer.getListByUserId(id);
+        userDTO.setRoleList(roleList);
         return userDTO;
     }
 

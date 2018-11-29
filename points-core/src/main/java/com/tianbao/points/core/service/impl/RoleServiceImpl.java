@@ -8,6 +8,8 @@ import com.tianbao.points.core.service.IRoleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * @desc 角色服务接口
  * @author lushusheng
@@ -37,9 +39,17 @@ public class RoleServiceImpl implements IRoleService {
 
     }
 
+    /**
+     * @author lushusheng
+     * @Date 2018-11-27
+     * @Desc 根据id查询角色实体
+     * @return 返回角色实体
+     * @update
+     */
     @Override
     public Role selectById(Long id) throws ApplicationException {
-        return null;
+        Role role = iRoleDao.selectByPrimaryKey(id);
+        return role;
     }
 
     @Override
@@ -50,5 +60,18 @@ public class RoleServiceImpl implements IRoleService {
     @Override
     public void updateById(Role record) throws ApplicationException {
 
+    }
+
+    /**
+     * @author lushusheng
+     * @Date 2018-11-27
+     * @Desc 根据用户id查询相关角色列表，一个用户可以对应多个角色
+     * @return 返回角色集合数据
+     * @update
+     */
+    @Override
+    public List<Role> getListByUserId(Long userId) throws ApplicationException {
+        List<Role> roleList = iRoleDao.selectListByUserId(userId);
+        return roleList;
     }
 }

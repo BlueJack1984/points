@@ -2,7 +2,10 @@ package com.tianbao.points.core.service;
 
 
 import com.tianbao.points.core.entity.Role;
+import com.tianbao.points.core.exception.ApplicationException;
 import com.tianbao.points.core.service.base.IBaseService;
+
+import java.util.List;
 
 /**
  * @desc 角色服务接口
@@ -18,8 +21,9 @@ public interface IRoleService extends IBaseService<Role, Long> {
     /**
      * @author lushusheng
      * @Date 2018-11-27
-     * @Desc 根据用户id查询相关角色，一个用户可以对应多个角色
-     * @return 返回无，出错抛出异常
+     * @Desc 根据用户id查询相关角色集合，一个用户可以对应多个角色
+     * @return 返回角色集合数据
      * @update
      */
+    List<Role> getListByUserId(Long userId)throws ApplicationException;
 }
