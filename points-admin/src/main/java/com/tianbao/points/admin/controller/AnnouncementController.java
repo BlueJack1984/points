@@ -42,9 +42,11 @@ public class AnnouncementController {
      * @return 是否保存成功
      * @throws ApplicationException 保存异常
      */
-//    @ApiOperation(value = "对活动实体进行保存操作", notes = "根据activity实体和当前用户id对活动进行保存操作")
-//    @ApiImplicitParams({
-//            @ApiImplicitParam(paramType = "body", dataType = "Activity", name = "activity", value = "活动实体", required = true)})
+    @ApiOperation(value = "首页公告实体保存", notes = "根据announcementInput和当前用户currentId进行保存操作")
+    @ApiImplicitParams({
+       @ApiImplicitParam(paramType = "body", dataType = "AnnouncementInput", name = "announcementInput", value = "首页公告实体", required = true),
+       @ApiImplicitParam(paramType = "header", dataType = "Long", name = "currentId", value = "当前用户id", required = true)
+    })
     @CrossOrigin
     @PostMapping("/save")
     public OutputResult<Void> save(
@@ -68,11 +70,16 @@ public class AnnouncementController {
      * @return 返回查询的公告实体数据
      * @throws ApplicationException 查询异常
      */
+    @ApiOperation(value = "查询首页公告数据", notes = "根据id查询一条公告数据")
+    @ApiImplicitParams({
+        @ApiImplicitParam(paramType = "query", dataType = "Long", name = "id", value = "首页公告实体id", required = true),
+        @ApiImplicitParam(paramType = "header", dataType = "Long", name = "currentId", value = "当前用户id", required = true)
+    })
     @CrossOrigin
     @GetMapping("/get/{id}")
     public OutputResult<Announcement> get(
-            @PathVariable Long id,
-            @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId)throws ApplicationException {
+            @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
+            @PathVariable Long id)throws ApplicationException {
 
         Announcement announcement = announcementServer.selectById(id);
         return new OutputResult<>(announcement);
