@@ -1,6 +1,7 @@
 package com.tianbao.points.app.controller;
 
 import com.tianbao.points.core.exception.ApplicationException;
+import com.tianbao.points.core.service.IUserService;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +20,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/user")
 @Slf4j
 public class UserController {
+    /**
+     * 注入用户服务service
+     */
+    private final IUserService userServer;
 
     /**
      * @desc 保存一条公告数据

@@ -1,6 +1,7 @@
 package com.tianbao.points.admin.controller;
 
 
+import com.tianbao.points.core.service.IAuthorityService;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,4 +20,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/authority")
 @Slf4j
 public class AuthorityController {
+    /**
+     * 注入权限服务service
+     */
+    private final IAuthorityService authorityServer;
 }

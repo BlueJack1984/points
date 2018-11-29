@@ -1,6 +1,7 @@
 package com.tianbao.points.app.controller;
 
 
+import com.tianbao.points.core.service.IPositionService;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,5 +20,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/position")
 @Slf4j
 public class PositionController {
-
+    /**
+     * 注入职位服务service
+     */
+    private final IPositionService positionServer;
 }
