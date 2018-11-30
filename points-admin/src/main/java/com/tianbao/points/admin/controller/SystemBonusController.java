@@ -120,7 +120,7 @@ public class SystemBonusController {
             @ApiImplicitParam(paramType = "query", dataType = "Long", name = "id", value = "系统积分增值id", required = true)})
     @CrossOrigin
     @GetMapping("/delete/{id}")
-    public OutputResult<Void> delete(
+    public OutputResult<Void> delsete(
             @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
             @PathVariable("id") Long id)throws ApplicationException {
         //逻辑删除
