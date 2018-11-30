@@ -11,10 +11,13 @@ import com.tianbao.points.core.service.IPositionService;
 import com.tianbao.points.core.service.IRoleService;
 import com.tianbao.points.core.service.IUserService;
 import com.tianbao.points.core.utils.BeanHelper;
+import com.tianbao.points.core.utils.DES;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -38,6 +41,12 @@ public class UserServiceImpl implements IUserService {
      * 注入角色服务service
      */
     private final IRoleService roleServer;
+
+    @Value("${password.encrypt.key}")
+    private String PASSWORD_SECRET_KEY;
+    @Value("${super.admin.role.id}")
+    private String SUPER_ADMIN_ROLE_ID;
+
     /**
      * @author lushusheng
      * @Date 2018-11-28
@@ -67,27 +76,90 @@ public class UserServiceImpl implements IUserService {
      * @author lushusheng
      * @Date 2018-11-28
      * @Desc 更新用户的登录密码，这里不是指超级密码
+     * @param currentId 当前用户id
+     * @param oldPassword 原密码
+     * @param newPassword 新密码
+     * @param sureNewPassword 确认新密码
      * @return 无返回，操作错误抛出异常
      * @update
      */
     @Override
-    public void updatePassword(Long id) throws ApplicationException {
-        //@Value("${master.apply.image.key}")
-        //private String MASTER_APPLY_IMAGE_KEY;
+    public void updatePassword(Long currentId, String oldPassword, String newPassword, String sureNewPassword) throws ApplicationException {
+        //修改普通密码的操作operation值为0
+        checkPassword(currentId, oldPassword, newPassword, sureNewPassword, 0);
     }
 
     /**
      * @author lushusheng
      * @Date 2018-11-28
      * @Desc 更新用户的超级密码，这个用户只有一个，顶级管理员，所以要先判断身份
+     * @param currentId 当前用户id
+     * @param oldPassword 原密码
+     * @param newPassword 新密码
+     * @param sureNewPassword 确认新密码
      * @return 无返回，操作错误抛出异常
      * @update
      */
     @Override
-    public void updateSuperPassword(Long id) throws ApplicationException {
+    public void updateSuperPassword(Long currentId, String oldPassword, String newPassword, String sureNewPassword) throws ApplicationException {
 
+        //查看角色是否为超级管理员
+        List<Role> roleList = roleServer.getListByUserId(currentId);
+        List<Long> roleIds = new ArrayList<>();
+        for(Role role: roleList) {
+            roleIds.add(role.getId());
+        }
+        if(! roleIds.contains(Long.parseLong(SUPER_ADMIN_ROLE_ID))) {
+            throw new ApplicationException(1, "");
+        }
+        //修改超级密码的操作operation值为1
+        checkPassword(currentId, oldPassword, newPassword, sureNewPassword, 1);
     }
 
+    /**
+     * @author lushusheng
+     * @Date 2018-11-28
+     * @Desc 根据不同type值区别不同更改密码操作，将代码块提取一个方法
+     * @param currentId 当前用户id
+     * @param oldPassword 原密码
+     * @param newPassword 新密码
+     * @param sureNewPassword 确认新密码
+     * @param operation 0表示更改普通密码，1表示更改超级密码
+     * @return 无返回值
+     * @update
+     */
+    private void checkPassword(Long currentId, String oldPassword, String newPassword,
+                               String sureNewPassword, Integer operation)throws ApplicationException {
+        if(! newPassword.equals(sureNewPassword)) {
+            throw new ApplicationException(1, "新密码与确认密码不同");
+        }
+        if(oldPassword.equals(newPassword)) {
+            throw new ApplicationException(1, "原密码与新密码相同，请输入新密码");
+        }
+        byte[] encoded = DES.encrypt(PASSWORD_SECRET_KEY.getBytes(), oldPassword.getBytes());
+        String encodedPassword = new String(encoded);
+        User user = iUserDao.selectByPrimaryKey(currentId);
+        if(operation == 0) {
+            if(user == null || ! encodedPassword.equals(user.getPassword())) {
+                throw new ApplicationException(1, "");
+            }
+        }else {
+            //超级密码
+            if(user == null || ! encodedPassword.equals(user.getSuperPassword())) {
+                throw new ApplicationException(1, "");
+            }
+        }
+        encoded = DES.encrypt(PASSWORD_SECRET_KEY.getBytes(), newPassword.getBytes());
+        encodedPassword = new String(encoded);
+        if(operation == 0) {
+            user.setPassword(encodedPassword);
+        }else {
+            user.setSuperPassword(encodedPassword);
+        }
+        user.setUpdateTime(new Date());
+        user.setUpdateUserId(currentId);
+        iUserDao.updateByPrimaryKey(user);
+    }
     /**
      * @author lushusheng
      * @Date 2018-11-28

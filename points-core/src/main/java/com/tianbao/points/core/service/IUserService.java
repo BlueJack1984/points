@@ -29,19 +29,27 @@ public interface IUserService extends IBaseService<User, Long> {
      * @author lushusheng
      * @Date 2018-11-28
      * @Desc 更新用户的登录密码，这里不是指超级密码
+     * @param currentId 当前用户id
+     * @param oldPassword 原密码
+     * @param newPassword 新密码
+     * @param sureNewPassword 确认新密码
      * @return 无返回，操作错误抛出异常
      * @update
      */
-    void updatePassword(Long id)throws ApplicationException;
+    void updatePassword(Long currentId, String oldPassword, String newPassword, String sureNewPassword)throws ApplicationException;
 
     /**
      * @author lushusheng
      * @Date 2018-11-28
      * @Desc 更新用户的超级密码，这个用户只有一个，顶级管理员，所以要先判断身份
+     * @param currentId 当前用户id
+     * @param oldPassword 原密码
+     * @param newPassword 新密码
+     * @param sureNewPassword 确认新密码
      * @return 无返回，操作错误抛出异常
      * @update
      */
-    void updateSuperPassword(Long id)throws ApplicationException;
+    void updateSuperPassword(Long currentId, String oldPassword, String newPassword, String sureNewPassword)throws ApplicationException;
 
     /**
      * @author lushusheng

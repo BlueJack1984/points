@@ -1,5 +1,6 @@
 package com.tianbao.points.admin.controller;
 
+import com.tianbao.points.admin.dto.request.PasswordInput;
 import com.tianbao.points.core.dto.UserDTO;
 import com.tianbao.points.core.dto.response.OutputResult;
 import com.tianbao.points.core.exception.ApplicationException;
@@ -11,6 +12,8 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 /**
  * @desc 用户管理员入口
@@ -50,10 +53,22 @@ public class UserController {
      * @author lushusheng
      * @Date 2018-11-28
      * @Desc 更新用户的登录密码，这里不是指超级密码
+     * @param currentId 当前用户id
+     * @param passwordInput 输入的密码属性实体
      * @return 无返回，操作错误抛出异常
      * @update
      */
-    //void updatePassword(Long id)throws ApplicationException;
+    @ApiOperation(value = "更新用户的登录密码", notes = "更新用户的登录密码")
+    @ApiImplicitParams({@ApiImplicitParam(paramType = "header", dataType = "Long", name = "currentId", value = "当前用户id", required = true)})
+    @CrossOrigin
+    @PostMapping("/password")
+    public OutputResult<Void> updatePassword(
+            @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
+            @RequestBody @Valid PasswordInput passwordInput)throws ApplicationException {
+        userServer.updatePassword(currentId, passwordInput.getOldPassword(),
+                passwordInput.getNewPassword(), passwordInput.getSureNewPassword());
+        return new OutputResult<>();
+    }
 
     /**
      * @author lushusheng
@@ -62,6 +77,17 @@ public class UserController {
      * @return 无返回，操作错误抛出异常
      * @update
      */
+    @ApiOperation(value = "更新用户的超级密码", notes = "更新用户的超级密码")
+    @ApiImplicitParams({@ApiImplicitParam(paramType = "header", dataType = "Long", name = "currentId", value = "当前用户id", required = true)})
+    @CrossOrigin
+    @PostMapping("/super/password")
+    public OutputResult<Void> updateSuperPassword(
+            @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
+            @RequestBody @Valid PasswordInput passwordInput)throws ApplicationException {
+        userServer.updateSuperPassword(currentId, passwordInput.getOldPassword(),
+                passwordInput.getNewPassword(), passwordInput.getSureNewPassword());
+        return new OutputResult<>();
+    }
     //void updateSuperPassword(Long id)throws ApplicationException;
 
 
