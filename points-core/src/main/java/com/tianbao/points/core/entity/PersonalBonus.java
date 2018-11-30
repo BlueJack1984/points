@@ -36,4 +36,8 @@ public class PersonalBonus extends ObjectPO<Long> {
      * 此数据是否对会员客户端可见，0表示正常可见，1表示不可见
      */
     private Integer visible;
+    /**
+     * 上次的个人积分增值记录id
+     */
+    private Long lastPersonalBonusId;
 }

@@ -6,6 +6,8 @@ import com.tianbao.points.core.entity.User;
 import com.tianbao.points.core.exception.ApplicationException;
 import com.tianbao.points.core.service.base.IBaseService;
 
+import java.util.List;
+
 /**
  * @desc 用户接口，可用于管理员或其他
  * @author lushusheng
@@ -40,5 +42,14 @@ public interface IUserService extends IBaseService<User, Long> {
      * @update
      */
     void updateSuperPassword(Long id)throws ApplicationException;
+
+    /**
+     * @author lushusheng
+     * @Date 2018-11-28
+     * @Desc 根据用户id集合查询用户列表,分页实现，用于个人积分增值属性
+     * @return 返回查询数据列表
+     * @update
+     */
+    List<User> getListByIdsPage(List<Long> ids)throws ApplicationException;
 
 }

@@ -205,7 +205,7 @@ public class StockController {
     @ApiOperation(value = "获取股票证券指数的列表", notes = "获取股票证券指数的列表")
     @ApiImplicitParams({
         @ApiImplicitParam(paramType = "header", dataType = "Long", name = "currentId", value = "当前用户id", required = true),
-        @ApiImplicitParam(paramType = "header", dataType = "Long", name = "currentId", value = "当前用户id", required = true)})
+        @ApiImplicitParam(paramType = "query", dataType = "Integer", name = "num", value = "列表数据条数", required = true)})
     @CrossOrigin
     @PostMapping("/list/{num}")
     public OutputListResult<Stock> getList(

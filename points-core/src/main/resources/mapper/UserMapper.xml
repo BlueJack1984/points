@@ -259,4 +259,14 @@
       update_user_id = #{updateUserId}
     where id = #{id,jdbcType=BIGINT}
   </update>
+
+  <!--根据用户id集合查询用户列表,分页实现，用于个人积分增值属性-->
+  <select id="getListByIdsPage" resultType="user">
+    select <include refid="c_user"/>
+    from  <include refid="t_user"/> _user
+    where _user.status = 0 and _user.id in
+    <foreach item="id" index="index" collection="ids" open="(" separator="," close=")">
+      #{id}
+    </foreach>
+  </select>
 </mapper>

@@ -32,7 +32,7 @@ public abstract class BaseServiceImpl<K, T> {
             iBaseDao.deleteByPrimaryKey(id);
         }catch(Exception e) {
             logger.info(e.getMessage());
-            throw new ApplicationException();
+            //throw new ApplicationException();
         }
     }
 
@@ -49,7 +49,7 @@ public abstract class BaseServiceImpl<K, T> {
             iBaseDao.insert(record);
         }catch(Exception e) {
             logger.info(e.getMessage());
-            throw new ApplicationException();
+            //throw new ApplicationException();
         }
     }
 
@@ -66,7 +66,7 @@ public abstract class BaseServiceImpl<K, T> {
             iBaseDao.insertSelective(record);
         }catch(Exception e) {
             logger.info(e.getMessage());
-            throw new ApplicationException();
+            //throw new ApplicationException();
         }
     }
 
@@ -82,8 +82,9 @@ public abstract class BaseServiceImpl<K, T> {
             return iBaseDao.selectByPrimaryKey(id);
         }catch(Exception e) {
             logger.info(e.getMessage());
-            throw new ApplicationException();
+            //throw new ApplicationException();
         }
+        return null;
     }
 
     /**
@@ -99,7 +100,7 @@ public abstract class BaseServiceImpl<K, T> {
             iBaseDao.updateByPrimaryKeySelective(record);
         }catch(Exception e) {
             logger.info(e.getMessage());
-            throw new ApplicationException();
+            //throw new ApplicationException();
         }
     }
 
@@ -116,7 +117,7 @@ public abstract class BaseServiceImpl<K, T> {
             iBaseDao.updateByPrimaryKeySelective(record);
         }catch(Exception e) {
             logger.info(e.getMessage());
-            throw new ApplicationException();
+            //throw new ApplicationException();
         }
     }
 }

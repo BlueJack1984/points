@@ -12,6 +12,7 @@ import com.tianbao.points.core.service.IRoleService;
 import com.tianbao.points.core.service.IUserService;
 import com.tianbao.points.core.utils.BeanHelper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -71,7 +72,8 @@ public class UserServiceImpl implements IUserService {
      */
     @Override
     public void updatePassword(Long id) throws ApplicationException {
-
+        //@Value("${master.apply.image.key}")
+        //private String MASTER_APPLY_IMAGE_KEY;
     }
 
     /**
@@ -84,6 +86,19 @@ public class UserServiceImpl implements IUserService {
     @Override
     public void updateSuperPassword(Long id) throws ApplicationException {
 
+    }
+
+    /**
+     * @author lushusheng
+     * @Date 2018-11-28
+     * @Desc 根据用户id集合查询用户列表,分页实现，用于个人积分增值属性
+     * @return 返回查询数据列表
+     * @update
+     */
+    @Override
+    public List<User> getListByIdsPage(List<Long> ids) throws ApplicationException {
+        List<User> userList = iUserDao.getListByIdsPage(ids);
+        return userList;
     }
 
     @Override
