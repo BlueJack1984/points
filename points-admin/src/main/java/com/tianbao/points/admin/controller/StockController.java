@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @desc 股票证券指数服务入口
@@ -188,7 +189,32 @@ public class StockController {
             @RequestBody @Valid  StockInput stockInput)throws ApplicationException {
         Stock stock = new Stock();
         copyProperties(stock, stockInput);
+        stock.setCreateUserId(currentId);
         stockServer.save(stock);
         return new OutputResult<>(stock);
+    }
+
+    /**
+     * @author lushusheng
+     * @Date 2018-11-28
+     * @Desc 获取股票证券指数的列表，不分页
+     * @param num 表示要取得数据条数
+     * @return 返回查询到的列表数据,正序排列，最新的num条
+     * @update
+     */
+    @ApiOperation(value = "获取股票证券指数的列表", notes = "获取股票证券指数的列表")
+    @ApiImplicitParams({
+        @ApiImplicitParam(paramType = "header", dataType = "Long", name = "currentId", value = "当前用户id", required = true),
+        @ApiImplicitParam(paramType = "header", dataType = "Long", name = "currentId", value = "当前用户id", required = true)})
+    @CrossOrigin
+    @PostMapping("/list/{num}")
+    public OutputListResult<Stock> getList(
+            @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
+            @PathVariable("num") Integer num)throws ApplicationException {
+        if(num == null || num.intValue() <= 0) {
+            throw new ApplicationException(1, "");
+        }
+        List<Stock> stockList = stockServer.getList(num);
+        return new OutputListResult<>(stockList);
     }
 }

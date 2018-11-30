@@ -6,6 +6,8 @@ import com.tianbao.points.core.entity.Stock;
 import com.tianbao.points.core.exception.ApplicationException;
 import com.tianbao.points.core.service.base.IBaseService;
 
+import java.util.List;
+
 /**
  * @desc 股票证券指数服务接口
  * @author lushusheng
@@ -24,4 +26,13 @@ public interface IStockService extends IBaseService<Stock, Long> {
      * @update
      */
     PageInfo<Stock> getListPage(Integer pageNo, Integer pageSize)throws ApplicationException;
+    /**
+     * @author lushusheng
+     * @Date 2018-11-28
+     * @Desc 查询股票证券指数列表，不分页
+     * @param num 表示要取得数据条数
+     * @return 返回查询到的数据列表,正序排列，最新的num条
+     * @update
+     */
+    List<Stock> getList(Integer num)throws ApplicationException;
 }

@@ -2,6 +2,7 @@ package com.tianbao.points.core.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.sun.org.apache.regexp.internal.RE;
 import com.tianbao.points.core.constant.StatusCode;
 import com.tianbao.points.core.dao.IStockDao;
 import com.tianbao.points.core.entity.Stock;
@@ -11,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -45,6 +47,10 @@ public class StockServiceImpl implements IStockService {
     @Override
     public void save(Stock record) throws ApplicationException {
         record.setStatus(StatusCode.NORMAL.getCode());
+        record.setUpdateUserId(record.getCreateUserId());
+        record.setCreateTime(new Date());
+        record.setUpdateTime(new Date());
+        iStockDao.insert(record);
     }
 
     @Override
@@ -102,5 +108,19 @@ public class StockServiceImpl implements IStockService {
         List<Stock> stockList = iStockDao.selectListPage();
         PageInfo<Stock> pageInfo = new PageInfo<>(stockList);
         return pageInfo;
+    }
+
+    /**
+     * @author lushusheng
+     * @Date 2018-11-28
+     * @Desc 查询股票证券指数列表，不分页
+     * @param num 表示要取得数据条数
+     * @return 返回查询到的数据列表,正序排列，最新的num条
+     * @update
+     */
+    @Override
+    public List<Stock> getList(Integer num) throws ApplicationException {
+        List<Stock> stockList = iStockDao.selectList(num);
+        return stockList;
     }
 }

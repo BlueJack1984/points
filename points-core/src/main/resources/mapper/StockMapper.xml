@@ -25,7 +25,7 @@
     where id = #{id,jdbcType=BIGINT}
   </delete>
 
-  <insert id="insert" parameterType="stock" >
+  <insert id="insert" parameterType="stock" useGeneratedKeys="true" keyProperty="id">
     insert into <include refid="t_stock"/>
     (id, publish_time, status, sh_open_exponent, sh_close_exponent, sh_max_exponent, sh_min_exponent, tb_open_exponent,
     tb_close_exponent, tb_max_exponent, tb_min_exponent, create_time, create_user_id, update_time, update_user_id)
@@ -206,5 +206,14 @@
     from <include refid="t_stock"/> _stock
     where _stock.status = 0
     order by _stock.publish_time desc
+  </select>
+
+  <!--查询证券指数信息列表，不分页,正序排列，最新的num条-->
+  <select id="selectList">
+    select <include refid="c_stock"/>
+    from (select * from <include refid="t_stock"/> stock_
+    where stock_.status = 0 order by stock_.publish_time desc limit #{num}) as _stock
+    where _stock.status = 0
+    order by _stock.publish_time
   </select>
 </mapper>

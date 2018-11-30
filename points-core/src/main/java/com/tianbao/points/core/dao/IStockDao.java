@@ -3,6 +3,7 @@ package com.tianbao.points.core.dao;
 import com.tianbao.points.core.dao.base.IBaseDao;
 import com.tianbao.points.core.entity.Stock;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -22,4 +23,14 @@ public interface IStockDao extends IBaseDao<Stock, Long> {
      * @update
      */
     List<Stock> selectListPage();
+
+    /**
+     * @author lushusheng
+     * @Date 2018-11-29
+     * @Desc 查询股票证券指数列表，不分页
+     * @param num 表示要取得数据条数
+     * @return 返回查询到的数据列表,正序排列，最新的num条
+     * @update
+     */
+    List<Stock> selectList(@Param("num")Integer num);
 }
