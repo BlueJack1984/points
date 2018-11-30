@@ -3,6 +3,7 @@ package com.tianbao.points.admin.controller;
 import com.github.pagehelper.PageInfo;
 import com.tianbao.points.core.dto.PersonalBonusDTO;
 import com.tianbao.points.core.dto.response.OutputListResult;
+import com.tianbao.points.core.entity.SystemBonus;
 import com.tianbao.points.core.exception.ApplicationException;
 import com.tianbao.points.core.service.ISystemBonusService;
 import io.swagger.annotations.Api;
@@ -46,13 +47,12 @@ public class SystemBonusController {
         @ApiImplicitParam(paramType = "query", dataType = "Integer", name = "pageSize", value = "每页显示数据条数")})
     @CrossOrigin
     @GetMapping("/list/page")
-    public OutputListResult<PersonalBonusDTO> getListBySysBonusIdPage(
+    public OutputListResult<SystemBonus> getListPage(
             @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
             @RequestParam(value = "pageNo", required = false, defaultValue = "1") Integer pageNo,
-            @RequestParam(value = "pageSize", required = false, defaultValue = "20") Integer pageSize,
-            @PathVariable("sysBonusId") Long sysBonusId)throws ApplicationException {
+            @RequestParam(value = "pageSize", required = false, defaultValue = "20") Integer pageSize)throws ApplicationException {
 
-        PageInfo<PersonalBonusDTO> pageInfo = personalBonusServer.getListBySysBonusIdPage(sysBonusId, pageNo, pageSize);
+        PageInfo<SystemBonus> pageInfo = systemBonusServer.getListPage(pageNo, pageSize);
         return new OutputListResult<>(pageInfo);
     }
 }

@@ -142,4 +142,12 @@
       update_user_id = #{updateUserId}
     where id = #{id,jdbcType=BIGINT}
   </update>
+
+  <!--获取系统积分增值列表-->
+  <select id="getListPage" resultType="systemBonus">
+    select <include refid="c_system_bonus"/>
+    from <include refid="t_system_bonus"/> _system_bonus
+    where _system_bonus.status = 0
+    order by _system_bonus.create_time desc
+  </select>
 </mapper>
