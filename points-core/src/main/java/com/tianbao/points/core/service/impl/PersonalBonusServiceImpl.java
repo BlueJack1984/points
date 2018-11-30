@@ -128,4 +128,31 @@ public class PersonalBonusServiceImpl implements IPersonalBonusService {
         personalBonus.setUpdateTime(new Date());
         iPersonalBonusDao.updateByPrimaryKey(personalBonus);
     }
+
+    /**
+     * @author lushusheng
+     * @Date 2018-11-30
+     * @Desc 根据系统积分增值id分页查询个人积分增值列表
+     * @param sysBonusId 表示要取得数据条数
+     * @return 返回查询到的数据列表
+     * @update
+     */
+    @Override
+    public List<PersonalBonus> getListBySysBonusId(Long sysBonusId) throws ApplicationException {
+        //这里服用分页的方法进行查询，但实际不分页
+        List<PersonalBonus> personalBonusList = iPersonalBonusDao.selectListBySysBonusIdPage(sysBonusId);
+        return personalBonusList;
+    }
+    /**
+     * @author lushusheng
+     * @Date 2018-11-30
+     * @Desc 根据个人积分增值id集合批量更新实体
+     * @param personalBonusList 表示根据人积分增值id批量更新实体
+     * @return 无返回，操作失败抛出异常
+     * @update
+     */
+    @Override
+    public void updateBatch(List<PersonalBonus> personalBonusList) throws ApplicationException {
+        iPersonalBonusDao.updateBatch(personalBonusList);
+    }
 }

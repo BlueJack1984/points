@@ -4,13 +4,16 @@ package com.tianbao.points.core.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.tianbao.points.core.dao.ISystemBonusDao;
+import com.tianbao.points.core.entity.PersonalBonus;
 import com.tianbao.points.core.entity.SystemBonus;
 import com.tianbao.points.core.exception.ApplicationException;
+import com.tianbao.points.core.service.IPersonalBonusService;
 import com.tianbao.points.core.service.ISystemBonusService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -27,6 +30,10 @@ public class SystemBonusServiceImpl implements ISystemBonusService {
      * 注入系统积分增值dao
      */
     private final ISystemBonusDao iSystemBonusDao;
+    /**
+     * 注入个人积分增值dao
+     */
+    private final IPersonalBonusService personalBonusServer;
 
     /**
      * @author lushusheng
@@ -46,6 +53,9 @@ public class SystemBonusServiceImpl implements ISystemBonusService {
         systemBonus.setUpdateTime(new Date());
         //无法把updateUserId赋值
         iSystemBonusDao.updateByPrimaryKey(systemBonus);
+        //还要把与这个关联的个人积分增值的属性system_bonus_id清空
+        List<PersonalBonus> personalBonusList = personalBonusServer.getListBySysBonusId(id);
+        personalBonusServer.updateBatch(personalBonusList);
     }
 
     @Override

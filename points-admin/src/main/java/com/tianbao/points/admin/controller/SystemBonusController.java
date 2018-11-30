@@ -15,6 +15,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Random;
+
 /**
  * @desc 系统积分增值服务入口
  * @author lushusheng
@@ -101,5 +103,50 @@ public class SystemBonusController {
         //逻辑删除
         systemBonusServer.deleteById(id);
         return new OutputResult<>();
+    }
+
+    /**
+     * @author lushusheng
+     * @Date 2018-11-30
+     * @Desc 系统总积分增值结算
+     * @param currentId 表示当前用户id
+     * @return 返回操作结果，操作失败则抛出异常
+     * @update
+     */
+    @ApiOperation(value = "根据id强行清空系统积分增值数据", notes = "根据id强行清空系统积分增值数据")
+    @ApiImplicitParams({
+            @ApiImplicitParam(paramType = "header", dataType = "Long", name = "currentId", value = "当前用户id", required = true),
+            @ApiImplicitParam(paramType = "query", dataType = "Long", name = "id", value = "系统积分增值id", required = true)})
+    @CrossOrigin
+    @GetMapping("/delete/{id}")
+    public OutputResult<Void> delete(
+            @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
+            @PathVariable("id") Long id)throws ApplicationException {
+        //逻辑删除
+        systemBonusServer.deleteById(id);
+        return new OutputResult<>();
+    }
+
+    /**
+     * @author lushusheng
+     * @Date 2018-11-30
+     * @Desc 生成随机权重系数
+     * @param currentId 表示当前用户id
+     * @return 返回随机权重系数
+     * @update
+     */
+    @ApiOperation(value = "生成随机权重比率系数", notes = "生成随机权重比率系数")
+    @ApiImplicitParams({
+        @ApiImplicitParam(paramType = "header", dataType = "Long", name = "currentId", value = "当前用户id", required = true)})
+    @CrossOrigin
+    @GetMapping("/system/ratio")
+    public OutputResult<Double> delete(
+            @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId)throws ApplicationException {
+        //生成1%到1.2%之间的随机权重系数
+        Random random = new Random();
+        Double base = 0.01;
+        //nextDouble方法生成0-1之间的随机浮点数，不包含1
+        Double ratio = (int)((0.01 + random.nextDouble() * 0.002) * 1000000) / 1000000.00;
+        return new OutputResult<>(ratio);
     }
 }
