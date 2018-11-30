@@ -39,13 +39,13 @@ public class PositionServiceImpl implements IPositionService {
     }
 
     @Override
-    public Position save(Position record) throws ApplicationException {
-        return null;
+    public void save(Position record) throws ApplicationException {
+
     }
 
     @Override
-    public Position saveSelective(Position record) throws ApplicationException {
-        return null;
+    public void saveSelective(Position record) throws ApplicationException {
+
     }
 
     @Override

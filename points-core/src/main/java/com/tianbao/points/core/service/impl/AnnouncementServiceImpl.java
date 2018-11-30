@@ -41,19 +41,18 @@ public class AnnouncementServiceImpl implements IAnnouncementService {
 
     @Override
     @Transactional
-    public Announcement save(Announcement record) throws ApplicationException {
+    public void save(Announcement record) throws ApplicationException {
         record.setStatus(StatusCode.NORMAL.getCode());
         record.setCreateTime(new Date());
         record.setUpdateTime(new Date());
         record.setCreateUserId(record.getUserId());
         record.setUpdateUserId(record.getUserId());
         iAnnouncementDao.insert(record);
-        return record;
     }
 
     @Override
-    public Announcement saveSelective(Announcement record) throws ApplicationException {
-        return null;
+    public void saveSelective(Announcement record) throws ApplicationException {
+
     }
 
     @Override

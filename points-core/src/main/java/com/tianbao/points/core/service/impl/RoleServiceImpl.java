@@ -30,13 +30,13 @@ public class RoleServiceImpl implements IRoleService {
     }
 
     @Override
-    public Role save(Role record) throws ApplicationException {
-        return null;
+    public void save(Role record) throws ApplicationException {
+
     }
 
     @Override
-    public Role saveSelective(Role record) throws ApplicationException {
-        return null;
+    public void saveSelective(Role record) throws ApplicationException {
+
     }
 
     /**

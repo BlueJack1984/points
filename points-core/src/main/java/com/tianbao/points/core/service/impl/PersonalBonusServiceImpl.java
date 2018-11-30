@@ -28,13 +28,13 @@ public class PersonalBonusServiceImpl implements IPersonalBonusService {
     }
 
     @Override
-    public PersonalBonus save(PersonalBonus record) throws ApplicationException {
-        return null;
+    public void save(PersonalBonus record) throws ApplicationException {
+
     }
 
     @Override
-    public PersonalBonus saveSelective(PersonalBonus record) throws ApplicationException {
-        return null;
+    public void saveSelective(PersonalBonus record) throws ApplicationException {
+
     }
 
     @Override

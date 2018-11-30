@@ -28,13 +28,13 @@ public class SystemBonusServiceImpl implements ISystemBonusService {
     }
 
     @Override
-    public SystemBonus save(SystemBonus record) throws ApplicationException {
-        return null;
+    public void save(SystemBonus record) throws ApplicationException {
+
     }
 
     @Override
-    public SystemBonus saveSelective(SystemBonus record) throws ApplicationException {
-        return null;
+    public void saveSelective(SystemBonus record) throws ApplicationException {
+
     }
 
     @Override

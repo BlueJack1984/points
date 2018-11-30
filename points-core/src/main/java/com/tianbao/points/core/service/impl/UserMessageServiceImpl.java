@@ -27,13 +27,13 @@ public class UserMessageServiceImpl implements IUserMessageService {
     }
 
     @Override
-    public UserMessage save(UserMessage record) throws ApplicationException {
-        return null;
+    public void save(UserMessage record) throws ApplicationException {
+
     }
 
     @Override
-    public UserMessage saveSelective(UserMessage record) throws ApplicationException {
-        return null;
+    public void saveSelective(UserMessage record) throws ApplicationException {
+
     }
 
     @Override

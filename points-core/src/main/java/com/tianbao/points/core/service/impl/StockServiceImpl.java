@@ -43,15 +43,13 @@ public class StockServiceImpl implements IStockService {
 
     @Transactional
     @Override
-    public Stock save(Stock record) throws ApplicationException {
+    public void save(Stock record) throws ApplicationException {
         record.setStatus(StatusCode.NORMAL.getCode());
-
-        return null;
     }
 
     @Override
-    public Stock saveSelective(Stock record) throws ApplicationException {
-        return null;
+    public void saveSelective(Stock record) throws ApplicationException {
+
     }
 
     /**

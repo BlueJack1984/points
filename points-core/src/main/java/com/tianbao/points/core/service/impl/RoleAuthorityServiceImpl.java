@@ -28,13 +28,13 @@ public class RoleAuthorityServiceImpl implements IRoleAuthorityService {
     }
 
     @Override
-    public RoleAuthority save(RoleAuthority record) throws ApplicationException {
-        return null;
+    public void save(RoleAuthority record) throws ApplicationException {
+
     }
 
     @Override
-    public RoleAuthority saveSelective(RoleAuthority record) throws ApplicationException {
-        return null;
+    public void saveSelective(RoleAuthority record) throws ApplicationException {
+
     }
 
     @Override

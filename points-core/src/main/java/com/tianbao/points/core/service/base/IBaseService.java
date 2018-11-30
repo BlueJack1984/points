@@ -27,7 +27,7 @@ public interface IBaseService<K, T> {
      * @return 返回无，出错抛出异常
      * @update
      */
-    K save(K record) throws ApplicationException;
+    void save(K record) throws ApplicationException;
 
     /**
      * @author lushusheng
@@ -36,7 +36,7 @@ public interface IBaseService<K, T> {
      * @return 返回无，出错抛出异常
      * @update
      */
-    K saveSelective(K record) throws ApplicationException;
+    void saveSelective(K record) throws ApplicationException;
 
     /**
      * @author lushusheng

@@ -28,13 +28,13 @@ public class MessageServiceImpl implements IMessageService {
     }
 
     @Override
-    public Message save(Message record) throws ApplicationException {
-        return null;
+    public void save(Message record) throws ApplicationException {
+
     }
 
     @Override
-    public Message saveSelective(Message record) throws ApplicationException {
-        return null;
+    public void saveSelective(Message record) throws ApplicationException {
+
     }
 
     @Override

@@ -28,13 +28,13 @@ public class AuthorityServiceImpl implements IAuthorityService {
     }
 
     @Override
-    public Authority save(Authority record) throws ApplicationException {
-        return null;
+    public void save(Authority record) throws ApplicationException {
+
     }
 
     @Override
-    public Authority saveSelective(Authority record) throws ApplicationException {
-        return null;
+    public void saveSelective(Authority record) throws ApplicationException {
+
     }
 
     @Override

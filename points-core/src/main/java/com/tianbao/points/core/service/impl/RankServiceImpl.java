@@ -27,13 +27,13 @@ public class RankServiceImpl implements IRankService {
     }
 
     @Override
-    public Rank save(Rank record) throws ApplicationException {
-        return null;
+    public void save(Rank record) throws ApplicationException {
+
     }
 
     @Override
-    public Rank saveSelective(Rank record) throws ApplicationException {
-        return null;
+    public void saveSelective(Rank record) throws ApplicationException {
+
     }
 
     @Override

@@ -28,13 +28,13 @@ public class UserRoleServiceImpl implements IUserRoleService {
     }
 
     @Override
-    public UserRole save(UserRole record) throws ApplicationException {
-        return null;
+    public void save(UserRole record) throws ApplicationException {
+
     }
 
     @Override
-    public UserRole saveSelective(UserRole record) throws ApplicationException {
-        return null;
+    public void saveSelective(UserRole record) throws ApplicationException {
+
     }
 
     @Override
