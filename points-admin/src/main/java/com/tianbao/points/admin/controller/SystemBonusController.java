@@ -3,6 +3,7 @@ package com.tianbao.points.admin.controller;
 import com.github.pagehelper.PageInfo;
 import com.tianbao.points.core.dto.PersonalBonusDTO;
 import com.tianbao.points.core.dto.response.OutputListResult;
+import com.tianbao.points.core.dto.response.OutputResult;
 import com.tianbao.points.core.entity.SystemBonus;
 import com.tianbao.points.core.exception.ApplicationException;
 import com.tianbao.points.core.service.ISystemBonusService;
@@ -54,5 +55,51 @@ public class SystemBonusController {
 
         PageInfo<SystemBonus> pageInfo = systemBonusServer.getListPage(pageNo, pageSize);
         return new OutputListResult<>(pageInfo);
+    }
+
+    /**
+     * @author lushusheng
+     * @Date 2018-11-30
+     * @Desc 设置系统积分增值数据在客户端是否可见
+     * @param id 表示系统积分增值id
+     * @param currentId 表示当前用户id
+     * @return 返回操作结果，操作失败则抛出异常
+     * @update
+     */
+    @ApiOperation(value = "设置系统积分增值数据在客户端是否可见", notes = "设置系统积分增值数据在客户端是否可见")
+    @ApiImplicitParams({
+        @ApiImplicitParam(paramType = "header", dataType = "Long", name = "currentId", value = "当前用户id", required = true),
+        @ApiImplicitParam(paramType = "query", dataType = "Long", name = "id", value = "系统积分增值id", required = true)})
+    @CrossOrigin
+    @GetMapping("/visible/{id}")
+    public OutputResult<Void> setVisibility(
+            @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
+            @PathVariable("id") Long id)throws ApplicationException {
+
+        systemBonusServer.setVisibility(id, currentId);
+        return new OutputResult<>();
+    }
+
+    /**
+     * @author lushusheng
+     * @Date 2018-11-30
+     * @Desc 根据id强行清空系统积分增值数据
+     * @param id 表示系统积分增值id
+     * @param currentId 表示当前用户id
+     * @return 返回操作结果，操作失败则抛出异常
+     * @update
+     */
+    @ApiOperation(value = "根据id强行清空系统积分增值数据", notes = "根据id强行清空系统积分增值数据")
+    @ApiImplicitParams({
+        @ApiImplicitParam(paramType = "header", dataType = "Long", name = "currentId", value = "当前用户id", required = true),
+        @ApiImplicitParam(paramType = "query", dataType = "Long", name = "id", value = "系统积分增值id", required = true)})
+    @CrossOrigin
+    @GetMapping("/delete/{id}")
+    public OutputResult<Void> delete(
+            @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
+            @PathVariable("id") Long id)throws ApplicationException {
+        //逻辑删除
+        systemBonusServer.deleteById(id);
+        return new OutputResult<>();
     }
 }

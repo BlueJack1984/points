@@ -13,6 +13,7 @@ import com.tianbao.points.core.service.IUserService;
 import com.tianbao.points.core.utils.BeanHelper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -110,6 +111,7 @@ public class PersonalBonusServiceImpl implements IPersonalBonusService {
      * @return 无返回，操作失败抛出异常
      * @update
      */
+    @Transactional
     @Override
     public void setVisibility(Long id, Long currentId) throws ApplicationException {
         PersonalBonus personalBonus = iPersonalBonusDao.selectByPrimaryKey(id);

@@ -24,4 +24,15 @@ public interface ISystemBonusService extends IBaseService<SystemBonus, Long> {
      * @update
      */
     PageInfo<SystemBonus> getListPage(Integer pageNo, Integer pageSize)throws ApplicationException;
+
+    /**
+     * @author lushusheng
+     * @Date 2018-11-30
+     * @Desc 设置系统积分增值数据在客户端是否可见
+     * @param id 表示系统积分增值id
+     * @param currentId 表示当前用户id
+     * @return 返回操作结果，操作失败则抛出异常
+     * @update
+     */
+    void setVisibility(Long id, Long currentId)throws ApplicationException;
 }

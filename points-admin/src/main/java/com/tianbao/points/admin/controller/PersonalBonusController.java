@@ -92,10 +92,10 @@ public class PersonalBonusController {
      * @return 返回操作结果，操作失败则抛出异常
      * @update
      */
-    @ApiOperation(value = "查询个人积分增值相关列表", notes = "根据系统积分增值id查询个人积分增值相关列表")
+    @ApiOperation(value = "设置个人积分增值数据在客户端是否可见", notes = "设置个人积分增值数据在客户端是否可见")
     @ApiImplicitParams({
         @ApiImplicitParam(paramType = "header", dataType = "Long", name = "currentId", value = "当前用户id", required = true),
-        @ApiImplicitParam(paramType = "query", dataType = "Long", name = "sysBonusId", value = "系统积分增值id", required = true)})
+        @ApiImplicitParam(paramType = "query", dataType = "Long", name = "id", value = "个人积分增值id", required = true)})
     @CrossOrigin
     @GetMapping("/visible/{id}")
     public OutputResult<Void> setVisibility(
