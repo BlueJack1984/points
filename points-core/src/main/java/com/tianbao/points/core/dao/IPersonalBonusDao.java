@@ -34,4 +34,14 @@ public interface IPersonalBonusDao extends IBaseDao<PersonalBonus, Long> {
      * @update
      */
     void updateBatch(@Param("personalBonusList") List<PersonalBonus> personalBonusList);
+    /**
+     * @author lushusheng
+     * @Date 2018-11-30
+     * @Desc 根据用户id集合批量查询个人积分列表
+     * @param userIds 表示用户id集合
+     * @return 返回查询到的集合数据
+     * @update
+     */
+    List<PersonalBonus> getListByUserIds(@Param("userIds") List<Long> userIds);
+
 }

@@ -2,6 +2,7 @@ package com.tianbao.points.core.service;
 
 
 import com.github.pagehelper.PageInfo;
+import com.tianbao.points.core.dto.response.SystemBonusOutput;
 import com.tianbao.points.core.entity.SystemBonus;
 import com.tianbao.points.core.exception.ApplicationException;
 import com.tianbao.points.core.service.base.IBaseService;
@@ -35,4 +36,13 @@ public interface ISystemBonusService extends IBaseService<SystemBonus, Long> {
      * @update
      */
     void setVisibility(Long id, Long currentId)throws ApplicationException;
+
+    /**
+     * @author lushusheng
+     * @Date 2018-11-30
+     * @Desc 计算当前系统的总积分并生成系统权重比率系数
+     * @return 返回系统积分输出属性实体SystemBonusOutput
+     * @update
+     */
+    SystemBonusOutput balance()throws ApplicationException;
 }

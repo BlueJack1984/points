@@ -60,4 +60,13 @@ public interface IUserService extends IBaseService<User, Long> {
      */
     List<User> getListByIdsPage(List<Long> ids)throws ApplicationException;
 
+    /**
+     * @author lushusheng
+     * @Date 2018-11-30
+     * @Desc 获取所有合法用户列表，不分页
+     * @return 返回查询到的数据列表
+     * @update
+     */
+    List<User> getList()throws ApplicationException;
+
 }

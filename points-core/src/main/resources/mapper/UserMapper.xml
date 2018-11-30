@@ -269,4 +269,11 @@
       #{id}
     </foreach>
   </select>
+
+  <!--查询所有用户列表，禁用，待审核用户不在此范围-->
+  <select id="getList" resultType="user">
+    select <include refid="c_user"/>
+    from  <include refid="t_user"/> _user
+    where _user.status = 0
+  </select>
 </mapper>

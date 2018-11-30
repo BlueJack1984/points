@@ -4,11 +4,15 @@ package com.tianbao.points.core.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.tianbao.points.core.dao.ISystemBonusDao;
+import com.tianbao.points.core.dto.response.SystemBonusOutput;
 import com.tianbao.points.core.entity.PersonalBonus;
 import com.tianbao.points.core.entity.SystemBonus;
+import com.tianbao.points.core.entity.User;
 import com.tianbao.points.core.exception.ApplicationException;
 import com.tianbao.points.core.service.IPersonalBonusService;
 import com.tianbao.points.core.service.ISystemBonusService;
+import com.tianbao.points.core.service.IUserService;
+import com.tianbao.points.core.utils.RandomGenerator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 /**
  * @desc 系统积分增值服务接口
@@ -34,6 +39,11 @@ public class SystemBonusServiceImpl implements ISystemBonusService {
      * 注入个人积分增值dao
      */
     private final IPersonalBonusService personalBonusServer;
+    /**
+     * 注入用户service
+     */
+    private final IUserService userServer;
+
 
     /**
      * @author lushusheng
@@ -125,5 +135,34 @@ public class SystemBonusServiceImpl implements ISystemBonusService {
         systemBonus.setUpdateUserId(currentId);
         systemBonus.setUpdateTime(new Date());
         iSystemBonusDao.updateByPrimaryKey(systemBonus);
+    }
+
+    /**
+     * @author lushusheng
+     * @Date 2018-11-30
+     * @Desc 计算当前系统的总积分并生成系统权重比率系数
+     * @return 返回系统积分输出属性实体SystemBonusOutput
+     * @update
+     */
+    @Override
+    public SystemBonusOutput balance() throws ApplicationException {
+        //获取所有合法用户列表
+        List<User> userList = userServer.getList();
+        List<Long> userIds = new ArrayList<>();
+        for(User user: userList) {
+            userIds.add(user.getId());
+        }
+        //根据用户id列表查询最新个人积分列表
+        List<PersonalBonus> personalBonusList = personalBonusServer.getListByUserIds(userIds);
+        SystemBonusOutput systemBonusOutput = new SystemBonusOutput();
+        Double totalPoints = 0.0;
+        for(PersonalBonus personalBonus: personalBonusList) {
+            if(personalBonus.getPoints() != null) {
+                totalPoints += personalBonus.getPoints();
+            }
+        }
+        systemBonusOutput.setTotalPoints(totalPoints);
+        systemBonusOutput.setSystemRatio(RandomGenerator.getRandomRatio());
+        return systemBonusOutput;
     }
 }

@@ -186,4 +186,17 @@
       #{item.id,jdbcType=BIGINT}
     </foreach>
   </update>
+
+  <!--根据用户id集合批量查询个人积分列表-->
+  <select id="getListByUserIds" resultType="personalBonus">
+    select <include refid="c_personal_bonus"/>
+    from <include refid="t_personal_bonus"/> _personal_bonus
+    where _personal_bonus.status = 0
+    and _personal_bonus.user_id in
+    <foreach collection="userIds" index="index" item="id" separator="," open="(" close=")">
+      #{id,jdbcType=BIGINT}
+    </foreach>
+    order by _personal_bonus.create_time desc
+    limit 0,1
+  </select>
 </mapper>

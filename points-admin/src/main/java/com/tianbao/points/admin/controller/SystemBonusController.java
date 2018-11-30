@@ -1,9 +1,10 @@
 package com.tianbao.points.admin.controller;
 
 import com.github.pagehelper.PageInfo;
-import com.tianbao.points.core.dto.PersonalBonusDTO;
+import com.tianbao.points.admin.dto.response.aa;
 import com.tianbao.points.core.dto.response.OutputListResult;
 import com.tianbao.points.core.dto.response.OutputResult;
+import com.tianbao.points.core.dto.response.SystemBonusOutput;
 import com.tianbao.points.core.entity.SystemBonus;
 import com.tianbao.points.core.exception.ApplicationException;
 import com.tianbao.points.core.service.ISystemBonusService;
@@ -130,23 +131,19 @@ public class SystemBonusController {
     /**
      * @author lushusheng
      * @Date 2018-11-30
-     * @Desc 生成随机权重系数
+     * @Desc 计算当前系统的总积分并生成系统权重比率系数
      * @param currentId 表示当前用户id
-     * @return 返回随机权重系数
+     * @return 返回系统积分输出属性实体SystemBonusOutput
      * @update
      */
-    @ApiOperation(value = "生成随机权重比率系数", notes = "生成随机权重比率系数")
-    @ApiImplicitParams({
-        @ApiImplicitParam(paramType = "header", dataType = "Long", name = "currentId", value = "当前用户id", required = true)})
+    @ApiOperation(value = "计算当前系统的总积分并生成系统权重比率系数", notes = "计算当前系统的总积分并生成系统权重比率系数")
+    @ApiImplicitParams({@ApiImplicitParam(paramType = "header", dataType = "Long", name = "currentId", value = "当前用户id", required = true)})
     @CrossOrigin
-    @GetMapping("/system/ratio")
-    public OutputResult<Double> delete(
+    @GetMapping("/balance")
+    public OutputResult<SystemBonusOutput> balance(
             @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId)throws ApplicationException {
-        //生成1%到1.2%之间的随机权重系数
-        Random random = new Random();
-        Double base = 0.01;
-        //nextDouble方法生成0-1之间的随机浮点数，不包含1
-        Double ratio = (int)((0.01 + random.nextDouble() * 0.002) * 1000000) / 1000000.00;
-        return new OutputResult<>(ratio);
+
+        SystemBonusOutput systemBonusOutput = systemBonusServer.balance();
+        return new OutputResult<>(systemBonusOutput);
     }
 }

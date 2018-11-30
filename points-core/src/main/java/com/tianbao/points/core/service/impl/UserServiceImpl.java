@@ -173,6 +173,18 @@ public class UserServiceImpl implements IUserService {
         return userList;
     }
 
+    /**
+     * @author lushusheng
+     * @Date 2018-11-30
+     * @Desc 获取所有合法用户列表，不分页
+     * @return 返回查询到的数据列表
+     * @update
+     */
+    @Override
+    public List<User> getList() throws ApplicationException {
+        return iUserDao.getList();
+    }
+
     @Override
     public void deleteById(Long id) throws ApplicationException {
 
