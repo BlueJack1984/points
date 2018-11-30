@@ -11,11 +11,12 @@ public enum StatusCode {
 
     NORMAL(0, "正常"),
     FORBIDDEN(1, "禁用"),
+    TOAUDIT(2, "待审核"),
     /**
      * 针对Message实体的status:已读和未读
      */
-    READED(2, "已读"),
-    UNREAD(3, "未读");
+    READED(3, "已读"),
+    UNREAD(4, "未读");
     /**
      * 公告标题
      */

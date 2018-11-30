@@ -110,8 +110,8 @@ public class StockController {
     @ApiOperation(value = "修改一条证券指数数据", notes = "修改一条证券指数数据")
     @ApiImplicitParams({
         @ApiImplicitParam(paramType = "header", dataType = "Long", name = "currentId", value = "当前用户id", required = true),
-        @ApiImplicitParam(paramType = "header", dataType = "Long", name = "id", value = "实体id", required = true),
-        @ApiImplicitParam(paramType = "query", dataType = "StockInput", name = "stockInput", value = "证券指数实体更新属性", required = true)})
+        @ApiImplicitParam(paramType = "query", dataType = "Long", name = "id", value = "实体id", required = true),
+        @ApiImplicitParam(paramType = "body", dataType = "StockInput", name = "stockInput", value = "证券指数实体更新属性", required = true)})
     @CrossOrigin
     @PostMapping("/update/{id}")
     public OutputResult<Stock> update(
@@ -142,7 +142,7 @@ public class StockController {
             publishTime = SDF.parse(source.getPublishTime());
         }catch(Exception e) {
             log.info(e.getMessage());
-            throw new ApplicationException(1, e.getMessage());
+            throw new ApplicationException(1, "");
         }
         target.setPublishTime(publishTime);
         if(source.getShOpenExponent() != null && source.getShOpenExponent().doubleValue() >= 0) {
@@ -181,12 +181,12 @@ public class StockController {
     @ApiOperation(value = "保存一条证券指数数据", notes = "保存一条证券指数数据")
     @ApiImplicitParams({
         @ApiImplicitParam(paramType = "header", dataType = "Long", name = "currentId", value = "当前用户id", required = true),
-        @ApiImplicitParam(paramType = "query", dataType = "StockInput", name = "stockInput", value = "新建证券指数实体属性", required = true)})
+        @ApiImplicitParam(paramType = "body", dataType = "StockInput", name = "stockInput", value = "新建证券指数实体属性", required = true)})
     @CrossOrigin
     @PostMapping("/save")
-    public OutputResult<Stock> delete(
+    public OutputResult<Stock> save(
             @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
-            @RequestBody @Valid  StockInput stockInput)throws ApplicationException {
+            @RequestBody @Valid StockInput stockInput)throws ApplicationException {
         Stock stock = new Stock();
         copyProperties(stock, stockInput);
         stock.setCreateUserId(currentId);
@@ -197,7 +197,7 @@ public class StockController {
     /**
      * @author lushusheng
      * @Date 2018-11-28
-     * @Desc 获取股票证券指数的列表，不分页
+     * @Desc 盛华天宝k线图，获取股票证券指数的列表，不分页
      * @param num 表示要取得数据条数
      * @return 返回查询到的列表数据,正序排列，最新的num条
      * @update

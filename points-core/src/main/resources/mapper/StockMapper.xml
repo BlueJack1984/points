@@ -201,7 +201,7 @@
   </update>
 
   <!--使用pagehelper物理分页查询证券指数信息列表-->
-  <select id="selectListPage">
+  <select id="selectListPage" resultType="stock">
     select <include refid="c_stock"/>
     from <include refid="t_stock"/> _stock
     where _stock.status = 0
@@ -209,7 +209,7 @@
   </select>
 
   <!--查询证券指数信息列表，不分页,正序排列，最新的num条-->
-  <select id="selectList">
+  <select id="selectList" resultType="stock">
     select <include refid="c_stock"/>
     from (select * from <include refid="t_stock"/> stock_
     where stock_.status = 0 order by stock_.publish_time desc limit #{num}) as _stock
