@@ -52,8 +52,9 @@ public interface ISystemBonusService extends IBaseService<SystemBonus, Long> {
      * @Desc 结算当日系统总积分和个人总积分
      * 批量插入个人积分增值数据
      * @param systemRatio 系统权重比率
+     * @param currentId 用户id
      * @return 返回系统积分输出属性实体SystemBonusOutput
      * @update
      */
-    void checkout(Double systemRatio)throws ApplicationException;
+    void checkout(Double systemRatio, Long currentId)throws ApplicationException;
 }

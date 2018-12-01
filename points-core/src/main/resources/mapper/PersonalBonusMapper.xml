@@ -199,4 +199,17 @@
     order by _personal_bonus.create_time desc
     limit 0,1
   </select>
+
+  <!--批量更新个人积分增值数据-->
+  <update id="insertBatch" >
+    insert into <include refid="t_personal_bonus"/> _personal_bonus
+    set _personal_bonus.system_bonus_id =
+    <foreach item="item" index="index" collection="personalBonusList" separator=" " open="case ID" close="end">
+      when #{item.id} then null
+    </foreach>
+    where _personal_bonus.id in
+    <foreach collection="personalBonusList" index="index" item="item" separator="," open="(" close=")">
+      #{item.id,jdbcType=BIGINT}
+    </foreach>
+  </update>
 </mapper>

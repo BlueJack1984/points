@@ -1,8 +1,10 @@
 package com.tianbao.points.core.service.impl;
 
 
+import com.baomidou.mybatisplus.toolkit.IdWorker;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.tianbao.points.core.constant.StatusCode;
 import com.tianbao.points.core.dao.ISystemBonusDao;
 import com.tianbao.points.core.dto.PersonalBonusDTO;
 import com.tianbao.points.core.dto.UserDTO;
@@ -179,25 +181,55 @@ public class SystemBonusServiceImpl implements ISystemBonusService {
      * @update
      */
     @Override
-    public void checkout(Double systemRatio) throws ApplicationException {
+    public void checkout(Double systemRatio, Long currentId) throws ApplicationException {
         List<UserDTO> userDTOList = loadAllUsers();
         List<PersonalBonus> personalBonusList = new ArrayList<>();
-        Double totalPoints = 0.0;
+        Double startPoints = 0.0;
+        Double endPoints = 0.0;
         for(UserDTO userDTO: userDTOList) {
             PersonalBonus personalBonus = new PersonalBonus();
-            totalPoints += userDTO.getRank().getBasePoints() * systemRatio;
+            personalBonus.setId(IdWorker.getId());
+            personalBonus.setLastPersonalBonusId(userDTO.getPersonalBonus().getId());
+            personalBonus.setUserId(userDTO.getId());
+            personalBonus.setVisible(0);
+            personalBonus.setRatio(systemRatio);
+            personalBonus.setStatus(StatusCode.NORMAL.getCode());
+            personalBonus.setCreateUserId(currentId);
+            personalBonus.setCreateTime(new Date());
+            personalBonus.setUpdateTime(new Date());
+            personalBonus.setUpdateUserId(currentId);
+            startPoints += userDTO.getPersonalBonus().getPoints();
+            Double points = userDTO.getPersonalBonus().getPoints() + userDTO.getRank().getBasePoints() * systemRatio;
+            personalBonus.setPoints(points);
+            endPoints += points;
             personalBonusList.add(personalBonus);
         }
+        Long systemBonusId = saveSystemBonus(startPoints, endPoints, systemRatio, currentId);
+        savePersonalBonusList(systemBonusId, personalBonusList);
     }
 
     @Transactional
-    public Long saveSystemBonus()throws ApplicationException {
-        return null;
+    public Long saveSystemBonus(Double startPoints, Double endPoints, Double systemRatio, Long currentId)throws ApplicationException {
+        SystemBonus systemBonus = new SystemBonus();
+        systemBonus.setStartPoints(startPoints);
+        systemBonus.setEndPoints(endPoints);
+        systemBonus.setRatio(systemRatio);
+        systemBonus.setVisible(0);
+        systemBonus.setStatus(StatusCode.NORMAL.getCode());
+        systemBonus.setCreateTime(new Date());
+        systemBonus.setCreateUserId(currentId);
+        systemBonus.setUpdateTime(new Date());
+        systemBonus.setUpdateUserId(currentId);
+        iSystemBonusDao.insert(systemBonus);
+        return systemBonus.getId();
     }
 
     @Transactional
-    public Long savePersonalBonusList(Long systemBonusId)throws ApplicationException {
-        return null;
+    public void savePersonalBonusList(Long systemBonusId, List<PersonalBonus> personalBonusList)throws ApplicationException {
+        for(PersonalBonus personalBonus: personalBonusList) {
+            personalBonus.setSystemBonusId(systemBonusId);
+        }
+        personalBonusServer.insertBatch(personalBonusList);
     }
 
     /**
@@ -229,14 +261,4 @@ public class SystemBonusServiceImpl implements ISystemBonusService {
         }
         return userDTOList;
     }
-
-
-
-        <insert id="insertList" >
-    insert into <include refid="t_information_category"/>
-            (id,information_id,category_id,seq,status)values
-            <foreach collection="icpList" index="index" item="icp" separator=",">
-            (#{icp.id},#{icp.informationId},#{icp.categoryId},#{icp.seq},#{icp.status})
-        </foreach>
-    </insert>
 }
