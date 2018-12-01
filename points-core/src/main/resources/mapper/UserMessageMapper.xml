@@ -134,4 +134,6 @@
       update_user_id = #{updateUserId}
     where id = #{id,jdbcType=BIGINT}
   </update>
+  
+  <select id=""
 </mapper>

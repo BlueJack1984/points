@@ -200,7 +200,7 @@
     limit 0,1
   </select>
 
-  <!--批量更新个人积分增值数据-->
+  <!--批量插入个人积分增值数据-->
   <update id="insertBatch" >
     insert into <include refid="t_personal_bonus"/> _personal_bonus
     set _personal_bonus.system_bonus_id =

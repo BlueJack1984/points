@@ -92,7 +92,7 @@ public class PersonalBonusServiceImpl implements IPersonalBonusService {
             BeanHelper.copyProperties(personalBonusDTO, personalBonus);
             for(User user: userList) {
                 if(user.getId().equals(personalBonus.getUserId())) {
-                    personalBonusDTO.setUser(user);
+                    BeanHelper.copyProperties(personalBonusDTO.getUserDTO(), user);
                     break;
                 }
             }

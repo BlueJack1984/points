@@ -36,4 +36,10 @@ public class Message extends ObjectPO<Long> {
      * 留言的回复
      */
     private String reply;
+    /**
+     * 是否已经处理
+     * 查看状态表，5表示未处理，6表示已经处理
+     */
+    private Integer method;
+
 }

@@ -16,7 +16,9 @@ public enum StatusCode {
      * 针对Message实体的status:已读和未读
      */
     READED(3, "已读"),
-    UNREAD(4, "未读");
+    UNREAD(4, "未读"),
+    UNSOVLED(5, "未处理"),
+    SOVLED(6, "已处理");
     /**
      * 公告标题
      */

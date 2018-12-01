@@ -50,4 +50,18 @@ public class UserMessageServiceImpl implements IUserMessageService {
     public void updateById(UserMessage record) throws ApplicationException {
 
     }
+
+    /**
+     * @desc 根据实体id和发送者id和接收者id删除实体
+     * @author lushusheng 2018-12-01
+     * @param senderId 发送者id
+     * @param currentId 当前用户id
+     * @param id 留言实体id
+     * @return 返回删除操作结果
+     */
+    @Override
+    public void deleteByIds(Long id, Long senderId, Long currentId) throws ApplicationException {
+        //首先根据三个id查询出来关联信息
+        iUserMessageDao
+    }
 }
