@@ -88,7 +88,6 @@ public class UserController {
                 passwordInput.getNewPassword(), passwordInput.getSureNewPassword());
         return new OutputResult<>();
     }
-    //void updateSuperPassword(Long id)throws ApplicationException;
 
 
     /**

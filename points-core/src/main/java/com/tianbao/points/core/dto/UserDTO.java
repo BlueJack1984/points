@@ -1,7 +1,7 @@
 package com.tianbao.points.core.dto;
 
-import com.baomidou.mybatisplus.toolkit.IdWorker;
-import com.tianbao.points.core.entity.Position;
+import com.tianbao.points.core.entity.PersonalBonus;
+import com.tianbao.points.core.entity.Rank;
 import com.tianbao.points.core.entity.Role;
 import com.tianbao.points.core.entity.User;
 import lombok.Data;
@@ -28,4 +28,14 @@ public class UserDTO extends User {
      * 部门与职位映射关系：一个职位只对应一个部门，一个部门可对应多个职位
      */
     private List<PositionDTO> positionDTOList;
+
+    /**
+     * 会员等级
+     */
+    private Rank rank;
+
+    /**
+     * 用户当前积分
+     */
+    private PersonalBonus personalBonus;
 }

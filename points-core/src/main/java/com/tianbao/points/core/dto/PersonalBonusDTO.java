@@ -17,5 +17,5 @@ public class PersonalBonusDTO extends PersonalBonus {
      * 包装个人信息的属性
      *
      */
-    private User user;
+    private UserDTO userDTO;
 }

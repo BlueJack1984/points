@@ -181,7 +181,7 @@ public class UserServiceImpl implements IUserService {
      * @update
      */
     @Override
-    public List<User> getList() throws ApplicationException {
+    public List<UserDTO> getList() throws ApplicationException {
         return iUserDao.getList();
     }
 

@@ -270,10 +270,11 @@
     </foreach>
   </select>
 
-  <!--查询所有用户列表，禁用，待审核用户不在此范围-->
-  <select id="getList" resultType="user">
-    select <include refid="c_user"/>
+  <!--查询所有用户列表，禁用，待审核用户不在此范围,查询信息包括会员等级信息-->
+  <select id="getList" resultType="com.tianbao.points.core.dto.UserDTO">
+    select <include refid="c_user"/>, <include refid="c_rank"/>
     from  <include refid="t_user"/> _user
+    left join <include refid="t_rank"/> _rank on _rank.id = _user.rank_id and _rank.status = 0
     where _user.status = 0
   </select>
 </mapper>

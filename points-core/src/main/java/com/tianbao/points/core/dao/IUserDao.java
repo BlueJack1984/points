@@ -1,6 +1,7 @@
 package com.tianbao.points.core.dao;
 
 import com.tianbao.points.core.dao.base.IBaseDao;
+import com.tianbao.points.core.dto.UserDTO;
 import com.tianbao.points.core.entity.User;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -31,5 +32,5 @@ public interface IUserDao extends IBaseDao<User, Long> {
      * @return 返回查询到的数据列表
      * @update
      */
-    List<User> getList();
+    List<UserDTO> getList();
 }

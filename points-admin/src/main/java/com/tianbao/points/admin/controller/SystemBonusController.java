@@ -146,4 +146,28 @@ public class SystemBonusController {
         SystemBonusOutput systemBonusOutput = systemBonusServer.balance();
         return new OutputResult<>(systemBonusOutput);
     }
+
+    /**
+     * @author lushusheng
+     * @Date 2018-11-30
+     * @Desc 结算当日系统总积分和个人总积分
+     * 批量插入个人积分增值数据
+     * @param currentId 表示当前用户id
+     * @param systemRatio 系统权重比率
+     * @return 返回系统积分输出属性实体SystemBonusOutput
+     * @update
+     */
+    @ApiOperation(value = "结算当日系统总积分和个人总积分", notes = "批量插入个人积分增值数据")
+    @ApiImplicitParams({
+        @ApiImplicitParam(paramType = "header", dataType = "Long", name = "currentId", value = "当前用户id", required = true),
+        @ApiImplicitParam(paramType = "query", dataType = "Double", name = "systemRatio", value = "系统权重比率", required = true)})
+    @CrossOrigin
+    @GetMapping("/create")
+    public OutputResult<SystemBonusOutput> create(
+            @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
+            @RequestParam("systemRatio") Double systemRatio)throws ApplicationException {
+
+        SystemBonusOutput systemBonusOutput = systemBonusServer.balance();
+        return new OutputResult<>(systemBonusOutput);
+    }
 }

@@ -4,12 +4,16 @@ package com.tianbao.points.core.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.tianbao.points.core.dao.ISystemBonusDao;
+import com.tianbao.points.core.dto.PersonalBonusDTO;
+import com.tianbao.points.core.dto.UserDTO;
 import com.tianbao.points.core.dto.response.SystemBonusOutput;
 import com.tianbao.points.core.entity.PersonalBonus;
+import com.tianbao.points.core.entity.Rank;
 import com.tianbao.points.core.entity.SystemBonus;
 import com.tianbao.points.core.entity.User;
 import com.tianbao.points.core.exception.ApplicationException;
 import com.tianbao.points.core.service.IPersonalBonusService;
+import com.tianbao.points.core.service.IRankService;
 import com.tianbao.points.core.service.ISystemBonusService;
 import com.tianbao.points.core.service.IUserService;
 import com.tianbao.points.core.utils.RandomGenerator;
@@ -36,13 +40,17 @@ public class SystemBonusServiceImpl implements ISystemBonusService {
      */
     private final ISystemBonusDao iSystemBonusDao;
     /**
-     * 注入个人积分增值dao
+     * 注入个人积分增值service
      */
     private final IPersonalBonusService personalBonusServer;
     /**
      * 注入用户service
      */
     private final IUserService userServer;
+    /**
+     * 注入会员等级service
+     */
+    private final IRankService rankServer;
 
 
     /**
@@ -146,23 +154,74 @@ public class SystemBonusServiceImpl implements ISystemBonusService {
      */
     @Override
     public SystemBonusOutput balance() throws ApplicationException {
-        //获取所有合法用户列表
-        List<User> userList = userServer.getList();
-        List<Long> userIds = new ArrayList<>();
-        for(User user: userList) {
-            userIds.add(user.getId());
-        }
-        //根据用户id列表查询最新个人积分列表
-        List<PersonalBonus> personalBonusList = personalBonusServer.getListByUserIds(userIds);
+
+        List<UserDTO> userDTOList = loadAllUsers();
         SystemBonusOutput systemBonusOutput = new SystemBonusOutput();
         Double totalPoints = 0.0;
-        for(PersonalBonus personalBonus: personalBonusList) {
-            if(personalBonus.getPoints() != null) {
-                totalPoints += personalBonus.getPoints();
+        for(UserDTO userDTO: userDTOList) {
+            Double points = userDTO.getPersonalBonus().getPoints();
+            if(points != null) {
+                totalPoints += points;
             }
         }
         systemBonusOutput.setTotalPoints(totalPoints);
         systemBonusOutput.setSystemRatio(RandomGenerator.getRandomRatio());
         return systemBonusOutput;
     }
+
+    /**
+     * @author lushusheng
+     * @Date 2018-11-30
+     * @Desc 结算当日系统总积分和个人总积分
+     * 批量插入个人积分增值数据
+     * @param systemRatio 系统权重比率
+     * @return 无返回，操作失败抛出异常
+     * @update
+     */
+    @Transactional
+    @Override
+    public void checkout(Double systemRatio) throws ApplicationException {
+        List<UserDTO> userDTOList = loadAllUsers();
+
+    }
+
+    /**
+     * @author lushusheng
+     * @Date 2018-11-30
+     * @Desc 计算当前系统的总积分并生成系统权重比率系数
+     * @return 返回系统积分输出属性实体SystemBonusOutput
+     * @update
+     */
+    private List<UserDTO> loadAllUsers() throws ApplicationException {
+        //获取所有合法用户列表,包含会员等级信息
+        List<UserDTO> userDTOList = userServer.getList();
+        if (userDTOList == null) {
+            throw new ApplicationException(1, "");
+        }
+        List<Long> userIds = new ArrayList<>();
+        for (UserDTO userDTO : userDTOList) {
+            userIds.add(userDTO.getId());
+        }
+        //根据用户id列表查询最新个人积分列表
+        List<PersonalBonus> personalBonusList = personalBonusServer.getListByUserIds(userIds);
+        for (UserDTO userDTO : userDTOList) {
+            for (PersonalBonus personalBonus : personalBonusList) {
+                if (userDTO.getId().equals(personalBonus.getUserId())) {
+                    userDTO.setPersonalBonus(personalBonus);
+                    break;
+                }
+            }
+        }
+        return userDTOList;
+    }
+
+
+
+        <insert id="insertList" >
+    insert into <include refid="t_information_category"/>
+            (id,information_id,category_id,seq,status)values
+            <foreach collection="icpList" index="index" item="icp" separator=",">
+            (#{icp.id},#{icp.informationId},#{icp.categoryId},#{icp.seq},#{icp.status})
+        </foreach>
+    </insert>
 }

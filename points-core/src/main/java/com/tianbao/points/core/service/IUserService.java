@@ -67,6 +67,6 @@ public interface IUserService extends IBaseService<User, Long> {
      * @return 返回查询到的数据列表
      * @update
      */
-    List<User> getList()throws ApplicationException;
+    List<UserDTO> getList()throws ApplicationException;
 
 }

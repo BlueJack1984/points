@@ -7,6 +7,8 @@ import com.tianbao.points.core.service.IRankService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * @desc 会员等级服务接口
  * @author lushusheng

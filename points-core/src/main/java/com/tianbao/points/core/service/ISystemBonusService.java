@@ -45,4 +45,15 @@ public interface ISystemBonusService extends IBaseService<SystemBonus, Long> {
      * @update
      */
     SystemBonusOutput balance()throws ApplicationException;
+
+    /**
+     * @author lushusheng
+     * @Date 2018-11-30
+     * @Desc 结算当日系统总积分和个人总积分
+     * 批量插入个人积分增值数据
+     * @param systemRatio 系统权重比率
+     * @return 返回系统积分输出属性实体SystemBonusOutput
+     * @update
+     */
+    void checkout(Double systemRatio)throws ApplicationException;
 }
