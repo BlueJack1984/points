@@ -1,13 +1,12 @@
 package com.tianbao.points.core.constant;
 
-
 /**
- * @desc 状态编码枚举类
+ * @desc 会员等级枚举类
  * @author lushusheng
  * @date 2018-11-28
  *
  */
-public enum StatusCode {
+public enum RankCode {
 
     NORMAL(0, "正常"),
     FORBIDDEN(1, "禁用"),
@@ -18,13 +17,17 @@ public enum StatusCode {
     READED(3, "已读"),
     UNREAD(4, "未读");
     /**
-     * 公告标题
+     * 会员等级编码值，对应会员等级表id
      */
     private Integer code;
     /**
-     * 公告标题
+     * 会员等级积分增值基数
      */
-    private String message;
+    private Double basePoint;
+    /**
+     * 会员等级积分增值基数
+     */
+    private Double basePoint;
 
     /**
      * 无参数构造器

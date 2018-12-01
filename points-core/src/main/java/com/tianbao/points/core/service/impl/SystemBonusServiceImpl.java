@@ -178,11 +178,26 @@ public class SystemBonusServiceImpl implements ISystemBonusService {
      * @return 无返回，操作失败抛出异常
      * @update
      */
-    @Transactional
     @Override
     public void checkout(Double systemRatio) throws ApplicationException {
         List<UserDTO> userDTOList = loadAllUsers();
+        List<PersonalBonus> personalBonusList = new ArrayList<>();
+        Double totalPoints = 0.0;
+        for(UserDTO userDTO: userDTOList) {
+            PersonalBonus personalBonus = new PersonalBonus();
+            totalPoints += userDTO.getRank().getBasePoints() * systemRatio;
+            personalBonusList.add(personalBonus);
+        }
+    }
 
+    @Transactional
+    public Long saveSystemBonus()throws ApplicationException {
+        return null;
+    }
+
+    @Transactional
+    public Long savePersonalBonusList(Long systemBonusId)throws ApplicationException {
+        return null;
     }
 
     /**
