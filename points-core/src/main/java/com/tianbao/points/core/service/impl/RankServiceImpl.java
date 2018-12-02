@@ -1,5 +1,7 @@
 package com.tianbao.points.core.service.impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.tianbao.points.core.dao.IRankDao;
 import com.tianbao.points.core.entity.Rank;
 import com.tianbao.points.core.exception.ApplicationException;
@@ -64,5 +66,22 @@ public class RankServiceImpl implements IRankService {
     public List<Rank> getList() throws ApplicationException {
         List<Rank> rankList = iRankDao.selectList();
         return rankList;
+    }
+
+    /**
+     * @author lushusheng
+     * @Date 2018-12-02
+     * @Desc 查询会员等级列表，分页
+     * @param pageNo 表示当前页码
+     * @param pageSize 表示数据条数
+     * @return 返回会员等级集合数据
+     * @update
+     */
+    @Override
+    public PageInfo<Rank> getListPage(Integer pageNo, Integer pageSize) throws ApplicationException {
+        PageHelper.startPage(pageNo, pageSize);
+        List<Rank> rankList = iRankDao.selectListPage();
+        PageInfo<Rank> pageInfo = new PageInfo<>(rankList);
+        return pageInfo;
     }
 }

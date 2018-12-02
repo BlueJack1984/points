@@ -22,4 +22,13 @@ public interface IRankDao extends IBaseDao<Rank, Long> {
      * @update
      */
     List<Rank> selectList();
+
+    /**
+     * @author lushusheng
+     * @Date 2018-12-02
+     * @Desc 查询会员等级列表，分页
+     * @return 返回会员等级集合数据
+     * @update
+     */
+    List<Rank> selectListPage();
 }
