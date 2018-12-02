@@ -134,6 +134,12 @@
       update_user_id = #{updateUserId}
     where id = #{id,jdbcType=BIGINT}
   </update>
-  
-  <select id=""
+
+  <!--查询用户留言关联表信息-->
+  <select id="selectByIds" resultType="userMessage">
+    select <include refid="c_user_message"/>
+    from <include refid="t_user_message"/> _user_message
+    where _user_message.message_id = #{id} and _user_message.status = 0
+    and _user_message.sender_id = #{senderId} and _user_message.receiver_id = #{currentId}
+  </select>
 </mapper>

@@ -108,7 +108,7 @@ public class MessageController {
             @PathVariable("id")Long id,
             @PathVariable("senderId") Long senderId)throws ApplicationException {
 
-        messageServer.delete(senderId, currentId, pageNo, pageSize);
+        messageServer.deleteByIds(id, senderId, currentId);
         return new OutputResult<>();
     }
 }

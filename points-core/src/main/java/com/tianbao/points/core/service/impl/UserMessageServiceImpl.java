@@ -1,11 +1,15 @@
 package com.tianbao.points.core.service.impl;
 
+import com.tianbao.points.core.constant.StatusCode;
 import com.tianbao.points.core.dao.IUserMessageDao;
 import com.tianbao.points.core.entity.UserMessage;
 import com.tianbao.points.core.exception.ApplicationException;
 import com.tianbao.points.core.service.IUserMessageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.Date;
+import java.util.List;
 
 /**
  * @desc 用户留言关联服务接口
@@ -62,6 +66,14 @@ public class UserMessageServiceImpl implements IUserMessageService {
     @Override
     public void deleteByIds(Long id, Long senderId, Long currentId) throws ApplicationException {
         //首先根据三个id查询出来关联信息
-        iUserMessageDao
+        UserMessage userMessage = iUserMessageDao.selectByIds(id, senderId, currentId);
+        if(userMessage == null) {
+            throw new ApplicationException(1, "");
+        }
+        //逻辑删除
+        userMessage.setStatus(StatusCode.FORBIDDEN.getCode());
+        userMessage.setUpdateTime(new Date());
+        userMessage.setUpdateUserId(currentId);
+        iUserMessageDao.updateByPrimaryKey(userMessage);
     }
 }
