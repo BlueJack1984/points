@@ -285,4 +285,25 @@
     where _user.status = 0
     order by _user.create_time desc
   </select>
+
+  <!--按照不同条件进行查询会员信息-->
+  <select id="selectListByConditionPage" resultType="user">
+    select <include refid="c_user"/>
+    from <include refid="t_user"/> _user
+    where _user.status = 0 and
+    <choose>
+      <when test="type == 0">
+--         cast(_user.id as char) like concat('%', '${keyword}','%')
+         _user.account like concat('%', '${keyword}','%')
+      </when>
+      <when test="type == 1">
+        _user.phone like concat('%', '${keyword}','%')
+      </when>
+      <otherwise>
+        _user.real_name like concat('%', '${keyword}','%')
+      </otherwise>
+    </choose>
+    order by _user.create_time desc
+  </select>
+
 </mapper>
