@@ -13,24 +13,24 @@
 
   <select id="selectByPrimaryKey" resultType="rank" parameterType="java.lang.Long" >
     select <include refid="c_rank"/>
-    from <include refid="c_rank"/> _rank
+    from <include refid="t_rank"/> _rank
     where id = #{id,jdbcType=BIGINT}
   </select>
 
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
-    delete from <include refid="c_rank"/>
+    delete from <include refid="t_rank"/>
     where id = #{id,jdbcType=BIGINT}
   </delete>
 
   <insert id="insert" parameterType="rank" >
-    insert into <include refid="c_rank"/>
+    insert into <include refid="t_rank"/>
     (id, name, alias, base_points, base_money, status, create_time, create_user_id, update_time, update_user_id)
     values (#{id}, #{name}, #{alias}, #{basePoints}, #{baseMoney}, #{status},
       #{createTime}, #{createUserId}, #{updateTime}, #{updateUserId})
   </insert>
 
   <insert id="insertSelective" parameterType="rank" >
-    insert into <include refid="c_rank"/>
+    insert into <include refid="t_rank"/>
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
@@ -98,7 +98,7 @@
   </insert>
 
   <update id="updateByPrimaryKeySelective" parameterType="rank" >
-    update <include refid="c_rank"/>
+    update <include refid="t_rank"/>
     <set >
       <if test="name != null" >
         name = #{name},
@@ -132,7 +132,7 @@
   </update>
 
   <update id="updateByPrimaryKey" parameterType="rank" >
-    update <include refid="c_rank"/>
+    update <include refid="t_rank"/>
     set name = #{name},
       alias = #{alias},
       base_points = #{basePoints},
@@ -144,4 +144,11 @@
       update_user_id = #{updateUserId}
     where id = #{id,jdbcType=BIGINT}
   </update>
+
+  <!--查询所有会员等级列表，不分页-->
+  <select id="selectList" resultType="rank">
+    select <include refid="c_rank"/>
+    from <include refid="t_rank"/> _rank
+    where _rank.status = 0
+  </select>
 </mapper>

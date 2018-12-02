@@ -15,5 +15,13 @@ import java.util.List;
  */
 public interface IRankService extends IBaseService<Rank, Long> {
 
+    /**
+     * @author lushusheng
+     * @Date 2018-12-01
+     * @Desc 查询会员等级列表，不分页
+     * @return 返回会员等级集合数据
+     * @update
+     */
+    List<Rank> getList()throws ApplicationException;
 }
 

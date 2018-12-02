@@ -77,4 +77,17 @@ public class User extends ObjectPO<Long> {
      * 上一次（最近）登录系统的时间
      */
     private Date lastLoginTime;
+    /**
+     * 省级
+     */
+    private String province;
+    /**
+     * 市级
+     */
+    private String city;
+    /**
+     * 地址
+     */
+    private String address;
+
 }

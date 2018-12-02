@@ -33,4 +33,20 @@ public interface IUserDao extends IBaseDao<User, Long> {
      * @update
      */
     List<UserDTO> getList();
+
+    /**
+     * @author lushusheng
+     * @Date 2018-12-02
+     * @Desc 获取所有合法用户列表，分页
+     * @return 返回查询到的数据列表
+     * @update
+     */
+    List<User> selectListPage();
+    /**
+     * @desc 按条件查询会员
+     * @author lushusheng 2018-12-02
+     * @param keyword 搜索关键字，模糊查询
+     * @return 返回会员信息列表
+     */
+    List<User> selectListByConditionPage(@Param("type")Integer type, @Param("keyword") String keyword);
 }

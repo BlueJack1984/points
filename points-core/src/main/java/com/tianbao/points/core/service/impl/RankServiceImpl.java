@@ -52,4 +52,17 @@ public class RankServiceImpl implements IRankService {
     public void updateById(Rank record) throws ApplicationException {
 
     }
+
+    /**
+     * @author lushusheng
+     * @Date 2018-12-01
+     * @Desc 查询会员等级列表，不分页
+     * @return 返回会员等级集合数据
+     * @update
+     */
+    @Override
+    public List<Rank> getList() throws ApplicationException {
+        List<Rank> rankList = iRankDao.selectList();
+        return rankList;
+    }
 }

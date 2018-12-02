@@ -277,4 +277,12 @@
     left join <include refid="t_rank"/> _rank on _rank.id = _user.rank_id and _rank.status = 0
     where _user.status = 0
   </select>
+
+  <!--查询所有已审核用户，分页展示-->
+  <select id="selectListPage" resultType="user">
+    select <include refid="c_user"/>
+    from <include refid="t_user"/> _user
+    where _user.status = 0
+    order by _user.create_time desc
+  </select>
 </mapper>
