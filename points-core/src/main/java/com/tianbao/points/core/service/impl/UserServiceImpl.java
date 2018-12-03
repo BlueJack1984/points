@@ -325,6 +325,7 @@ public class UserServiceImpl implements IUserService {
         List<User> adminList = iUserDao.getAdminListPage();
         List<UserDTO> userDTOList = new ArrayList<>();
         //后期可以优化，管理员数据量大时较慢
+
         for(User admin: adminList) {
             UserDTO userDTO = new UserDTO();
             List<Role> roleList = roleServer.getListByUserId(admin.getId());

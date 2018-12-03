@@ -159,4 +159,14 @@
     where _role.status = 0
     order by _role.id
   </select>
+
+
+  <select id="" resultType="java.util.List">
+    <foreach collection="array" item="id" index="index" separator="union">
+      select <include refid="c_role"/>
+      from <include refid="t_role"/> _role
+      where _role.status = 0 and _role.id in
+      (select ur.role_id from user_role as ur where ur.status = 0 and ur.user_id = #{id})
+    </foreach>
+  </select>
 </mapper>

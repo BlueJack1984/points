@@ -46,4 +46,5 @@ public interface IRoleService extends IBaseService<Role, Long> {
      * @throws ApplicationException 保存异常
      */
     void delete(Long id, Long currentId)throws ApplicationException;
+
 }
