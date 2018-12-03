@@ -49,4 +49,11 @@ public interface IUserDao extends IBaseDao<User, Long> {
      * @return 返回会员信息列表
      */
     List<User> selectListByConditionPage(@Param("type")Integer type, @Param("keyword") String keyword);
+
+    /**
+     * @desc 查询管理员列表，分页展示
+     * @author lushusheng 2018-12-03
+     * @return 返回管理员列表信息
+     */
+    List<User> getAdminListPage();
 }

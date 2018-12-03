@@ -7,6 +7,7 @@ import com.tianbao.points.core.entity.User;
 import com.tianbao.points.core.exception.ApplicationException;
 import com.tianbao.points.core.service.base.IBaseService;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import java.util.List;
 
 /**
@@ -112,4 +113,14 @@ public interface IUserService extends IBaseService<User, Long> {
      * @throws ApplicationException 保存异常
      */
     PageInfo<UserDTO> getListByConditionPage(Integer type, String keyword, Integer pageNo, Integer pageSize) throws ApplicationException;
+
+    /**
+     * @desc 查询管理员列表，分页展示
+     * @author lushusheng 2018-12-03
+     * @param pageNo 当前页码
+     * @param pageSize 每页数据条数
+     * @return 返回管理员列表信息
+     * @throws ApplicationException 保存异常
+     */
+    PageInfo<UserDTO> getAdminListPage(Integer pageNo, Integer pageSize)throws ApplicationException;
 }

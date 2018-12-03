@@ -306,4 +306,13 @@
     order by _user.create_time desc
   </select>
 
+  <!--查询管理员信息列表-->
+  <select id="getAdminListPage" resultType="user">
+    select distinct <include refid="c_user"/>
+    from <include refid="t_user"/> _user
+    left join user_role as ur on ur.user_id = _user.id and ur.status = 0
+    left join role as r on r.id = ur.role_id and r.status = 0
+    where _user.status = 0
+    and r.name like concat('%', '管理员','%')
+  </select>
 </mapper>

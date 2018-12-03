@@ -188,4 +188,6 @@ public class UserController {
         PageInfo<UserDTO> pageInfo = userServer.getListByConditionPage(type ,keyword, pageNo, pageSize);
         return new OutputListResult<>(pageInfo);
     }
+
+
 }

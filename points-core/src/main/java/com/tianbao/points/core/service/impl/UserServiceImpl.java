@@ -311,6 +311,30 @@ public class UserServiceImpl implements IUserService {
         return pageInfo;
     }
 
+    /**
+     * @desc 查询管理员列表，分页展示
+     * @author lushusheng 2018-12-03
+     * @param pageNo 当前页码
+     * @param pageSize 每页数据条数
+     * @return 返回管理员列表信息
+     * @throws ApplicationException 保存异常
+     */
+    @Override
+    public PageInfo<UserDTO> getAdminListPage(Integer pageNo, Integer pageSize) throws ApplicationException {
+        PageHelper.startPage(pageNo, pageSize);
+        List<User> adminList = iUserDao.getAdminListPage();
+        List<UserDTO> userDTOList = new ArrayList<>();
+        //后期可以优化，管理员数据量大时较慢
+        for(User admin: adminList) {
+            UserDTO userDTO = new UserDTO();
+            List<Role> roleList = roleServer.getListByUserId(admin.getId());
+            userDTO.setRoleList(roleList);
+            userDTOList.add(userDTO);
+        }
+        PageInfo<UserDTO> pageInfo = new PageInfo<>(userDTOList);
+        return pageInfo;
+    }
+
     @Override
     public void deleteById(Long id) throws ApplicationException {
 
