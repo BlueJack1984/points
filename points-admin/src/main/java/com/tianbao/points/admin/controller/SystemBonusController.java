@@ -1,7 +1,6 @@
 package com.tianbao.points.admin.controller;
 
 import com.github.pagehelper.PageInfo;
-import com.tianbao.points.admin.dto.response.aa;
 import com.tianbao.points.core.dto.response.OutputListResult;
 import com.tianbao.points.core.dto.response.OutputResult;
 import com.tianbao.points.core.dto.response.SystemBonusOutput;
@@ -16,10 +15,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Random;
 
 /**
  * @desc 系统积分增值服务入口
+ * 财务管理，包括增值积分结算和增值积分列表
  * @author lushusheng
  * @date 2018-11-27
  */
@@ -34,6 +33,49 @@ public class SystemBonusController {
      * 注入系统积分增值服务service
      */
     private final ISystemBonusService systemBonusServer;
+
+    /**
+     * @author lushusheng
+     * @Date 2018-11-30
+     * @Desc 增值积分结算：计算当前系统的总积分并生成系统权重比率系数
+     * @param currentId 表示当前用户id
+     * @return 返回系统积分输出属性实体SystemBonusOutput
+     * @update
+     */
+    @ApiOperation(value = "计算当前系统的总积分并生成系统权重比率系数", notes = "计算当前系统的总积分并生成系统权重比率系数")
+    @ApiImplicitParams({@ApiImplicitParam(paramType = "header", dataType = "Long", name = "currentId", value = "当前用户id", required = true)})
+    @CrossOrigin
+    @GetMapping("/balance")
+    public OutputResult<SystemBonusOutput> balance(
+            @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId)throws ApplicationException {
+
+        SystemBonusOutput systemBonusOutput = systemBonusServer.balance();
+        return new OutputResult<>(systemBonusOutput);
+    }
+
+    /**
+     * @author lushusheng
+     * @Date 2018-11-30
+     * @Desc 结算当日系统总积分和个人总积分
+     * 批量插入个人积分增值数据
+     * @param currentId 表示当前用户id
+     * @param systemRatio 系统权重比率
+     * @return 返回系统积分输出属性实体SystemBonusOutput
+     * @update
+     */
+    @ApiOperation(value = "结算当日系统总积分和个人总积分", notes = "批量插入个人积分增值数据")
+    @ApiImplicitParams({
+            @ApiImplicitParam(paramType = "header", dataType = "Long", name = "currentId", value = "当前用户id", required = true),
+            @ApiImplicitParam(paramType = "query", dataType = "Double", name = "systemRatio", value = "系统权重比率", required = true)})
+    @CrossOrigin
+    @GetMapping("/create")
+    public OutputResult<SystemBonusOutput> create(
+            @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
+            @RequestParam("systemRatio") Double systemRatio)throws ApplicationException {
+
+        SystemBonusOutput systemBonusOutput = systemBonusServer.balance();
+        return new OutputResult<>(systemBonusOutput);
+    }
 
     /**
      * @author lushusheng
@@ -126,48 +168,5 @@ public class SystemBonusController {
         //逻辑删除
         systemBonusServer.deleteById(id);
         return new OutputResult<>();
-    }
-
-    /**
-     * @author lushusheng
-     * @Date 2018-11-30
-     * @Desc 计算当前系统的总积分并生成系统权重比率系数
-     * @param currentId 表示当前用户id
-     * @return 返回系统积分输出属性实体SystemBonusOutput
-     * @update
-     */
-    @ApiOperation(value = "计算当前系统的总积分并生成系统权重比率系数", notes = "计算当前系统的总积分并生成系统权重比率系数")
-    @ApiImplicitParams({@ApiImplicitParam(paramType = "header", dataType = "Long", name = "currentId", value = "当前用户id", required = true)})
-    @CrossOrigin
-    @GetMapping("/balance")
-    public OutputResult<SystemBonusOutput> balance(
-            @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId)throws ApplicationException {
-
-        SystemBonusOutput systemBonusOutput = systemBonusServer.balance();
-        return new OutputResult<>(systemBonusOutput);
-    }
-
-    /**
-     * @author lushusheng
-     * @Date 2018-11-30
-     * @Desc 结算当日系统总积分和个人总积分
-     * 批量插入个人积分增值数据
-     * @param currentId 表示当前用户id
-     * @param systemRatio 系统权重比率
-     * @return 返回系统积分输出属性实体SystemBonusOutput
-     * @update
-     */
-    @ApiOperation(value = "结算当日系统总积分和个人总积分", notes = "批量插入个人积分增值数据")
-    @ApiImplicitParams({
-        @ApiImplicitParam(paramType = "header", dataType = "Long", name = "currentId", value = "当前用户id", required = true),
-        @ApiImplicitParam(paramType = "query", dataType = "Double", name = "systemRatio", value = "系统权重比率", required = true)})
-    @CrossOrigin
-    @GetMapping("/create")
-    public OutputResult<SystemBonusOutput> create(
-            @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
-            @RequestParam("systemRatio") Double systemRatio)throws ApplicationException {
-
-        SystemBonusOutput systemBonusOutput = systemBonusServer.balance();
-        return new OutputResult<>(systemBonusOutput);
     }
 }

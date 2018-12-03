@@ -25,9 +25,17 @@ public class PersonalBonus extends ObjectPO<Long> {
      */
     private Long systemBonusId;
     /**
+     * 上次的个人积分增值记录id
+     */
+    private Long parentId;
+    /**
+     * 用户当天结算前积分
+     */
+    private Double startPoints;
+    /**
      * 用户当天结算后积分
      */
-    private Double points;
+    private Double endPoints;
     /**
      * 用户当天结算的权重比率，与系统当天结算比率相同
      */
@@ -36,8 +44,5 @@ public class PersonalBonus extends ObjectPO<Long> {
      * 此数据是否对会员客户端可见，0表示正常可见，1表示不可见
      */
     private Integer visible;
-    /**
-     * 上次的个人积分增值记录id
-     */
-    private Long lastPersonalBonusId;
+
 }
