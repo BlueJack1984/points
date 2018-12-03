@@ -33,4 +33,16 @@ public class Rank extends ObjectPO<Long> {
      * 晋升到该会员等级需要交纳的金额
      */
     private Double baseMoney;
+    /**
+     * 会员等级标识颜色
+     */
+    private String color;
+    /**
+     * 奖金封顶
+     */
+    //private String color;
+    /**
+     * 排序编号
+     */
+    //private String color;
 }

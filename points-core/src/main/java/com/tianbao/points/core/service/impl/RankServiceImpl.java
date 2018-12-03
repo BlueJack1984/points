@@ -8,6 +8,7 @@ import com.tianbao.points.core.exception.ApplicationException;
 import com.tianbao.points.core.service.IRankService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -25,31 +26,41 @@ public class RankServiceImpl implements IRankService {
      */
     private final IRankDao iRankDao;
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void deleteById(Long id) throws ApplicationException {
 
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void save(Rank record) throws ApplicationException {
 
     }
-
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void saveSelective(Rank record) throws ApplicationException {
 
     }
 
+    /**
+     * @desc 根据id查询会员等级数据
+     * @author lushusheng 2018-12-03
+     * @param id 要查询的实体id
+     * @return 返回查询结果
+     * @throws ApplicationException 保存异常
+     */
     @Override
     public Rank selectById(Long id) throws ApplicationException {
-        return null;
+        Rank rank = iRankDao.selectByPrimaryKey(id);
+        return rank;
     }
-
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void updateByIdSelective(Rank record) throws ApplicationException {
 
     }
-
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void updateById(Rank record) throws ApplicationException {
 

@@ -13,7 +13,7 @@
   <select id="selectByPrimaryKey" resultType="role" parameterType="java.lang.Long" >
     select <include refid="c_role"/>
     from <include refid="t_role"/>  _role
-    where id = #{id,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT} and _role.status = 0
   </select>
 
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
@@ -150,5 +150,13 @@
     from <include refid="t_role"/> _role
     where _role.status = 0 and _role.id in
     (select ur.role_id from user_role as ur where ur.status = 0 and ur.user_id = #{userId})
+  </select>
+
+  <!-- 分页查询所有的表-->
+  <select id="selectListPage" resultType="role">
+    select <include refid="c_role"/>
+    from <include refid="t_role"/> _role
+    where _role.status = 0
+    order by _role.id
   </select>
 </mapper>

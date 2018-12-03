@@ -1,6 +1,7 @@
 package com.tianbao.points.core.service;
 
 
+import com.github.pagehelper.PageInfo;
 import com.tianbao.points.core.entity.Role;
 import com.tianbao.points.core.exception.ApplicationException;
 import com.tianbao.points.core.service.base.IBaseService;
@@ -26,4 +27,23 @@ public interface IRoleService extends IBaseService<Role, Long> {
      * @update
      */
     List<Role> getListByUserId(Long userId)throws ApplicationException;
+    /**
+     * @desc 获取角色列表，分页展示
+     * @author lushusheng 2018-12-03
+     * @param pageNo 当前页码
+     * @param pageSize 数据条数
+     * @return 返回数据列表
+     * @throws ApplicationException 保存异常
+     */
+    PageInfo<Role> getListPage(Integer pageNo, Integer pageSize)throws ApplicationException;
+
+    /**
+     * @desc 根据id删除实体
+     * @author lushusheng 2018-12-03
+     * @param currentId 当前用户id
+     * @param id 实体id
+     * @return 返回操作结果
+     * @throws ApplicationException 保存异常
+     */
+    void delete(Long id, Long currentId)throws ApplicationException;
 }

@@ -14,7 +14,7 @@
   <select id="selectByPrimaryKey" resultType="rank" parameterType="java.lang.Long" >
     select <include refid="c_rank"/>
     from <include refid="t_rank"/> _rank
-    where id = #{id,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT} and _rank.status = 0
   </select>
 
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >

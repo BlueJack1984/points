@@ -54,6 +54,27 @@ public class RankController {
         PageInfo<Rank> pageInfo = rankServer.getListPage(pageNo, pageSize);
         return new OutputListResult<>(pageInfo);
     }
+
+    /**
+     * @desc 根据id查询会员等级数据
+     * @author lushusheng 2018-12-03
+     * @param currentId 当前用户id
+     * @param id 要查询的实体id
+     * @return 返回查询结果
+     * @throws ApplicationException 保存异常
+     */
+    @ApiOperation(value = "根据id查询会员等级数据", notes = "根据id查询会员等级数据")
+    @ApiImplicitParams({
+        @ApiImplicitParam(paramType = "header", dataType = "Long", name = "currentId", value = "当前用户id", required = true),
+        @ApiImplicitParam(paramType = "query", dataType = "Long", name = "id", value = "实体id", required = true)})
+    @CrossOrigin
+    @GetMapping("/get/{id}")
+    public OutputResult<Rank> get(
+            @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
+            @PathVariable Long id)throws ApplicationException {
+        Rank rank = rankServer.selectById(id);
+        return new OutputResult<>(rank);
+    }
     /**
      * @desc 根据id更新会员等级数据
      * @author lushusheng 2018-12-02
@@ -70,8 +91,8 @@ public class RankController {
     @GetMapping("/update")
     public OutputResult<Rank> update(
             @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
-            @RequestBody  pageSize)throws ApplicationException {
-        PageInfo<Rank> pageInfo = rankServer.getListPage(pageNo, pageSize);
-        return new OutputListResult<>(pageInfo);
+            @RequestBody Rank rank)throws ApplicationException {
+        Rank rank = rankServer.getListPage(pageNo, pageSize);
+        return new OutputResult<>(rank);
     }
 }
