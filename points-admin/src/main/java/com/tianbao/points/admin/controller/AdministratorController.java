@@ -57,5 +57,28 @@ public class AdministratorController {
         return new OutputListResult<>(pageInfo);
     }
 
+    /**
+     * @desc 查询管理员列表，分页展示
+     * @author lushusheng 2018-12-03
+     * @param currentId 当前用户id
+     * @param pageNo 当前页码
+     * @param pageSize 每页数据条数
+     * @return 返回管理员列表信息
+     * @throws ApplicationException 保存异常
+     */
+    @ApiOperation(value = "查询管理员列表，分页展示", notes = "查询管理员列表，分页展示")
+    @ApiImplicitParams({
+            @ApiImplicitParam(paramType = "header", dataType = "Long", name = "currentId", value = "当前用户id", required = true),
+            @ApiImplicitParam(paramType = "query", dataType = "Integer", name = "pageNo", value = "当前页码", required = false),
+            @ApiImplicitParam(paramType = "query", dataType = "Integer", name = "pageSize", value = "数据条数", required = false)})
+    @CrossOrigin
+    @GetMapping("/admin/list/page")
+    public OutputListResult<UserDTO> getAdminListPage(
+            @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
+            @RequestParam(value = "pageNo", required = false, defaultValue = "1")Integer pageNo,
+            @RequestParam(value = "pageSize", required = false, defaultValue = "25")Integer pageSize)throws ApplicationException {
 
+        PageInfo<UserDTO> pageInfo = userServer.getAdminListPage(pageNo, pageSize);
+        return new OutputListResult<>(pageInfo);
+    }
 }
