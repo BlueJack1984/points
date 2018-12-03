@@ -21,4 +21,13 @@ public interface ISystemBonusDao extends IBaseDao<SystemBonus, Long> {
      * @update
      */
     List<SystemBonus> getListPage();
+
+    /**
+     * @author lushusheng
+     * @Date 2018-12-04
+     * @Desc 获取数据库中最新的一条系统积分结算信息，主要用于比对日期
+     * @return 返回系查询到的实体信息
+     * @update
+     */
+    SystemBonus selectLatest();
 }

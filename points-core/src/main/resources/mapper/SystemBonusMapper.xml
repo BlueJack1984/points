@@ -151,12 +151,12 @@
     order by _system_bonus.create_time desc
   </select>
 
-  <!--&lt;!&ndash;获取系统中最新的一条数据&ndash;&gt;-->
-  <!--<select id="getLastest" resultType="systemBonus">-->
-    <!--select <include refid="c_system_bonus"/>-->
-    <!--from <include refid="t_system_bonus"/> _system_bonus-->
-    <!--where _system_bonus.status = 0-->
-    <!--order by _system_bonus.create_time desc -->
-    <!--limit 0, 1-->
-  <!--</select>-->
+  <!--获取系统中最新的一条数据-->
+  <select id="selectLatest" resultType="systemBonus">
+    select <include refid="c_system_bonus"/>
+    from <include refid="t_system_bonus"/> _system_bonus
+    where _system_bonus.status = 0
+    order by _system_bonus.create_time desc
+    limit 0, 1
+  </select>
 </mapper>

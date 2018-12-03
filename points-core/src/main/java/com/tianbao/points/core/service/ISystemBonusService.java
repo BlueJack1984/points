@@ -50,12 +50,21 @@ public interface ISystemBonusService extends IBaseService<SystemBonus, Long> {
      * @author lushusheng
      * @Date 2018-11-30
      * @Desc 结算当日系统总积分和个人总积分
+     * 判断同一天不能多次结算，最多一次
      * 批量插入个人积分增值数据
      * @param systemRatio 系统权重比率
-     * @param currentId 用户id
-     * @param date 结算的日期，增加这个参数用于判断同一天不能多次结算，最多一次
-     * @return 返回系统积分输出属性实体SystemBonusOutput
+     * @param currentId 当前管理员id
+     * @return 无返回
      * @update
      */
     void checkout(Double systemRatio, Long currentId)throws ApplicationException;
+
+    /**
+     * @author lushusheng
+     * @Date 2018-11-30
+     * @Desc 获取数据库中最新的一条系统积分结算信息，主要用于比对日期
+     * @return 返回系查询到的实体信息
+     * @update
+     */
+    SystemBonus getLatest()throws ApplicationException;
 }

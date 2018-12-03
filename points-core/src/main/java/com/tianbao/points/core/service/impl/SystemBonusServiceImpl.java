@@ -173,12 +173,13 @@ public class SystemBonusServiceImpl implements ISystemBonusService {
 
     /**
      * @author lushusheng
-     * @Date 2018-11-30
+     * @Date 2018-12-04
      * @Desc 结算当日系统总积分和个人总积分
+     * 判断同一天不能多次结算，最多一次
      * 批量插入个人积分增值数据
      * @param systemRatio 系统权重比率
-     * @param date 结算的日期，增加这个参数用于判断同一天不能多次结算，最多一次
-     * @return 无返回，操作失败抛出异常
+     * @param currentId 当前管理员id
+     * @return 无返回
      * @update
      */
     @Override
@@ -190,7 +191,8 @@ public class SystemBonusServiceImpl implements ISystemBonusService {
         for(UserDTO userDTO: userDTOList) {
             PersonalBonus personalBonus = new PersonalBonus();
             personalBonus.setId(IdWorker.getId());
-            personalBonus.setLastPersonalBonusId(userDTO.getPersonalBonus().getId());
+            personalBonus.setParentId(userDTO.getPersonalBonus().getId());
+            personalBonus.setStartPoints(userDTO.getPersonalBonus().getEndPoints());
             personalBonus.setUserId(userDTO.getId());
             personalBonus.setVisible(0);
             personalBonus.setRatio(systemRatio);
@@ -199,14 +201,27 @@ public class SystemBonusServiceImpl implements ISystemBonusService {
             personalBonus.setCreateTime(new Date());
             personalBonus.setUpdateTime(new Date());
             personalBonus.setUpdateUserId(currentId);
-            startPoints += userDTO.getPersonalBonus().getPoints();
-            Double points = userDTO.getPersonalBonus().getPoints() + userDTO.getRank().getBasePoints() * systemRatio;
-            personalBonus.setPoints(points);
+            startPoints += userDTO.getPersonalBonus().getEndPoints();
+            Double points = userDTO.getPersonalBonus().getEndPoints() + userDTO.getRank().getBasePoints() * systemRatio;
+            personalBonus.setEndPoints(points);
             endPoints += points;
             personalBonusList.add(personalBonus);
         }
         Long systemBonusId = saveSystemBonus(startPoints, endPoints, systemRatio, currentId);
         savePersonalBonusList(systemBonusId, personalBonusList);
+    }
+
+    /**
+     * @author lushusheng
+     * @Date 2018-12-04
+     * @Desc 获取数据库中最新的一条系统积分结算信息，主要用于比对日期
+     * @return 返回系查询到的实体信息
+     * @update
+     */
+    @Override
+    public SystemBonus getLatest() throws ApplicationException {
+        SystemBonus systemBonus = iSystemBonusDao.selectLatest();
+        return systemBonus;
     }
 
     @Transactional
