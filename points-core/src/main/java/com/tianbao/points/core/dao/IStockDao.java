@@ -32,5 +32,5 @@ public interface IStockDao extends IBaseDao<Stock, Long> {
      * @return 返回查询到的数据列表,正序排列，最新的num条
      * @update
      */
-    List<Stock> selectList(@Param("num")Integer num);
+    List<Stock> selectListNum(@Param("num")Integer num);
 }

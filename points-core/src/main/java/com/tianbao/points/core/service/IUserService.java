@@ -21,7 +21,7 @@ public interface IUserService extends IBaseService<User, Long> {
     /**
      * @author lushusheng
      * @Date 2018-11-28
-     * @Desc 获取用户的个人档案资料，包装了职位和角色信息
+     * @Desc 获取管理员的个人档案资料，包装了职位和角色信息
      * @return 返回查询数据
      * @update
      */

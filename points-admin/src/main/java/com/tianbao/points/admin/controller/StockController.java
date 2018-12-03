@@ -113,13 +113,15 @@ public class StockController {
         @ApiImplicitParam(paramType = "query", dataType = "Long", name = "id", value = "实体id", required = true),
         @ApiImplicitParam(paramType = "body", dataType = "StockInput", name = "stockInput", value = "证券指数实体更新属性", required = true)})
     @CrossOrigin
-    @PostMapping("/update/{id}")
+    @PostMapping("/update")
     public OutputResult<Stock> update(
             @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
-            @PathVariable("id") Long id,
             @RequestBody StockInput stockInput)throws ApplicationException {
         //首先将实体查询出来
-        Stock stock = stockServer.selectById(id);
+        if(stockInput.getId() == null) {
+            throw new ApplicationException(1,"实体id不能为空");
+        }
+        Stock stock = stockServer.selectById(stockInput.getId());
         if(stock == null) {
             throw new ApplicationException(1, "修改证券指数实体id参数错误");
         }
@@ -189,9 +191,8 @@ public class StockController {
             @RequestBody @Valid StockInput stockInput)throws ApplicationException {
         Stock stock = new Stock();
         copyProperties(stock, stockInput);
-        stock.setCreateUserId(currentId);
-        stockServer.save(stock);
-        return new OutputResult<>(stock);
+        Stock saved = stockServer.insert(currentId, stock);
+        return new OutputResult<>(saved);
     }
 
     /**
@@ -208,13 +209,13 @@ public class StockController {
         @ApiImplicitParam(paramType = "query", dataType = "Integer", name = "num", value = "列表数据条数", required = true)})
     @CrossOrigin
     @PostMapping("/list/{num}")
-    public OutputListResult<Stock> getList(
+    public OutputListResult<Stock> getListNum(
             @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
             @PathVariable("num") Integer num)throws ApplicationException {
         if(num == null || num.intValue() <= 0) {
             throw new ApplicationException(1, "");
         }
-        List<Stock> stockList = stockServer.getList(num);
+        List<Stock> stockList = stockServer.getListNum(num);
         return new OutputListResult<>(stockList);
     }
 }

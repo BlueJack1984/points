@@ -61,7 +61,7 @@ public class UserServiceImpl implements IUserService {
     /**
      * @author lushusheng
      * @Date 2018-11-28
-     * @Desc 获取用户的个人档案资料，包装了职位和角色信息
+     * @Desc 获取管理员的个人档案资料，包装了职位和角色信息
      * 角色和用户的关系是一对多关系，一个角色对应着多个用户
      * 角色和权限的关系是多对多关系。即一个角色有着多种权限，
      * 同样，一个权限可以分给不同角色。
@@ -74,7 +74,7 @@ public class UserServiceImpl implements IUserService {
         //获取用户基本信息
         User user = iUserDao.selectByPrimaryKey(id);
         BeanHelper.copyProperties(userDTO, user);
-        //根据用户id获取相关职位信息
+        //根据管理员id获取相关职位信息
         List<PositionDTO> positionDTOList = positionServer.getListByUserId(id);
         userDTO.setPositionDTOList(positionDTOList);
         //根据用户id获取用户角色信息

@@ -17,15 +17,15 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 /**
- * @desc 用户管理员入口
+ * @desc 管理员个人中心入口
  * @author lushusheng
  * @date 2018-11-27
  */
 
-@Api(value = "user", description = "用户管理员接口")
+@Api(value = "admin", description = "管理员个人中心接口")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/user")
+@RequestMapping("/admin/personal")
 @Slf4j
 public class PersonalController {
 
@@ -37,14 +37,14 @@ public class PersonalController {
     /**
      * @author lushusheng
      * @Date 2018-11-28
-     * @Desc 获取用户的个人档案资料，包装了职位和角色信息
+     * @Desc 获取管理员的个人档案资料，包装了职位和角色信息
      * @return 返回查询到用户数据
      * @update
      */
-    @ApiOperation(value = "查询用户管理员档案信息", notes = "根据当前用户currentId进行查询操作")
+    @ApiOperation(value = "查询管理员档案信息", notes = "根据当前管理员currentId进行查询操作")
     @ApiImplicitParams({@ApiImplicitParam(paramType = "header", dataType = "Long", name = "currentId", value = "当前用户id", required = true)})
     @CrossOrigin
-    @GetMapping("/personal")
+    @GetMapping("/info")
     public OutputResult<UserDTO> getPersonalInfo(
             @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId)throws ApplicationException {
         UserDTO userDTO = userServer.getPersonalInfo(currentId);
@@ -54,7 +54,7 @@ public class PersonalController {
     /**
      * @author lushusheng
      * @Date 2018-11-28
-     * @Desc 更新用户的登录密码，这里不是指超级密码
+     * @Desc 修改密码，更新用户的登录密码，这里不是指超级密码
      * @param currentId 当前用户id
      * @param passwordInput 输入的密码属性实体
      * @return 无返回，操作错误抛出异常
@@ -75,11 +75,11 @@ public class PersonalController {
     /**
      * @author lushusheng
      * @Date 2018-11-28
-     * @Desc 更新用户的超级密码，这个用户只有一个，顶级管理员，所以要先判断身份
+     * @Desc 更新管理员的超级密码，只有一个，顶级管理员，所以要先判断身份
      * @return 无返回，操作错误抛出异常
      * @update
      */
-    @ApiOperation(value = "更新用户的超级密码", notes = "更新用户的超级密码")
+    @ApiOperation(value = "更新顶级管理员的超级密码", notes = "更新顶级管理员的超级密码")
     @ApiImplicitParams({@ApiImplicitParam(paramType = "header", dataType = "Long", name = "currentId", value = "当前用户id", required = true)})
     @CrossOrigin
     @PostMapping("/super/password")

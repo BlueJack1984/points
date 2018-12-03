@@ -209,7 +209,7 @@
   </select>
 
   <!--查询证券指数信息列表，不分页,正序排列，最新的num条-->
-  <select id="selectList" resultType="stock">
+  <select id="selectListNum" resultType="stock">
     select <include refid="c_stock"/>
     from (select * from <include refid="t_stock"/> stock_
     where stock_.status = 0 order by stock_.publish_time desc limit #{num}) as _stock

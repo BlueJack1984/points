@@ -34,5 +34,16 @@ public interface IStockService extends IBaseService<Stock, Long> {
      * @return 返回查询到的数据列表,正序排列，最新的num条
      * @update
      */
-    List<Stock> getList(Integer num)throws ApplicationException;
+    List<Stock> getListNum(Integer num)throws ApplicationException;
+
+    /**
+     * @author lushusheng
+     * @Date 2018-12-03
+     * @Desc 保存一个实体数据
+     * @param currentId 当前管理员id
+     * @param record 保存的实体信息
+     * @return 返回插入的数据，便于回显
+     * @update
+     */
+    Stock insert(Long currentId, Stock record) throws ApplicationException;
 }

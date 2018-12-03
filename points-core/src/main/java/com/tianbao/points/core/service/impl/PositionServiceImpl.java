@@ -66,8 +66,8 @@ public class PositionServiceImpl implements IPositionService {
     /**
      * @author lushusheng
      * @Date 2018-11-29
-     * @Desc 根据用户id查询职位列表,个人档案部分使用
-     * @param userId 用户id
+     * @Desc 根据管理员id查询职位列表,个人档案部分使用
+     * @param userId 管理员id
      * @return 返回职位列表
      * @update
      */
