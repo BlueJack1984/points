@@ -53,6 +53,7 @@ public interface ISystemBonusService extends IBaseService<SystemBonus, Long> {
      * 批量插入个人积分增值数据
      * @param systemRatio 系统权重比率
      * @param currentId 用户id
+     * @param date 结算的日期，增加这个参数用于判断同一天不能多次结算，最多一次
      * @return 返回系统积分输出属性实体SystemBonusOutput
      * @update
      */

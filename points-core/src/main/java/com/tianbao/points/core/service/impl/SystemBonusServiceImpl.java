@@ -161,7 +161,7 @@ public class SystemBonusServiceImpl implements ISystemBonusService {
         SystemBonusOutput systemBonusOutput = new SystemBonusOutput();
         Double totalPoints = 0.0;
         for(UserDTO userDTO: userDTOList) {
-            Double points = userDTO.getPersonalBonus().getPoints();
+            Double points = userDTO.getPersonalBonus().getEndPoints();
             if(points != null) {
                 totalPoints += points;
             }
@@ -177,6 +177,7 @@ public class SystemBonusServiceImpl implements ISystemBonusService {
      * @Desc 结算当日系统总积分和个人总积分
      * 批量插入个人积分增值数据
      * @param systemRatio 系统权重比率
+     * @param date 结算的日期，增加这个参数用于判断同一天不能多次结算，最多一次
      * @return 无返回，操作失败抛出异常
      * @update
      */

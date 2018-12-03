@@ -38,7 +38,7 @@ public class SystemBonusController {
      * @author lushusheng
      * @Date 2018-11-30
      * @Desc 增值积分结算：计算当前系统的总积分并生成系统权重比率系数
-     * @param currentId 表示当前用户id
+     * @param currentId 表示当前管理员id
      * @return 返回系统积分输出属性实体SystemBonusOutput
      * @update
      */
@@ -58,21 +58,26 @@ public class SystemBonusController {
      * @Date 2018-11-30
      * @Desc 结算当日系统总积分和个人总积分
      * 批量插入个人积分增值数据
-     * @param currentId 表示当前用户id
+     * @param currentId 表示当前管理员id
      * @param systemRatio 系统权重比率
+     * @param today 结算的日期，增加这个参数用于判断同一天不能多次结算，最多一次
      * @return 返回系统积分输出属性实体SystemBonusOutput
      * @update
      */
     @ApiOperation(value = "结算当日系统总积分和个人总积分", notes = "批量插入个人积分增值数据")
     @ApiImplicitParams({
-            @ApiImplicitParam(paramType = "header", dataType = "Long", name = "currentId", value = "当前用户id", required = true),
-            @ApiImplicitParam(paramType = "query", dataType = "Double", name = "systemRatio", value = "系统权重比率", required = true)})
+        @ApiImplicitParam(paramType = "header", dataType = "Long", name = "currentId", value = "当前用户id", required = true),
+        @ApiImplicitParam(paramType = "query", dataType = "String", name = "today", value = "当前日期", required = true),
+        @ApiImplicitParam(paramType = "query", dataType = "Double", name = "systemRatio", value = "系统权重比率", required = true)})
     @CrossOrigin
-    @GetMapping("/create")
-    public OutputResult<SystemBonusOutput> create(
+    @GetMapping("/checkout")
+    public OutputResult<Void> checkout(
             @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
+            @RequestParam("today") String today,
             @RequestParam("systemRatio") Double systemRatio)throws ApplicationException {
 
+        //数据库中查询最新的一条数据日期
+        systemBonusServer
         SystemBonusOutput systemBonusOutput = systemBonusServer.balance();
         return new OutputResult<>(systemBonusOutput);
     }
