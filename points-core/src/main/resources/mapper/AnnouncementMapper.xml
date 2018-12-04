@@ -14,7 +14,7 @@
   <select id="selectByPrimaryKey" resultType="announcement" parameterType="java.lang.Long" >
     select <include refid="c_announcement" />
     from <include refid="t_announcement"/> _announcement
-    where id = #{id, jdbcType=BIGINT}
+    where id = #{id, jdbcType=BIGINT} and _announcement.status = 0
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from <include refid="t_announcement"/>
@@ -138,5 +138,69 @@
       update_time = #{updateTime},
       update_user_id = #{updateUserId}
     where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <!--查询首页公告列表-->
+  <select id="getListPage" resultType="announcement">
+    select <include refid="c_announcement" />
+    from <include refid="t_announcement"/> _announcement
+    where _announcement.status = 0
+    order by _announcement.publish_time desc
+  </select>
+
+  <!--根据id列表查询首页公告列表-->
+  <select id="getListByIds" resultType="announcement">
+    select <include refid="c_announcement" />
+    from <include refid="t_announcement"/> _announcement
+    where _announcement.status = 0
+    and _announcement.id in
+    <foreach item="id" index="index" collection="ids" open="(" separator="," close=")">
+      #{id}
+    </foreach>
+  </select>
+
+  <!--更新首页公告列表-->
+  <update id="updateBatch" >
+    update <include refid="t_announcement" />
+    set title =
+    <foreach item="announcement" index="index" collection="announcementList" open="case ID" separator=" " close="end">
+      #{announcement.title}
+    </foreach>
+    ,content =
+    <foreach item="announcement" index="index" collection="announcementList" open="case ID" separator=" " close="end">
+      #{announcement.content}
+    </foreach>
+    ,user_id =
+    <foreach item="announcement" index="index" collection="announcementList" open="case ID" separator=" " close="end">
+      #{announcement.userId}
+    </foreach>
+    ,publish_time =
+    <foreach item="announcement" index="index" collection="announcementList" open="case ID" separator=" " close="end">
+      #{announcement.publishTime}
+    </foreach>
+    ,status =
+    <foreach item="announcement" index="index" collection="announcementList" open="case ID" separator=" " close="end">
+      #{announcement.status}
+    </foreach>
+    ,create_time =
+    <foreach item="announcement" index="index" collection="announcementList" open="case ID" separator=" " close="end">
+      #{announcement.createTime}
+    </foreach>
+    ,create_user_id =
+    <foreach item="announcement" index="index" collection="announcementList" open="case ID" separator=" " close="end">
+      #{announcement.createUserId}
+    </foreach>
+    ,update_time =
+    <foreach item="announcement" index="index" collection="announcementList" open="case ID" separator=" " close="end">
+      #{announcement.updateTime}
+    </foreach>
+    ,update_user_id =
+    <foreach item="announcement" index="index" collection="announcementList" open="case ID" separator=" " close="end">
+      #{announcement.updateUserId}
+    </foreach>
+    where ID in
+    <foreach item="announcement" index="index" collection="announcementList" open="(" separator="," close=")">
+      #{announcement.id}
+    </foreach>
   </update>
 </mapper>
