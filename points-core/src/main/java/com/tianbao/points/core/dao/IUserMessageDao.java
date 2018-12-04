@@ -31,4 +31,13 @@ public interface IUserMessageDao extends IBaseDao<UserMessage, Long> {
      * @return 返回查询的留言实体关联数据
      */
     List<UserMessage> getByCondition(@Param("keyword") String keyword, @Param("currentId") Long currentId);
+
+    /**
+     * @desc 历史数据, 查询某个会员的历史留言记录，分页查询，已处理的留言
+     * @author lushusheng 2018-12-01
+     * @param senderId 发送者id
+     * @param currentId 当前用户id
+     * @return 返回查询的留言实体数据
+     */
+    List<UserMessage> selectListBySenderId(@Param("senderId") Long senderId, @Param("currentId") Long currentId);
 }

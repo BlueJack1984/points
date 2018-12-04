@@ -155,16 +155,13 @@
   </update>
 
   <!--通过查询关键词查询特定message的信息-->
-  <select id="selectByCondition" resultType="message">
+  <select id="getListByIds" resultType="message">
     select <include refid="c_message"/>
     from <include refid="t_message"/> _message
-    left join <include refid="t_user_message"/> _user_message
-    on _user_message.message_id = _message.id and _user_message.status = 0
-    left join <include refid="t_user"/> _user
-    on _user.id = _user_message.sender_id and _user.status = 0
-    where _user_message.receiver_id = #{currentId}
-    and _user.account like concat('%', '${keyword}','%')
-    order by _message.create_time desc
+    where _message.status = 0 and _message.id in
+    <foreach item="id" index="index" collection="ids" open="(" separator="," close=")">
+      #{id}
+    </foreach>
   </select>
 
   <!--通过发送者id和接收者id查询特定message的信息列表-->

@@ -65,29 +65,18 @@ public class MessageServiceImpl implements IMessageService {
     }
 
     /**
-     * @desc 根据会员id模糊查询留言数据
+     * @desc 根据留言id集合查询留言列表
      * @author lushusheng 2018-12-04
-     * @param keyword 输入的会员id，查询关键词，模糊查询，分页展示
-     * @param currentId 当前管理员用户id
-     * @param pageNo 当前页码
-     * @param pageSize 每页数据条数
-     * @return 返回查询的留言实体数据
+     * @param ids 输入的留言集合
+     * @return 返回查询的留言实体数据列表
      * @throws ApplicationException 查询异常
      */
     @Override
-    public PageInfo<MessageDTO> getByCondition(String keyword, Long currentId, Integer pageNo, Integer pageSize) throws ApplicationException {
-        PageHelper.startPage(pageNo, pageSize);
-        List<UserMessage> userMessageList = userMessageServer.getByCondition(keyword, currentId);
-        List<MessageDTO> messageDTOList = new ArrayList<>();
-        for(UserMessage userMessage: userMessageList) {
-            MessageDTO messageDTO = new MessageDTO();
-
-        }
-        List<Message> messageList = iMessageDao.selectByCondition(keyword, currentId);
-        for(Message message:)
-        MessageDTO messageDTO =
-        return messageDTO;
+    public List<Message> getListByIds(List<Long> ids) throws ApplicationException {
+        List<Message> messageList = iMessageDao.getListByIds(ids);
+        return messageList;
     }
+
     /**
      * @desc 根据发送者id和接收者id查询所有留言数据列表, 需要分页
      * @author lushusheng 2018-12-01
