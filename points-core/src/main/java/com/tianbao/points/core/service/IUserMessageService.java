@@ -17,36 +17,49 @@ import java.util.List;
 public interface IUserMessageService extends IBaseService<UserMessage, Long> {
 
     /**
-     * @desc 根据实体id和发送者id和接收者id删除实体
-     * @author lushusheng 2018-12-01
-     * @param senderId 发送者id
+     * @desc 根据一个id或者多个id列表删除实体
+     * @author lushusheng 2018-12-04
+     * @param ids 实体id列表
      * @param currentId 当前用户id
-     * @param id 留言实体id
-     * @return 返回删除操作结果
+     * @return 返回操作结果
+     * @throws ApplicationException 查询异常
      */
-    void deleteByIds(Long id, Long senderId, Long currentId) throws ApplicationException;
+    void deleteByIds(List<Long> ids, Long currentId) throws ApplicationException;
 
     /**
      * @desc 根据会员id模糊查询留言关联数据
      * @author lushusheng 2018-12-04
      * @param keyword 输入的会员id，查询关键词，模糊查询，分页展示
+     * @param id 精确查询此会员id
+     * @param type 查询类型：0表示未处理和已处理均查询，1表示查询未处理，2表示查询已处理
      * @param currentId 当前管理员用户id
      * @param pageNo 当前页码
      * @param pageSize 每页数据条数
      * @return 返回查询的留言实体关联数据
      * @throws ApplicationException 查询异常
      */
-    PageInfo<UserMessageDTO> getByCondition(String keyword, Long currentId, Integer pageNo, Integer pageSize) throws ApplicationException;
+    PageInfo<UserMessageDTO> getListByCondition(String keyword, Integer type, Long id, Long currentId, Integer pageNo, Integer pageSize) throws ApplicationException;
 
     /**
-     * @desc 历史数据, 查询某个会员的历史留言记录，分页查询，已处理的留言
-     * @author lushusheng 2018-12-01
-     * @param senderId 发送者id
+     * @desc 根据id查询实体详情
+     * @author lushusheng 2018-12-04
+     * @param id 实体id
      * @param currentId 当前用户id
-     * @param pageNo 当前页码
-     * @param pageSize 显示数据条数
-     * @return 返回查询的留言实体数据
+     * @return 返回查询到的结果
      * @throws ApplicationException 查询异常
      */
-    PageInfo<UserMessageDTO> getListBySenderId(Long senderId, Long currentId, Integer pageNo, Integer pageSize)throws ApplicationException;
+    UserMessageDTO getById(Long id, Long currentId)throws ApplicationException;
+
+    /**
+     * @author lushusheng
+     * @Date 2018-12-04
+     * @Desc 根据参数更新实体数据，不管数据是否为空都更新覆盖
+     * @param id 实体id
+     * @param currentId 当前用户id
+     * @param reply 回复
+     * @param status 状态
+     * @return 返回无，出错抛出异常
+     * @update
+     */
+    UserMessageDTO updateById(Long id, Long currentId, String reply, Integer status) throws ApplicationException;
 }

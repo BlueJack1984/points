@@ -51,7 +51,8 @@ public class MessageServiceImpl implements IMessageService {
 
     @Override
     public Message selectById(Long id) throws ApplicationException {
-        return null;
+        Message message = iMessageDao.selectByPrimaryKey(id);
+        return message;
     }
 
     @Override
@@ -61,7 +62,7 @@ public class MessageServiceImpl implements IMessageService {
 
     @Override
     public void updateById(Message record) throws ApplicationException {
-
+        iMessageDao.updateByPrimaryKey(record);
     }
 
     /**
@@ -75,38 +76,5 @@ public class MessageServiceImpl implements IMessageService {
     public List<Message> getListByIds(List<Long> ids) throws ApplicationException {
         List<Message> messageList = iMessageDao.getListByIds(ids);
         return messageList;
-    }
-
-    /**
-     * @desc 根据发送者id和接收者id查询所有留言数据列表, 需要分页
-     * @author lushusheng 2018-12-01
-     * @param senderId 发送者id
-     * @param currentId 当前用户id
-     * @param pageNo 当前页码
-     * @param pageSize 显示数据条数
-     * @return 返回查询的留言实体数据
-     * @throws ApplicationException 查询异常
-     */
-    @Override
-    public PageInfo<MessageDTO> getListBySenderId(Long senderId, Long currentId, Integer pageNo, Integer pageSize) throws ApplicationException {
-        PageHelper.startPage(pageNo, pageSize);
-        List<MessageDTO> messageDTOList = iMessageDao.getListBySenderId(senderId, currentId);
-        PageInfo<MessageDTO> pageInfo = new PageInfo<>(messageDTOList);
-        return pageInfo;
-    }
-
-    /**
-     * @desc 根据实体id和发送者id和接收者id删除实体
-     * @author lushusheng 2018-12-01
-     * @param senderId 发送者id
-     * @param currentId 当前用户id
-     * @param id 留言实体id
-     * @return 返回删除操作结果
-     * @throws ApplicationException 操作异常
-     */
-    @Override
-    public void deleteByIds(Long id, Long senderId, Long currentId) throws ApplicationException {
-        //逻辑删除，只删除用户留言关联表的信息，留言表不删除
-        userMessageServer.deleteByIds(id, senderId, currentId);
     }
 }

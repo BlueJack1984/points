@@ -354,7 +354,8 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public User selectById(Long id) throws ApplicationException {
-        return null;
+        User user = iUserDao.selectByPrimaryKey(id);
+        return user;
     }
 
     @Transactional

@@ -136,31 +136,54 @@
   </update>
 
   <!--查询用户留言关联表信息-->
-  <select id="selectByIds" resultType="userMessage">
+  <select id="selectListByIds" resultType="userMessage">
     select <include refid="c_user_message"/>
     from <include refid="t_user_message"/> _user_message
-    where _user_message.message_id = #{id} and _user_message.status = 0
-    and _user_message.sender_id = #{senderId} and _user_message.receiver_id = #{currentId}
+    where _user_message.status != 1 and _user_message.receiver_id = #{currentId}
+    and _user_message.message_id in
+    <foreach item="id" index="index" collection="ids" open="(" separator="," close=")">
+      #{id}
+    </foreach>
   </select>
 
   <!--按条件查询用户留言关联表信息-->
-  <select id="getByCondition" resultType="userMessage">
+  <select id="selectListByCondition" resultType="userMessage">
     select <include refid="c_user_message"/>
     from <include refid="t_user_message"/> _user_message
     left join <include refid="t_user"/> _user
     on _user.id = _user_message.sender_id and _user.status = 0
-    where _user_message.status != 1
-    and _user.account like concat('%', '${keyword}','%')
-    and  _user_message.receiver_id = #{currentId}
+    where 1 = 1 and _user_message.receiver_id = #{currentId}
+    <!--未处理状态-->
+    <if test="type == 1">and _user_message.status = 5</if>
+    <if test="type == 2">and _user_message.status = 6</if>
+    <if test="keyword != null">and _user.account like concat('%', '${keyword}','%')</if>
+    <if test="id != null">_user_message.sender_id = #{id}</if>
     order by _user_message.create_time desc
   </select>
 
   <!--查询特定用户已处理的留言关联表信息-->
-  <select id="selectListBySenderId" resultType="userMessage">
+  <select id="selectById" resultType="userMessage">
     select <include refid="c_user_message"/>
     from <include refid="t_user_message"/> _user_message
-    where _user_message.status = 6
-    and _user_message.sender_id = #{senderId} and _user_message.receiver_id = #{currentId}
-    order by _user_message.create_time desc
+    where _user_message.status != 1
+    and _user_message.message_id = #{id}
+    and _user_message.receiver_id = #{currentId}
   </select>
+
+  <!--批量更新实体-->
+  <update id="updateBatch">
+    update <include refid="t_user_message"/>
+    set message_id = #{messageId},
+    sender_id = #{senderId},
+    receiver_id = #{receiverId},
+    status = #{status},
+    create_time = #{createTime},
+    create_user_id = #{createUserId},
+    update_time = #{updateTime},
+    update_user_id = #{updateUserId}
+    where id in
+    <foreach item="userMessage" index="index" collection="userMessageList" open="(" separator="," close=")">
+      #{userMessage.id}
+    </foreach>
+  </update>
 </mapper>

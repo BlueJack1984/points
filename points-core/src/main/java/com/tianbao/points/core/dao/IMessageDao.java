@@ -23,12 +23,4 @@ public interface IMessageDao extends IBaseDao<Message, Long> {
      * @return 返回查询的留言实体数据列表
      */
     List<Message> getListByIds(@Param("ids") List<Long> ids);
-    /**
-     * @desc 根据发送者id和接收者id查询所有留言数据列表, 需要分页
-     * @author lushusheng 2018-12-01
-     * @param senderId 发送者id
-     * @param currentId 当前用户id
-     * @return 返回查询的留言实体数据
-     */
-    List<MessageDTO> getListBySenderId(@Param("senderId") Long senderId, @Param("currentId") Long currentId);
 }

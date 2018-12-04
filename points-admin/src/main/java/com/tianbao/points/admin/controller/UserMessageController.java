@@ -2,12 +2,14 @@ package com.tianbao.points.admin.controller;
 
 
 import com.github.pagehelper.PageInfo;
-import com.tianbao.points.core.dto.MessageDTO;
+import com.tianbao.points.admin.dto.request.ReplyInput;
 import com.tianbao.points.core.dto.UserMessageDTO;
 import com.tianbao.points.core.dto.response.OutputListResult;
 import com.tianbao.points.core.dto.response.OutputResult;
+import com.tianbao.points.core.entity.UserMessage;
 import com.tianbao.points.core.exception.ApplicationException;
 import com.tianbao.points.core.service.IUserMessageService;
+import com.tianbao.points.core.utils.StringConverter;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -17,8 +19,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import java.util.List;
+
 /**
  * @desc 用户留言关联服务入口
+ * &&&&&&&&&&最重要的一点@@@@@@@@一个留言id只能对应一个发送者￥￥￥￥￥一定要记住
  * @author lushusheng
  * @date 2018-11-27
  */
@@ -35,61 +41,114 @@ public class UserMessageController {
     private final IUserMessageService userMessageServer;
 
     /**
-     * @desc 根据会员id模糊查询留言数据
+     * @desc 统一查询接口：
+     * 1.查询未处理的特定id留言列表（模糊查询） 2.查询已处理的特定id留言列表（模糊查询）
+     * 3.未处理的所有留言列表 4 已处理的所有留言列表 5.查询已处理的某个特定id的所有列表（精确查询）
      * @author lushusheng 2018-12-04
      * @param keyword 输入的会员id，查询关键词，模糊查询，分页展示
+     * @param id 精确查询此会员id
+     * @param type 查询类型：0表示未处理和已处理均查询，1表示查询未处理，2表示查询已处理
      * @param currentId 当前管理员用户id
      * @param pageNo 当前页码
      * @param pageSize 每页数据条数
      * @return 返回查询的留言实体数据
      * @throws ApplicationException 查询异常
      */
-    @ApiOperation(value = "查询留言数据", notes = "模糊查询留言数据")
+    @ApiOperation(value = "统一查询接口", notes = "统一查询接口")
     @ApiImplicitParams({
-            @ApiImplicitParam(paramType = "query", dataType = "String", name = "keyword", value = "查询关键词", required = true),
+            @ApiImplicitParam(paramType = "query", dataType = "String", name = "keyword", value = "查询关键词", required = false),
             @ApiImplicitParam(paramType = "header", dataType = "Long", name = "currentId", value = "当前用户id", required = true),
-            @ApiImplicitParam(paramType = "query", dataType = "Integer", name = "pageNo", value = "显示页码"),
-            @ApiImplicitParam(paramType = "query", dataType = "Integer", name = "pageSize", value = "每页显示数据条数")})
+            @ApiImplicitParam(paramType = "query", dataType = "Long", name = "id", value = "实体id",required = false),
+            @ApiImplicitParam(paramType = "query", dataType = "Integer", name = "type", value = "查询类型", required = true),
+            @ApiImplicitParam(paramType = "query", dataType = "Integer", name = "pageNo", value = "显示页码", required = false),
+            @ApiImplicitParam(paramType = "query", dataType = "Integer", name = "pageSize", value = "每页显示数据条数", required = false)})
     @CrossOrigin
-    @GetMapping("/get")
-    public OutputListResult<UserMessageDTO> getByCondition(
+    @GetMapping("/list/page/condition")
+    public OutputListResult<UserMessageDTO> getListByCondition(
             @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
+            @RequestParam(value = "id", required = false) Long id,
+            @RequestParam(value = "type", required = false, defaultValue = "0") Integer type,
             @RequestParam(value = "pageNo", required = false, defaultValue = "1") Integer pageNo,
             @RequestParam(value = "pageSize", required = false, defaultValue = "20") Integer pageSize,
-            @RequestParam("keyword") String keyword)throws ApplicationException {
+            @RequestParam(value = "keyword", required = false) String keyword)throws ApplicationException {
 
-        if(StringUtils.isEmpty(keyword)) {
-            throw new ApplicationException(1, "");
-        }
-        PageInfo<UserMessageDTO> pageInfo = userMessageServer.getByCondition(keyword,currentId, pageNo, pageSize);
+        PageInfo<UserMessageDTO> pageInfo = userMessageServer.getListByCondition(keyword, type, id, currentId, pageNo, pageSize);
         return new OutputListResult<>(pageInfo);
     }
 
     /**
-     * @desc 历史数据, 查询某个会员的历史留言记录，分页查询，已处理的留言
-     * @author lushusheng 2018-12-01
-     * @param senderId 发送者id
+     * @desc 根据一个id或者多个id列表删除实体
+     * @author lushusheng 2018-12-04
+     * @param ids 实体id列表
      * @param currentId 当前用户id
-     * @param pageNo 当前页码
-     * @param pageSize 显示数据条数
-     * @return 返回查询的留言实体数据
+     * @return 返回操作结果
      * @throws ApplicationException 查询异常
      */
-    @ApiOperation(value = "查询某个会员的历史留言记录", notes = "查询某个会员的历史留言记录")
+    @ApiOperation(value = "根据一个id或者多个id列表删除实体", notes = "根据一个id或者多个id列表删除实体")
     @ApiImplicitParams({
-            @ApiImplicitParam(paramType = "query", dataType = "Long", name = "senderId", value = "发送者id", required = true),
-            @ApiImplicitParam(paramType = "header", dataType = "Long", name = "currentId", value = "当前用户id", required = true),
-            @ApiImplicitParam(paramType = "query", dataType = "Integer", name = "pageNo", value = "当前页码", required = false),
-            @ApiImplicitParam(paramType = "query", dataType = "Integer", name = "pageSize", value = "数据条数", required = false)})
+        @ApiImplicitParam(paramType = "header", dataType = "Long", name = "currentId", value = "当前用户id", required = true),
+        @ApiImplicitParam(paramType = "query", dataType = "String", name = "ids", value = "删除的id列表", required = true)})
     @CrossOrigin
-    @GetMapping("/list/page/{senderId}/solved")
-    public OutputListResult<UserMessageDTO> getListBySenderId(
+    @GetMapping("/delete")
+    public OutputResult<Void> deleteByIds(
             @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
-            @RequestParam(value = "pageNo", required = false, defaultValue = "1")Integer pageNo,
-            @RequestParam(value = "pageSize", required = false, defaultValue = "20")Integer pageSize,
-            @PathVariable("senderId") Long senderId)throws ApplicationException {
+            @RequestParam("ids") String ids)throws ApplicationException {
+        if(StringUtils.isEmpty(ids)) {
+            throw new ApplicationException(2, "0");
+        }
+        List<Long> idList = StringConverter.toList(ids);
+        userMessageServer.deleteByIds(idList, currentId);
+        return new OutputResult<>();
+    }
 
-        PageInfo<UserMessageDTO> pageInfo = userMessageServer.getListBySenderId(senderId, currentId, pageNo, pageSize);
-        return new OutputListResult<>(pageInfo);
+
+    /**
+     * @desc 根据id查询实体详情
+     * @author lushusheng 2018-12-04
+     * @param id 实体id
+     * @param currentId 当前用户id
+     * @return 返回查询到的结果
+     * @throws ApplicationException 查询异常
+     */
+    @ApiOperation(value = "根据id查询实体详情", notes = "根据id查询实体详情")
+    @ApiImplicitParams({
+        @ApiImplicitParam(paramType = "header", dataType = "Long", name = "currentId", value = "当前用户id", required = true),
+        @ApiImplicitParam(paramType = "query", dataType = "Long", name = "id", value = "实体id", required = true)})
+    @CrossOrigin
+    @GetMapping("/get/{id}")
+    public OutputResult<UserMessageDTO> getById(
+            @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
+            @PathVariable("id") Long id)throws ApplicationException {
+        if(id == null) {
+            throw new ApplicationException(2, "0");
+        }
+        UserMessageDTO userMessageDTO = userMessageServer.getById(id, currentId);
+        return new OutputResult<>(userMessageDTO);
+    }
+
+    /**
+     * @desc 管理员回复，更新实体内容
+     * @author lushusheng 2018-12-04
+     * @param id 实体id
+     * @param currentId 当前用户id
+     * @param replyInput 回复实体
+     * @return 返回实体数据
+     * @throws ApplicationException 查询异常
+     */
+    @ApiOperation(value = "管理员回复，更新实体内容", notes = "管理员回复，更新实体内容")
+    @ApiImplicitParams({
+        @ApiImplicitParam(paramType = "header", dataType = "Long", name = "currentId", value = "当前用户id", required = true),
+        @ApiImplicitParam(paramType = "query", dataType = "Long", name = "id", value = "实体id", required = true),
+        @ApiImplicitParam(paramType = "body", dataType = "ReplyInput", name = "replyInput", value = "回复实体", required = true)})
+    @CrossOrigin
+    @GetMapping("/update/{id}")
+    public OutputResult<UserMessageDTO> updateById(
+            @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
+            @RequestBody @Valid ReplyInput replyInput,
+            @PathVariable("id") Long id)throws ApplicationException {
+
+        UserMessageDTO userMessageDTO = userMessageServer.updateById(id, currentId,
+                replyInput.getReply(), replyInput.getStatus());
+        return new OutputResult<>(userMessageDTO);
     }
 }
