@@ -23,7 +23,7 @@ public interface IUserDao extends IBaseDao<User, Long> {
      * @return 返回查询数据列表
      * @update
      */
-    List<User> getListByIdsPage(@Param("ids") List<Long> ids);
+    List<User> getListByIds(@Param("ids") List<Long> ids);
 
     /**
      * @author lushusheng

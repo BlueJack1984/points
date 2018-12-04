@@ -53,4 +53,15 @@ public interface IPersonalBonusDao extends IBaseDao<PersonalBonus, Long> {
      * @update
      */
     void insertBatch(@Param("personalBonusList") List<PersonalBonus> personalBonusList);
+
+    /**
+     * @author lushusheng
+     * @Date 2018-12-04
+     * @Desc 个人积分列表中查询特定会员积分数据,模糊查询，分页展示
+     * @param keyword 输入关键词
+     * @param sysBonusId 表示系统积分增值id
+     * @return 返回操查询到的数据
+     * @update
+     */
+    List<PersonalBonus> getByCondition(@Param("keyword") String keyword, @Param("sysBonusId") Long sysBonusId);
 }

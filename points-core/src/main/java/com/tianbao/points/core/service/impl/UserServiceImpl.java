@@ -181,8 +181,8 @@ public class UserServiceImpl implements IUserService {
      * @update
      */
     @Override
-    public List<User> getListByIdsPage(List<Long> ids) throws ApplicationException {
-        List<User> userList = iUserDao.getListByIdsPage(ids);
+    public List<User> getListByIds(List<Long> ids) throws ApplicationException {
+        List<User> userList = iUserDao.getListByIds(ids);
         return userList;
     }
 

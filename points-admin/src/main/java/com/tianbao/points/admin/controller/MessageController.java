@@ -35,26 +35,28 @@ public class MessageController {
     private final IMessageService messageServer;
 
     /**
-     * @desc 根据id查询一条留言数据
-     * @author lushusheng 2018-12-01
-     * @param id 要查询的留言id
-     * @param senderId 发送者id
-     * @param currentId 当前用户id
+     * @desc 根据会员id模糊查询留言数据
+     * @author lushusheng 2018-12-04
+     * @param keyword 输入的会员id，查询关键词，模糊查询，分页展示
+     * @param currentId 当前管理员用户id
+     * @param pageNo 当前页码
+     * @param pageSize 每页数据条数
      * @return 返回查询的留言实体数据
      * @throws ApplicationException 查询异常
      */
-    @ApiOperation(value = "查询留言数据", notes = "根据id查询一条留言数据")
+    @ApiOperation(value = "查询留言数据", notes = "模糊查询留言数据")
     @ApiImplicitParams({
-        @ApiImplicitParam(paramType = "query", dataType = "Long", name = "id", value = "留言实体id", required = true),
-        @ApiImplicitParam(paramType = "query", dataType = "Long", name = "senderId", value = "发送者id", required = true),
-        @ApiImplicitParam(paramType = "header", dataType = "Long", name = "currentId", value = "当前用户id", required = true)
-    })
+        @ApiImplicitParam(paramType = "query", dataType = "String", name = "keyword", value = "查询关键词", required = true),
+        @ApiImplicitParam(paramType = "header", dataType = "Long", name = "currentId", value = "当前用户id", required = true),
+        @ApiImplicitParam(paramType = "query", dataType = "Integer", name = "pageNo", value = "显示页码"),
+        @ApiImplicitParam(paramType = "query", dataType = "Integer", name = "pageSize", value = "每页显示数据条数")})
     @CrossOrigin
-    @GetMapping("/get/{senderId}/{id}")
+    @GetMapping("/get")
     public OutputResult<MessageDTO> get(
             @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
-            @PathVariable("senderId") Long senderId,
-            @PathVariable("id") Long id)throws ApplicationException {
+            @RequestParam(value = "pageNo", required = false, defaultValue = "1") Integer pageNo,
+            @RequestParam(value = "pageSize", required = false, defaultValue = "20") Integer pageSize,
+            @RequestParam("keyword") String keyword)throws ApplicationException {
 
         MessageDTO messageDTO = messageServer.selectByIds(id, senderId, currentId);
         return new OutputResult<>(messageDTO);

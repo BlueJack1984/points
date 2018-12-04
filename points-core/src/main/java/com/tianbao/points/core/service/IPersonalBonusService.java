@@ -79,4 +79,17 @@ public interface IPersonalBonusService extends IBaseService<PersonalBonus, Long>
      * @update
      */
     void insertBatch(List<PersonalBonus> personalBonusList)throws ApplicationException;
+
+    /**
+     * @author lushusheng
+     * @Date 2018-12-04
+     * @Desc 个人积分列表中查询特定会员积分数据,模糊查询，分页展示
+     * @param keyword 输入关键词
+     * @param sysBonusId 表示系统积分增值id
+     * @param pageNo 当前页码
+     * @param pageSize 每页数据条数
+     * @return 返回操查询到的数据
+     * @update
+     */
+    PageInfo<PersonalBonusDTO> getByCondition(String keyword, Long sysBonusId, Integer pageNo, Integer pageSize)throws ApplicationException;
 }

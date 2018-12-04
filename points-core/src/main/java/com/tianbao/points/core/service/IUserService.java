@@ -60,7 +60,7 @@ public interface IUserService extends IBaseService<User, Long> {
      * @return 返回查询数据列表
      * @update
      */
-    List<User> getListByIdsPage(List<Long> ids)throws ApplicationException;
+    List<User> getListByIds(List<Long> ids)throws ApplicationException;
 
     /**
      * @author lushusheng

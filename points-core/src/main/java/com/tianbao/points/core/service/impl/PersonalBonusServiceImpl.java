@@ -3,6 +3,7 @@ package com.tianbao.points.core.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.tianbao.points.core.constant.StatusCode;
 import com.tianbao.points.core.dao.IPersonalBonusDao;
 import com.tianbao.points.core.dto.PersonalBonusDTO;
 import com.tianbao.points.core.entity.PersonalBonus;
@@ -81,11 +82,25 @@ public class PersonalBonusServiceImpl implements IPersonalBonusService {
     public PageInfo<PersonalBonusDTO> getListBySysBonusIdPage(Long sysBonusId, Integer pageNo, Integer pageSize) throws ApplicationException {
         PageHelper.startPage(pageNo, pageSize);
         List<PersonalBonus> personalBonusList = iPersonalBonusDao.selectListBySysBonusIdPage(sysBonusId);
+        List<PersonalBonusDTO> personalBonusDTOList = loadUserProperties(personalBonusList);
+        PageInfo<PersonalBonusDTO> pageInfo = new PageInfo<>(personalBonusDTOList);
+        return pageInfo;
+    }
+
+    /**
+     * @author lushusheng
+     * @Date 2018-12-04
+     * @Desc 加载用户基本属性
+     * @param personalBonusList 表示要取得数据条数=
+     * @return 返回结果数据
+     * @update
+     */
+    private List<PersonalBonusDTO> loadUserProperties(List<PersonalBonus> personalBonusList) throws ApplicationException{
         List<Long> userIds = new ArrayList<>();
         for(PersonalBonus personalBonus: personalBonusList) {
             userIds.add(personalBonus.getUserId());
         }
-        List<User> userList = userServer.getListByIdsPage(userIds);
+        List<User> userList = userServer.getListByIds(userIds);
         List<PersonalBonusDTO> personalBonusDTOList = new ArrayList<>();
         for(PersonalBonus personalBonus: personalBonusList) {
             PersonalBonusDTO personalBonusDTO = new PersonalBonusDTO();
@@ -98,10 +113,8 @@ public class PersonalBonusServiceImpl implements IPersonalBonusService {
             }
             personalBonusDTOList.add(personalBonusDTO);
         }
-        PageInfo<PersonalBonusDTO> pageInfo = new PageInfo<>(personalBonusDTOList);
-        return pageInfo;
+        return personalBonusDTOList;
     }
-
     /**
      * @author lushusheng
      * @Date 2018-11-30
@@ -120,9 +133,9 @@ public class PersonalBonusServiceImpl implements IPersonalBonusService {
         }
         //操作一次，取反一次，0表示可见，1表示不可见
         if(personalBonus.getVisible() == 0) {
-            personalBonus.setVisible(1);
+            personalBonus.setVisible(StatusCode.FORBIDDEN.getCode());
         }else {
-            personalBonus.setVisible(0);
+            personalBonus.setVisible(StatusCode.NORMAL.getCode());
         }
         personalBonus.setUpdateUserId(currentId);
         personalBonus.setUpdateTime(new Date());
@@ -181,5 +194,25 @@ public class PersonalBonusServiceImpl implements IPersonalBonusService {
     @Override
     public void insertBatch(List<PersonalBonus> personalBonusList) throws ApplicationException {
         iPersonalBonusDao.insertBatch(personalBonusList);
+    }
+
+    /**
+     * @author lushusheng
+     * @Date 2018-12-04
+     * @Desc 个人积分列表中查询特定会员积分数据,模糊查询，分页展示
+     * @param keyword 输入关键词
+     * @param sysBonusId 表示系统积分增值id
+     * @param pageNo 当前页码
+     * @param pageSize 每页数据条数
+     * @return 返回操查询到的数据
+     * @update
+     */
+    @Override
+    public PageInfo<PersonalBonusDTO> getByCondition(String keyword, Long sysBonusId, Integer pageNo, Integer pageSize) throws ApplicationException {
+        PageHelper.startPage(pageNo, pageSize);
+        List<PersonalBonus> personalBonusList = iPersonalBonusDao.getByCondition(keyword, sysBonusId);
+        List<PersonalBonusDTO> personalBonusDTOList = loadUserProperties(personalBonusList);
+        PageInfo<PersonalBonusDTO> pageInfo = new PageInfo<>(personalBonusDTOList);
+        return pageInfo;
     }
 }

@@ -154,14 +154,17 @@
     where id = #{id,jdbcType=BIGINT}
   </update>
 
-  <!--通过ids查询特定message的信息-->
-  <select id="selectByIds" resultType="com.tianbao.points.core.dto.MessageDTO">
-    select <include refid="c_message"/>, <include refid="c_user"/>
+  <!--通过查询关键词查询特定message的信息-->
+  <select id="selectByCondition" resultType="message">
+    select <include refid="c_message"/>
     from <include refid="t_message"/> _message
     left join <include refid="t_user_message"/> _user_message
     on _user_message.message_id = _message.id and _user_message.status = 0
-    left join <include refid="t_user"/> _user on _user.id = _user_message.sender_id and _user.status = 0
-    where _message.id = #{id} and _user_message.receiver_id = #{currentId} and _user.id = #{senderId}
+    left join <include refid="t_user"/> _user
+    on _user.id = _user_message.sender_id and _user.status = 0
+    where _user_message.receiver_id = #{currentId}
+    and _user.account like concat('%', '${keyword}','%')
+    order by _message.create_time desc
   </select>
 
   <!--通过发送者id和接收者id查询特定message的信息列表-->

@@ -173,6 +173,7 @@
     from <include refid="t_personal_bonus"/> _personal_bonus
     where _personal_bonus.status = 0
     and _personal_bonus.system_bonus_id = #{sysBonusId}
+    order by _personal_bonus.create_time desc
   </select>
 
   <!--批量更新个人积分增值数据-->
@@ -219,4 +220,14 @@
       #{item.id,jdbcType=BIGINT}
     </foreach>
   </update>
+
+  <!--个人积分列表中查询特定会员积分数据,模糊查询，分页展示-->
+  <select id="getByCondition" resultType="personalBonus">
+    select <include refid="c_personal_bonus"/>
+    from <include refid="t_personal_bonus"/> _personal_bonus
+    where _personal_bonus.status = 0
+    and _personal_bonus.system_bonus_id = #{sysBonusId}
+    and _personal_bonus.account like concat('%', '${keyword}','%')
+    order by _personal_bonus.create_time desc
+  </select>
 </mapper>

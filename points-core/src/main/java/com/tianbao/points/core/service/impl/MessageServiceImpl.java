@@ -6,12 +6,14 @@ import com.github.pagehelper.PageInfo;
 import com.tianbao.points.core.dao.IMessageDao;
 import com.tianbao.points.core.dto.MessageDTO;
 import com.tianbao.points.core.entity.Message;
+import com.tianbao.points.core.entity.UserMessage;
 import com.tianbao.points.core.exception.ApplicationException;
 import com.tianbao.points.core.service.IMessageService;
 import com.tianbao.points.core.service.IUserMessageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -63,18 +65,27 @@ public class MessageServiceImpl implements IMessageService {
     }
 
     /**
-     * @author lushusheng
-     * @Date 2018-12-01
-     * @param id 留言实体id
-     * @param senderId 发送者id
-     * @param currentId 当前用户id（接收者）
-     * @Desc 根据id查询实体数据
-     * @return 返回查询到的实体
-     * @update
+     * @desc 根据会员id模糊查询留言数据
+     * @author lushusheng 2018-12-04
+     * @param keyword 输入的会员id，查询关键词，模糊查询，分页展示
+     * @param currentId 当前管理员用户id
+     * @param pageNo 当前页码
+     * @param pageSize 每页数据条数
+     * @return 返回查询的留言实体数据
+     * @throws ApplicationException 查询异常
      */
     @Override
-    public MessageDTO selectByIds(Long id, Long senderId, Long currentId) throws ApplicationException {
-        MessageDTO messageDTO = iMessageDao.selectByIds(id, senderId, currentId);
+    public PageInfo<MessageDTO> getByCondition(String keyword, Long currentId, Integer pageNo, Integer pageSize) throws ApplicationException {
+        PageHelper.startPage(pageNo, pageSize);
+        List<UserMessage> userMessageList = userMessageServer.getByCondition(keyword, currentId);
+        List<MessageDTO> messageDTOList = new ArrayList<>();
+        for(UserMessage userMessage: userMessageList) {
+            MessageDTO messageDTO = new MessageDTO();
+
+        }
+        List<Message> messageList = iMessageDao.selectByCondition(keyword, currentId);
+        for(Message message:)
+        MessageDTO messageDTO =
         return messageDTO;
     }
     /**

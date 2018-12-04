@@ -76,4 +76,18 @@ public class UserMessageServiceImpl implements IUserMessageService {
         userMessage.setUpdateUserId(currentId);
         iUserMessageDao.updateByPrimaryKey(userMessage);
     }
+
+    /**
+     * @desc 根据会员id模糊查询留言关联数据
+     * @author lushusheng 2018-12-04
+     * @param keyword 输入的会员id，查询关键词，模糊查询
+     * @param currentId 当前管理员用户id
+     * @return 返回查询的留言实体关联数据
+     * @throws ApplicationException 查询异常
+     */
+    @Override
+    public List<UserMessage> getByCondition(String keyword, Long currentId) throws ApplicationException {
+        List<UserMessage> userMessageList = iUserMessageDao.getByCondition(keyword, currentId);
+        return userMessageList;
+    }
 }

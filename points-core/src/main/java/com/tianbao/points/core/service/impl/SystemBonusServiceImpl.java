@@ -127,9 +127,9 @@ public class SystemBonusServiceImpl implements ISystemBonusService {
         }
         //操作一次，取反一次，0表示可见，1表示不可见
         if(systemBonus.getVisible() == 0) {
-            systemBonus.setVisible(1);
+            systemBonus.setVisible(StatusCode.FORBIDDEN.getCode());
         }else {
-            systemBonus.setVisible(0);
+            systemBonus.setVisible(StatusCode.NORMAL.getCode());
         }
         systemBonus.setUpdateUserId(currentId);
         systemBonus.setUpdateTime(new Date());

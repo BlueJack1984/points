@@ -261,7 +261,7 @@
   </update>
 
   <!--根据用户id集合查询用户列表,分页实现，用于个人积分增值属性-->
-  <select id="getListByIdsPage" resultType="user">
+  <select id="getListByIds" resultType="user">
     select <include refid="c_user"/>
     from  <include refid="t_user"/> _user
     where _user.status = 0 and _user.id in

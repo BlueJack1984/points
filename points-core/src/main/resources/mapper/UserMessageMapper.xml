@@ -142,4 +142,16 @@
     where _user_message.message_id = #{id} and _user_message.status = 0
     and _user_message.sender_id = #{senderId} and _user_message.receiver_id = #{currentId}
   </select>
+
+  <!--按条件查询用户留言关联表信息-->
+  <select id="getByCondition" resultType="userMessage">
+    select <include refid="c_user_message"/>
+    from <include refid="t_user_message"/> _user_message
+    left join <include refid="t_user"/> _user
+    on _user.id = _user_message.sender_id and _user.status = 0
+    where _user_message.status = 0
+    and _user.account like concat('%', '${keyword}','%')
+    and  _user_message.receiver_id = #{currentId}
+    order by _user_message.create_time desc
+  </select>
 </mapper>
