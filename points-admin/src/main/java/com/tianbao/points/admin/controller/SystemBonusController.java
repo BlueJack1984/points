@@ -141,7 +141,7 @@ public class SystemBonusController {
      * @Date 2018-11-30
      * @Desc 根据id强行清空系统积分增值数据
      * @param id 表示系统积分增值id
-     * @param currentId 表示当前用户id
+     * @param currentId 表示当前管理员id
      * @return 返回操作结果，操作失败则抛出异常
      * @update
      */
@@ -155,29 +155,7 @@ public class SystemBonusController {
             @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
             @PathVariable("id") Long id)throws ApplicationException {
         //逻辑删除
-        systemBonusServer.deleteById(id);
-        return new OutputResult<>();
-    }
-
-    /**
-     * @author lushusheng
-     * @Date 2018-11-30
-     * @Desc 系统总积分增值结算
-     * @param currentId 表示当前用户id
-     * @return 返回操作结果，操作失败则抛出异常
-     * @update
-     */
-    @ApiOperation(value = "根据id强行清空系统积分增值数据", notes = "根据id强行清空系统积分增值数据")
-    @ApiImplicitParams({
-            @ApiImplicitParam(paramType = "header", dataType = "Long", name = "currentId", value = "当前用户id", required = true),
-            @ApiImplicitParam(paramType = "query", dataType = "Long", name = "id", value = "系统积分增值id", required = true)})
-    @CrossOrigin
-    @GetMapping("/delete/{id}")
-    public OutputResult<Void> delsete(
-            @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
-            @PathVariable("id") Long id)throws ApplicationException {
-        //逻辑删除
-        systemBonusServer.deleteById(id);
+        systemBonusServer.deleteById(id, currentId);
         return new OutputResult<>();
     }
 }

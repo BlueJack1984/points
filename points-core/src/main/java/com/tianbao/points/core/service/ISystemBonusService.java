@@ -67,4 +67,15 @@ public interface ISystemBonusService extends IBaseService<SystemBonus, Long> {
      * @update
      */
     SystemBonus getLatest()throws ApplicationException;
+
+    /**
+     * @author lushusheng
+     * @Date 2018-12-04
+     * @Desc 根据id删除实体，本项目均为逻辑删除
+     * @param id 实体id
+     * @param currentId 管理员id
+     * @return 返回无，出错抛出异常
+     * @update
+     */
+    void deleteById(Long id, Long currentId) throws ApplicationException;
 }

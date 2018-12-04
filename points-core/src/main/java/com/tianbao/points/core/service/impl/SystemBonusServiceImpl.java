@@ -64,18 +64,7 @@ public class SystemBonusServiceImpl implements ISystemBonusService {
      */
     @Override
     public void deleteById(Long id) throws ApplicationException {
-        SystemBonus systemBonus = iSystemBonusDao.selectByPrimaryKey(id);
-        if(systemBonus == null) {
-            throw new ApplicationException(1, "无法删除，参数错误");
-        }
-        //逻辑删除，将status状态值置为1
-        systemBonus.setStatus(1);
-        systemBonus.setUpdateTime(new Date());
-        //无法把updateUserId赋值
-        iSystemBonusDao.updateByPrimaryKey(systemBonus);
-        //还要把与这个关联的个人积分增值的属性system_bonus_id清空
-        List<PersonalBonus> personalBonusList = personalBonusServer.getListBySysBonusId(id);
-        personalBonusServer.updateBatch(personalBonusList);
+
     }
 
     @Override
@@ -222,6 +211,37 @@ public class SystemBonusServiceImpl implements ISystemBonusService {
     public SystemBonus getLatest() throws ApplicationException {
         SystemBonus systemBonus = iSystemBonusDao.selectLatest();
         return systemBonus;
+    }
+
+    /**
+     * @author lushusheng
+     * @Date 2018-12-04
+     * @Desc 根据id删除实体，本项目均为逻辑删除
+     * @param id 实体id
+     * @param currentId 管理员id
+     * @return 返回无，出错抛出异常
+     * @update
+     */
+    @Override
+    public void deleteById(Long id, Long currentId) throws ApplicationException {
+        SystemBonus systemBonus = iSystemBonusDao.selectByPrimaryKey(id);
+        if(systemBonus == null) {
+            throw new ApplicationException(1, "无法删除，参数错误");
+        }
+        //逻辑删除，将status状态值置为禁用
+        systemBonus.setStatus(StatusCode.FORBIDDEN.getCode());
+        systemBonus.setUpdateTime(new Date());
+        systemBonus.setUpdateUserId(currentId);
+        //无法把updateUserId赋值
+        iSystemBonusDao.updateByPrimaryKey(systemBonus);
+        //还要把与这个关联的个人积分增值的属性system_bonus_id清空
+        List<PersonalBonus> personalBonusList = personalBonusServer.getListBySysBonusId(id);
+        for(PersonalBonus personalBonus: personalBonusList) {
+            personalBonus.setSystemBonusId(null);
+            personalBonus.setUpdateTime(new Date());
+            personalBonus.setUpdateUserId(currentId);
+        }
+        personalBonusServer.updateBatch(personalBonusList);
     }
 
     @Transactional
