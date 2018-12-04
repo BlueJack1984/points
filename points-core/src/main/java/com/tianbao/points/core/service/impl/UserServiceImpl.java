@@ -215,8 +215,7 @@ public class UserServiceImpl implements IUserService {
             throw new ApplicationException(1, "");
         }
         List<Rank> rankList = rankServer.getList();
-        List<UserDTO> userDTOList = new ArrayList<>();
-        copyRankProperties(userDTOList, userList, rankList);
+        List<UserDTO> userDTOList = copyRankProperties(userList, rankList);
         PageInfo<UserDTO> pageInfo = new PageInfo<>(userDTOList);
         return pageInfo;
     }
@@ -228,7 +227,8 @@ public class UserServiceImpl implements IUserService {
      * @return 返回查询到的数据列表
      * @update
      */
-    private void copyRankProperties(List<UserDTO> target, List<User> userList, List<Rank> rankList) throws ApplicationException{
+    private List<UserDTO> copyRankProperties(List<User> userList, List<Rank> rankList) throws ApplicationException{
+        List<UserDTO> userDTOList = new ArrayList<>();
         for(User user: userList) {
             UserDTO userDTO = new UserDTO();
             BeanHelper.copyProperties(userDTO, user);
@@ -238,8 +238,9 @@ public class UserServiceImpl implements IUserService {
                     break;
                 }
             }
-            target.add(userDTO);
+            userDTOList.add(userDTO);
         }
+        return userDTOList;
     }
 
     /**
@@ -301,12 +302,11 @@ public class UserServiceImpl implements IUserService {
 
         PageHelper.startPage(pageNo, pageSize);
         List<User> userList = iUserDao.selectListByConditionPage(type, keyword);
-        List<UserDTO> userDTOList = new ArrayList<>();
         if(userList == null) {
-            return new PageInfo<>(userDTOList);
+            throw new ApplicationException(2,"");
         }
         List<Rank> rankList = rankServer.getList();
-        copyRankProperties(userDTOList, userList, rankList);
+        List<UserDTO> userDTOList = copyRankProperties(userList, rankList);
         PageInfo<UserDTO> pageInfo = new PageInfo<>(userDTOList);
         return pageInfo;
     }
