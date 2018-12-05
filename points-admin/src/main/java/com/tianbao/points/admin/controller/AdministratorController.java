@@ -157,6 +157,11 @@ public class AdministratorController {
     public OutputResult<UserDTO> update(
             @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
             @RequestBody @Valid AdminUpdateInput adminUpdateInput)throws ApplicationException {
+        String password = adminUpdateInput.getPassword();
+        String surePassword = adminUpdateInput.getSurePassword();
+        if(!(password == null && surePassword == null || password != null && password.equals(surePassword))) {
+            throw new ApplicationException(1, "");
+        }
 
         //userServer.deleteById(id);
         return new OutputResult<>();
