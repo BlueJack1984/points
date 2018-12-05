@@ -151,7 +151,7 @@ public class AdministratorController {
     @ApiOperation(value = "修改特定管理员信息", notes = "修改特定管理员信息")
     @ApiImplicitParams({
             @ApiImplicitParam(paramType = "header", dataType = "Long", name = "currentId", value = "当前用户id", required = true),
-            @ApiImplicitParam(paramType = "body", dataType = "AdminUpdateInput", name = "adminUpdateInput", value = "实体参数", required = false)})
+            @ApiImplicitParam(paramType = "body", dataType = "AdminUpdateInput", name = "adminUpdateInput", value = "实体参数", required = true)})
     @CrossOrigin
     @PostMapping("/update")
     public OutputResult<UserDTO> update(

@@ -375,6 +375,11 @@ public class UserServiceImpl implements IUserService {
     @Override
     public UserDTO saveAdmin(User user, Long roleId, Integer order, Long currentId) throws ApplicationException {
         user.setId(IdWorker.getId());
+        //对密码进行加密
+        String password = user.getPassword();
+        byte[] encoded = DES.encrypt(PASSWORD_SECRET_KEY.getBytes(), password.getBytes());
+        String encodedPassword = new String(encoded);
+        user.setPassword(encodedPassword);
         user.setStatus(StatusCode.NORMAL.getCode());
         user.setCreateTime(new Date());
         user.setUpdateTime(new Date());
