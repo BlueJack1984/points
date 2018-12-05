@@ -40,9 +40,9 @@ public class Rank extends ObjectPO<Long> {
     /**
      * 奖金封顶
      */
-    //private String color;
+    private Double maxBonus;
     /**
      * 排序编号
      */
-    //private String color;
+    private Integer order;
 }

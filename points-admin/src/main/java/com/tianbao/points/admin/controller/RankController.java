@@ -1,6 +1,8 @@
 package com.tianbao.points.admin.controller;
 
 import com.github.pagehelper.PageInfo;
+import com.tianbao.points.admin.dto.request.RankInput;
+import com.tianbao.points.admin.dto.request.RankUpdateInput;
 import com.tianbao.points.core.dto.response.OutputListResult;
 import com.tianbao.points.core.dto.response.OutputResult;
 import com.tianbao.points.core.entity.Rank;
@@ -13,6 +15,8 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 /**
  * @desc 会员等级服务入口
@@ -78,20 +82,41 @@ public class RankController {
     /**
      * @desc 根据id更新会员等级数据
      * @author lushusheng 2018-12-02
-     * @param currentId 当前用户id
-     * @param rank 要保存的实体参数
-     * @return 返回操作结果
+     * @param currentId 当前管理员用户id
+     * @param rankUpdateInput 要更新的实体参数
+     * @return 返回更新数据
+     * @throws ApplicationException 更新异常
+     */
+    @ApiOperation(value = "根据id更新会员等级数据", notes = "根据id更新会员等级数据")
+    @ApiImplicitParams({
+        @ApiImplicitParam(paramType = "header", dataType = "Long", name = "currentId", value = "当前用户id", required = true),
+        @ApiImplicitParam(paramType = "query", dataType = "RankUpdateInput", name = "rankUpdateInput", value = "实体参数", required = true)})
+    @CrossOrigin
+    @PostMapping("/update")
+    public OutputResult<Rank> update(
+            @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
+            @RequestBody @Valid RankUpdateInput rankUpdateInput)throws ApplicationException {
+        Rank rank = rankServer.getListPage(pageNo, pageSize);
+        return new OutputResult<>(rank);
+    }
+
+    /**
+     * @desc 新建保存会员等级数据
+     * @author lushusheng 2018-12-05
+     * @param currentId 当前管理员用户id
+     * @param rankInput 要保存的实体参数
+     * @return 返回更新数据
      * @throws ApplicationException 保存异常
      */
     @ApiOperation(value = "根据id更新会员等级数据", notes = "根据id更新会员等级数据")
     @ApiImplicitParams({
         @ApiImplicitParam(paramType = "header", dataType = "Long", name = "currentId", value = "当前用户id", required = true),
-        @ApiImplicitParam(paramType = "query", dataType = "Rank", name = "rank", value = "实体参数", required = true)})
+        @ApiImplicitParam(paramType = "query", dataType = "RankInput", name = "rankInput", value = "实体参数", required = true)})
     @CrossOrigin
-    @GetMapping("/update")
-    public OutputResult<Rank> update(
+    @PostMapping("/save")
+    public OutputResult<Rank> save(
             @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
-            @RequestBody Rank rank)throws ApplicationException {
+            @RequestBody @Valid RankInput rankInput)throws ApplicationException {
         Rank rank = rankServer.getListPage(pageNo, pageSize);
         return new OutputResult<>(rank);
     }
