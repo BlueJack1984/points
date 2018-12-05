@@ -159,4 +159,11 @@
     where _rank.status = 0
     order by _rank.id
   </select>
+
+  <!--根据排序编号查询会员等级实体-->
+  <select id="getByOrder" resultType="rank">
+    select <include refid="c_rank"/>
+    from <include refid="t_rank"/> _rank
+    where _rank.status = 0 and _rank.order = #{order}
+  </select>
 </mapper>

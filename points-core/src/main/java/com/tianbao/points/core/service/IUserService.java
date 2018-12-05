@@ -138,9 +138,11 @@ public interface IUserService extends IBaseService<User, Long> {
      * @desc 保存特定管理员信息
      * @author lushusheng 2018-12-03
      * @param currentId 当前用户id
-     * @param adminInput 实体参数
+     * @param user 保存的实体
+     * @param roleId 实体参数
+     * @param order 实体参数
      * @return 返回数据
      * @throws ApplicationException 保存异常
      */
-    UserDTO save(User user, )
+    UserDTO saveAdmin(User user, Long roleId, Integer order, Long currentId)throws ApplicationException;
 }

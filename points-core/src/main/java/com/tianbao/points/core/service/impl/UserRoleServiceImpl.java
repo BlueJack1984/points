@@ -31,7 +31,7 @@ public class UserRoleServiceImpl implements IUserRoleService {
 
     @Override
     public void save(UserRole record) throws ApplicationException {
-
+        iUserRoleDao.insert(record);
     }
 
     @Override

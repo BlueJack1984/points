@@ -105,7 +105,7 @@ public class AdministratorController {
             @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
             @PathVariable("id") Long id)throws ApplicationException {
 
-       userServer.deleteById(id);
+       userServer.deleteById(id, currentId);
         return new OutputResult<>();
     }
 
@@ -126,7 +126,8 @@ public class AdministratorController {
     public OutputResult<UserDTO> save(
             @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
             @RequestBody @Valid AdminInput adminInput)throws ApplicationException {
-        if(StringUtils.isEmpty(adminInput.getPassword()) || StringUtils.isEmpty(adminInput.getSurePassword())) {
+        if(StringUtils.isEmpty(adminInput.getPassword()) || StringUtils.isEmpty(adminInput.getSurePassword())
+                || ! adminInput.getPassword().equals(adminInput.getSurePassword())) {
             throw new ApplicationException(1, "");
         }
         User user = new User();
@@ -136,7 +137,7 @@ public class AdministratorController {
         user.setIdentityNumber(adminInput.getIdentityNumber());
         user.setPhone(adminInput.getPhone());
         user.setEmail(adminInput.getEmail());
-        UserDTO userDTO = userServer.save(user, adminInput.getSurePassword(), adminInput.getRoleId(), adminInput.getOrder());
+        UserDTO userDTO = userServer.saveAdmin(user, adminInput.getRoleId(), adminInput.getOrder(), currentId);
         return new OutputResult<>(userDTO);
     }
     /**

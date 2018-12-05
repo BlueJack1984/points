@@ -1,6 +1,7 @@
 package com.tianbao.points.core.service.impl;
 
 
+import com.baomidou.mybatisplus.toolkit.IdWorker;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.tianbao.points.core.constant.StatusCode;
@@ -10,6 +11,7 @@ import com.tianbao.points.core.dto.UserDTO;
 import com.tianbao.points.core.entity.Rank;
 import com.tianbao.points.core.entity.Role;
 import com.tianbao.points.core.entity.User;
+import com.tianbao.points.core.entity.UserRole;
 import com.tianbao.points.core.exception.ApplicationException;
 import com.tianbao.points.core.service.*;
 import com.tianbao.points.core.utils.BeanHelper;
@@ -357,6 +359,43 @@ public class UserServiceImpl implements IUserService {
         user.setUpdateTime(new Date());
         user.setUpdateUserId(currentId);
         iUserDao.updateByPrimaryKey(user);
+    }
+
+    /**
+     * @desc 保存特定管理员信息
+     * @author lushusheng 2018-12-03
+     * @param currentId 当前用户id
+     * @param user 保存的实体
+     * @param roleId 实体参数
+     * @param order 实体参数
+     * @return 返回数据
+     * @throws ApplicationException 保存异常
+     */
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public UserDTO saveAdmin(User user, Long roleId, Integer order, Long currentId) throws ApplicationException {
+        user.setId(IdWorker.getId());
+        user.setStatus(StatusCode.NORMAL.getCode());
+        user.setCreateTime(new Date());
+        user.setUpdateTime(new Date());
+        user.setUpdateUserId(currentId);
+        user.setCreateUserId(currentId);
+        //插入会员等级关联
+        Rank rank = rankServer.getByOrder(order);
+        user.setRankId(rank.getId());
+        iUserDao.insert(user);
+        //插入角色关联表
+        UserRole userRole = new UserRole();
+        userRole.setId(IdWorker.getId());
+        userRole.setUserId(user.getId());
+        userRole.setRoleId(roleId);
+        userRole.setStatus(StatusCode.NORMAL.getCode());
+        userRole.setCreateTime(new Date());
+        userRole.setUpdateUserId(currentId);
+        userRole.setUpdateTime(new Date());
+        userRole.setCreateUserId(currentId);
+        userRoleServer.save(userRole);
+        return getPersonalInfo(user.getId());
     }
 
     @Override
