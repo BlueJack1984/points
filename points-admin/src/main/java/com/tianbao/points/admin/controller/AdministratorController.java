@@ -17,6 +17,7 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -125,10 +126,18 @@ public class AdministratorController {
     public OutputResult<UserDTO> save(
             @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
             @RequestBody @Valid AdminInput adminInput)throws ApplicationException {
-        if()
+        if(StringUtils.isEmpty(adminInput.getPassword()) || StringUtils.isEmpty(adminInput.getSurePassword())) {
+            throw new ApplicationException(1, "");
+        }
         User user = new User();
-        //userServer.deleteById(id);
-        return new OutputResult<>();
+        user.setAccount(adminInput.getAccount());
+        user.setPassword(adminInput.getPassword());
+        user.setRealName(adminInput.getRealName());
+        user.setIdentityNumber(adminInput.getIdentityNumber());
+        user.setPhone(adminInput.getPhone());
+        user.setEmail(adminInput.getEmail());
+        UserDTO userDTO = userServer.save(user, adminInput.getSurePassword(), adminInput.getRoleId(), adminInput.getOrder());
+        return new OutputResult<>(userDTO);
     }
     /**
      * @desc 修改特定管理员信息

@@ -38,7 +38,7 @@ public class AdminInput {
      * 管理员用户角色id
      */
     @NotNull(message=" 角色id不能为空")
-    private Long role_id;
+    private Long roleId;
     /**
      * 管理员用户真实姓名
      */

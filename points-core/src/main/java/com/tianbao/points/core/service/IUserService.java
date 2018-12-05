@@ -133,4 +133,14 @@ public interface IUserService extends IBaseService<User, Long> {
      * @throws ApplicationException 删除异常
      */
     void deleteById(Long id, Long currentId) throws ApplicationException;
+
+    /**
+     * @desc 保存特定管理员信息
+     * @author lushusheng 2018-12-03
+     * @param currentId 当前用户id
+     * @param adminInput 实体参数
+     * @return 返回数据
+     * @throws ApplicationException 保存异常
+     */
+    UserDTO save(User user, )
 }
