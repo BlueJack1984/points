@@ -123,4 +123,14 @@ public interface IUserService extends IBaseService<User, Long> {
      * @throws ApplicationException 保存异常
      */
     PageInfo<UserDTO> getAdminListPage(Integer pageNo, Integer pageSize)throws ApplicationException;
+
+    /**
+     * @desc 根据id删除特定管理员信息
+     * @author lushusheng 2018-12-03
+     * @param currentId 当前用户id
+     * @param id 实体id
+     * @return 返回操作结果
+     * @throws ApplicationException 删除异常
+     */
+    void deleteById(Long id, Long currentId) throws ApplicationException;
 }

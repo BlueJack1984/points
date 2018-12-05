@@ -3,13 +3,13 @@ package com.tianbao.points.core.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.tianbao.points.core.constant.StatusCode;
 import com.tianbao.points.core.dao.IUserDao;
 import com.tianbao.points.core.dto.PositionDTO;
 import com.tianbao.points.core.dto.UserDTO;
 import com.tianbao.points.core.entity.Rank;
 import com.tianbao.points.core.entity.Role;
 import com.tianbao.points.core.entity.User;
-import com.tianbao.points.core.entity.UserRole;
 import com.tianbao.points.core.exception.ApplicationException;
 import com.tianbao.points.core.service.*;
 import com.tianbao.points.core.utils.BeanHelper;
@@ -24,7 +24,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * @desc 首页公告服务接口
+ * @desc 用户服务接口
  * @author lushusheng
  * @date 2018-11-27
  *
@@ -82,6 +82,9 @@ public class UserServiceImpl implements IUserService {
         //根据用户id获取用户角色信息
         List<Role> roleList = roleServer.getListByUserId(id);
         userDTO.setRoleList(roleList);
+        //获取会员等级
+        Rank rank = rankServer.selectById(user.getId());
+        userDTO.setRank(rank);
         return userDTO;
     }
 
@@ -338,6 +341,22 @@ public class UserServiceImpl implements IUserService {
         }
         PageInfo<UserDTO> pageInfo = new PageInfo<>(userDTOList);
         return pageInfo;
+    }
+    /**
+     * @desc 根据id删除特定管理员信息
+     * @author lushusheng 2018-12-03
+     * @param currentId 当前用户id
+     * @param id 实体id
+     * @return 返回操作结果
+     * @throws ApplicationException 删除异常
+     */
+    @Override
+    public void deleteById(Long id, Long currentId) throws ApplicationException {
+        User user = iUserDao.selectByPrimaryKey(id);
+        user.setStatus(StatusCode.FORBIDDEN.getCode());
+        user.setUpdateTime(new Date());
+        user.setUpdateUserId(currentId);
+        iUserDao.updateByPrimaryKey(user);
     }
 
     @Override
