@@ -9,11 +9,9 @@ import com.tianbao.points.core.dto.UserDTO;
 import com.tianbao.points.core.entity.Rank;
 import com.tianbao.points.core.entity.Role;
 import com.tianbao.points.core.entity.User;
+import com.tianbao.points.core.entity.UserRole;
 import com.tianbao.points.core.exception.ApplicationException;
-import com.tianbao.points.core.service.IPositionService;
-import com.tianbao.points.core.service.IRankService;
-import com.tianbao.points.core.service.IRoleService;
-import com.tianbao.points.core.service.IUserService;
+import com.tianbao.points.core.service.*;
 import com.tianbao.points.core.utils.BeanHelper;
 import com.tianbao.points.core.utils.DES;
 import lombok.RequiredArgsConstructor;
@@ -46,6 +44,10 @@ public class UserServiceImpl implements IUserService {
      * 注入角色服务service
      */
     private final IRoleService roleServer;
+    /**
+     * 注入用户角色关联服务service
+     */
+    private final IUserRoleService userRoleServer;
     /**
      * 注入会员等级service
      */
@@ -325,11 +327,13 @@ public class UserServiceImpl implements IUserService {
         List<User> adminList = iUserDao.getAdminListPage();
         List<UserDTO> userDTOList = new ArrayList<>();
         //后期可以优化，管理员数据量大时较慢
-
         for(User admin: adminList) {
             UserDTO userDTO = new UserDTO();
+            BeanHelper.copyProperties(userDTO, admin);
             List<Role> roleList = roleServer.getListByUserId(admin.getId());
+            List<PositionDTO> positionDTOList = positionServer.getListByUserId(admin.getId());
             userDTO.setRoleList(roleList);
+            userDTO.setPositionDTOList(positionDTOList);
             userDTOList.add(userDTO);
         }
         PageInfo<UserDTO> pageInfo = new PageInfo<>(userDTOList);

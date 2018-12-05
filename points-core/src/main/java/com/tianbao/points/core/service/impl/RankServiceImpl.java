@@ -2,6 +2,7 @@ package com.tianbao.points.core.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.tianbao.points.core.constant.StatusCode;
 import com.tianbao.points.core.dao.IRankDao;
 import com.tianbao.points.core.entity.Rank;
 import com.tianbao.points.core.exception.ApplicationException;
@@ -10,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -63,7 +65,7 @@ public class RankServiceImpl implements IRankService {
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void updateById(Rank record) throws ApplicationException {
-
+        iRankDao.updateByPrimaryKey(record);
     }
 
     /**
@@ -94,5 +96,25 @@ public class RankServiceImpl implements IRankService {
         List<Rank> rankList = iRankDao.selectListPage();
         PageInfo<Rank> pageInfo = new PageInfo<>(rankList);
         return pageInfo;
+    }
+
+    /**
+     * @desc 新建保存会员等级数据
+     * @author lushusheng 2018-12-05
+     * @param currentId 当前管理员用户id
+     * @param rank 要保存的实体参数
+     * @return 返回保存数据
+     * @throws ApplicationException 保存异常
+     */
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public Rank insert(Rank rank, Long currentId) throws ApplicationException {
+        rank.setStatus(StatusCode.NORMAL.getCode());
+        rank.setCreateTime(new Date());
+        rank.setCreateUserId(currentId);
+        rank.setUpdateTime(new Date());
+        rank.setUpdateUserId(currentId);
+        iRankDao.insert(rank);
+        return rank;
     }
 }

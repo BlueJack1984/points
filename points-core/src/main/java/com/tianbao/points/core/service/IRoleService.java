@@ -47,4 +47,14 @@ public interface IRoleService extends IBaseService<Role, Long> {
      */
     void delete(Long id, Long currentId)throws ApplicationException;
 
+    /**
+     * @desc 保存实体信息
+     * @author lushusheng 2018-12-03
+     * @param currentId 当前用户id
+     * @param name 角色名称
+     * @param description 角色描述
+     * @return 返回保存后的数据
+     * @throws ApplicationException 保存异常
+     */
+    Role insert(String name, String description, Long currentId)throws ApplicationException;
 }

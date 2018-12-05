@@ -7,6 +7,8 @@ import com.tianbao.points.core.service.IUserRoleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * @desc 用户角色关联服务接口
  * @author lushusheng
@@ -50,5 +52,19 @@ public class UserRoleServiceImpl implements IUserRoleService {
     @Override
     public void updateById(UserRole record) throws ApplicationException {
 
+    }
+    /**
+     * @author lushusheng
+     * @Date 2018-12-05
+     * @Desc 根据实体ids查询用户角色列表
+     * 每个用户id都对应一个角色列表，一个用户id集合对应一个角色集合的集合
+     * @param ids 用户的id集合
+     * @return 返回无，出错抛出异常
+     * @update
+     */
+    @Override
+    public List<List<UserRole>> getListByUserIds(List<Long> ids) throws ApplicationException {
+        List<List<UserRole>> userRoleList = iUserRoleDao.getListByUserIds(ids);
+        return userRoleList;
     }
 }

@@ -9,7 +9,9 @@ import com.tianbao.points.core.entity.Role;
 import com.tianbao.points.core.exception.ApplicationException;
 import com.tianbao.points.core.service.IRoleService;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
@@ -110,6 +112,7 @@ public class RoleServiceImpl implements IRoleService {
      * @return 返回操作结果
      * @throws ApplicationException 保存异常
      */
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void delete(Long id, Long currentId) throws ApplicationException {
         //逻辑删除，更改status状态，是否还需要删除关联表？？？
@@ -122,5 +125,33 @@ public class RoleServiceImpl implements IRoleService {
         //删除会员角色关联表，逻辑删除
 
         //删除角色权限关联表，逻辑删除
+    }
+
+    /**
+     * @desc 保存实体信息
+     * @author lushusheng 2018-12-03
+     * @param currentId 当前用户id
+     * @param name 角色名称
+     * @param description 角色描述
+     * @return 返回保存后的数据
+     * @throws ApplicationException 保存异常
+     */
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public Role insert(String name, String description, Long currentId) throws ApplicationException {
+        Role role = new Role();
+        role.setName(name);
+        if(! StringUtils.isEmpty(description)) {
+            role.setDescription(description);
+        }
+        role.setStatus(StatusCode.NORMAL.getCode());
+        //role.setDomain(1);
+        //role.setType(1);
+        role.setCreateTime(new Date());
+        role.setCreateUserId(currentId);
+        role.setUpdateTime(new Date());
+        role.setUpdateUserId(currentId);
+        iRoleDao.insert(role);
+        return role;
     }
 }

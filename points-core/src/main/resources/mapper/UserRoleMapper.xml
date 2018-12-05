@@ -121,4 +121,13 @@
       update_user_id = #{updateUserId}
     where id = #{id,jdbcType=BIGINT}
   </update>
+
+  <!--根据实体ids查询用户角色列表-->
+  <select id="getListByUserIds" resultType="java.util.List">
+    <foreach collection="ids" item="id" index="index" separator="union">
+      (select <include refid="c_user_role"/>
+      from <include refid="t_user_role"/> _user_role
+      where _user_role.status = 0 and _user_role.user_id = #{id})
+    </foreach>
+  </select>
 </mapper>

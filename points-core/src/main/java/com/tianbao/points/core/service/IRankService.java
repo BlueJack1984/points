@@ -35,5 +35,15 @@ public interface IRankService extends IBaseService<Rank, Long> {
      * @update
      */
     PageInfo<Rank> getListPage(Integer pageNo, Integer pageSize)throws ApplicationException;
+
+    /**
+     * @desc 新建保存会员等级数据
+     * @author lushusheng 2018-12-05
+     * @param currentId 当前管理员用户id
+     * @param rank 要保存的实体参数
+     * @return 返回保存数据
+     * @throws ApplicationException 保存异常
+     */
+    Rank insert(Rank rank, Long currentId)throws ApplicationException;
 }
 

@@ -3,6 +3,7 @@ package com.tianbao.points.admin.controller;
 
 import com.github.pagehelper.PageInfo;
 import com.tianbao.points.admin.dto.request.RoleInput;
+import com.tianbao.points.admin.dto.request.RoleUpdateInput;
 import com.tianbao.points.core.dto.response.OutputListResult;
 import com.tianbao.points.core.dto.response.OutputResult;
 import com.tianbao.points.core.entity.Rank;
@@ -87,26 +88,26 @@ public class RoleController {
      * @desc 根据id更新实体信息
      * @author lushusheng 2018-12-03
      * @param currentId 当前用户id
-     * @param roleInput 需要更新的数据实体
+     * @param roleUpdateInput 需要更新的数据实体
      * @return 返回更新后的数据
      * @throws ApplicationException 保存异常
      */
     @ApiOperation(value = "根据id更新实体信息", notes = "根据id更新实体信息")
     @ApiImplicitParams({
         @ApiImplicitParam(paramType = "header", dataType = "Long", name = "currentId", value = "当前用户id", required = true),
-        @ApiImplicitParam(paramType = "body", dataType = "RoleInput", name = "roleInput", value = "需要更新的数据实体", required = true)})
+        @ApiImplicitParam(paramType = "body", dataType = "RoleUpdateInput", name = "roleUpdateInput", value = "需要更新的数据实体", required = true)})
     @CrossOrigin
     @PostMapping("/update")
     public OutputResult<Role> update(
             @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
-            @RequestBody @Valid RoleInput roleInput)throws ApplicationException {
-        Role role = roleServer.selectById(roleInput.getId());
+            @RequestBody @Valid RoleUpdateInput roleUpdateInput)throws ApplicationException {
+        Role role = roleServer.selectById(roleUpdateInput.getId());
         if(role == null) {
             throw new ApplicationException(1, "");
         }
-        role.setName(roleInput.getName());
-        if(! StringUtils.isEmpty(roleInput.getDescription())) {
-            role.setDescription(roleInput.getDescription());
+        role.setName(roleUpdateInput.getName());
+        if(! StringUtils.isEmpty(roleUpdateInput.getDescription())) {
+            role.setDescription(roleUpdateInput.getDescription());
         }
         role.setUpdateTime(new Date());
         role.setUpdateUserId(currentId);
@@ -132,5 +133,27 @@ public class RoleController {
             @PathVariable Long id)throws ApplicationException {
         roleServer.delete(id, currentId);
         return new OutputResult<>();
+    }
+
+    /**
+     * @desc 保存实体信息
+     * @author lushusheng 2018-12-03
+     * @param currentId 当前用户id
+     * @param roleInput 需要保存的数据实体
+     * @return 返回保存后的数据
+     * @throws ApplicationException 保存异常
+     */
+    @ApiOperation(value = "保存实体信息", notes = "保存实体信息")
+    @ApiImplicitParams({
+        @ApiImplicitParam(paramType = "header", dataType = "Long", name = "currentId", value = "当前用户id", required = true),
+        @ApiImplicitParam(paramType = "body", dataType = "RoleInput", name = "roleInput", value = "需要保存的数据实体", required = true)})
+    @CrossOrigin
+    @PostMapping("/save")
+    public OutputResult<Role> update(
+            @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
+            @RequestBody @Valid RoleInput roleInput)throws ApplicationException {
+
+        Role role = roleServer.insert(roleInput.getName(), roleInput.getDescription(), currentId);
+        return new OutputResult<>(role);
     }
 }

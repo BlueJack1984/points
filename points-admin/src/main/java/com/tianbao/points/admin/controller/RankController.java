@@ -14,9 +14,11 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Date;
 
 /**
  * @desc 会员等级服务入口
@@ -96,10 +98,38 @@ public class RankController {
     public OutputResult<Rank> update(
             @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
             @RequestBody @Valid RankUpdateInput rankUpdateInput)throws ApplicationException {
-        Rank rank = rankServer.getListPage(pageNo, pageSize);
+
+        Rank rank = rankServer.selectById(rankUpdateInput.getId());
+        if(rank == null) {
+            throw new ApplicationException(1, "");
+        }
+        copyProperties(rank, rankUpdateInput);
+        rank.setUpdateTime(new Date());
+        rank.setCreateUserId(currentId);
+        rankServer.updateById(rank);
         return new OutputResult<>(rank);
     }
-
+    /**
+     * @desc 拷贝输入的属性到实体中
+     * @author lushusheng 2018-12-05
+     * @param target 目标实体
+     * @param rankInput 要更新的实体参数
+     * @return 返回更新数据
+     * @throws ApplicationException 更新异常
+     */
+    private void copyProperties(Rank target, RankInput rankInput) {
+        target.setName(rankInput.getName());
+        target.setBaseMoney(rankInput.getBaseMoney());
+        target.setBasePoints(rankInput.getBasePoints());
+        target.setMaxBonus(rankInput.getMaxBonus());
+        target.setOrder(rankInput.getOrder());
+        if(! StringUtils.isEmpty(rankInput.getAlias())) {
+            target.setAlias(rankInput.getAlias());
+        }
+        if(! StringUtils.isEmpty(rankInput.getColor())) {
+            target.setAlias(rankInput.getColor());
+        }
+    }
     /**
      * @desc 新建保存会员等级数据
      * @author lushusheng 2018-12-05
@@ -117,7 +147,9 @@ public class RankController {
     public OutputResult<Rank> save(
             @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
             @RequestBody @Valid RankInput rankInput)throws ApplicationException {
-        Rank rank = rankServer.getListPage(pageNo, pageSize);
-        return new OutputResult<>(rank);
+        Rank rank = new Rank();
+        copyProperties(rank, rankInput);
+        Rank saved = rankServer.insert(rank, currentId);
+        return new OutputResult<>(saved);
     }
 }

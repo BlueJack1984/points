@@ -8,23 +8,18 @@ import lombok.NoArgsConstructor;
 import javax.validation.constraints.NotEmpty;
 
 /**
- * @desc 保存角色数据的属性
+ * @desc 更新角色数据的属性
  * @author lushusheng
  * @date 2018-12-03
  */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class RoleInput {
-    /**
-     * 角色名称
-     */
-    @NotEmpty(message = "角色名称不能为空")
-    private String name;
+public class RoleUpdateInput extends RoleInput{
 
     /**
-     * 角色描述
+     * 角色实体id
      */
-    //@NotEmpty(message = "角色名称不能为空")
-    private String description;
+    @NotEmpty(message = "角色实体id不能为空")
+    private Long id;
 }
