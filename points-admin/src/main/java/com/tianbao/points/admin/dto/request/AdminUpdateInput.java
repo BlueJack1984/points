@@ -3,8 +3,7 @@ package com.tianbao.points.admin.dto.request;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 
 /**
@@ -20,6 +19,6 @@ public class AdminUpdateInput extends AdminInput{
     /**
      * 管理员用户id
      */
-    @NotEmpty(message=" 管理员用户id不能为空")
+    @NotNull(message=" 管理员用户id不能为空")
     private Long id;
 }

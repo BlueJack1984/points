@@ -8,6 +8,7 @@ import com.tianbao.points.admin.dto.request.UserInput;
 import com.tianbao.points.core.dto.UserDTO;
 import com.tianbao.points.core.dto.response.OutputListResult;
 import com.tianbao.points.core.dto.response.OutputResult;
+import com.tianbao.points.core.entity.User;
 import com.tianbao.points.core.exception.ApplicationException;
 import com.tianbao.points.core.service.IUserService;
 import io.swagger.annotations.Api;
@@ -124,7 +125,8 @@ public class AdministratorController {
     public OutputResult<UserDTO> save(
             @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
             @RequestBody @Valid AdminInput adminInput)throws ApplicationException {
-
+        if()
+        User user = new User();
         //userServer.deleteById(id);
         return new OutputResult<>();
     }
