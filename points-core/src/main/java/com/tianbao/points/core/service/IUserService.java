@@ -142,5 +142,5 @@ public interface IUserService extends IBaseService<User, Long> {
      * @return 返回数据
      * @throws ApplicationException 保存异常
      */
-    UserDTO save(User user, )
+    UserDTO saveAdmin(User user, )
 }
