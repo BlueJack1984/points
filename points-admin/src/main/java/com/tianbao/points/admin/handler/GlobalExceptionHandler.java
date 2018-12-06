@@ -19,6 +19,16 @@ import java.lang.reflect.UndeclaredThrowableException;
 public class GlobalExceptionHandler {
 
     /**
+     * 拦截捕捉自定义异常 ApplicationException.class
+     * @param ex
+     * @return
+     */
+    @ExceptionHandler(value = ApplicationException.class)
+    public OutputError applicationExceptionHandler(ApplicationException ex) {
+        String message = "应用异常";
+        return new OutputError(ex.getCode(), message, ex.getDetailMsg());
+    }
+    /**
      * 全局异常捕捉处理
      * @param ex
      * @return
@@ -38,15 +48,5 @@ public class GlobalExceptionHandler {
         }
         log.error("收到未知异常：{}", ex);
         return new OutputError(ApplicationException.INNER_ERROR, "未知错误", ex.getMessage());
-    }
-    /**
-     * 拦截捕捉自定义异常 ApplicationException.class
-     * @param ex
-     * @return
-     */
-    @ExceptionHandler(value = ApplicationException.class)
-    public OutputError applicationExceptionHandler(ApplicationException ex) {
-        String message = "应用异常";
-        return new OutputError(ex.getCode(), message, ex.getDetailMsg());
     }
 }
