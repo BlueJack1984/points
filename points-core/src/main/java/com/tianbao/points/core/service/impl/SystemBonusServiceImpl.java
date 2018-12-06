@@ -18,6 +18,7 @@ import com.tianbao.points.core.service.IPersonalBonusService;
 import com.tianbao.points.core.service.IRankService;
 import com.tianbao.points.core.service.ISystemBonusService;
 import com.tianbao.points.core.service.IUserService;
+import com.tianbao.points.core.utils.BeanHelper;
 import com.tianbao.points.core.utils.RandomGenerator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -282,7 +283,7 @@ public class SystemBonusServiceImpl implements ISystemBonusService {
             throw new ApplicationException(1, "");
         }
         List<Long> userIds = new ArrayList<>();
-        for (UserDTO userDTO : userDTOList) {
+        for(UserDTO userDTO: userDTOList) {
             userIds.add(userDTO.getId());
         }
         //根据用户id列表查询最新个人积分列表

@@ -150,7 +150,7 @@
   <select id="selectListByCondition" resultType="userMessage">
     select <include refid="c_user_message"/>
     from <include refid="t_user_message"/> _user_message
-    left join <include refid="t_user"/> _user
+    left join <include refid="com.tianbao.points.core.dao.IUserDao.t_user"/> _user
     on _user.id = _user_message.sender_id and _user.status = 0
     where 1 = 1 and _user_message.receiver_id = #{currentId}
     <!--未处理状态-->

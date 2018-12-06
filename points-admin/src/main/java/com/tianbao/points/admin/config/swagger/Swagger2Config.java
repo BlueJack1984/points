@@ -17,8 +17,8 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  * swagger2的配置
  * @author wujr 2018-08-28
  */
-@Configuration
-@EnableSwagger2
+//@Configuration
+//@EnableSwagger2
 public class Swagger2Config {
     @Value("${spring.swagger.package}")
     private String swaggerPackage;

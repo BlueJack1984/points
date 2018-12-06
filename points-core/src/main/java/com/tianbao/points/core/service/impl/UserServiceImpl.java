@@ -77,6 +77,9 @@ public class UserServiceImpl implements IUserService {
         UserDTO userDTO = new UserDTO();
         //获取用户基本信息
         User user = iUserDao.selectByPrimaryKey(id);
+        if(user == null) {
+            return null;
+        }
         BeanHelper.copyProperties(userDTO, user);
         //根据管理员id获取相关职位信息
         List<PositionDTO> positionDTOList = positionServer.getListByUserId(id);
@@ -202,7 +205,10 @@ public class UserServiceImpl implements IUserService {
      */
     @Override
     public List<UserDTO> getList() throws ApplicationException {
-        return iUserDao.getList();
+        List<User> userList = iUserDao.getList();
+        List<Rank> rankList = rankServer.getList();
+        List<UserDTO> userDTOList = copyRankProperties(userList, rankList);
+        return userDTOList;
     }
 
     /**

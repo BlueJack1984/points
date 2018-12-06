@@ -32,7 +32,7 @@ public interface IUserDao extends IBaseDao<User, Long> {
      * @return 返回查询到的数据列表
      * @update
      */
-    List<UserDTO> getList();
+    List<User> getList();
 
     /**
      * @author lushusheng
