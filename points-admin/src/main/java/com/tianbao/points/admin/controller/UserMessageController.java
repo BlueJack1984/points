@@ -6,7 +6,6 @@ import com.tianbao.points.admin.dto.request.ReplyInput;
 import com.tianbao.points.core.dto.UserMessageDTO;
 import com.tianbao.points.core.dto.response.OutputListResult;
 import com.tianbao.points.core.dto.response.OutputResult;
-import com.tianbao.points.core.entity.UserMessage;
 import com.tianbao.points.core.exception.ApplicationException;
 import com.tianbao.points.core.service.IUserMessageService;
 import com.tianbao.points.core.utils.StringConverter;

@@ -29,10 +29,6 @@ public class MessageServiceImpl implements IMessageService {
      * 注入留言dao
      */
     private final IMessageDao iMessageDao;
-    /**
-     * 注入用户信息关联表service
-     */
-    private final IUserMessageService userMessageServer;
 
     @Override
     public void deleteById(Long id) throws ApplicationException {

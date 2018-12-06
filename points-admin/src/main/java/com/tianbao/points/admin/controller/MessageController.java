@@ -24,7 +24,7 @@ import javax.validation.Valid;
  */
 
 @Api(value = "message", description = "留言")
-@RestController
+//@RestController
 @RequiredArgsConstructor
 @RequestMapping("/message")
 @Slf4j
@@ -32,5 +32,5 @@ public class MessageController {
     /**
      * 注入留言服务service
      */
-    private final IMessageService messageServer;
+    //private final IMessageService messageServer;
 }

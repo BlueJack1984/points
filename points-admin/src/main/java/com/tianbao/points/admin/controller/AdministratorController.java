@@ -4,7 +4,6 @@ package com.tianbao.points.admin.controller;
 import com.github.pagehelper.PageInfo;
 import com.tianbao.points.admin.dto.request.AdminInput;
 import com.tianbao.points.admin.dto.request.AdminUpdateInput;
-import com.tianbao.points.admin.dto.request.UserInput;
 import com.tianbao.points.core.dto.UserDTO;
 import com.tianbao.points.core.dto.response.OutputListResult;
 import com.tianbao.points.core.dto.response.OutputResult;
