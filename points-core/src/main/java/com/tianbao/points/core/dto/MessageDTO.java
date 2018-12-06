@@ -4,7 +4,9 @@ package com.tianbao.points.core.dto;
 import com.tianbao.points.core.entity.Message;
 import com.tianbao.points.core.entity.Rank;
 import com.tianbao.points.core.entity.User;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * 用户的传输实体
@@ -12,6 +14,8 @@ import lombok.Data;
  * @author lushusheng 2018-11-28
  */
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class MessageDTO extends Message {
 
     /**

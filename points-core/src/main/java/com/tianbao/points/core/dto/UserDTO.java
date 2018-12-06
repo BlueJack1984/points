@@ -4,7 +4,9 @@ import com.tianbao.points.core.entity.PersonalBonus;
 import com.tianbao.points.core.entity.Rank;
 import com.tianbao.points.core.entity.Role;
 import com.tianbao.points.core.entity.User;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
@@ -14,6 +16,8 @@ import java.util.List;
  * @author lushusheng 2018-11-28
  */
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class UserDTO extends User {
 
     /**

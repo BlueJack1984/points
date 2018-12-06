@@ -3,7 +3,9 @@ package com.tianbao.points.core.dto;
 
 import com.tianbao.points.core.entity.PersonalBonus;
 import com.tianbao.points.core.entity.User;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * 个人积分增值的传输实体
@@ -11,6 +13,8 @@ import lombok.Data;
  * @author lushusheng 2018-11-28
  */
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class PersonalBonusDTO extends PersonalBonus {
 
     /**
