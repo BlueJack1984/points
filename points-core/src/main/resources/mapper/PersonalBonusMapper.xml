@@ -5,10 +5,12 @@
   <!-- 个人积分增值实体对象的持久化 -->
   <sql id="c_personal_bonus">
       _personal_bonus.id, _personal_bonus.user_id userId, _personal_bonus.system_bonus_id systemBonusId,
-      _personal_bonus.points, _personal_bonus.ratio, _personal_bonus.visible, _personal_bonus.status,
+      _personal_bonus.ratio, _personal_bonus.visible, _personal_bonus.status,
       _personal_bonus.create_time createTime, _personal_bonus.create_user_id createUserId,
       _personal_bonus.update_time updateTime, _personal_bonus.update_user_id updateUserId
       _personal_bonus.last_personal_bonus_id lastPersonalBonusId
+      _personal_bonus.start_points startPoints, _personal_bonus.end_points endPoints,
+      _personal_bonus.parent_id parentId
   </sql>
   <sql id="t_personal_bonus">personal_bonus</sql>
 
@@ -25,10 +27,10 @@
 
   <insert id="insert" parameterType="personalBonus" >
     insert into <include refid="t_personal_bonus"/>
-    (id, user_id, system_bonus_id, points, ratio, visible, status, create_time, create_user_id,
-      update_time, update_user_id, last_personal_bonus_id)
-    values (#{id}, #{userId}, #{systemBonusId}, #{points}, #{ratio}, #{visible},
-      #{status}, #{createTime}, #{createUserId}, #{updateTime}, #{updateUserId}, #{lastPersonalBonusId})
+    (id, user_id, system_bonus_id, start_points, ratio, visible, status, create_time, create_user_id,
+      update_time, update_user_id, last_personal_bonus_id, end_points, parent_id)
+    values (#{id}, #{userId}, #{systemBonusId}, #{startPoints}, #{ratio}, #{visible},
+      #{status}, #{createTime}, #{createUserId}, #{updateTime}, #{updateUserId}, #{lastPersonalBonusId}, #{endPoints}, #{parentId})
   </insert>
 
   <insert id="insertSelective" parameterType="personalBonus" >
@@ -43,8 +45,14 @@
       <if test="systemBonusId != null" >
         system_bonus_id,
       </if>
-      <if test="points != null" >
-        points,
+      <if test="startPoints != null" >
+        start_points,
+      </if>
+      <if test="endPoints != null" >
+        end_points,
+      </if>
+      <if test="parentId != null" >
+        parent_id,
       </if>
       <if test="ratio != null" >
         ratio,
@@ -81,8 +89,14 @@
       <if test="systemBonusId != null" >
         #{systemBonusId},
       </if>
-      <if test="points != null" >
-        #{points},
+      <if test="startPoints != null" >
+        #{startPoints},
+      </if>
+      <if test="endPoints != null" >
+        #{endPoints},
+      </if>
+      <if test="parentId != null" >
+        #{parentId},
       </if>
       <if test="ratio != null" >
         #{ratio},
@@ -120,8 +134,14 @@
       <if test="systemBonusId != null" >
         system_bonus_id = #{systemBonusId},
       </if>
-      <if test="points != null" >
-        points = #{points},
+      <if test="startPoints != null" >
+        start_points = #{startPoints},
+      </if>
+      <if test="endPoints != null" >
+        end_points = #{endPoints},
+      </if>
+      <if test="parentId != null" >
+        parent_id = #{parentId},
       </if>
       <if test="ratio != null" >
         ratio = #{ratio},
@@ -155,7 +175,9 @@
     update <include refid="t_personal_bonus"/>
     set user_id = #{userId},
       system_bonus_id = #{systemBonusId},
-      points = #{points},
+      start_points = #{startPoints},
+      end_points = #{endPoints},
+      parent_id = #{parentId},
       ratio = #{ratio},
       visible = #{visible},
       status = #{status},
@@ -178,27 +200,28 @@
 
   <!--批量更新个人积分增值数据-->
   <update id="updateBatch" >
-    update <include refid="t_personal_bonus"/> _personal_bonus
-    set user_id = #{userId},
-    system_bonus_id = #{systemBonusId},
-    points = #{points},
-    ratio = #{ratio},
-    visible = #{visible},
-    status = #{status},
-    create_time = #{createTime},
-    create_user_id = #{createUserId},
-    update_time = #{updateTime},
-    update_user_id = #{updateUserId},
-    last_personal_bonus_id = #{lastPersonalBonusId}
-    where _personal_bonus.id in
-    <foreach collection="personalBonusList" index="index" item="item" separator="," open="(" close=")">
-      #{item.id,jdbcType=BIGINT}
+    <foreach collection="personalBonusList" index="index" item="item" separator=";">
+      update <include refid="t_personal_bonus"/> _personal_bonus
+      set user_id = #{item.userId},
+      system_bonus_id = #{item.systemBonusId},
+      start_points = #{item.startPoints},
+      end_points = #{item.endPoints},
+      parent_id = #{item.parentId},
+      ratio = #{item.ratio},
+      visible = #{item.visible},
+      status = #{item.status},
+      create_time = #{item.createTime},
+      create_user_id = #{item.createUserId},
+      update_time = #{item.updateTime},
+      update_user_id = #{item.updateUserId},
+      last_personal_bonus_id = #{item.lastPersonalBonusId}
+      where _personal_bonus.id = #{item.id,jdbcType=BIGINT}
     </foreach>
   </update>
 
   <!--根据用户id集合批量查询个人积分列表-->
   <select id="getListByUserIds" resultType="personalBonus">
-    <foreach collection="userIds" index="index" item="id" separator="union" open="(" close=")">
+    <foreach collection="userIds" index="index" item="id" separator="union">
       (select <include refid="c_personal_bonus"/>
       from <include refid="t_personal_bonus"/> _personal_bonus
       where _personal_bonus.status = 0
@@ -209,17 +232,16 @@
   </select>
 
   <!--批量插入个人积分增值数据-->
-  <update id="insertBatch" >
-    insert into <include refid="t_personal_bonus"/> _personal_bonus
-    set _personal_bonus.system_bonus_id =
-    <foreach item="item" index="index" collection="personalBonusList" separator=" " open="case ID" close="end">
-      when #{item.id} then null
+  <insert id="insertBatch" >
+    <foreach item="item" index="index" collection="personalBonusList" separator=";">
+      insert into <include refid="t_personal_bonus"/>
+      (id, user_id, system_bonus_id, start_points, ratio, visible, status, create_time, create_user_id,
+      update_time, update_user_id, last_personal_bonus_id, end_points, parent_id)
+      values (#{item.id}, #{item.userId}, #{item.systemBonusId}, #{item.startPoints}, #{item.ratio}, #{item.visible},
+      #{item.status}, #{item.createTime}, #{item.createUserId}, #{item.updateTime}, #{item.updateUserId},
+      #{item.lastPersonalBonusId}, #{item.endPoints}, #{item.parentId})
     </foreach>
-    where _personal_bonus.id in
-    <foreach collection="personalBonusList" index="index" item="item" separator="," open="(" close=")">
-      #{item.id,jdbcType=BIGINT}
-    </foreach>
-  </update>
+  </insert>
 
   <!--个人积分列表中查询特定会员积分数据,模糊查询，分页展示-->
   <select id="getByCondition" resultType="personalBonus">
