@@ -368,37 +368,51 @@ public class UserServiceImpl implements IUserService {
      * @param user 保存的实体
      * @param roleId 实体参数
      * @param order 实体参数
+     * @param operation 操作类型：0表示保存，1表示修改
      * @return 返回数据
      * @throws ApplicationException 保存异常
      */
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public UserDTO saveAdmin(User user, Long roleId, Integer order, Long currentId) throws ApplicationException {
-        user.setId(IdWorker.getId());
+    public UserDTO createNewAdmin(User user, Long roleId, Integer order, Long currentId, Integer operation) throws ApplicationException {
+        if(operation == 0) {
+            user.setId(IdWorker.getId());
+            user.setStatus(StatusCode.NORMAL.getCode());
+            user.setCreateTime(new Date());
+            user.setCreateUserId(currentId);
+        }
         //对密码进行加密
         String password = user.getPassword();
         byte[] encoded = DES.encrypt(PASSWORD_SECRET_KEY.getBytes(), password.getBytes());
         String encodedPassword = new String(encoded);
         user.setPassword(encodedPassword);
-        user.setStatus(StatusCode.NORMAL.getCode());
-        user.setCreateTime(new Date());
         user.setUpdateTime(new Date());
         user.setUpdateUserId(currentId);
-        user.setCreateUserId(currentId);
         //插入会员等级关联
         Rank rank = rankServer.getByOrder(order);
         user.setRankId(rank.getId());
-        iUserDao.insert(user);
+        if(operation == 0) {
+            iUserDao.insert(user);
+        }else {
+            iUserDao.updateByPrimaryKey(user);
+        }
+
         //插入角色关联表
-        UserRole userRole = new UserRole();
-        userRole.setId(IdWorker.getId());
-        userRole.setUserId(user.getId());
-        userRole.setRoleId(roleId);
-        userRole.setStatus(StatusCode.NORMAL.getCode());
-        userRole.setCreateTime(new Date());
+        UserRole userRole = null;
+        if(operation == 0) {
+            userRole = new UserRole();
+            userRole.setId(IdWorker.getId());
+            userRole.setUserId(user.getId());
+            userRole.setRoleId(roleId);
+            userRole.setStatus(StatusCode.NORMAL.getCode());
+            userRole.setCreateTime(new Date());
+            userRole.setCreateUserId(currentId);
+        }else {
+            userRole = userRoleServer.selectById()
+        }
         userRole.setUpdateUserId(currentId);
         userRole.setUpdateTime(new Date());
-        userRole.setCreateUserId(currentId);
+
         userRoleServer.save(userRole);
         return getPersonalInfo(user.getId());
     }

@@ -137,7 +137,7 @@ public class AdministratorController {
         user.setIdentityNumber(adminInput.getIdentityNumber());
         user.setPhone(adminInput.getPhone());
         user.setEmail(adminInput.getEmail());
-        UserDTO userDTO = userServer.saveAdmin(user, adminInput.getRoleId(), adminInput.getOrder(), currentId);
+        UserDTO userDTO = userServer.createNewAdmin(user, adminInput.getRoleId(), adminInput.getOrder(), currentId, 0);
         return new OutputResult<>(userDTO);
     }
     /**
@@ -162,8 +162,31 @@ public class AdministratorController {
         if(!(password == null && surePassword == null || password != null && password.equals(surePassword))) {
             throw new ApplicationException(1, "");
         }
-
-        //userServer.deleteById(id);
+        User user = userServer.selectById(adminUpdateInput.getId());
+        copyProperties(user, adminUpdateInput);
+        userServer.deleteById(id);
         return new OutputResult<>();
+    }
+    /**
+     * @desc 拷贝输入属性
+     * @author lushusheng 2018-12-06
+     * @param target 目标实体
+     * @param adminUpdateInput 实体参数
+     * @return 返回数据
+     * @throws ApplicationException 修改异常
+     */
+    private void copyProperties(User target, AdminUpdateInput adminUpdateInput) {
+        target.setAccount(adminUpdateInput.getAccount());
+        if(! StringUtils.isEmpty(adminUpdateInput.getPassword())) {
+            target.setPassword(adminUpdateInput.getPassword());
+        }
+        target.setRealName(adminUpdateInput.getRealName());
+        target.setIdentityNumber(adminUpdateInput.getIdentityNumber());
+        if(! StringUtils.isEmpty(adminUpdateInput.getPhone())) {
+            target.setPhone(adminUpdateInput.getPhone());
+        }
+        if(! StringUtils.isEmpty(adminUpdateInput.getEmail())) {
+            target.setEmail(adminUpdateInput.getEmail());
+        }
     }
 }
