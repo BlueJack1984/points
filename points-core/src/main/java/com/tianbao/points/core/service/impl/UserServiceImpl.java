@@ -396,25 +396,40 @@ public class UserServiceImpl implements IUserService {
         }else {
             iUserDao.updateByPrimaryKey(user);
         }
-
         //插入角色关联表
-        UserRole userRole = null;
-        if(operation == 0) {
-            userRole = new UserRole();
-            userRole.setId(IdWorker.getId());
-            userRole.setUserId(user.getId());
-            userRole.setRoleId(roleId);
-            userRole.setStatus(StatusCode.NORMAL.getCode());
-            userRole.setCreateTime(new Date());
-            userRole.setCreateUserId(currentId);
-        }else {
-            userRole = userRoleServer.selectById()
+        if(operation == 1) {
+            //修改，先删除以前关联的所有角色
+            List<UserRole> userRoleList = userRoleServer.getListByUserId(user.getId());
+            for(UserRole userRole: userRoleList) {
+                userRole.setStatus(StatusCode.FORBIDDEN.getCode());
+                userRole.setUpdateTime(new Date());
+                userRole.setUpdateUserId(currentId);
+            }
+            userRoleServer.updateBatch(userRoleList);
         }
+        insert(user, roleId, currentId);
+        return getPersonalInfo(user.getId());
+    }
+    /**
+     * @desc 插入一条管理员信息
+     * @author lushusheng 2018-12-06
+     * @param currentId 当前用户id
+     * @param user 保存的实体
+     * @param roleId 实体参数
+     * @return 返回无
+     * @throws ApplicationException 保存异常
+     */
+    private void insert(User user, Long roleId, Long currentId)throws ApplicationException {
+        UserRole userRole = new UserRole();
+        userRole.setId(IdWorker.getId());
+        userRole.setUserId(user.getId());
+        userRole.setRoleId(roleId);
+        userRole.setStatus(StatusCode.NORMAL.getCode());
+        userRole.setCreateTime(new Date());
+        userRole.setCreateUserId(currentId);
         userRole.setUpdateUserId(currentId);
         userRole.setUpdateTime(new Date());
-
         userRoleServer.save(userRole);
-        return getPersonalInfo(user.getId());
     }
 
     @Override

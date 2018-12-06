@@ -122,12 +122,25 @@
     where id = #{id,jdbcType=BIGINT}
   </update>
 
-  <!--根据实体ids查询用户角色列表-->
-  <select id="getListByUserIds" resultType="java.util.List">
-    <foreach collection="ids" item="id" index="index" separator="union">
-      (select <include refid="c_user_role"/>
-      from <include refid="t_user_role"/> _user_role
-      where _user_role.status = 0 and _user_role.user_id = #{id})
-    </foreach>
+  <!--根据用户id查询对应角色列表-->
+  <select id="getListByUserId" resultType="userRole">
+    select <include refid="c_user_role"/>
+    from <include refid="t_user_role"/> _user_role
+    where _user_role.status = 0 and _user_role.user_id = #{userId}
   </select>
+
+  <!--根据id批量更新实体-->
+  <update id="updateBatch">
+    <foreach item="userRole" index="index" collection="userRoleList" separator=";">
+      update <include refid="t_user_role"/>
+      set user_id = #{userRole.userId},
+      role_id = #{userRole.roleId},
+      status = #{userRole.status},
+      create_time = #{userRole.createTime},
+      create_user_id = #{userRole.createUserId},
+      update_time = #{userRole.updateTime},
+      update_user_id = #{userRole.updateUserId}
+      where id = #{userRole.id,jdbcType=BIGINT}
+    </foreach>
+  </update>
 </mapper>

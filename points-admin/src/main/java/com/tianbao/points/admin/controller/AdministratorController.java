@@ -164,7 +164,7 @@ public class AdministratorController {
         }
         User user = userServer.selectById(adminUpdateInput.getId());
         copyProperties(user, adminUpdateInput);
-        userServer.deleteById(id);
+        userServer.createNewAdmin(user, adminUpdateInput.getRoleId(), adminUpdateInput.getOrder(), currentId, 1);
         return new OutputResult<>();
     }
     /**

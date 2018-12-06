@@ -172,18 +172,17 @@
 
   <!--批量更新实体-->
   <update id="updateBatch">
-    update <include refid="t_user_message"/>
-    set message_id = #{messageId},
-    sender_id = #{senderId},
-    receiver_id = #{receiverId},
-    status = #{status},
-    create_time = #{createTime},
-    create_user_id = #{createUserId},
-    update_time = #{updateTime},
-    update_user_id = #{updateUserId}
-    where id in
-    <foreach item="userMessage" index="index" collection="userMessageList" open="(" separator="," close=")">
-      #{userMessage.id}
+    <foreach item="userMessage" index="index" collection="userMessageList" separator=";">
+      update <include refid="t_user_message"/>
+      set message_id = #{userMessage.messageId},
+      sender_id = #{userMessage.senderId},
+      receiver_id = #{userMessage.receiverId},
+      status = #{userMessage.status},
+      create_time = #{userMessage.createTime},
+      create_user_id = #{userMessage.createUserId},
+      update_time = #{userMessage.updateTime},
+      update_user_id = #{userMessage.updateUserId}
+      where id = #{userMessage.id}
     </foreach>
   </update>
 </mapper>
