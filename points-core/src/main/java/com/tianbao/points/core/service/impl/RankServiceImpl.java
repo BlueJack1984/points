@@ -110,11 +110,24 @@ public class RankServiceImpl implements IRankService {
     @Override
     public Rank insert(Rank rank, Long currentId) throws ApplicationException {
         rank.setStatus(StatusCode.NORMAL.getCode());
+        rank.setUpdateUserId(currentId);
         rank.setCreateTime(new Date());
         rank.setCreateUserId(currentId);
         rank.setUpdateTime(new Date());
-        rank.setUpdateUserId(currentId);
         iRankDao.insert(rank);
+        return rank;
+    }
+
+    /**
+     * @desc 通过排序编号查询会员等级
+     * @author lushusheng 2018-12-05
+     * @param order 排序编号
+     * @return 返回查询到的数据
+     * @throws ApplicationException 保存异常
+     */
+    @Override
+    public Rank getByOrder(Integer order) throws ApplicationException {
+        Rank rank = iRankDao.getByOrder(order);
         return rank;
     }
 }

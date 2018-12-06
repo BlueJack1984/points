@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 /**
  * @desc 会员等级的输入实体,用于更新实体
@@ -18,6 +19,6 @@ public class RankUpdateInput extends RankInput{
     /**
      * 会员等级id
      */
-    @NotEmpty(message="会员等级id不能为空")
+    @NotNull(message="会员等级id不能为空")
     private Long id;
 }

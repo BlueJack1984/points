@@ -105,7 +105,7 @@ public class AdministratorController {
             @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
             @PathVariable("id") Long id)throws ApplicationException {
 
-       userServer.deleteById(id);
+       userServer.deleteById(id, currentId);
         return new OutputResult<>();
     }
 
@@ -126,7 +126,8 @@ public class AdministratorController {
     public OutputResult<UserDTO> save(
             @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
             @RequestBody @Valid AdminInput adminInput)throws ApplicationException {
-        if(StringUtils.isEmpty(adminInput.getPassword()) || StringUtils.isEmpty(adminInput.getSurePassword())) {
+        if(StringUtils.isEmpty(adminInput.getPassword()) || StringUtils.isEmpty(adminInput.getSurePassword())
+                || ! adminInput.getPassword().equals(adminInput.getSurePassword())) {
             throw new ApplicationException(1, "");
         }
         User user = new User();
@@ -136,7 +137,7 @@ public class AdministratorController {
         user.setIdentityNumber(adminInput.getIdentityNumber());
         user.setPhone(adminInput.getPhone());
         user.setEmail(adminInput.getEmail());
-        UserDTO userDTO = userServer.save(user, adminInput.getSurePassword(), adminInput.getRoleId(), adminInput.getOrder());
+        UserDTO userDTO = userServer.saveAdmin(user, adminInput.getRoleId(), adminInput.getOrder(), currentId);
         return new OutputResult<>(userDTO);
     }
     /**
@@ -150,12 +151,17 @@ public class AdministratorController {
     @ApiOperation(value = "修改特定管理员信息", notes = "修改特定管理员信息")
     @ApiImplicitParams({
             @ApiImplicitParam(paramType = "header", dataType = "Long", name = "currentId", value = "当前用户id", required = true),
-            @ApiImplicitParam(paramType = "body", dataType = "AdminUpdateInput", name = "adminUpdateInput", value = "实体参数", required = false)})
+            @ApiImplicitParam(paramType = "body", dataType = "AdminUpdateInput", name = "adminUpdateInput", value = "实体参数", required = true)})
     @CrossOrigin
     @PostMapping("/update")
     public OutputResult<UserDTO> update(
             @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
             @RequestBody @Valid AdminUpdateInput adminUpdateInput)throws ApplicationException {
+        String password = adminUpdateInput.getPassword();
+        String surePassword = adminUpdateInput.getSurePassword();
+        if(!(password == null && surePassword == null || password != null && password.equals(surePassword))) {
+            throw new ApplicationException(1, "");
+        }
 
         //userServer.deleteById(id);
         return new OutputResult<>();

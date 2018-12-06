@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 
 /**
@@ -19,7 +20,7 @@ public class RoleInput {
     /**
      * 角色名称
      */
-    @NotEmpty(message = "角色名称不能为空")
+    @NotBlank(message = "角色名称不能为空")
     private String name;
 
     /**

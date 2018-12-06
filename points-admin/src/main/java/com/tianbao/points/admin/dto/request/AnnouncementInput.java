@@ -5,7 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
-import javax.validation.constraints.NotEmpty;
+
+import javax.validation.constraints.NotBlank;
 
 
 /**
@@ -21,17 +22,17 @@ public class AnnouncementInput {
     /**
      * 公告标题
      */
-    @NotEmpty(message = "公告标题不能为空")
+    @NotBlank(message = "公告标题不能为空")
     private String title;
     /**
      * 公告内容
      */
-    @NotEmpty(message = "公告内容不能为空")
+    @NotBlank(message = "公告内容不能为空")
     private String content;
     /**
      * 公告发布时间
      */
-    @NotEmpty(message = "公告发布时间不能为空")
+    @NotBlank(message = "公告发布时间不能为空")
     private String publishTime;
 
     /**

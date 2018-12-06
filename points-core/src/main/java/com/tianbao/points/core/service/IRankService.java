@@ -45,5 +45,14 @@ public interface IRankService extends IBaseService<Rank, Long> {
      * @throws ApplicationException 保存异常
      */
     Rank insert(Rank rank, Long currentId)throws ApplicationException;
+
+    /**
+     * @desc 通过排序编号查询会员等级
+     * @author lushusheng 2018-12-05
+     * @param order 排序编号
+     * @return 返回查询到的数据
+     * @throws ApplicationException 保存异常
+     */
+    Rank getByOrder(Integer order) throws ApplicationException;
 }
 

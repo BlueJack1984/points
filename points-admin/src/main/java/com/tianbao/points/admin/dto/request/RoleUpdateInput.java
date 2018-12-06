@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 /**
  * @desc 更新角色数据的属性
@@ -20,6 +21,6 @@ public class RoleUpdateInput extends RoleInput{
     /**
      * 角色实体id
      */
-    @NotEmpty(message = "角色实体id不能为空")
+    @NotNull(message = "角色实体id不能为空")
     private Long id;
 }
