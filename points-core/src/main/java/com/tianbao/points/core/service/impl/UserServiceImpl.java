@@ -154,10 +154,10 @@ public class UserServiceImpl implements IUserService {
     private void checkPassword(Long currentId, String oldPassword, String newPassword,
                                String sureNewPassword, Integer operation)throws ApplicationException {
         if(! newPassword.equals(sureNewPassword)) {
-            throw new ApplicationException(1, "新密码与确认密码不同");
+            throw new ApplicationException(ApplicationException.PARAM_ERROR, "新密码与确认密码不同");
         }
         if(oldPassword.equals(newPassword)) {
-            throw new ApplicationException(1, "原密码与新密码相同，请输入新密码");
+            throw new ApplicationException(ApplicationException.PARAM_ERROR, "原密码与新密码相同，请输入不同的新密码");
         }
         byte[] encoded = DES.encrypt(PASSWORD_SECRET_KEY.getBytes(), oldPassword.getBytes());
         String encodedPassword = new String(encoded);
@@ -225,7 +225,7 @@ public class UserServiceImpl implements IUserService {
         PageHelper.startPage(pageNo, pageSize);
         List<User> userList = iUserDao.selectListPage();
         if(userList == null || userList.size() <= 0) {
-            throw new ApplicationException(1, "");
+            throw new ApplicationException(ApplicationException.USER_NOT_EXISTS, "已审核用户列表为空");
         }
         List<Rank> rankList = rankServer.getList();
         List<UserDTO> userDTOList = copyRankProperties(userList, rankList);
