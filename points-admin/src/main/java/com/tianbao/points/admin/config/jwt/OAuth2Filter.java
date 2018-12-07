@@ -1,21 +1,21 @@
 package com.tianbao.points.admin.config.jwt;
 
 
-import org.apache.commons.lang3.StringUtils;
-import org.apache.shiro.authc.AuthenticationException;
-import org.apache.shiro.authc.AuthenticationToken;
-import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
-
-import javax.annotation.Resource;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+//import org.apache.commons.lang3.StringUtils;
+//import org.apache.shiro.authc.AuthenticationException;
+//import org.apache.shiro.authc.AuthenticationToken;
+//import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
+//import org.slf4j.Logger;
+//import org.slf4j.LoggerFactory;
+//import org.springframework.http.HttpStatus;
+//
+//import javax.annotation.Resource;
+//import javax.servlet.ServletRequest;
+//import javax.servlet.ServletResponse;
+//import javax.servlet.http.Cookie;
+//import javax.servlet.http.HttpServletRequest;
+//import javax.servlet.http.HttpServletResponse;
+//import java.io.IOException;
 
 /**
  * oauth2拦截器，现在改为JWT认证
