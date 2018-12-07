@@ -85,6 +85,11 @@
             <artifactId>shiro-spring-boot-starter</artifactId>
             <version>1.4.0</version>
         </dependency>
+        <!-- 使用redis做数据缓存，如果不需要可不依赖 -->
+        <!--<dependency>-->
+            <!--<groupId>org.springframework.boot</groupId>-->
+            <!--<artifactId>spring-boot-starter-data-redis</artifactId>-->
+        <!--</dependency>-->
     </dependencies>
 
     <build>
