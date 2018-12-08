@@ -73,6 +73,23 @@
             <artifactId>reflectasm</artifactId>
             <version>1.11.7</version>
         </dependency>
+        <!--JWT-->
+        <dependency>
+            <groupId>com.auth0</groupId>
+            <artifactId>java-jwt</artifactId>
+            <version>3.4.0</version>
+        </dependency>
+        <!--集成shiro安全管理框架，不使用时需注释，否则系统无法启动-->
+        <!--<dependency>-->
+            <!--<groupId>org.apache.shiro</groupId>-->
+            <!--<artifactId>shiro-spring-boot-starter</artifactId>-->
+            <!--<version>1.4.0</version>-->
+        <!--</dependency>-->
+        <!-- 使用redis做数据缓存，如果不需要可不依赖 -->
+        <!--<dependency>-->
+            <!--<groupId>org.springframework.boot</groupId>-->
+            <!--<artifactId>spring-boot-starter-data-redis</artifactId>-->
+        <!--</dependency>-->
     </dependencies>
 
     <build>
