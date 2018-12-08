@@ -8,7 +8,6 @@
       _personal_bonus.ratio, _personal_bonus.visible, _personal_bonus.status,
       _personal_bonus.create_time createTime, _personal_bonus.create_user_id createUserId,
       _personal_bonus.update_time updateTime, _personal_bonus.update_user_id updateUserId,
-      _personal_bonus.last_personal_bonus_id lastPersonalBonusId,
       _personal_bonus.start_points startPoints, _personal_bonus.end_points endPoints,
       _personal_bonus.parent_id parentId
   </sql>
@@ -28,9 +27,9 @@
   <insert id="insert" parameterType="personalBonus" >
     insert into <include refid="t_personal_bonus"/>
     (id, user_id, system_bonus_id, start_points, ratio, visible, status, create_time, create_user_id,
-      update_time, update_user_id, last_personal_bonus_id, end_points, parent_id)
+      update_time, update_user_id, end_points, parent_id)
     values (#{id}, #{userId}, #{systemBonusId}, #{startPoints}, #{ratio}, #{visible},
-      #{status}, #{createTime}, #{createUserId}, #{updateTime}, #{updateUserId}, #{lastPersonalBonusId}, #{endPoints}, #{parentId})
+      #{status}, #{createTime}, #{createUserId}, #{updateTime}, #{updateUserId}, #{endPoints}, #{parentId})
   </insert>
 
   <insert id="insertSelective" parameterType="personalBonus" >
@@ -75,9 +74,6 @@
       <if test="updateUserId != null" >
         update_user_id,
       </if>
-      <if test="lastPersonalBonusId != null" >
-        last_personal_bonus_id,
-      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -118,9 +114,6 @@
       </if>
       <if test="updateUserId != null" >
         #{updateUserId},
-      </if>
-      <if test="lastPersonalBonusId != null" >
-        #{lastPersonalBonusId},
       </if>
     </trim>
   </insert>
@@ -164,9 +157,6 @@
       <if test="updateUserId != null" >
         update_user_id = #{updateUserId},
       </if>
-      <if test="lastPersonalBonusId != null" >
-        last_personal_bonus_id = #{lastPersonalBonusId},
-      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -184,8 +174,7 @@
       create_time = #{createTime},
       create_user_id = #{createUserId},
       update_time = #{updateTime},
-      update_user_id = #{updateUserId},
-      last_personal_bonus_id = #{lastPersonalBonusId}
+      update_user_id = #{updateUserId}
     where id = #{id,jdbcType=BIGINT}
   </update>
 
@@ -213,8 +202,7 @@
       create_time = #{item.createTime},
       create_user_id = #{item.createUserId},
       update_time = #{item.updateTime},
-      update_user_id = #{item.updateUserId},
-      last_personal_bonus_id = #{item.lastPersonalBonusId}
+      update_user_id = #{item.updateUserId}
       where _personal_bonus.id = #{item.id,jdbcType=BIGINT}
     </foreach>
   </update>
@@ -236,10 +224,10 @@
     <foreach item="item" index="index" collection="personalBonusList" separator=";">
       insert into <include refid="t_personal_bonus"/>
       (id, user_id, system_bonus_id, start_points, ratio, visible, status, create_time, create_user_id,
-      update_time, update_user_id, last_personal_bonus_id, end_points, parent_id)
+      update_time, update_user_id, end_points, parent_id)
       values (#{item.id}, #{item.userId}, #{item.systemBonusId}, #{item.startPoints}, #{item.ratio}, #{item.visible},
       #{item.status}, #{item.createTime}, #{item.createUserId}, #{item.updateTime}, #{item.updateUserId},
-      #{item.lastPersonalBonusId}, #{item.endPoints}, #{item.parentId})
+      #{item.endPoints}, #{item.parentId})
     </foreach>
   </insert>
 

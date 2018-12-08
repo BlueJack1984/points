@@ -19,6 +19,7 @@ public abstract class VisibilityService {
      * @author lushusheng
      * @Date 2018-12-08
      * @Desc 设置系统和个人积分增值数据在客户端是否可见
+     * 方法的功能：更改可见性，由可见变为不可见，由不可见变为可见
      * @param visiblePO 表示要操作的实体
      * @param currentId 表示当前用户id
      * @return 无返回，操作失败抛出异常

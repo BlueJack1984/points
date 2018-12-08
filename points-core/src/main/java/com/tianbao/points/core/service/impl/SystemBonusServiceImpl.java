@@ -176,6 +176,9 @@ public class SystemBonusServiceImpl extends VisibilityService implements ISystem
         Double startPoints = 0.0;
         Double endPoints = 0.0;
         for(UserDTO userDTO: userDTOList) {
+            if(userDTO.getPersonalBonus() == null) {
+                continue;
+            }
             PersonalBonus personalBonus = new PersonalBonus();
             personalBonus.setId(IdWorker.getId());
             personalBonus.setParentId(userDTO.getPersonalBonus().getId());
