@@ -22,7 +22,7 @@
     where id = #{id,jdbcType=BIGINT}
   </delete>
 
-  <insert id="insert" parameterType="systemBonus" >
+  <insert id="insert" parameterType="systemBonus" useGeneratedKeys="true" keyProperty="id">
     insert into <include refid="t_system_bonus"/>
     (id, start_points, end_points, ratio, visible, status, create_time, create_user_id, update_time, update_user_id)
     values (#{id}, #{startPoints}, #{endPoints}, #{ratio}, #{visible}, #{status}, #{createTime}, #{createUserId},

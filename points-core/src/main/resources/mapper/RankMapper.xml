@@ -6,6 +6,7 @@
   <sql id="c_rank">
       _rank.id, _rank.name, _rank.alias, _rank.base_points basePoints,
       _rank.base_money baseMoney, _rank.status,
+      _rank.color, _rank.order, _rank.max_bonus maxBonus,
      _rank.create_time createTime, _rank.create_user_id createUserId,
      _rank.update_time updateTime, _rank.update_user_id updateUserId
   </sql>
@@ -24,9 +25,9 @@
 
   <insert id="insert" parameterType="rank" useGeneratedKeys="true" keyProperty="id">
     insert into <include refid="t_rank"/>
-    (id, name, alias, base_points, base_money, status, create_time, create_user_id, update_time, update_user_id)
+    (id, name, alias, base_points, base_money, status, create_time, create_user_id, update_time, update_user_id, color, `order`, max_bonus)
     values (#{id}, #{name}, #{alias}, #{basePoints}, #{baseMoney}, #{status},
-      #{createTime}, #{createUserId}, #{updateTime}, #{updateUserId})
+      #{createTime}, #{createUserId}, #{updateTime}, #{updateUserId}, #{color}, #{order}, #{maxBonus})
   </insert>
 
   <insert id="insertSelective" parameterType="rank" >
@@ -62,6 +63,15 @@
       <if test="updateUserId != null" >
         update_user_id,
       </if>
+      <if test="color != null" >
+        color,
+      </if>
+      <if test="order != null" >
+        order,
+      </if>
+      <if test="maxBonus != null" >
+        max_bonus,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -93,6 +103,15 @@
       </if>
       <if test="updateUserId != null" >
         #{updateUserId},
+      </if>
+      <if test="color != null" >
+        #{color},
+      </if>
+      <if test="order != null" >
+        #{order},
+      </if>
+      <if test="maxBonus != null" >
+        #{max_bonus},
       </if>
     </trim>
   </insert>
@@ -127,6 +146,15 @@
       <if test="updateUserId != null" >
         update_user_id = #{updateUserId},
       </if>
+      <if test="color != null" >
+        color = #{color},
+      </if>
+      <if test="order != null" >
+        order = #{order},
+      </if>
+      <if test="maxBonus != null" >
+        maxBonus = #{max_bonus},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -141,7 +169,10 @@
       create_time = #{createTime},
       create_user_id = #{createUserId},
       update_time = #{updateTime},
-      update_user_id = #{updateUserId}
+      update_user_id = #{updateUserId},
+      color = #{color},
+      order = #{order},
+      max_bonus = #{maxBonus}
     where id = #{id,jdbcType=BIGINT}
   </update>
 
