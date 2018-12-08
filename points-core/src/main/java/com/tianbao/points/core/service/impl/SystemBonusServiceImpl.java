@@ -151,6 +151,9 @@ public class SystemBonusServiceImpl implements ISystemBonusService {
         SystemBonusOutput systemBonusOutput = new SystemBonusOutput();
         Double totalPoints = 0.0;
         for(UserDTO userDTO: userDTOList) {
+            if(userDTO.getPersonalBonus() == null) {
+                continue;
+            }
             Double points = userDTO.getPersonalBonus().getEndPoints();
             if(points != null) {
                 totalPoints += points;

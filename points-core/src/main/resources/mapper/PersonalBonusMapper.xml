@@ -7,8 +7,8 @@
       _personal_bonus.id, _personal_bonus.user_id userId, _personal_bonus.system_bonus_id systemBonusId,
       _personal_bonus.ratio, _personal_bonus.visible, _personal_bonus.status,
       _personal_bonus.create_time createTime, _personal_bonus.create_user_id createUserId,
-      _personal_bonus.update_time updateTime, _personal_bonus.update_user_id updateUserId
-      _personal_bonus.last_personal_bonus_id lastPersonalBonusId
+      _personal_bonus.update_time updateTime, _personal_bonus.update_user_id updateUserId,
+      _personal_bonus.last_personal_bonus_id lastPersonalBonusId,
       _personal_bonus.start_points startPoints, _personal_bonus.end_points endPoints,
       _personal_bonus.parent_id parentId
   </sql>
