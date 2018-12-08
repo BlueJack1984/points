@@ -95,14 +95,12 @@ public class PersonalController {
     /**
      * @desc 保存一条用户管理员数据
      * @author lushusheng 2018-11-29
-     * @param announcementInput 首页公告实体属性：标题内容等
-     * @param currentId 当前用户id
      * @return 是否保存成功
      * @throws ApplicationException 保存异常
      */
     @CrossOrigin
     @PostMapping("/save")
     public OutputResult<Void> save() {
-        return null;
+        return new OutputResult<>();
     }
 }

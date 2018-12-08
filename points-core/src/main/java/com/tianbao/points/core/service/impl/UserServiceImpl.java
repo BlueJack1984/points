@@ -16,11 +16,14 @@ import com.tianbao.points.core.exception.ApplicationException;
 import com.tianbao.points.core.service.*;
 import com.tianbao.points.core.utils.BeanHelper;
 import com.tianbao.points.core.utils.DES;
+import com.tianbao.points.core.utils.MD5;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -159,8 +162,13 @@ public class UserServiceImpl implements IUserService {
         if(oldPassword.equals(newPassword)) {
             throw new ApplicationException(ApplicationException.PARAM_ERROR, "原密码与新密码相同，请输入不同的新密码");
         }
-        byte[] encoded = DES.encrypt(PASSWORD_SECRET_KEY.getBytes(), oldPassword.getBytes());
-        String encodedPassword = new String(encoded);
+        //byte[] encoded = DES.encrypt(PASSWORD_SECRET_KEY.getBytes(), oldPassword.getBytes());
+        String encodedPassword = null;
+        try {
+            encodedPassword = MD5.EncoderByMd5(oldPassword + PASSWORD_SECRET_KEY);
+        } catch (Exception e) {
+            throw new ApplicationException(ApplicationException.PARAM_ERROR, "密码加密错误");
+        }
         User user = iUserDao.selectByPrimaryKey(currentId);
         if(operation == 0) {
             if(user == null || ! encodedPassword.equals(user.getPassword())) {
@@ -172,8 +180,11 @@ public class UserServiceImpl implements IUserService {
                 throw new ApplicationException(1, "");
             }
         }
-        encoded = DES.encrypt(PASSWORD_SECRET_KEY.getBytes(), newPassword.getBytes());
-        encodedPassword = new String(encoded);
+        try {
+            encodedPassword = MD5.EncoderByMd5(newPassword + PASSWORD_SECRET_KEY);
+        } catch (Exception e) {
+            throw new ApplicationException(ApplicationException.PARAM_ERROR, "密码加密错误");
+        }
         if(operation == 0) {
             user.setPassword(encodedPassword);
         }else {

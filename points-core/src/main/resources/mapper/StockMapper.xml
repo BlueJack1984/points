@@ -4,7 +4,7 @@
 
   <!-- 股票证券指数实体对象的持久化 -->
   <sql id="c_stock">
-     _stock.id, _stock.publish_time publishTime, _stock.status, _rank.sh_open_exponent shOpenExponent,
+     _stock.id, _stock.publish_time publishTime, _stock.status, _stock.sh_open_exponent shOpenExponent,
      _stock.sh_close_exponent shCloseExponent, _stock.sh_max_exponent shMaxExponent, _stock.sh_min_exponent shMinExponent,
      _stock.tb_open_exponent tbOpenExponent, _stock.tb_close_exponent tbCloseExponent,
      _stock.tb_max_exponent tbMaxExponent, _stock.tb_min_exponent tbMinExponent,
