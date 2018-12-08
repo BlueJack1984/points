@@ -11,6 +11,7 @@ import com.tianbao.points.core.entity.User;
 import com.tianbao.points.core.exception.ApplicationException;
 import com.tianbao.points.core.service.IPersonalBonusService;
 import com.tianbao.points.core.service.IUserService;
+import com.tianbao.points.core.service.base.VisibilityService;
 import com.tianbao.points.core.utils.BeanHelper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -28,7 +29,7 @@ import java.util.List;
  */
 @Service
 @RequiredArgsConstructor
-public class PersonalBonusServiceImpl implements IPersonalBonusService {
+public class PersonalBonusServiceImpl extends VisibilityService implements IPersonalBonusService {
     /**
      * 注入个人积分增值dao
      */
@@ -129,16 +130,9 @@ public class PersonalBonusServiceImpl implements IPersonalBonusService {
     public void setVisibility(Long id, Long currentId) throws ApplicationException {
         PersonalBonus personalBonus = iPersonalBonusDao.selectByPrimaryKey(id);
         if(personalBonus == null) {
-            throw new ApplicationException(1,"id参数传输错误");
+            throw new ApplicationException(ApplicationException.PARAM_ERROR,"个人积分实体id参数错误");
         }
-        //操作一次，取反一次，0表示可见，1表示不可见
-        if(personalBonus.getVisible() == 0) {
-            personalBonus.setVisible(StatusCode.FORBIDDEN.getCode());
-        }else {
-            personalBonus.setVisible(StatusCode.NORMAL.getCode());
-        }
-        personalBonus.setUpdateUserId(currentId);
-        personalBonus.setUpdateTime(new Date());
+        change(personalBonus, currentId);
         iPersonalBonusDao.updateByPrimaryKey(personalBonus);
     }
 

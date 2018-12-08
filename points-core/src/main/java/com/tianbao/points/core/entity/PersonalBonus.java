@@ -1,6 +1,7 @@
 package com.tianbao.points.core.entity;
 
 import com.tianbao.points.core.entity.base.ObjectPO;
+import com.tianbao.points.core.entity.base.VisiblePO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -14,7 +15,7 @@ import javax.persistence.Table;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Table(name = "personal_bonus")
-public class PersonalBonus extends ObjectPO<Long> {
+public class PersonalBonus extends VisiblePO<Long> {
 
     /**
      * 用户id
@@ -40,9 +41,4 @@ public class PersonalBonus extends ObjectPO<Long> {
      * 用户当天结算的权重比率，与系统当天结算比率相同
      */
     private Double ratio;
-    /**
-     * 此数据是否对会员客户端可见，0表示正常可见，1表示不可见
-     */
-    private Integer visible;
-
 }

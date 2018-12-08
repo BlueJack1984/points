@@ -18,6 +18,7 @@ import com.tianbao.points.core.service.IPersonalBonusService;
 import com.tianbao.points.core.service.IRankService;
 import com.tianbao.points.core.service.ISystemBonusService;
 import com.tianbao.points.core.service.IUserService;
+import com.tianbao.points.core.service.base.VisibilityService;
 import com.tianbao.points.core.utils.BeanHelper;
 import com.tianbao.points.core.utils.RandomGenerator;
 import lombok.RequiredArgsConstructor;
@@ -37,7 +38,7 @@ import java.util.Random;
  */
 @Service
 @RequiredArgsConstructor
-public class SystemBonusServiceImpl implements ISystemBonusService {
+public class SystemBonusServiceImpl extends VisibilityService implements ISystemBonusService {
     /**
      * 注入系统积分增值dao
      */
@@ -124,16 +125,9 @@ public class SystemBonusServiceImpl implements ISystemBonusService {
     public void setVisibility(Long id, Long currentId) throws ApplicationException {
         SystemBonus systemBonus = iSystemBonusDao.selectByPrimaryKey(id);
         if(systemBonus == null) {
-            throw new ApplicationException(1,"id参数传输错误");
+            throw new ApplicationException(ApplicationException.PARAM_ERROR,"系统积分实体id参数错误");
         }
-        //操作一次，取反一次，0表示可见，1表示不可见
-        if(systemBonus.getVisible() == 0) {
-            systemBonus.setVisible(StatusCode.FORBIDDEN.getCode());
-        }else {
-            systemBonus.setVisible(StatusCode.NORMAL.getCode());
-        }
-        systemBonus.setUpdateUserId(currentId);
-        systemBonus.setUpdateTime(new Date());
+        change(systemBonus, currentId);
         iSystemBonusDao.updateByPrimaryKey(systemBonus);
     }
 
