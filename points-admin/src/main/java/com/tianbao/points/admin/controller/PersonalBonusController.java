@@ -113,7 +113,7 @@ public class PersonalBonusController {
      * @author lushusheng
      * @Date 2018-12-04
      * @Desc 个人积分列表中查询特定会员积分数据,模糊查询，分页展示
-     * @param keyword 输入关键词
+     * @param keyword 会员编号输入关键词
      * @param sysBonusId 表示系统积分增值id
      * @param currentId 表示当前用户id
      * @param pageNo 当前页码
@@ -125,12 +125,12 @@ public class PersonalBonusController {
     @ApiImplicitParams({
         @ApiImplicitParam(paramType = "header", dataType = "Long", name = "currentId", value = "当前用户id", required = true),
         @ApiImplicitParam(paramType = "query", dataType = "Long", name = "sysBonusId", value = "系统积分增值id", required = true),
-        @ApiImplicitParam(paramType = "query", dataType = "String", name = "keyword", value = "输入关键词", required = true),
+        @ApiImplicitParam(paramType = "query", dataType = "String", name = "keyword", value = "会员编号输入关键词", required = true),
         @ApiImplicitParam(paramType = "query", dataType = "Integer", name = "pageNo", value = "显示页码"),
         @ApiImplicitParam(paramType = "query", dataType = "Integer", name = "pageSize", value = "每页显示数据条数")})
     @CrossOrigin
-    @GetMapping("/get/{sysBonusId}")
-    public OutputListResult<PersonalBonusDTO> get(
+    @GetMapping("/list/page/condition/{sysBonusId}")
+    public OutputListResult<PersonalBonusDTO> getByCondition(
             @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
             @RequestParam(value = "pageNo", required = false, defaultValue = "1") Integer pageNo,
             @RequestParam(value = "pageSize", required = false, defaultValue = "20") Integer pageSize,

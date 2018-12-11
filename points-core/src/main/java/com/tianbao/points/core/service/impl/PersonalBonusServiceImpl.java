@@ -6,6 +6,7 @@ import com.github.pagehelper.PageInfo;
 import com.tianbao.points.core.constant.StatusCode;
 import com.tianbao.points.core.dao.IPersonalBonusDao;
 import com.tianbao.points.core.dto.PersonalBonusDTO;
+import com.tianbao.points.core.dto.UserDTO;
 import com.tianbao.points.core.entity.PersonalBonus;
 import com.tianbao.points.core.entity.User;
 import com.tianbao.points.core.exception.ApplicationException;
@@ -108,7 +109,9 @@ public class PersonalBonusServiceImpl extends VisibilityService implements IPers
             BeanHelper.copyProperties(personalBonusDTO, personalBonus);
             for(User user: userList) {
                 if(user.getId().equals(personalBonus.getUserId())) {
-                    BeanHelper.copyProperties(personalBonusDTO.getUserDTO(), user);
+                    UserDTO userDTO = new UserDTO();
+                    BeanHelper.copyProperties(userDTO, user);
+                    personalBonusDTO.setUserDTO(userDTO);
                     break;
                 }
             }

@@ -235,9 +235,10 @@
   <select id="getByCondition" resultType="personalBonus">
     select <include refid="c_personal_bonus"/>
     from <include refid="t_personal_bonus"/> _personal_bonus
+    left join `user` as usr on usr.id = _personal_bonus.user_id and usr.status = 0
     where _personal_bonus.status = 0
     and _personal_bonus.system_bonus_id = #{sysBonusId}
-    and _personal_bonus.account like concat('%', '${keyword}','%')
+    and usr.account like concat('%', '${keyword}','%')
     order by _personal_bonus.create_time desc
   </select>
 </mapper>
