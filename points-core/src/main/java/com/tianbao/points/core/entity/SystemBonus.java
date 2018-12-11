@@ -1,6 +1,5 @@
 package com.tianbao.points.core.entity;
 
-import com.tianbao.points.core.entity.base.ObjectPO;
 import com.tianbao.points.core.entity.base.VisiblePO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

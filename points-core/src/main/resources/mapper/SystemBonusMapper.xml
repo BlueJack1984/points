@@ -22,10 +22,13 @@
     where id = #{id,jdbcType=BIGINT}
   </delete>
 
-  <insert id="insert" parameterType="systemBonus" useGeneratedKeys="true" keyProperty="id">
+  <insert id="insert" parameterType="systemBonus">
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER">
+      select @@IDENTITY as id
+    </selectKey>
     insert into <include refid="t_system_bonus"/>
     (id, start_points, end_points, ratio, visible, status, create_time, create_user_id, update_time, update_user_id)
-    values (#{id}, #{startPoints}, #{endPoints}, #{ratio}, #{visible}, #{status}, #{createTime}, #{createUserId},
+    values (#{id, jdbcType=BIGINT}, #{startPoints}, #{endPoints}, #{ratio}, #{visible}, #{status}, #{createTime}, #{createUserId},
     #{updateTime}, #{updateUserId})
   </insert>
 

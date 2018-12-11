@@ -18,6 +18,10 @@ import java.lang.reflect.UndeclaredThrowableException;
 @Slf4j
 public class GlobalExceptionHandler {
 
+
+    //UnknownAccountException
+    //IncorrectCredentialsException
+
     /**
      * 拦截捕捉自定义异常 ApplicationException.class
      * @param ex
