@@ -11,7 +11,7 @@
  Target Server Version : 50723
  File Encoding         : 65001
 
- Date: 11/12/2018 17:50:37
+ Date: 12/12/2018 18:23:45
 */
 
 SET NAMES utf8mb4;
@@ -33,7 +33,7 @@ CREATE TABLE `announcement`  (
   `update_time` datetime(0) NULL DEFAULT NULL COMMENT '最后修改时间',
   `update_user_id` bigint(20) NULL DEFAULT NULL COMMENT '修改人id',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of announcement
@@ -44,7 +44,8 @@ INSERT INTO `announcement` VALUES (3, 'curry', '用于测试内容2', 110, '2041
 INSERT INTO `announcement` VALUES (4, 'durant', '用于测试内容2', 110, '2041-12-12 21:12:21', 0, '2018-11-28 14:13:22', 110, '2018-11-28 14:13:28', 110);
 INSERT INTO `announcement` VALUES (5, 'jameshardern', '用于测试内容2', 110, '2023-12-22 11:17:21', 0, '2018-11-28 16:35:49', 110, '2018-11-28 16:35:50', 110);
 INSERT INTO `announcement` VALUES (6, 'bill', '用于测试内容2', 110, '2023-12-22 03:17:21', 0, '2018-11-28 09:06:57', 110, '2018-11-28 09:06:57', 110);
-INSERT INTO `announcement` VALUES (7, 'durant', '用于测试内容1111', 110, '2003-12-22 03:17:21', 0, '2018-12-08 06:00:56', 110, '2018-12-08 06:00:56', 110);
+INSERT INTO `announcement` VALUES (7, 'durant', '用于测试内容1111', 110, '2003-12-22 03:17:21', 1, '2018-12-08 06:00:56', 110, '2018-12-12 03:23:56', 110);
+INSERT INTO `announcement` VALUES (8, '元旦快乐', '马上要过元旦了！', 110, '2008-08-08 10:18:18', 1, '2018-12-12 03:12:28', 110, '2018-12-12 03:24:00', 110);
 
 -- ----------------------------
 -- Table structure for authority
@@ -110,9 +111,9 @@ CREATE TABLE `message`  (
 -- ----------------------------
 -- Records of message
 -- ----------------------------
-INSERT INTO `message` VALUES (12321, '今天天冷', '零下20度', 2, '', NULL, 5, '2018-12-11 17:41:23', 110, '2018-12-11 17:41:30', 110);
-INSERT INTO `message` VALUES (34232, 'happy', '哈哈啊啪啪啪啪', 2, '', '完成', 6, '2018-12-11 17:42:19', 110, '2018-12-11 17:42:28', 110);
-INSERT INTO `message` VALUES (12341434423, '什么玩意', '测试用的东西', 2, NULL, NULL, 5, '2018-12-11 17:43:19', 110, '2018-12-11 17:43:26', 110);
+INSERT INTO `message` VALUES (12321, '今天天冷', '零下20度', 2, '', '已处理', 0, '2018-12-11 17:41:23', 110, '2018-12-12 02:50:07', 110);
+INSERT INTO `message` VALUES (34232, 'happy', '哈哈啊啪啪啪啪', 2, '', '完成', 0, '2018-12-11 17:42:19', 110, '2018-12-11 17:42:28', 110);
+INSERT INTO `message` VALUES (12341434423, '什么玩意', '测试用的东西', 2, NULL, NULL, 0, '2018-12-11 17:43:19', 110, '2018-12-11 17:43:26', 110);
 
 -- ----------------------------
 -- Table structure for personal_bonus
@@ -317,13 +318,17 @@ CREATE TABLE `user`  (
   `create_user_id` bigint(20) NOT NULL COMMENT '创建人id',
   `update_time` datetime(0) NULL DEFAULT NULL COMMENT '最后修改时间',
   `update_user_id` bigint(20) NULL DEFAULT NULL COMMENT '修改人id',
+  `province` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '所属省份',
+  `city` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '所属城市',
+  `address` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '详细地址',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES (110, 'curry', 'T/vD2pMEqpNZEaLYcB6Lkw==', 'T/vD2pMEqpNZEaLYcB6Lkw==', 'curry', '123456789', 'curry', NULL, '12345678911', 'curry@facebook.com', 0, 1, 0, 1, '答案', '127.0.0.1', '2018-11-20 17:09:05', '2018-11-28 17:08:57', 110, '2018-12-08 10:59:05', 110);
+INSERT INTO `user` VALUES (12, 'durant', 'WzXkKCAtRn6E9O1ZrBq2xQ==', 'T/vD2pMEqpNZEaLYcB6Lkw==', 'green', '2454243535434', 'death', NULL, '66666666', 'durant@gmail.com', 0, 1, 0, 2, 'funny', '127.0.0.1', '2018-12-12 11:32:32', '2018-12-12 11:32:43', 110, '2018-12-12 05:35:29', 110, '北京', '北京', '呼家楼32号');
+INSERT INTO `user` VALUES (110, 'curry', 'T/vD2pMEqpNZEaLYcB6Lkw==', 'T/vD2pMEqpNZEaLYcB6Lkw==', 'curry', '123456789', 'curry', NULL, '12345678911', 'curry@facebook.com', 0, 1, 0, 1, '答案', '127.0.0.1', '2018-11-20 17:09:05', '2018-11-28 17:08:57', 110, '2018-12-08 10:59:05', 110, NULL, NULL, NULL);
 
 -- ----------------------------
 -- Table structure for user_message
@@ -341,6 +346,12 @@ CREATE TABLE `user_message`  (
   `update_user_id` bigint(20) NULL DEFAULT NULL COMMENT '修改人id',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of user_message
+-- ----------------------------
+INSERT INTO `user_message` VALUES (1, 12321, 110, 110, 6, '2018-12-12 09:20:06', 110, '2018-12-12 02:49:48', 110);
+INSERT INTO `user_message` VALUES (2, 12341434423, 110, 110, 6, '2018-12-12 09:35:08', 110, '2018-12-12 02:24:42', 110);
 
 -- ----------------------------
 -- Table structure for user_position
