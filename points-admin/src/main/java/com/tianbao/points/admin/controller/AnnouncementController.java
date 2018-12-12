@@ -3,12 +3,12 @@ package com.tianbao.points.admin.controller;
 
 import com.github.pagehelper.PageInfo;
 import com.tianbao.points.admin.dto.request.AnnouncementInput;
+import com.tianbao.points.admin.dto.request.EntityIdsInput;
 import com.tianbao.points.core.dto.response.OutputListResult;
 import com.tianbao.points.core.dto.response.OutputResult;
 import com.tianbao.points.core.entity.Announcement;
 import com.tianbao.points.core.exception.ApplicationException;
 import com.tianbao.points.core.service.IAnnouncementService;
-import com.tianbao.points.core.utils.StringConverter;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -19,6 +19,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -54,7 +55,7 @@ public class AnnouncementController {
         @ApiImplicitParam(paramType = "query", dataType = "Integer", name = "pageNo", value = "显示页码", required = false),
         @ApiImplicitParam(paramType = "query", dataType = "Integer", name = "pageSize", value = "每页显示数据条数", required = false)})
     @CrossOrigin
-    @PostMapping("/list/page")
+    @GetMapping("/list/page")
     public OutputListResult<Announcement> getListPage(
             @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
             @RequestParam(value = "pageNo", required = false, defaultValue = "1") Integer pageNo,
@@ -81,9 +82,15 @@ public class AnnouncementController {
     @PostMapping("/save")
     public OutputResult<Announcement> save(
             @RequestBody @Valid AnnouncementInput announcementInput,
-            @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId) throws Exception {
+            @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId) throws ApplicationException {
 
-        Date publishTime = SDF.parse(announcementInput.getPublishTime());
+        Date publishTime = null;
+        try {
+            publishTime = SDF.parse(announcementInput.getPublishTime());
+        } catch (ParseException e) {
+            log.info(e.getMessage());
+            throw new ApplicationException(ApplicationException.PARAM_ERROR, "公告发布日期参数格式错误");
+        }
         Announcement announcement = announcementServer.save(announcementInput.getTitle(),
                 announcementInput.getContent(), publishTime, currentId);
         return new OutputResult<>(announcement);
@@ -115,26 +122,26 @@ public class AnnouncementController {
     /**
      * @desc 根据id集合删除公告数据，逻辑删除
      * @author lushusheng 2018-12-04
-     * @param ids 要查询的公告id集合
+     * @param idsInput 要删除的公告id集合实体
      * @param currentId 当前用户id
      * @return 返回删除操作结果
      * @throws ApplicationException 查询异常
      */
     @ApiOperation(value = "根据id集合删除公告数据，逻辑删除", notes = "根据id集合删除公告数据，逻辑删除")
     @ApiImplicitParams({
-        @ApiImplicitParam(paramType = "query", dataType = "String", name = "ids", value = "首页公告实体id集合", required = true),
+        @ApiImplicitParam(paramType = "query", dataType = "EntityIdsInput", name = "idsInput", value = "首页公告实体id集合", required = true),
         @ApiImplicitParam(paramType = "header", dataType = "Long", name = "currentId", value = "当前用户id", required = true)
     })
     @CrossOrigin
-    @GetMapping("/delete")
-    public OutputResult<Void> get(
+    @PostMapping("/delete")
+    public OutputResult<Void> delete(
             @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
-            @RequestParam("ids") String ids)throws ApplicationException {
+            @RequestBody EntityIdsInput idsInput)throws ApplicationException {
 
-        if(StringUtils.isEmpty(ids)) {
-            throw new ApplicationException(1, "");
+        if(StringUtils.isEmpty(idsInput.getIds())) {
+            throw new ApplicationException(ApplicationException.PARAM_ERROR, "删除的公告实体id列表参数不能为空");
         }
-        List<Long> idList = StringConverter.toList(ids);
+        List<Long> idList = idsInput.getIdList();
         announcementServer.deleteByIds(idList, currentId);
         return new OutputResult<>();
     }
