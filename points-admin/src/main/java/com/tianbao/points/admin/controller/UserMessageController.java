@@ -2,6 +2,7 @@ package com.tianbao.points.admin.controller;
 
 
 import com.github.pagehelper.PageInfo;
+import com.tianbao.points.admin.dto.request.EntityIdsInput;
 import com.tianbao.points.admin.dto.request.ReplyInput;
 import com.tianbao.points.core.dto.UserMessageDTO;
 import com.tianbao.points.core.dto.response.OutputListResult;
@@ -78,7 +79,7 @@ public class UserMessageController {
     /**
      * @desc 根据一个id或者多个id列表删除实体
      * @author lushusheng 2018-12-04
-     * @param ids 实体id列表
+     * @param idsInput 实体id列表
      * @param currentId 当前用户id
      * @return 返回操作结果
      * @throws ApplicationException 查询异常
@@ -86,16 +87,16 @@ public class UserMessageController {
     @ApiOperation(value = "根据一个id或者多个id列表删除实体", notes = "根据一个id或者多个id列表删除实体")
     @ApiImplicitParams({
         @ApiImplicitParam(paramType = "header", dataType = "Long", name = "currentId", value = "当前用户id", required = true),
-        @ApiImplicitParam(paramType = "query", dataType = "String", name = "ids", value = "删除的id列表", required = true)})
+        @ApiImplicitParam(paramType = "query", dataType = "EntityIdsInput", name = "idsInput", value = "删除的id列表", required = true)})
     @CrossOrigin
-    @GetMapping("/delete")
+    @PostMapping("/delete")
     public OutputResult<Void> deleteByIds(
             @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
-            @RequestParam("ids") String ids)throws ApplicationException {
-        if(StringUtils.isEmpty(ids)) {
-            throw new ApplicationException(2, "0");
+            @RequestBody EntityIdsInput idsInput)throws ApplicationException {
+        if(StringUtils.isEmpty(idsInput.getIds())) {
+            throw new ApplicationException(ApplicationException.PARAM_ERROR, "实体id集合字符串不能为空");
         }
-        List<Long> idList = StringConverter.toList(ids);
+        List<Long> idList = idsInput.getIdList();
         userMessageServer.deleteByIds(idList, currentId);
         return new OutputResult<>();
     }

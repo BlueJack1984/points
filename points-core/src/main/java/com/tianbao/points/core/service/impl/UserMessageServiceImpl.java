@@ -86,7 +86,7 @@ public class UserMessageServiceImpl implements IUserMessageService {
         //首先根据三个id查询出来关联信息
         List<UserMessage> userMessageList = iUserMessageDao.selectListByIds(ids, currentId);
         if(userMessageList == null) {
-            throw new ApplicationException(1, "");
+            throw new ApplicationException(1, "不存在相关用户留言");
         }
         //逻辑删除
         for(UserMessage userMessage: userMessageList) {
@@ -138,7 +138,7 @@ public class UserMessageServiceImpl implements IUserMessageService {
         List<UserMessageDTO> userMessageDTOList = new ArrayList<>();
         for(UserMessage userMessage: userMessageList) {
             UserMessageDTO userMessageDTO = new UserMessageDTO();
-            BeanHelper.copyProperties(userMessageDTO, userMessageDTO);
+            BeanHelper.copyProperties(userMessageDTO, userMessage);
             for(User user: userList) {
                 if(user.getId().equals(userMessage.getSenderId())) {
                     userMessageDTO.setUser(user);
