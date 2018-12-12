@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 /**
@@ -20,6 +21,7 @@ public class EntityIdsInput {
     /**
      * 需要输出的属性id，为空输出全部
      */
+    @NotBlank(message = "实体ids集合参数不能为空")
     private String ids;
     /**
      * @desc 获取实体id的列表

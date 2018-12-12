@@ -146,4 +146,14 @@ public interface IUserService extends IBaseService<User, Long> {
      * @throws ApplicationException 保存异常
      */
     UserDTO createNewAdmin(User user, Long roleId, Integer order, Long currentId, Integer operation)throws ApplicationException;
+
+    /**
+     * @desc 根据会员id列表禁止会员登录，通过逻辑删除来实现
+     * @author lushusheng 2018-12-12
+     * @param ids 会员id输入列表
+     * @param currentId 当前用户id
+     * @return 无返回
+     * @throws ApplicationException 保存异常
+     */
+    void forbidBatch(List<Long> ids, Long currentId) throws ApplicationException;
 }

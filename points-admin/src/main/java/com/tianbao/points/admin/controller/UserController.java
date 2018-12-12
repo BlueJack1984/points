@@ -1,6 +1,7 @@
 package com.tianbao.points.admin.controller;
 
 import com.github.pagehelper.PageInfo;
+import com.tianbao.points.admin.dto.request.EntityIdsInput;
 import com.tianbao.points.admin.dto.request.UserInput;
 import com.tianbao.points.core.dto.UserDTO;
 import com.tianbao.points.core.dto.response.OutputListResult;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @desc 用户管理员入口
@@ -183,11 +185,32 @@ public class UserController {
             @RequestParam("type") Integer type)throws ApplicationException {
 
         if(type == null || type.intValue() < 0 || type.intValue() > 2) {
-            throw new ApplicationException(1, "");
+            throw new ApplicationException(ApplicationException.PARAM_ERROR, "会员搜索类型参数错误");
         }
         PageInfo<UserDTO> pageInfo = userServer.getListByConditionPage(type ,keyword, pageNo, pageSize);
         return new OutputListResult<>(pageInfo);
     }
 
+    /**
+     * @desc 根据会员id列表禁止会员登录，通过逻辑删除来实现
+     * @author lushusheng 2018-12-12
+     * @param idsInput 会员id输入列表
+     * @param currentId 当前用户id
+     * @return 无返回
+     * @throws ApplicationException 保存异常
+     */
+    @ApiOperation(value = "根据会员id列表禁止会员登录，通过逻辑删除来实现", notes = "根据会员id列表禁止会员登录，通过逻辑删除来实现")
+    @ApiImplicitParams({
+        @ApiImplicitParam(paramType = "header", dataType = "Long", name = "currentId", value = "当前用户id", required = true),
+        @ApiImplicitParam(paramType = "query", dataType = "EntityIdsInput", name = "idsInput", value = "会员id列表", required = true)})
+    @CrossOrigin
+    @PostMapping("/forbid/login")
+    public OutputResult<Void> forbid(
+            @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
+            @RequestBody @Valid EntityIdsInput idsInput)throws ApplicationException {
 
+        List<Long> idList = idsInput.getIdList();
+        userServer.forbidBatch(idList, currentId);
+        return new OutputResult<>();
+    }
 }

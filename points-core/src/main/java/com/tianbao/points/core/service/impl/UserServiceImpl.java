@@ -433,6 +433,30 @@ public class UserServiceImpl implements IUserService {
         insert(user, roleId, currentId);
         return getPersonalInfo(user.getId());
     }
+
+    /**
+     * @desc 根据会员id列表禁止会员登录，通过逻辑删除来实现
+     * @author lushusheng 2018-12-12
+     * @param ids 会员id输入列表
+     * @param currentId 当前用户id
+     * @return 无返回
+     * @throws ApplicationException 保存异常
+     */
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public void forbidBatch(List<Long> ids, Long currentId) throws ApplicationException {
+        List<User> userList = iUserDao.getListByIds(ids);
+        if(userList == null) {
+            throw new ApplicationException(1, "查询的会员实体列表不存在");
+        }
+        for(User user: userList) {
+            user.setStatus(StatusCode.FORBIDDEN.getCode());
+            user.setUpdateTime(new Date());
+            user.setUpdateUserId(currentId);
+            iUserDao.updateByPrimaryKey(user);
+        }
+    }
+
     /**
      * @desc 插入一条管理员信息
      * @author lushusheng 2018-12-06
