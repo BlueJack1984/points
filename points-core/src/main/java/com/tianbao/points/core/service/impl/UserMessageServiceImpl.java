@@ -170,6 +170,8 @@ public class UserMessageServiceImpl implements IUserMessageService {
         BeanHelper.copyProperties(userMessageDTO, userMessage);
         User user = userServer.selectById(userMessage.getSenderId());
         userMessageDTO.setUser(user);
+        Message message = messageServer.selectById(userMessage.getMessageId());
+        userMessageDTO.setMessage(message);
         return userMessageDTO;
     }
 
@@ -188,7 +190,7 @@ public class UserMessageServiceImpl implements IUserMessageService {
     public UserMessageDTO updateById(Long id, Long currentId, String reply, Integer status) throws ApplicationException {
         UserMessage userMessage = iUserMessageDao.selectById(id, currentId);
         if(userMessage == null) {
-            throw new ApplicationException(2, "");
+            throw new ApplicationException(2, "查询的用户留言关联实体信息不存在");
         }
         userMessage.setStatus(status);
         userMessage.setUpdateUserId(currentId);

@@ -120,7 +120,7 @@ public class UserMessageController {
             @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
             @PathVariable("id") Long id)throws ApplicationException {
         if(id == null) {
-            throw new ApplicationException(2, "0");
+            throw new ApplicationException(ApplicationException.PARAM_ERROR, "查询留言实体id不能为空");
         }
         UserMessageDTO userMessageDTO = userMessageServer.getById(id, currentId);
         return new OutputResult<>(userMessageDTO);
@@ -141,7 +141,7 @@ public class UserMessageController {
         @ApiImplicitParam(paramType = "query", dataType = "Long", name = "id", value = "实体id", required = true),
         @ApiImplicitParam(paramType = "body", dataType = "ReplyInput", name = "replyInput", value = "回复实体", required = true)})
     @CrossOrigin
-    @GetMapping("/update/{id}")
+    @PostMapping("/update/{id}")
     public OutputResult<UserMessageDTO> updateById(
             @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
             @RequestBody @Valid ReplyInput replyInput,
