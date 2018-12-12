@@ -9,7 +9,8 @@
      `_user`.phone, `_user`.email, `_user`.gender, `_user`.rank_id rankId, `_user`.status,
      `_user`.question_id questionId, `_user`.answer, `_user`.last_login_ip lastLoginIp, `_user`.last_login_time lastLoginTime,
      `_user`.create_time createTime, `_user`.create_user_id createUserId,
-     `_user`.update_time updateTime, `_user`.update_user_id updateUserId
+     `_user`.update_time updateTime, `_user`.update_user_id updateUserId,
+     `_user`.province, `_user`.city, `_user`.address
   </sql>
   <sql id="t_user">`user`</sql>
 
@@ -28,10 +29,11 @@
     insert into <include refid="t_user"/>
     (id, account, password, super_password, real_name, identity_number, nick_name, head_image, phone,
     email, gender, rank_id, status, question_id, answer, last_login_ip, last_login_time, create_time,
-    create_user_id, update_time, update_user_id)
+    create_user_id, update_time, update_user_id, province, city, address)
     values (#{id}, #{account}, #{password}, #{superPassword}, #{realName}, #{identityNumber}, #{nickName},
     #{headImage}, #{phone}, #{email}, #{gender}, #{rankId}, #{status}, #{questionId}, #{answer},
-    #{lastLoginIp}, #{lastLoginTime}, #{createTime}, #{createUserId}, #{updateTime}, #{updateUserId})
+    #{lastLoginIp}, #{lastLoginTime}, #{createTime}, #{createUserId}, #{updateTime}, #{updateUserId},
+    #{province}, #{city}, #{address})
   </insert>
 
   <insert id="insertSelective" parameterType="user" >
@@ -100,6 +102,15 @@
       <if test="updateUserId != null" >
         update_user_id,
       </if>
+      <if test="province != null">
+        province,
+      </if>
+      <if test="city != null">
+        city,
+      </if>
+      <if test="address != null">
+        address,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -164,6 +175,15 @@
       </if>
       <if test="updateUserId != null" >
         #{updateUserId},
+      </if>
+      <if test="province != null">
+        #{province},
+      </if>
+      <if test="city != null">
+        #{city},
+      </if>
+      <if test="address != null">
+        #{address},
       </if>
     </trim>
   </insert>
@@ -231,6 +251,15 @@
       <if test="updateUserId != null" >
         update_user_id = #{updateUserId},
       </if>
+      <if test="province != null">
+        province = #{province},
+      </if>
+      <if test="city != null">
+        city = #{city},
+      </if>
+      <if test="address != null">
+        address = #{address},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -256,7 +285,10 @@
       create_time = #{createTime},
       create_user_id = #{createUserId},
       update_time = #{updateTime},
-      update_user_id = #{updateUserId}
+      update_user_id = #{updateUserId},
+      province = #{province},
+      city = #{city},
+      address = #{address}
     where id = #{id,jdbcType=BIGINT}
   </update>
 

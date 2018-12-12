@@ -99,7 +99,7 @@ public class UserController {
             @RequestBody @Valid UserInput userInput)throws ApplicationException {
         User user = userServer.selectById(userInput.getId());
         if(user == null) {
-            throw new ApplicationException(1, "");
+            throw new ApplicationException(1, "查询的会员实体不存在");
         }
         copyProperties(user, userInput);
         user.setUpdateTime(new Date());

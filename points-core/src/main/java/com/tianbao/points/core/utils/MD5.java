@@ -14,7 +14,10 @@ import java.security.NoSuchAlgorithmException;
  */
 @Slf4j
 public class MD5 {
-    /**利用MD5进行加密*/
+
+    /**
+     * 利用MD5进行加密
+     */
     public static String EncoderByMd5(String str) throws NoSuchAlgorithmException, UnsupportedEncodingException {
         //确定计算方法
         MessageDigest md5 = MessageDigest.getInstance("MD5");
@@ -24,9 +27,11 @@ public class MD5 {
         return newstr;
     }
 
-    /**判断用户密码是否正确
-     *newpasswd  用户输入的密码
-     *oldpasswd  正确密码*/
+    /**
+     * 判断用户密码是否正确
+     * @param newpasswd  用户输入的密码
+     * @param oldpasswd  正确密码
+     */
     public static boolean checkpassword(String newpasswd,String oldpasswd) throws NoSuchAlgorithmException, UnsupportedEncodingException{
         if(EncoderByMd5(newpasswd).equals(oldpasswd))
             return true;

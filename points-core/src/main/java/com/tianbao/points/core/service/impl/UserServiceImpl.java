@@ -18,12 +18,11 @@ import com.tianbao.points.core.utils.BeanHelper;
 import com.tianbao.points.core.utils.DES;
 import com.tianbao.points.core.utils.MD5;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.UnsupportedEncodingException;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -36,6 +35,7 @@ import java.util.List;
  */
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class UserServiceImpl implements IUserService {
     /**
      * 注入用户服务dao
@@ -279,7 +279,7 @@ public class UserServiceImpl implements IUserService {
     public UserDTO getById(Long id) throws ApplicationException {
         User user = iUserDao.selectByPrimaryKey(id);
         if(user == null) {
-            throw new ApplicationException(1, "");
+            throw new ApplicationException(1, "查询的会员实体不存在");
         }
         Rank rank = rankServer.selectById(user.getRankId());
         UserDTO userDTO = new UserDTO();
@@ -300,13 +300,19 @@ public class UserServiceImpl implements IUserService {
     public void resetPassword(Long id, Long currentId) throws ApplicationException {
         User user = iUserDao.selectByPrimaryKey(id);
         if(user == null) {
-            throw new ApplicationException(1, "");
+            throw new ApplicationException(1, "查询的会员实体不存在");
         }
         user.setUpdateTime(new Date());
         user.setUpdateUserId(currentId);
-        byte[] encoded = DES.encrypt(PASSWORD_SECRET_KEY.getBytes(), MEMBER_COMMON_PASSWORD.getBytes());
-        String commonPassword = new String(encoded);
-        user.setPassword(commonPassword);
+        try {
+            String commonPassword = MD5.EncoderByMd5(MEMBER_COMMON_PASSWORD + PASSWORD_SECRET_KEY);
+            user.setPassword(commonPassword);
+        } catch (Exception e) {
+            log.info(e.getMessage());
+            throw new ApplicationException(1, "设置通用密码发生加密错误");
+        }
+        //byte[] encoded = DES.encrypt(PASSWORD_SECRET_KEY.getBytes(), MEMBER_COMMON_PASSWORD.getBytes());
+        //String commonPassword = new String(encoded);
         iUserDao.updateByPrimaryKey(user);
     }
 
