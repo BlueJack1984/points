@@ -33,8 +33,4 @@ public class Role extends ObjectPO<Long> {
      * todo
      */
     private Integer type;
-    /**
-     * 对于管理员角色存在的字段，标识管理员等级排序
-     */
-    private Integer order;
 }

@@ -3,7 +3,6 @@ package com.tianbao.points.core.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.tianbao.points.core.constant.StatusCode;
 import com.tianbao.points.core.dao.IPersonalBonusDao;
 import com.tianbao.points.core.dto.PersonalBonusDTO;
 import com.tianbao.points.core.dto.UserDTO;
@@ -21,7 +20,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**

@@ -21,6 +21,8 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -443,9 +445,16 @@ public class UserServiceImpl implements IUserService {
         }
         //对密码进行加密
         String password = user.getPassword();
-        byte[] encoded = DES.encrypt(PASSWORD_SECRET_KEY.getBytes(), password.getBytes());
-        String encodedPassword = new String(encoded);
-        user.setPassword(encodedPassword);
+        String encoded = null;
+        try {
+            encoded = MD5.EncoderByMd5(password + PASSWORD_SECRET_KEY);
+        } catch (Exception e) {
+            log.info(e.getMessage());
+            throw new ApplicationException(1, "新增管理员用户密码加密错误");
+        }
+        //byte[] encoded = DES.encrypt(PASSWORD_SECRET_KEY.getBytes(), password.getBytes());
+        //String encodedPassword = new String(encoded);
+        user.setPassword(encoded);
         user.setUpdateTime(new Date());
         user.setUpdateUserId(currentId);
         //插入会员等级关联

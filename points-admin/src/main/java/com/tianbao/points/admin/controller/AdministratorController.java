@@ -159,12 +159,12 @@ public class AdministratorController {
         String password = adminUpdateInput.getPassword();
         String surePassword = adminUpdateInput.getSurePassword();
         if(!(password == null && surePassword == null || password != null && password.equals(surePassword))) {
-            throw new ApplicationException(1, "");
+            throw new ApplicationException(ApplicationException.PARAM_ERROR, "修改管理员用户信息密码输入错误");
         }
         User user = userServer.selectById(adminUpdateInput.getId());
         copyProperties(user, adminUpdateInput);
-        userServer.createNewAdmin(user, adminUpdateInput.getRoleId(), adminUpdateInput.getOrder(), currentId, 1);
-        return new OutputResult<>();
+        UserDTO userDTO = userServer.createNewAdmin(user, adminUpdateInput.getRoleId(), adminUpdateInput.getOrder(), currentId, 1);
+        return new OutputResult<>(userDTO);
     }
     /**
      * @desc 拷贝输入属性

@@ -4,7 +4,7 @@
 
   <!-- 角色实体对象的持久化 -->
   <sql id="c_role">
-      _role.id, _role.name, _role.description, _role.domain, _role.type, _role.status, _role.`order`,
+      _role.id, _role.name, _role.description, _role.domain, _role.type, _role.status,
       _role.create_time createTime, _role.create_user_id createUserId,
       _role.update_time updateTime, _role.update_user_id updateUserId
   </sql>
@@ -23,9 +23,9 @@
 
   <insert id="insert" parameterType="role" useGeneratedKeys="true" keyProperty="id">
     insert into <include refid="t_role"/>
-    (id, name, description, status, domain, type, create_time, create_user_id, update_time, update_user_id, `order`)
+    (id, name, description, status, domain, type, create_time, create_user_id, update_time, update_user_id)
     values (#{id}, #{name}, #{description}, #{status}, #{domain}, #{type},
-    #{createTime}, #{createUserId}, #{updateTime}, #{updateUserId}, #{order})
+    #{createTime}, #{createUserId}, #{updateTime}, #{updateUserId})
   </insert>
 
   <insert id="insertSelective" parameterType="role" >
@@ -61,9 +61,6 @@
       <if test="updateUserId != null" >
         update_user_id,
       </if>
-      <if test="order != null" >
-        `order`,
-      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -95,9 +92,6 @@
       </if>
       <if test="updateUserId != null" >
         #{updateUserId},
-      </if>
-      <if test="order != null" >
-        #{order},
       </if>
     </trim>
   </insert>
@@ -132,9 +126,6 @@
       <if test="updateUserId != null" >
         update_user_id = #{updateUserId},
       </if>
-      <if test="order != null" >
-        `order` = #{order},
-      </if>
     </set>
     where id = #{id}
   </update>
@@ -149,8 +140,7 @@
       create_time = #{createTime},
       create_user_id = #{createUserId},
       update_time = #{updateTime},
-      update_user_id = #{updateUserId},
-      `order` = #{order}
+      update_user_id = #{updateUserId}
     where id = #{id,jdbcType=BIGINT}
   </update>
 
