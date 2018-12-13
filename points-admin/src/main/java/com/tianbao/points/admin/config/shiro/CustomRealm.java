@@ -57,10 +57,10 @@ public class CustomRealm extends AuthorizingRealm {
     /**
      * 必须重写此方法，不然Shiro会报错
      */
-    @Override
-    public boolean supports(AuthenticationToken token) {
-        return token instanceof JwtToken;
-    }
+//    @Override
+//    public boolean supports(AuthenticationToken token) {
+//        return token instanceof JwtToken;
+//    }
 
     /**
      * @author lushusheng
@@ -110,7 +110,7 @@ public class CustomRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
-        String token = (String) authenticationToken.getCredentials();
+        //String token = (String) authenticationToken.getCredentials();
 //        // 解密获得username，用于和数据库进行对比
 //        String username = JwtUtil.getUsername(token);
 //        if (username == null) {

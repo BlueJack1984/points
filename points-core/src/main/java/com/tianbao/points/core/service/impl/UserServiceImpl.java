@@ -507,7 +507,8 @@ public class UserServiceImpl implements IUserService {
      */
     @Override
     public User getByAccount(String account) throws ApplicationException {
-        return null;
+        User user = iUserDao.getByAccount(account);
+        return user;
     }
 
     /**

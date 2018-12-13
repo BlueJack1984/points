@@ -4,6 +4,8 @@ package com.tianbao.points.admin.handler;
 import com.tianbao.points.core.dto.response.OutputError;
 import com.tianbao.points.core.exception.ApplicationException;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.authc.IncorrectCredentialsException;
+import org.apache.shiro.authc.UnknownAccountException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -18,9 +20,28 @@ import java.lang.reflect.UndeclaredThrowableException;
 @Slf4j
 public class GlobalExceptionHandler {
 
+    /**
+     * 拦截捕捉异常 UnknownAccountException.class
+     * @param ex
+     * @return
+     */
+    @ExceptionHandler(value = UnknownAccountException.class)
+    public OutputError unknownAccountExceptionHandler(UnknownAccountException ex) {
+        String message = "应用异常";
+        return new OutputError(2, message, ex.getMessage());
+    }
 
-    //UnknownAccountException
-    //IncorrectCredentialsException
+    /**
+     * 拦截捕捉异常 IncorrectCredentialsException.class
+     * @param ex
+     * @return
+     */
+    @ExceptionHandler(value = IncorrectCredentialsException.class)
+    public OutputError incorrectCredentialsExceptionHandler(IncorrectCredentialsException ex) {
+        String message = "应用异常";
+        return new OutputError(1, message, ex.getMessage());
+    }
+
 
     /**
      * 拦截捕捉自定义异常 ApplicationException.class
