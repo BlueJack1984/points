@@ -8,10 +8,7 @@ import com.tianbao.points.core.constant.StatusCode;
 import com.tianbao.points.core.dao.IUserDao;
 import com.tianbao.points.core.dto.PositionDTO;
 import com.tianbao.points.core.dto.UserDTO;
-import com.tianbao.points.core.entity.Rank;
-import com.tianbao.points.core.entity.Role;
-import com.tianbao.points.core.entity.User;
-import com.tianbao.points.core.entity.UserRole;
+import com.tianbao.points.core.entity.*;
 import com.tianbao.points.core.exception.ApplicationException;
 import com.tianbao.points.core.service.*;
 import com.tianbao.points.core.utils.BeanHelper;
@@ -20,6 +17,7 @@ import com.tianbao.points.core.utils.MD5;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -46,6 +44,10 @@ public class UserServiceImpl implements IUserService {
      */
     private final IPositionService positionServer;
     /**
+     * 注入用户职位服务service
+     */
+    private final IUserPositionService userPositionServer;
+    /**
      * 注入角色服务service
      */
     private final IRoleService roleServer;
@@ -57,6 +59,10 @@ public class UserServiceImpl implements IUserService {
      * 注入会员等级service
      */
     private final IRankService rankServer;
+    /**
+     * 注入个人积分service
+     */
+    private final IPersonalBonusService personalBonusServer;
 
     @Value("${password.encrypt.key}")
     private String PASSWORD_SECRET_KEY;
@@ -91,7 +97,7 @@ public class UserServiceImpl implements IUserService {
         List<Role> roleList = roleServer.getListByUserId(id);
         userDTO.setRoleList(roleList);
         //获取会员等级
-        Rank rank = rankServer.selectById(user.getId());
+        Rank rank = rankServer.selectById(user.getRankId());
         userDTO.setRank(rank);
         return userDTO;
     }
@@ -382,6 +388,37 @@ public class UserServiceImpl implements IUserService {
         user.setUpdateTime(new Date());
         user.setUpdateUserId(currentId);
         iUserDao.updateByPrimaryKey(user);
+
+        //删除相关的用户角色关联
+        List<UserRole> userRoleList = userRoleServer.getListByUserId(id);
+        if(userRoleList != null && userRoleList.size() > 0) {
+            for(UserRole userRole: userRoleList) {
+                userRole.setStatus(StatusCode.FORBIDDEN.getCode());
+                userRole.setUpdateTime(new Date());
+                userRole.setUpdateUserId(currentId);
+            }
+            userRoleServer.updateBatch(userRoleList);
+        }
+        //删除相关的用户职位关联
+        List<UserPosition> userPositionList = userPositionServer.getListByUserId(id);
+        if(userPositionList != null && userPositionList.size() > 0) {
+            for(UserPosition userPosition: userPositionList) {
+                userPosition.setStatus(StatusCode.FORBIDDEN.getCode());
+                userPosition.setUpdateTime(new Date());
+                userPosition.setUpdateUserId(currentId);
+            }
+            userPositionServer.updateBatch(userPositionList);
+        }
+        //删除相关的用户个人积分
+        List<PersonalBonus> personalBonusList = personalBonusServer.getPersonalListByUserId(id);
+        if(personalBonusList != null && personalBonusList.size() > 0) {
+            for(PersonalBonus personalBonus: personalBonusList) {
+                personalBonus.setStatus(StatusCode.FORBIDDEN.getCode());
+                personalBonus.setUpdateTime(new Date());
+                personalBonus.setUpdateUserId(currentId);
+            }
+            personalBonusServer.updateBatch(personalBonusList);
+        }
     }
 
     /**

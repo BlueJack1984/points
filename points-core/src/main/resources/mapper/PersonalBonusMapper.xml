@@ -241,4 +241,12 @@
     and usr.account like concat('%', '${keyword}','%')
     order by _personal_bonus.create_time desc
   </select>
+
+  <!--根据会员id获取个人积分列表数据-->
+  <select id="getPersonalListByUserId" resultType="personalBonus">
+    select <include refid="c_personal_bonus"/>
+    from <include refid="t_personal_bonus"/> _personal_bonus
+    where _personal_bonus.status = 0 and _personal_bonus.user_id = #{userId}
+    order by _personal_bonus.create_time desc
+  </select>
 </mapper>

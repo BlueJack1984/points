@@ -7,6 +7,8 @@ import com.tianbao.points.core.service.IUserPositionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * @desc 用户职位关联服务接口
  * @author lushusheng
@@ -50,5 +52,32 @@ public class UserPositionServiceImpl implements IUserPositionService {
     @Override
     public void updateById(UserPosition record) throws ApplicationException {
 
+    }
+
+    /**
+     * @author lushusheng
+     * @Date 2018-12-13
+     * @Desc 根据用户id查询用户职位关联列表
+     * @param userId 用户id
+     * @return 返回用户职位关联列表
+     * @update
+     */
+    @Override
+    public List<UserPosition> getListByUserId(Long userId) throws ApplicationException {
+        List<UserPosition> userPositionList = iUserPositionDao.getListByUserId(userId);
+        return userPositionList;
+    }
+
+    /**
+     * @author lushusheng
+     * @Date 2018-12-13
+     * @Desc 批量更新用户职位关联列表
+     * @param userPositionList 更新数据
+     * @return 无返回
+     * @update
+     */
+    @Override
+    public void updateBatch(List<UserPosition> userPositionList) throws ApplicationException {
+        iUserPositionDao.updateBatch(userPositionList);
     }
 }

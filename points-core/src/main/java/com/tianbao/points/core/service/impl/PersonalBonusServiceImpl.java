@@ -15,6 +15,8 @@ import com.tianbao.points.core.service.IUserService;
 import com.tianbao.points.core.service.base.VisibilityService;
 import com.tianbao.points.core.utils.BeanHelper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -38,7 +40,9 @@ public class PersonalBonusServiceImpl extends VisibilityService implements IPers
     /**
      * 注入个人信息service
      */
-    private final IUserService userServer;
+    @Autowired
+    @Lazy
+    private IUserService userServer;
 
     @Override
     public void deleteById(Long id) throws ApplicationException {
@@ -211,5 +215,19 @@ public class PersonalBonusServiceImpl extends VisibilityService implements IPers
         List<PersonalBonusDTO> personalBonusDTOList = loadUserProperties(personalBonusList);
         PageInfo<PersonalBonusDTO> pageInfo = new PageInfo<>(personalBonusDTOList);
         return pageInfo;
+    }
+
+    /**
+     * @author lushusheng
+     * @Date 2018-12-13
+     * @Desc 根据会员id获取个人积分列表数据
+     * @param userId 表示系统积分增值id
+     * @return 返回操查询到的数据
+     * @update
+     */
+    @Override
+    public List<PersonalBonus> getPersonalListByUserId(Long userId) throws ApplicationException {
+        List<PersonalBonus> personalBonusList = iPersonalBonusDao.getPersonalListByUserId(userId);
+        return personalBonusList;
     }
 }

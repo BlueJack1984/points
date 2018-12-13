@@ -92,4 +92,15 @@ public interface IPersonalBonusService extends IBaseService<PersonalBonus, Long>
      * @update
      */
     PageInfo<PersonalBonusDTO> getByCondition(String keyword, Long sysBonusId, Integer pageNo, Integer pageSize)throws ApplicationException;
+
+
+    /**
+     * @author lushusheng
+     * @Date 2018-12-13
+     * @Desc 根据会员id获取个人积分列表数据
+     * @param userId 表示系统积分增值id
+     * @return 返回操查询到的数据
+     * @update
+     */
+    List<PersonalBonus> getPersonalListByUserId(Long userId)throws ApplicationException;
 }

@@ -122,4 +122,26 @@
       update_user_id = #{updateUserId}
     where id = #{id,jdbcType=BIGINT}
   </update>
+
+  <!--通过用户id查询用户职位关联列表-->
+  <select id="getListByUserId" resultType="userPosition">
+    select <include refid="c_user_position"/>
+    from <include refid="t_user_position"/> _user_position
+    where _user_position.status = 0 and _user_position.user_id = #{userId}
+  </select>
+
+  <!--批量更新用户职位关联列表-->
+  <update id="updateBatch">
+    <foreach item="item" index="index" collection="userPositionList" separator=";">
+      update <include refid="t_user_position"/>
+      set user_id = #{item.userId},
+      position_id = #{item.positionId},
+      status = #{item.status},
+      create_time = #{item.createTime},
+      create_user_id = #{item.createUserId},
+      update_time = #{item.updateTime},
+      update_user_id = #{item.updateUserId}
+      where id = #{item.id,jdbcType=BIGINT}
+    </foreach>
+  </update>
 </mapper>

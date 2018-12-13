@@ -127,7 +127,7 @@ public class AdministratorController {
             @RequestBody @Valid AdminInput adminInput)throws ApplicationException {
         if(StringUtils.isEmpty(adminInput.getPassword()) || StringUtils.isEmpty(adminInput.getSurePassword())
                 || ! adminInput.getPassword().equals(adminInput.getSurePassword())) {
-            throw new ApplicationException(1, "");
+            throw new ApplicationException(ApplicationException.PARAM_ERROR, "密码或者确认密码不能为空，并且要相同");
         }
         User user = new User();
         user.setAccount(adminInput.getAccount());
