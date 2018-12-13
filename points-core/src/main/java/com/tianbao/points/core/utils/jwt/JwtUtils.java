@@ -15,25 +15,6 @@ public class JwtUtils {
     private static final long EXPIRE_TIME = 5*60*1000;
 
     /**
-     * 校验token是否正确
-     * @param token 密钥
-     * @param secret 用户的密码
-     * @return 是否正确
-     */
-    public static boolean verify(String token, String username, String secret) {
-        try {
-            Algorithm algorithm = Algorithm.HMAC256(secret);
-            JWTVerifier verifier = JWT.require(algorithm)
-                    .withClaim("username", username)
-                    .build();
-            DecodedJWT jwt = verifier.verify(token);
-            return true;
-        } catch (Exception exception) {
-            return false;
-        }
-    }
-
-    /**
      * 获得token中的信息无需secret解密也能获得
      * @return token中包含的用户名
      */

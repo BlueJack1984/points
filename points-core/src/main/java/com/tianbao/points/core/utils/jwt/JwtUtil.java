@@ -9,10 +9,11 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import java.util.Date;
 
 /**
- * @author Mr.Li
- * @create 2018-07-12 14:23
+ * @author lushusheng
+ * @create 2018-12-13 14:23
  * @desc JWT工具类
  **/
+
 public class JwtUtil {
 
     private static final long EXPIRE_TIME = 5 * 60 * 1000;
