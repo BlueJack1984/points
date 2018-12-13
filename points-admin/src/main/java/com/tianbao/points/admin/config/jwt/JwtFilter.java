@@ -46,12 +46,27 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
      */
     @Override
     protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) {
+
         try {
             executeLogin(request, response);
             return true;
         } catch (Exception e) {
             return false;
         }
+
+//        //判断请求的请求头是否带上 "Token"
+//        if (((HttpServletRequest) request).getHeader("Token") != null) {
+//            //如果存在，则进入 executeLogin 方法执行登入，检查 token 是否正确
+//            try {
+//                executeLogin(request, response);
+//                return true;
+//            } catch (Exception e) {
+//                //token 错误
+//                responseError(response, e.getMessage());
+//            }
+//        }
+//        //如果请求头不存在 Token，则可能是执行登陆操作或者是游客状态访问，无需检查 token，直接返回 true
+//        return true;
     }
 
     /**
