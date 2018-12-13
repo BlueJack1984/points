@@ -1,6 +1,8 @@
 package com.tianbao.points.admin.controller.security;
 
 import com.tianbao.points.admin.dto.request.LoginInput;
+import com.tianbao.points.core.dto.response.OutputResult;
+import com.tianbao.points.core.utils.jwt.JwtUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
@@ -31,8 +33,7 @@ public class SecurityController {
      * @time 11:12
      */
     @PostMapping("/login")
-    public void login(@RequestBody @Valid LoginInput loginInput) throws Exception {
-
+    public OutputResult<String> login(@RequestBody @Valid LoginInput loginInput) throws Exception {
         //判断验证码是否正确
         if (!StringUtils.isEmpty(loginInput.getCaptcha())) {
             log.info("-----------------------------------> 图形验证码正确");
@@ -40,12 +41,15 @@ public class SecurityController {
         /**
          * 使用shiro编写认证（登录）操作
          */
+        String account = loginInput.getAccount();
+        String password = loginInput.getPassword();
         Subject subject = SecurityUtils.getSubject();
         //2.封装用户的登录数据
-        UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(loginInput.getAccount(), loginInput.getPassword());
+        UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(account, password);
         //3.执行登录方法,这里会抛出多种类型异常
         subject.login(usernamePasswordToken);
         //返回得到的jwttoken给前端
+        return new OutputResult<>(JwtUtil.sign(account, password));
     }
 
     /**
