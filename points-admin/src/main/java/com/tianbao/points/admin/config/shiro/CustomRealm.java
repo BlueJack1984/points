@@ -6,6 +6,7 @@ import com.tianbao.points.core.entity.User;
 import com.tianbao.points.core.exception.ApplicationException;
 import com.tianbao.points.core.service.IAuthorityService;
 import com.tianbao.points.core.service.IUserService;
+import com.tianbao.points.core.utils.jwt.JwtUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
@@ -57,10 +58,10 @@ public class CustomRealm extends AuthorizingRealm {
     /**
      * 必须重写此方法，不然Shiro会报错
      */
-//    @Override
-//    public boolean supports(AuthenticationToken token) {
-//        return token instanceof JwtToken;
-//    }
+    @Override
+    public boolean supports(AuthenticationToken token) {
+        return token instanceof JwtToken;
+    }
 
     /**
      * @author lushusheng
@@ -73,17 +74,24 @@ public class CustomRealm extends AuthorizingRealm {
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
 
         System.out.println("权限配置-->MyShiroRealm.doGetAuthorizationInfo()");
-        //String username = JwtUtil.getUsername(principals.toString());
+        String account = JwtUtil.getUsername(principalCollection.toString());
         /**
          * 如果身份认证的时候没有传入User对象，这里只能取到userName
          * 也就是SimpleAuthenticationInfo构造的时候第一个参数传递需要User对象
          */
         SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
-        User current = (User)principalCollection.getPrimaryPrincipal();
+        //User current = (User)principalCollection.getPrimaryPrincipal();
+        User user = null;
+        try {
+            user = userServer.getByAccount(account);
+        } catch (ApplicationException e) {
+            log.info(e.getDetailMsg());
+            return simpleAuthorizationInfo;
+        }
         //查询用户的权限列表
         List<Authority> authorityList = null;
         try {
-            authorityList = authorityServer.getListByUserId(current.getId());
+            authorityList = authorityServer.getListByUserId(user.getId());
         } catch (ApplicationException e) {
             log.info(e.getDetailMsg());
             return simpleAuthorizationInfo;
@@ -110,25 +118,14 @@ public class CustomRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
-        //String token = (String) authenticationToken.getCredentials();
-//        // 解密获得username，用于和数据库进行对比
-//        String username = JwtUtil.getUsername(token);
-//        if (username == null) {
-//            throw new AuthenticationException("token无效");
-//        }
-//
-//        SysUser userBean = sysUserService.findByUserName(username);
-//        if (userBean == null) {
-//            throw new AuthenticationException("用户不存在!");
-//        }
-//
-//        if (!JwtUtil.verify(token, username, userBean.getPassword())) {
-//            throw new AuthenticationException("用户名或密码错误");
-//        }
-//
-//        return new SimpleAuthenticationInfo(token, token, "my_realm");
-        UsernamePasswordToken usernamePasswordToken = (UsernamePasswordToken)authenticationToken;
-        String username = usernamePasswordToken.getUsername();
+        String token = (String) authenticationToken.getCredentials();
+        // 解密获得username，用于和数据库进行对比
+        String username = JwtUtil.getUsername(token);
+        if (username == null) {
+            throw new AuthenticationException("token无效");
+        }
+        //UsernamePasswordToken usernamePasswordToken = (UsernamePasswordToken)authenticationToken;
+        //String username = usernamePasswordToken.getUsername();
         //从数据库中查询用户名和密码信息
         User user = null;
         try {
@@ -140,8 +137,11 @@ public class CustomRealm extends AuthorizingRealm {
         if(user == null) {
             return null;
         }
+        if (!JwtUtil.verify(token, username, user.getPassword())) {
+            throw new AuthenticationException("用户名或密码错误");
+        }
         //如果身份认证的时候没有传入User对象，这里只能取到userName
         //也就是SimpleAuthenticationInfo构造的时候第一个参数传递需要User对象
-        return new SimpleAuthenticationInfo(user, user.getPassword(), getName());
+        return new SimpleAuthenticationInfo(token, token, getName());
     }
 }
