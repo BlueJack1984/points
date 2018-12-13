@@ -1,17 +1,23 @@
 package com.tianbao.points.admin.config.shiro;
 
 import com.tianbao.points.admin.security.JwtToken;
+import com.tianbao.points.core.entity.Authority;
 import com.tianbao.points.core.entity.User;
+import com.tianbao.points.core.exception.ApplicationException;
+import com.tianbao.points.core.service.IAuthorityService;
 import com.tianbao.points.core.service.IUserService;
-import org.apache.shiro.SecurityUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
-import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Created with IntelliJ IDEA
@@ -21,11 +27,13 @@ import org.springframework.stereotype.Component;
  * @date 2018-12-10
  * @time 14:12
  */
-@Component
+@Slf4j
 public class CustomRealm extends AuthorizingRealm {
 
     @Autowired
     private IUserService userServer;
+    @Autowired
+    private IAuthorityService authorityServer;
     /**
      * @author lushusheng
      * @description 无参构造方法，设置名称
@@ -57,24 +65,39 @@ public class CustomRealm extends AuthorizingRealm {
     /**
      * @author lushusheng
      * @description 用于授权,只有当需要检测用户权限的时候才会调用此方法
+     * 权限信息，包括角色以及权限
      * @date 2018-12-10
      * @time 14:12
      */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
+
+        System.out.println("权限配置-->MyShiroRealm.doGetAuthorizationInfo()");
         //String username = JwtUtil.getUsername(principals.toString());
-        //SysUser user = sysUserService.findByUserName(username);
-        //SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
-        //return simpleAuthorizationInfo;
-        //给资源进行授权
+        /**
+         * 如果身份认证的时候没有传入User对象，这里只能取到userName
+         * 也就是SimpleAuthenticationInfo构造的时候第一个参数传递需要User对象
+         */
         SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
+        User current = (User)principalCollection.getPrimaryPrincipal();
         //查询用户的权限列表
-        //String username = principalCollection.
-        //List<String>
-        simpleAuthorizationInfo.addStringPermissions(null);
-        //通过数据库查询
-        Subject subject = SecurityUtils.getSubject();
-        User user = (User) subject.getPrincipal();
+        List<Authority> authorityList = null;
+        try {
+            authorityList = authorityServer.getListByUserId(current.getId());
+        } catch (ApplicationException e) {
+            log.info(e.getDetailMsg());
+            return simpleAuthorizationInfo;
+        }
+        //授权列表
+        Set<String> permissionSet = new HashSet<>();
+        for(Authority authority: authorityList) {
+            if(authority == null) {
+                continue;
+            }
+            permissionSet.add(authority.getPermission());
+        }
+        // 给资源进行授权
+        simpleAuthorizationInfo.addStringPermissions(permissionSet);
         return simpleAuthorizationInfo;
     }
 
@@ -108,9 +131,17 @@ public class CustomRealm extends AuthorizingRealm {
         String username = usernamePasswordToken.getUsername();
         //从数据库中查询用户名和密码信息
         User user = null;
-        if(user == null || ! username.equals(user.getAccount())) {
+        try {
+            user = userServer.getByAccount(username);
+        } catch (ApplicationException e) {
+            log.info(e.getDetailMsg());
             return null;
         }
+        if(user == null) {
+            return null;
+        }
+        //如果身份认证的时候没有传入User对象，这里只能取到userName
+        //也就是SimpleAuthenticationInfo构造的时候第一个参数传递需要User对象
         return new SimpleAuthenticationInfo(user, user.getPassword(), getName());
     }
 }

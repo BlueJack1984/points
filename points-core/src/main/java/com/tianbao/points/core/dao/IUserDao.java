@@ -56,4 +56,13 @@ public interface IUserDao extends IBaseDao<User, Long> {
      * @return 返回管理员列表信息
      */
     List<User> getAdminListPage();
+
+    /**
+     * @desc 根据会员id列表禁止会员登录，通过逻辑删除来实现
+     * @author lushusheng 2018-12-12
+     * @param account 会员账号
+     * @return 返回查询到的会员
+     *
+     */
+    User getByAccount(@Param("account") String account);
 }

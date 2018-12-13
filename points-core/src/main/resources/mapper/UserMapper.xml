@@ -346,4 +346,11 @@
     where _user.status = 0
     and r.name like concat('%', '管理员','%')
   </select>
+
+  <!--根据账号名称查询用户信息-->
+  <select id="getByAccount" resultType="user">
+    select <include refid="c_user"/>
+    from <include refid="t_user"/> _user
+    where _user.status = 0 and _user.account = #{account}
+  </select>
 </mapper>

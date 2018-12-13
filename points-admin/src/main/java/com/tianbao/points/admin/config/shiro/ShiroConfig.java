@@ -271,10 +271,10 @@ public class ShiroConfig {
          * role: 该资源必须得到角色权限才能访问
          */
         Map<String, String> filterMap = new LinkedHashMap<>();
-        filterMap.put("/add", "authc");
-        filterMap.put("/update", "authc");
-        filterMap.put("/hello", "anon");
-        filterMap.put("/*", "authc");
+        //filterMap.put("/add", "authc");
+        //filterMap.put("/update", "authc");
+        filterMap.put("/*", "anon");
+        //filterMap.put("/*", "authc");
 
         //授权过滤器
         //注意，当授权未通过时，会跳转到默认的未授权页面

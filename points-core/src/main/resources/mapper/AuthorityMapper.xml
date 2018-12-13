@@ -163,4 +163,16 @@
       update_user_id = #{updateUserId}
     where id = #{id,jdbcType=BIGINT}
   </update>
+
+  <!--根据用户id获取所有的权限列表-->
+  <select id="getListByUserId" resultType="authority">
+    select <include refid="c_authority"/>
+    from <include refid="t_authority"/> _authority
+    left join role_authority as _role_authority on _role_authority.authority_id = _authority.id
+    and _role_authority.status = 0
+    left join role as _role on _role.id = _role_authority.role_id and _role.status = 0
+    left join user_role as _user_role on _user_role.role_id = _role.id and _user_role.status = 0
+    left join `user` as `_user` on `_user`.id = _user_role.user_id and `_user`.status = 0
+    where _authority.status = 0 and `_user`.id = #{userId}
+  </select>
 </mapper>

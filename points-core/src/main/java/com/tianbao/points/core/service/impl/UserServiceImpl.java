@@ -12,17 +12,13 @@ import com.tianbao.points.core.entity.*;
 import com.tianbao.points.core.exception.ApplicationException;
 import com.tianbao.points.core.service.*;
 import com.tianbao.points.core.utils.BeanHelper;
-import com.tianbao.points.core.utils.DES;
 import com.tianbao.points.core.utils.MD5;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.UnsupportedEncodingException;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -501,6 +497,17 @@ public class UserServiceImpl implements IUserService {
             user.setUpdateUserId(currentId);
             iUserDao.updateByPrimaryKey(user);
         }
+    }
+    /**
+     * @desc 根据会员id列表禁止会员登录，通过逻辑删除来实现
+     * @author lushusheng 2018-12-12
+     * @param account 会员账号
+     * @return 返回查询到的会员
+     * @throws ApplicationException 保存异常
+     */
+    @Override
+    public User getByAccount(String account) throws ApplicationException {
+        return null;
     }
 
     /**
