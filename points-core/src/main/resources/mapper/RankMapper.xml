@@ -161,7 +161,7 @@
 
   <update id="updateByPrimaryKey" parameterType="rank" >
     update <include refid="t_rank"/>
-    set name = #{name},
+    set `name` = #{name},
       alias = #{alias},
       base_points = #{basePoints},
       base_money = #{baseMoney},
@@ -171,7 +171,7 @@
       update_time = #{updateTime},
       update_user_id = #{updateUserId},
       color = #{color},
-      order = #{order},
+      `order` = #{order},
       max_bonus = #{maxBonus}
     where id = #{id,jdbcType=BIGINT}
   </update>

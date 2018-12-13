@@ -101,7 +101,7 @@ public class RankController {
 
         Rank rank = rankServer.selectById(rankUpdateInput.getId());
         if(rank == null) {
-            throw new ApplicationException(1, "");
+            throw new ApplicationException(1, "查询会员等级实体不存在");
         }
         copyProperties(rank, rankUpdateInput);
         rank.setUpdateTime(new Date());
@@ -127,7 +127,7 @@ public class RankController {
             target.setAlias(rankInput.getAlias());
         }
         if(! StringUtils.isEmpty(rankInput.getColor())) {
-            target.setAlias(rankInput.getColor());
+            target.setColor(rankInput.getColor());
         }
     }
     /**
