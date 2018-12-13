@@ -11,6 +11,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
+ * 程序逻辑:
+ * 我们POST用户名与密码到/login进行登入，如果成功返回一个加密token，失败的话直接返回401错误。
+ * 之后用户访问每一个需要权限的网址请求必须在header中添加Authorization字段，例如Authorization: token，token为密钥。
+ * 后台会进行token的校验，如果不通过直接返回401。
  * @author lushusheng
  * @create 2018-07-12 15:56
  * @desc 前面认证原理说到我们要使用shiro来拦截token，那就需要我们自己写一个jwt过滤器来作为shiro的过滤器
