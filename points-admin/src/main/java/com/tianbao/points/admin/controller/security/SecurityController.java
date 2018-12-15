@@ -1,6 +1,7 @@
 package com.tianbao.points.admin.controller.security;
 
 import com.tianbao.points.admin.dto.request.LoginInput;
+import com.tianbao.points.admin.security.JwtToken;
 import com.tianbao.points.core.dto.response.OutputResult;
 import com.tianbao.points.core.entity.User;
 import com.tianbao.points.core.exception.ApplicationException;
@@ -45,7 +46,7 @@ public class SecurityController {
      * @time 11:12
      */
     @PostMapping("/login")
-    public OutputResult<String> login(@RequestBody @Valid LoginInput loginInput) throws ApplicationException {
+    public OutputResult<JwtToken> login(@RequestBody @Valid LoginInput loginInput) throws ApplicationException {
         //判断验证码是否正确
         if (!StringUtils.isEmpty(loginInput.getCaptcha())) {
             log.info("-----------------------------------> 图形验证码正确");
@@ -75,7 +76,9 @@ public class SecurityController {
             throw new ApplicationException(ApplicationException.PARAM_ERROR, "用户登录密码参数错误");
         }
         //返回得到的jwttoken给前端
-        return new OutputResult<>(JwtUtil.sign(account, user.getPassword()));
+        String token = JwtUtil.sign(account, user.getPassword());
+        JwtToken jwtToken = new JwtToken(token, user.getId());
+        return new OutputResult<>(jwtToken);
     }
 
     /**

@@ -12,10 +12,22 @@ import org.apache.shiro.authc.AuthenticationToken;
  */
 public class JwtToken implements AuthenticationToken {
 
+    /**
+     * 令牌id
+     */
+    private long id;
+    /**
+     * 令牌数据
+     */
     private String token;
+    /**
+     * 令牌有效期，毫秒
+     */
+    //private long expire;
 
-    public JwtToken(String token) {
+    public JwtToken(String token, Long id) {
         this.token = token;
+        this.id = id;
     }
 
     @Override
