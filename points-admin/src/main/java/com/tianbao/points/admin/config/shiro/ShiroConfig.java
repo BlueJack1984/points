@@ -262,41 +262,30 @@ public class ShiroConfig {
      * @date 2018-12-10
      * @time 14:12
      */
+    /**
+     * 常用的过滤器：
+     * anon: 无需认证（登录），匿名即可登录
+     * authc: 必须认证（登录）才可以访问
+     * user: 用于rememberMe功能，可以直接访问
+     * perms: 该资源必须得到资源权限才能访问
+     * role: 该资源必须得到角色权限才能访问
+     */
     @Bean(name = "shiroFilterFactoryBean")
     public ShiroFilterFactoryBean getShiroFilterFactoryBean(@Qualifier("securityManager") DefaultWebSecurityManager securityManager) {
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
         //第一项设置参数,关联安全管理器
         shiroFilterFactoryBean.setSecurityManager(securityManager);
-        //添加shiro内置过滤器,可以实现权限相关的拦截器
-        /**
-         * 常用的过滤器：
-         * anon: 无需认证（登录），匿名即可登录
-         * authc: 必须认证（登录）才可以访问
-         * user: 用于rememberMe功能，可以直接访问
-         * perms: 该资源必须得到资源权限才能访问
-         * role: 该资源必须得到角色权限才能访问
-         */
-        //添加自己的过滤器并且取名为jwt
-        Map<String, Filter> filterMap = new HashMap<>();
-        filterMap.put("jwt", new JwtFilter());
-        shiroFilterFactoryBean.setFilters(filterMap);
-//
-//        factoryBean.setSecurityManager(securityManager);
-//        factoryBean.setUnauthorizedUrl("/401");
 
         /**
          * 自定义url规则
          * http://shiro.apache.org/web.html#urls-
          */
         Map<String, String> filterRuleMap = new HashMap<>();
-        // 所有请求通过我们自己的JWT Filter
-        filterRuleMap.put("/**", "jwt");
-
+        //添加shiro内置过滤器,可以实现权限相关的拦截器
         //filterMap.put("/add", "authc");
-        //filterMap.put("/login", "authc");
-        filterRuleMap.put("/**", "anon");
+        filterRuleMap.put("/security/login", "anon");
+        //filterRuleMap.put("/**", "anon");
         //filterMap.put("/*", "authc");
-
         //授权过滤器
         //注意，当授权未通过时，会跳转到默认的未授权页面
         //filterMap.put("/add", "perms[user:add]");
@@ -304,6 +293,12 @@ public class ShiroConfig {
         //shiroFilterFactoryBean.setLoginUrl();
         //设置未授权的提示错误页面
         //shiroFilterFactoryBean.setUnauthorizedUrl();
+        // 添加自己的过滤器并且取名为jwt
+        Map<String, Filter> filterMap = new HashMap<>();
+        filterMap.put("jwt", new JwtFilter());
+        shiroFilterFactoryBean.setFilters(filterMap);
+        // 所有请求通过我们自己的JWT Filter
+        filterRuleMap.put("/**", "jwt");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterRuleMap);
         return shiroFilterFactoryBean;
     }

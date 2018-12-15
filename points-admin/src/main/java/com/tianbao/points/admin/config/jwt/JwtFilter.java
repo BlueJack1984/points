@@ -1,6 +1,7 @@
 package com.tianbao.points.admin.config.jwt;
 
 import com.tianbao.points.admin.security.JwtToken;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.web.filter.authc.BasicHttpAuthenticationFilter;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -19,6 +20,7 @@ import javax.servlet.http.HttpServletResponse;
  * @create 2018-07-12 15:56
  * @desc 前面认证原理说到我们要使用shiro来拦截token，那就需要我们自己写一个jwt过滤器来作为shiro的过滤器
  **/
+@Slf4j
 public class JwtFilter extends BasicHttpAuthenticationFilter {
 
     /**
@@ -50,6 +52,7 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
     @Override
     protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) {
 
+        log.info("****____#######&************YGYUG*******这里经过了过滤器@@@@￥￥￥%%%……&&&*************************");
         //判断用户是否是登录还是已经登录的正常访问，通过判断是否携带Authorization实现
         //判断请求的请求头是否带上 "Token"
         if(isLoginAttempt(request, response)) {
