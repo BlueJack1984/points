@@ -294,7 +294,7 @@ public class ShiroConfig {
 
         //filterMap.put("/add", "authc");
         //filterMap.put("/login", "authc");
-        //filterMap.put("/*", "anon");
+        filterRuleMap.put("/**", "anon");
         //filterMap.put("/*", "authc");
 
         //授权过滤器
