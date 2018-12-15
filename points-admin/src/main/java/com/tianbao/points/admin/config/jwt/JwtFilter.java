@@ -33,13 +33,8 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
     }
     /**
      * 执行登录认证
-     *
-     * @param request
-     * @param response
-     * @param mappedValue
-     * @return
-     */
-    /**
+     * @author lushusheng
+     * @desc
      * 这里我们详细说明下为什么最终返回的都是true，即允许访问
      * 例如我们提供一个地址 GET /article
      * 登入用户和游客看到的内容是不同的
@@ -47,30 +42,27 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
      * 所以我们在这里返回true，Controller中可以通过 subject.isAuthenticated() 来判断用户是否登入
      * 如果有些资源只有登入用户才能访问，我们只需要在方法上面加上 @RequiresAuthentication 注解即可
      * 但是这样做有一个缺点，就是不能够对GET,POST等请求进行分别过滤鉴权(因为我们重写了官方的方法)，但实际上对应用影响不大
+     * @param request http请求
+     * @param response http响应
+     * @param mappedValue
+     * @return
      */
     @Override
     protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) {
 
-        try {
-            executeLogin(request, response);
-            return true;
-        } catch (Exception e) {
-            return false;
+        //判断用户是否是登录还是已经登录的正常访问，通过判断是否携带Authorization实现
+        //判断请求的请求头是否带上 "Token"
+        if(isLoginAttempt(request, response)) {
+            //如果存在，则进入 executeLogin 方法执行登入，检查 token 是否正确
+            try {
+                executeLogin(request, response);
+                return true;
+            } catch (Exception e) {
+                return false;
+            }
         }
-
-//        //判断请求的请求头是否带上 "Token"
-//        if (((HttpServletRequest) request).getHeader("Token") != null) {
-//            //如果存在，则进入 executeLogin 方法执行登入，检查 token 是否正确
-//            try {
-//                executeLogin(request, response);
-//                return true;
-//            } catch (Exception e) {
-//                //token 错误
-//                responseError(response, e.getMessage());
-//            }
-//        }
-//        //如果请求头不存在 Token，则可能是执行登陆操作或者是游客状态访问，无需检查 token，直接返回 true
-//        return true;
+        //如果请求头不存在 Token，则可能是执行登陆操作或者是游客状态访问，无需检查 token，直接返回 true
+        return true;
     }
 
     /**
@@ -87,8 +79,6 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
         // 如果没有抛出异常则代表登入成功，返回true
         return true;
     }
-
-
 
     /**
      * 对跨域提供支持

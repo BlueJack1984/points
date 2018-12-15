@@ -273,6 +273,26 @@ public class ShiroConfig {
          * perms: 该资源必须得到资源权限才能访问
          * role: 该资源必须得到角色权限才能访问
          */
+        // 添加自己的过滤器并且取名为jwt
+//        Map<String, Filter> filterMap = new HashMap<>();
+//        filterMap.put("jwt", new JWTFilter());
+//        factoryBean.setFilters(filterMap);
+//
+//        factoryBean.setSecurityManager(securityManager);
+//        factoryBean.setUnauthorizedUrl("/401");
+//
+//        /*
+//         * 自定义url规则
+//         * http://shiro.apache.org/web.html#urls-
+//         */
+//        Map<String, String> filterRuleMap = new HashMap<>();
+//        // 所有请求通过我们自己的JWT Filter
+//        filterRuleMap.put("/**", "jwt");
+//        // 访问401和404页面不通过我们的Filter
+//        filterRuleMap.put("/401", "anon");
+//        factoryBean.setFilterChainDefinitionMap(filterRuleMap);
+//        return factoryBean;
+
         Map<String, String> filterMap = new LinkedHashMap<>();
         //filterMap.put("/add", "authc");
         //filterMap.put("/login", "authc");
