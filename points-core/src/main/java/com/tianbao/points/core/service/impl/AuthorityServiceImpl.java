@@ -1,6 +1,7 @@
 package com.tianbao.points.core.service.impl;
 
 
+import com.tianbao.points.core.constant.StatusCode;
 import com.tianbao.points.core.dao.IAuthorityDao;
 import com.tianbao.points.core.entity.Authority;
 import com.tianbao.points.core.exception.ApplicationException;
@@ -8,6 +9,7 @@ import com.tianbao.points.core.service.IAuthorityService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -65,5 +67,24 @@ public class AuthorityServiceImpl implements IAuthorityService {
     @Override
     public List<Authority> getListByUserId(Long userId) throws ApplicationException {
         return null;
+    }
+
+    /**
+     * @desc 保存一条权限数据
+     * @author lushusheng 2018-12-17
+     * @param authority 权限数据实体
+     * @param currentId 当前用户id
+     * @return 保存成功实体数据
+     * @throws ApplicationException 保存异常
+     */
+    @Override
+    public Authority save(Authority authority, Long currentId) throws ApplicationException {
+        authority.setStatus(StatusCode.NORMAL.getCode());
+        authority.setCreateTime(new Date());
+        authority.setCreateUserId(currentId);
+        authority.setUpdateTime(new Date());
+        authority.setUpdateUserId(currentId);
+        iAuthorityDao.insert(authority);
+        return authority;
     }
 }

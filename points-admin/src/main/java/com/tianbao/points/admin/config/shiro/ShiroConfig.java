@@ -280,9 +280,10 @@ public class ShiroConfig {
          * 自定义url规则
          * http://shiro.apache.org/web.html#urls-
          */
-        Map<String, String> filterRuleMap = new HashMap<>();
+        //LinkedHashMap是有序的，进行顺序拦截器配置
+        Map<String, String> filterRuleMap = new LinkedHashMap<>();
         //添加shiro内置过滤器,可以实现权限相关的拦截器
-        //filterMap.put("/add", "authc");
+        filterRuleMap.put("/announcement/list/page", "authc");
         //filterRuleMap.put("/security/login", "anon");
         //filterRuleMap.put("/**", "anon");
         //filterMap.put("/*", "authc");
@@ -294,7 +295,7 @@ public class ShiroConfig {
         //设置未授权的提示错误页面
         //shiroFilterFactoryBean.setUnauthorizedUrl();
         // 添加自己的过滤器并且取名为jwt
-        Map<String, Filter> filterMap = new HashMap<>();
+        Map<String, Filter> filterMap = new LinkedHashMap<>();
         filterMap.put("jwt", new JwtFilter());
         shiroFilterFactoryBean.setFilters(filterMap);
         // 所有请求通过我们自己的JWT Filter
