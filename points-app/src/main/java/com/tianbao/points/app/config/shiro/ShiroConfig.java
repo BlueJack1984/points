@@ -229,8 +229,7 @@ package com.tianbao.points.app.config.shiro;
 //    }
 //}
 
-
-import com.tianbao.points.admin.config.jwt.JwtFilter;
+import com.tianbao.points.app.config.jwt.JwtFilter;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
@@ -282,7 +281,7 @@ public class ShiroConfig {
         //LinkedHashMap是有序的，进行顺序拦截器配置
         Map<String, String> filterRuleMap = new LinkedHashMap<>();
         //添加shiro内置过滤器,可以实现权限相关的拦截器
-        filterRuleMap.put("/announcement/list/page", "authc");
+        //filterRuleMap.put("/announcement/list/page", "authc");
         //filterRuleMap.put("/security/login", "anon");
         //filterRuleMap.put("/**", "anon");
         //filterMap.put("/*", "authc");

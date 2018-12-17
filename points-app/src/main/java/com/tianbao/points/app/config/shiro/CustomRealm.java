@@ -1,6 +1,6 @@
 package com.tianbao.points.app.config.shiro;
 
-import com.tianbao.points.admin.security.JwtToken;
+import com.tianbao.points.app.security.JwtToken;
 import com.tianbao.points.core.entity.Authority;
 import com.tianbao.points.core.entity.User;
 import com.tianbao.points.core.exception.ApplicationException;

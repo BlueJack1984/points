@@ -21,10 +21,10 @@ import javax.validation.Valid;
  * @date 2018-12-17
  */
 
-@Api(value = "admin", description = "管理员个人中心接口")
+@Api(value = "user", description = "会员个人中心接口")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/admin/personal")
+@RequestMapping("/user/personal")
 @Slf4j
 public class PersonalController {
 
@@ -36,11 +36,11 @@ public class PersonalController {
     /**
      * @author lushusheng
      * @Date 2018-11-28
-     * @Desc 获取管理员的个人档案资料，包装了职位和角色信息
-     * @return 返回查询到用户数据
+     * @Desc 获取会员的个人档案资料，包装了职位和角色及会员等级
+     * @return 返回查询到会员数据
      * @update
      */
-    @ApiOperation(value = "查询管理员档案信息", notes = "根据当前管理员currentId进行查询操作")
+    @ApiOperation(value = "获取会员的个人档案资料", notes = "获取会员的个人档案资料")
     @ApiImplicitParams({@ApiImplicitParam(paramType = "header", dataType = "Long", name = "currentId", value = "当前用户id", required = true)})
     @CrossOrigin
     @GetMapping("/info")
@@ -53,13 +53,13 @@ public class PersonalController {
     /**
      * @author lushusheng
      * @Date 2018-11-28
-     * @Desc 修改密码，更新用户的登录密码，这里不是指超级密码
+     * @Desc 修改密码，更新会员用户的登录密码，这里不是指超级密码
      * @param currentId 当前用户id
      * @param passwordInput 输入的密码属性实体
      * @return 无返回，操作错误抛出异常
      * @update
      */
-    @ApiOperation(value = "更新用户的登录密码", notes = "更新用户的登录密码")
+    @ApiOperation(value = "更新会员用户的登录密码", notes = "更新会员用户的登录密码")
     @ApiImplicitParams({@ApiImplicitParam(paramType = "header", dataType = "Long", name = "currentId", value = "当前用户id", required = true)})
     @CrossOrigin
     @PostMapping("/password")

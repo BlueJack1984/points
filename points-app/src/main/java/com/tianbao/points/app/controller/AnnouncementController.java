@@ -38,7 +38,7 @@ public class AnnouncementController {
 
     /**
      * @desc 获取首页公告列表,分页展示
-     * @author lushusheng 2018-12-04
+     * @author lushusheng 2018-12-17
      * @param currentId 当前用户id
      * @param pageNo 当前页码
      * @param pageSize 每页显示条数
