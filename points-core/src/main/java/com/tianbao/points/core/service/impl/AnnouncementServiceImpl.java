@@ -101,9 +101,14 @@ public class AnnouncementServiceImpl implements IAnnouncementService {
             return new PageInfo<>(null);
         }
         List<Long> ids = new ArrayList<>();
+        for(Announcement announcement: announcementList) {
+            if(announcement.getUserId() != null) {
+                ids.add(announcement.getUserId());
+            }
+        }
         List<User> userList = userServer.getListByIds(ids);
         List<AnnouncementDTO> announcementDTOList = new ArrayList<>();
-        for(Announcement announcement: announcementDTOList) {
+        for(Announcement announcement: announcementList) {
             if(announcement == null) {
                 continue;
             }

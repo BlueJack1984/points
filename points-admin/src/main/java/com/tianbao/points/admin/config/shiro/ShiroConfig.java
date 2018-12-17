@@ -283,7 +283,7 @@ public class ShiroConfig {
         Map<String, String> filterRuleMap = new HashMap<>();
         //添加shiro内置过滤器,可以实现权限相关的拦截器
         //filterMap.put("/add", "authc");
-        filterRuleMap.put("/security/login", "anon");
+        //filterRuleMap.put("/security/login", "anon");
         //filterRuleMap.put("/**", "anon");
         //filterMap.put("/*", "authc");
         //授权过滤器
