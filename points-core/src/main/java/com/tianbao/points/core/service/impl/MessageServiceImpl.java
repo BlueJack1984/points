@@ -73,4 +73,19 @@ public class MessageServiceImpl implements IMessageService {
         List<Message> messageList = iMessageDao.getListByIds(ids);
         return messageList;
     }
+
+    /**
+     * @desc 获取会员自己的留言列表,分页展示
+     * @author lushusheng 2018-12-17
+     * @param currentId 当前用户id
+     * @param pageNo 当前页码
+     * @param pageSize 每页显示条数
+     * @return 返回实体数据列表
+     * @throws ApplicationException 保存异常
+     */
+    @Override
+    public PageInfo<MessageDTO> getListPage(Long currentId, Integer pageNo, Integer pageSize) throws ApplicationException {
+
+        return null;
+    }
 }

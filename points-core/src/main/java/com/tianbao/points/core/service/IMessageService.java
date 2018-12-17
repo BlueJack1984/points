@@ -25,4 +25,15 @@ public interface IMessageService extends IBaseService<Message, Long> {
      */
     List<Message> getListByIds(List<Long> ids) throws ApplicationException;
 
+    /**
+     * @desc 获取会员自己的留言列表,分页展示
+     * @author lushusheng 2018-12-17
+     * @param currentId 当前用户id
+     * @param pageNo 当前页码
+     * @param pageSize 每页显示条数
+     * @return 返回实体数据列表
+     * @throws ApplicationException 保存异常
+     */
+    PageInfo<MessageDTO> getListPage(Long currentId, Integer pageNo, Integer pageSize)throws ApplicationException;
+
 }
