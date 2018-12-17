@@ -4,6 +4,7 @@ package com.tianbao.points.admin.controller;
 import com.github.pagehelper.PageInfo;
 import com.tianbao.points.admin.dto.request.AnnouncementInput;
 import com.tianbao.points.admin.dto.request.EntityIdsInput;
+import com.tianbao.points.core.dto.AnnouncementDTO;
 import com.tianbao.points.core.dto.response.OutputListResult;
 import com.tianbao.points.core.dto.response.OutputResult;
 import com.tianbao.points.core.entity.Announcement;
@@ -56,12 +57,12 @@ public class AnnouncementController {
         @ApiImplicitParam(paramType = "query", dataType = "Integer", name = "pageSize", value = "每页显示数据条数", required = false)})
     @CrossOrigin
     @GetMapping("/list/page")
-    public OutputListResult<Announcement> getListPage(
+    public OutputListResult<AnnouncementDTO> getListPage(
             @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
             @RequestParam(value = "pageNo", required = false, defaultValue = "1") Integer pageNo,
             @RequestParam(value = "pageSize", required = false, defaultValue = "20") Integer pageSize) throws Exception {
 
-        PageInfo<Announcement> pageInfo = announcementServer.getListPage(pageNo, pageSize);
+        PageInfo<AnnouncementDTO> pageInfo = announcementServer.getListPage(pageNo, pageSize);
         return new OutputListResult<>(pageInfo);
     }
 

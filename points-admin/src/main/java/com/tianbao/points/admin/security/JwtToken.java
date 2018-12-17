@@ -1,5 +1,8 @@
 package com.tianbao.points.admin.security;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.apache.shiro.authc.AuthenticationToken;
 
 /**
@@ -10,6 +13,9 @@ import org.apache.shiro.authc.AuthenticationToken;
  * @Date 2018-12-12
  * @Time 16:54
  */
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class JwtToken implements AuthenticationToken {
 
     /**
@@ -25,18 +31,13 @@ public class JwtToken implements AuthenticationToken {
      */
     //private long expire;
 
-    public JwtToken(String token, Long id) {
-        this.token = token;
-        this.id = id;
-    }
-
     @Override
     public Object getPrincipal() {
-        return token;
+        return null;
     }
 
     @Override
     public Object getCredentials() {
-        return token;
+        return null;
     }
 }

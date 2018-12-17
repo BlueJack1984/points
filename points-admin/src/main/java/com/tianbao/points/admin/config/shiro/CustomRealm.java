@@ -119,7 +119,8 @@ public class CustomRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
-        String token = (String) authenticationToken.getCredentials();
+        JwtToken jwtToken = (JwtToken)authenticationToken;
+        String token = jwtToken.getToken();
         // 解密获得username，用于和数据库进行对比
         String username = JwtUtil.getUsername(token);
         if (username == null) {

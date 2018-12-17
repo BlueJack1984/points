@@ -1,6 +1,7 @@
 package com.tianbao.points.core.service;
 
 import com.github.pagehelper.PageInfo;
+import com.tianbao.points.core.dto.AnnouncementDTO;
 import com.tianbao.points.core.entity.Announcement;
 import com.tianbao.points.core.exception.ApplicationException;
 import com.tianbao.points.core.service.base.IBaseService;
@@ -26,7 +27,7 @@ public interface IAnnouncementService extends IBaseService<Announcement, Long> {
      * @return 返回实体数据列表
      * @throws ApplicationException 保存异常
      */
-    PageInfo<Announcement> getListPage(Integer pageNo, Integer pageSize)throws AcceptPendingException;
+    PageInfo<AnnouncementDTO> getListPage(Integer pageNo, Integer pageSize)throws ApplicationException;
 
     /**
      * @author lushusheng

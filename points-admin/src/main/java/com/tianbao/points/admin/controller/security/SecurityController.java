@@ -77,7 +77,7 @@ public class SecurityController {
         }
         //返回得到的jwttoken给前端
         String token = JwtUtil.sign(account, user.getPassword());
-        JwtToken jwtToken = new JwtToken(token, user.getId());
+        JwtToken jwtToken = new JwtToken(user.getId(), token);
         return new OutputResult<>(jwtToken);
     }
 
@@ -91,19 +91,4 @@ public class SecurityController {
     public void logout() {
 
     }
-    //@PostMapping("/doLogin")
-//    public OutputResult doLogin(String username, String password) {
-//
-//        Subject subject = SecurityUtils.getSubject();
-//        UsernamePasswordToken token = new UsernamePasswordToken(username, password);
-//        try {
-//            subject.login(token);
-//        } catch (AuthenticationException e) {
-//            token.clear();
-//            //return ResultGenerator.genFailResult("登录失败，用户名或密码错误！");
-//            return null;
-//        }
-//        //return ResultGenerator.genSuccessResult("登录成功");
-//        return null;
-//    }
 }

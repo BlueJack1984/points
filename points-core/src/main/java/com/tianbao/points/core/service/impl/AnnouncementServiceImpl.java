@@ -5,9 +5,13 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.tianbao.points.core.constant.StatusCode;
 import com.tianbao.points.core.dao.IAnnouncementDao;
+import com.tianbao.points.core.dto.AnnouncementDTO;
 import com.tianbao.points.core.entity.Announcement;
+import com.tianbao.points.core.entity.User;
 import com.tianbao.points.core.exception.ApplicationException;
 import com.tianbao.points.core.service.IAnnouncementService;
+import com.tianbao.points.core.service.IUserService;
+import com.tianbao.points.core.utils.BeanHelper;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.nio.channels.AcceptPendingException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -31,6 +36,11 @@ public class AnnouncementServiceImpl implements IAnnouncementService {
 
     private final IAnnouncementDao iAnnouncementDao;
     private static final Logger logger = LoggerFactory.getLogger(AnnouncementServiceImpl.class);
+    /**
+     * 注入个人信息service
+     */
+    private final IUserService userServer;
+
     /**
      * @author lushusheng
      * @Date 2018-11-27
@@ -84,10 +94,30 @@ public class AnnouncementServiceImpl implements IAnnouncementService {
      * @throws ApplicationException 保存异常
      */
     @Override
-    public PageInfo<Announcement> getListPage(Integer pageNo, Integer pageSize) throws AcceptPendingException {
+    public PageInfo<AnnouncementDTO> getListPage(Integer pageNo, Integer pageSize) throws ApplicationException {
         PageHelper.startPage(pageNo, pageSize);
         List<Announcement> announcementList = iAnnouncementDao.getListPage();
-        PageInfo<Announcement> pageInfo = new PageInfo<>(announcementList);
+        if(announcementList == null) {
+            return new PageInfo<>(null);
+        }
+        List<Long> ids = new ArrayList<>();
+        List<User> userList = userServer.getListByIds(ids);
+        List<AnnouncementDTO> announcementDTOList = new ArrayList<>();
+        for(Announcement announcement: announcementDTOList) {
+            if(announcement == null) {
+                continue;
+            }
+            AnnouncementDTO announcementDTO = new AnnouncementDTO();
+            BeanHelper.copyProperties(announcementDTO, announcement);
+            for(User user: userList) {
+                if(user.getId().equals(announcement.getUserId())) {
+                    announcementDTO.setUser(user);
+                    break;
+                }
+            }
+            announcementDTOList.add(announcementDTO);
+        }
+        PageInfo<AnnouncementDTO> pageInfo = new PageInfo<>(announcementDTOList);
         return pageInfo;
     }
 
