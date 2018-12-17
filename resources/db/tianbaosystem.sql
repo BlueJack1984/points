@@ -11,7 +11,7 @@
  Target Server Version : 50723
  File Encoding         : 65001
 
- Date: 13/12/2018 12:51:49
+ Date: 17/12/2018 18:06:42
 */
 
 SET NAMES utf8mb4;
@@ -65,7 +65,12 @@ CREATE TABLE `authority`  (
   `update_time` datetime(0) NULL DEFAULT NULL COMMENT '最后修改时间',
   `update_user_id` bigint(20) NULL DEFAULT NULL COMMENT '修改人id',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of authority
+-- ----------------------------
+INSERT INTO `authority` VALUES (1, '暂无使用', '权限实体保存', '/authority/save', '权限:保存', 0, '权限实体保存', 0, '2018-12-17 07:00:43', 110, '2018-12-17 07:00:43', 110);
 
 -- ----------------------------
 -- Table structure for department
