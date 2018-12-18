@@ -7,6 +7,7 @@ import com.tianbao.points.core.entity.PersonalBonus;
 import com.tianbao.points.core.exception.ApplicationException;
 import com.tianbao.points.core.service.base.IBaseService;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import java.util.List;
 
 
@@ -103,4 +104,16 @@ public interface IPersonalBonusService extends IBaseService<PersonalBonus, Long>
      * @update
      */
     List<PersonalBonus> getPersonalListByUserId(Long userId)throws ApplicationException;
+
+    /**
+     * @author lushusheng
+     * @Date 2018-12-17
+     * @Desc 根据当前用户id查询个人积分增值列表,分页倒叙排列
+     * @param pageNo 当前页码
+     * @param pageSize 每页数据条数
+     * @param currentId 当前用户id
+     * @return 返回查询到个人积分增值相关列表
+     * @update
+     */
+    PageInfo<PersonalBonus> getPersonalListByUserIdPage(Integer pageNo, Integer pageSize, Long currentId)throws ApplicationException;
 }

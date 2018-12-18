@@ -228,4 +228,22 @@ public class PersonalBonusServiceImpl extends VisibilityService implements IPers
         List<PersonalBonus> personalBonusList = iPersonalBonusDao.getPersonalListByUserId(userId);
         return personalBonusList;
     }
+
+    /**
+     * @author lushusheng
+     * @Date 2018-12-17
+     * @Desc 根据当前用户id查询个人积分增值列表,分页倒叙排列
+     * @param pageNo 当前页码
+     * @param pageSize 每页数据条数
+     * @param currentId 当前用户id
+     * @return 返回查询到个人积分增值相关列表
+     * @update
+     */
+    @Override
+    public PageInfo<PersonalBonus> getPersonalListByUserIdPage(Integer pageNo, Integer pageSize, Long currentId) throws ApplicationException {
+        PageHelper.startPage(pageNo, pageSize);
+        List<PersonalBonus> personalBonusList = iPersonalBonusDao.getPersonalListByUserId(currentId);
+        PageInfo<PersonalBonus> pageInfo = new PageInfo<>(personalBonusList);
+        return pageInfo;
+    }
 }
