@@ -83,26 +83,6 @@ public class StockController {
     /**
      * @author lushusheng
      * @Date 2018-11-28
-     * @Desc 根据实体id删除特定证券指数数据
-     * @return 返回操作结果
-     * @update
-     */
-    @ApiOperation(value = "删除特定证券指数数据", notes = "根据实体id删除特定证券指数数据")
-    @ApiImplicitParams({
-        @ApiImplicitParam(paramType = "header", dataType = "Long", name = "currentId", value = "当前用户id", required = true),
-        @ApiImplicitParam(paramType = "query", dataType = "Long", name = "id", value = "证券指数实体id", required = true)})
-    @CrossOrigin
-    @GetMapping("/delete/{id}")
-    public OutputResult<Void> delete(
-            @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
-            @PathVariable("id") Long id)throws ApplicationException {
-        stockServer.deleteById(id);
-        return new OutputResult<>();
-    }
-
-    /**
-     * @author lushusheng
-     * @Date 2018-11-28
      * @Desc 盛华天宝k线图，获取股票证券指数的列表，不分页
      * @param num 表示要取得数据条数
      * @return 返回查询到的列表数据,正序排列，最新的num条
@@ -118,7 +98,7 @@ public class StockController {
             @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
             @PathVariable("num") Integer num)throws ApplicationException {
         if(num == null || num.intValue() <= 0) {
-            throw new ApplicationException(1, "");
+            throw new ApplicationException(ApplicationException.PARAM_ERROR, "获取的证券数据条数参数错误");
         }
         List<Stock> stockList = stockServer.getListNum(num);
         return new OutputListResult<>(stockList);

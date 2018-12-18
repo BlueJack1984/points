@@ -156,5 +156,11 @@
     where id = #{id,jdbcType=BIGINT}
   </update>
 
-  <!--查询所有会员等级列表，不分页-->
+  <!--根据用户id查询其消费记录列表，分页-->
+  <select id="getListPage" resultType="consumeRecord">
+    select <include refid="c_consume_record"/>
+    from <include refid="t_consume_record"/> _consume_record
+    where _consume_record.status = 0 and _consume_record.user_id = #{userId}
+    order by _consume_record.consume_time desc
+  </select>
 </mapper>
