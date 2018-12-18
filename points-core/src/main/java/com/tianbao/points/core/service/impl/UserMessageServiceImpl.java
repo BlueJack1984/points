@@ -205,4 +205,16 @@ public class UserMessageServiceImpl implements IUserMessageService {
         UserMessageDTO userMessageDTO = getById(id, currentId);
         return userMessageDTO;
     }
+
+    /**
+     * @desc 批量插入用户留言关联表数据
+     * @author lushusheng 2018-12-17
+     * @param userMessageList 留言实体集合
+     * @return 无返回
+     * @throws ApplicationException 保存异常
+     */
+    @Override
+    public void insertBatch(List<UserMessage> userMessageList) throws ApplicationException {
+        iUserMessageDao.insertBatch(userMessageList);
+    }
 }

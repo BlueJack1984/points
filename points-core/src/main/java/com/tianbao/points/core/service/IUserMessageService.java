@@ -62,4 +62,13 @@ public interface IUserMessageService extends IBaseService<UserMessage, Long> {
      * @update
      */
     UserMessageDTO updateById(Long id, Long currentId, String reply, Integer status) throws ApplicationException;
+
+    /**
+     * @desc 批量插入用户留言关联表数据
+     * @author lushusheng 2018-12-17
+     * @param userMessageList 留言实体集合
+     * @return 无返回
+     * @throws ApplicationException 保存异常
+     */
+    void insertBatch(List<UserMessage> userMessageList) throws ApplicationException;
 }

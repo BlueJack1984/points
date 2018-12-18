@@ -2,6 +2,7 @@ package com.tianbao.points.core.dao;
 
 import com.tianbao.points.core.dao.base.IBaseDao;
 import com.tianbao.points.core.entity.UserMessage;
+import com.tianbao.points.core.exception.ApplicationException;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -48,4 +49,13 @@ public interface IUserMessageDao extends IBaseDao<UserMessage, Long> {
      * @return 返回无
      */
     void updateBatch(@Param("userMessageList") List<UserMessage> userMessageList);
+
+    /**
+     * @desc 批量插入用户留言关联表数据
+     * @author lushusheng 2018-12-17
+     * @param userMessageList 留言实体集合
+     * @return 无返回
+     * @throws ApplicationException 保存异常
+     */
+    void insertBatch(@Param("userMessageList") List<UserMessage> userMessageList);
 }

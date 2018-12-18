@@ -36,4 +36,17 @@ public interface IMessageService extends IBaseService<Message, Long> {
      */
     PageInfo<MessageDTO> getListPage(Long currentId, Integer pageNo, Integer pageSize)throws ApplicationException;
 
+
+    /**
+     * @desc 发送（保存）一条留言数据
+     * @author lushusheng 2018-12-17
+     * @param title 留言参数输入实体
+     * @param content 留言参数输入实体
+     * @param currentId 当前用户id
+     * @param idList 留言参数输入实体
+     * @return 保存成功实体数据
+     * @throws ApplicationException 保存异常
+     */
+    Message save(String title, String content, Long currentId, List<Long> idList)throws ApplicationException;
+
 }

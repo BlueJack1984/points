@@ -1,8 +1,10 @@
 package com.tianbao.points.core.service.impl;
 
 
+import com.baomidou.mybatisplus.toolkit.IdWorker;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.tianbao.points.core.constant.StatusCode;
 import com.tianbao.points.core.dao.IMessageDao;
 import com.tianbao.points.core.dto.MessageDTO;
 import com.tianbao.points.core.entity.Message;
@@ -11,9 +13,13 @@ import com.tianbao.points.core.exception.ApplicationException;
 import com.tianbao.points.core.service.IMessageService;
 import com.tianbao.points.core.service.IUserMessageService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -29,6 +35,12 @@ public class MessageServiceImpl implements IMessageService {
      * 注入留言dao
      */
     private final IMessageDao iMessageDao;
+    /**
+     * 注入用户留言关联服务service
+     */
+    @Autowired
+    @Lazy
+    private IUserMessageService userMessageServer;
 
     @Override
     public void deleteById(Long id) throws ApplicationException {
@@ -87,5 +99,75 @@ public class MessageServiceImpl implements IMessageService {
     public PageInfo<MessageDTO> getListPage(Long currentId, Integer pageNo, Integer pageSize) throws ApplicationException {
 
         return null;
+    }
+    /**
+     * @desc 发送（保存）一条留言数据
+     * @author lushusheng 2018-12-17
+     * @param title 留言参数输入实体
+     * @param content 留言参数输入实体
+     * @param currentId 当前用户id
+     * @param idList 留言参数输入实体
+     * @return 保存成功实体数据
+     * @throws ApplicationException 保存异常
+     */
+    @Override
+    public Message save(String title, String content, Long currentId, List<Long> idList) throws ApplicationException {
+
+        Message message = insertMessage(title, content, currentId);
+        //插入用户留言关联表
+        insertUserMessage(message.getId(), currentId, idList);
+        return message;
+    }
+    /**
+     * @desc 单独插入一条留言数据，完成事务
+     * @author lushusheng 2018-12-17
+     * @param title 留言参数输入实体
+     * @param content 留言参数输入实体
+     * @param currentId 当前用户id
+     * @return 返回实体
+     * @throws ApplicationException 保存异常
+     */
+    @Transactional(rollbackFor = Exception.class)
+    public Message insertMessage(String title, String content, Long currentId)throws ApplicationException {
+        Message message = new Message();
+        message.setId(IdWorker.getId());
+        message.setTitle(title);
+        message.setContent(content);
+        //无跳转
+        message.setUrlType(2);
+        message.setStatus(StatusCode.NORMAL.getCode());
+        message.setCreateTime(new Date());
+        message.setCreateUserId(currentId);
+        message.setUpdateTime(new Date());
+        message.setUpdateUserId(currentId);
+        iMessageDao.insert(message);
+        return message;
+    }
+    /**
+     * @desc 批量插入用户留言关联表数据
+     * @author lushusheng 2018-12-17
+     * @param id 留言实体id
+     * @param currentId 当前用户id
+     * @param idList 留言参数输入实体
+     * @return 无返回
+     * @throws ApplicationException 保存异常
+     */
+    @Transactional(rollbackFor = Exception.class)
+    public void insertUserMessage(Long id, Long currentId, List<Long> idList)throws ApplicationException {
+        List<UserMessage> userMessageList = new ArrayList<>();
+        for(Long receiverId: idList) {
+            UserMessage userMessage = new UserMessage();
+            userMessage.setId(IdWorker.getId());
+            userMessage.setMessageId(id);
+            userMessage.setSenderId(currentId);
+            userMessage.setReceiverId(receiverId);
+            userMessage.setStatus(StatusCode.UNSOVLED.getCode());
+            userMessage.setCreateTime(new Date());
+            userMessage.setCreateUserId(currentId);
+            userMessage.setUpdateTime(new Date());
+            userMessage.setUpdateUserId(currentId);
+            userMessageList.add(userMessage);
+        }
+        userMessageServer.insertBatch(userMessageList);
     }
 }

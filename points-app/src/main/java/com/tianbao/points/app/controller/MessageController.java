@@ -2,12 +2,13 @@ package com.tianbao.points.app.controller;
 
 import com.github.pagehelper.PageInfo;
 import com.tianbao.points.app.dto.request.MessageInput;
-import com.tianbao.points.core.dto.AnnouncementDTO;
 import com.tianbao.points.core.dto.MessageDTO;
 import com.tianbao.points.core.dto.response.OutputListResult;
 import com.tianbao.points.core.dto.response.OutputResult;
+import com.tianbao.points.core.entity.Message;
 import com.tianbao.points.core.exception.ApplicationException;
 import com.tianbao.points.core.service.IMessageService;
+import com.tianbao.points.core.service.IUserMessageService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.text.ParseException;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @desc 留言服务入口
@@ -27,7 +29,7 @@ import java.util.Date;
  */
 
 @Api(value = "message", description = "留言")
-//@RestController
+@RestController
 @RequiredArgsConstructor
 @RequestMapping("/message")
 @Slf4j
@@ -86,25 +88,30 @@ public class MessageController {
     }
 
     /**
-     * @desc 保存一条公告数据
-     * @author lushusheng 2018-11-28
-     * @param announcementInput 首页公告实体属性：标题内容等
+     * @desc 发送（保存）一条留言数据
+     * @author lushusheng 2018-12-17
+     * @param messageInput 留言参数输入实体
      * @param currentId 当前用户id
      * @return 保存成功实体数据
      * @throws ApplicationException 保存异常
      */
-    @ApiOperation(value = "首页公告实体保存", notes = "根据announcementInput和当前用户currentId进行保存操作")
+    @ApiOperation(value = "发送（保存）一条留言数据", notes = "发送（保存）一条留言数据")
     @ApiImplicitParams({
-            @ApiImplicitParam(paramType = "body", dataType = "AnnouncementInput", name = "announcementInput", value = "首页公告实体", required = true),
-            @ApiImplicitParam(paramType = "header", dataType = "Long", name = "currentId", value = "当前用户id", required = true)
+        @ApiImplicitParam(paramType = "body", dataType = "MessageInput", name = "messageInput", value = "留言参数输入实体", required = true),
+        @ApiImplicitParam(paramType = "header", dataType = "Long", name = "currentId", value = "当前用户id", required = true)
     })
     @CrossOrigin
     @PostMapping("/save")
-    public OutputResult<MessageDTO> save(
-            @RequestBody @Valid MessageInput messageInput,
-            @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId) throws ApplicationException {
+    public OutputResult<Message> save(
+            @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
+            @RequestBody @Valid MessageInput messageInput) throws ApplicationException {
 
-        //MessageDTO messageDTO = messageServer.save(messageInput, currentId);
-        return new OutputResult<>(null);
+        List<Long> idList = messageInput.getIdList();
+        if(idList == null) {
+            throw new ApplicationException(ApplicationException.PARAM_ERROR, "接收者id集合参数错误");
+        }
+        Message message = messageServer.save(messageInput.getTitle(), messageInput.getContent(),
+                currentId, idList);
+        return new OutputResult<>(message);
     }
 }
