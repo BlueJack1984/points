@@ -78,7 +78,7 @@ public class AdministratorController {
         @ApiImplicitParam(paramType = "query", dataType = "Long", name = "id", value = "实体id", required = false)})
     @CrossOrigin
     @GetMapping("/get/{id}")
-    public OutputResult<UserDTO> getAdminListPage(
+    public OutputResult<UserDTO> get(
             @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
             @PathVariable("id") Long id)throws ApplicationException {
 

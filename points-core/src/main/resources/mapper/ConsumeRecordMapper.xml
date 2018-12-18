@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tianbao.points.core.dao.IConsumeRecordDao" >
+
+  <!-- 消费记录实体对象的持久化 -->
+  <sql id="c_consume_record">
+     _consume_record.id, _consume_record.user_id userId, _consume_record.district,
+     _consume_record.location_name locationName,
+     _consume_record.amount, _consume_record.status, _consume_record.consume_time consumeTime,
+     _rank.create_time createTime, _rank.create_user_id createUserId,
+     _rank.update_time updateTime, _rank.update_user_id updateUserId
+  </sql>
+  <sql id="t_consume_record">consume_record</sql>
+
+  <select id="selectByPrimaryKey" resultType="consumeRecord" parameterType="java.lang.Long" >
+    select <include refid="c_consume_record"/>
+    from <include refid="t_consume_record"/> _consume_record
+    where id = #{id,jdbcType=BIGINT} and _consume_record.status = 0
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from <include refid="t_consume_record"/>
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+
+  <insert id="insert" parameterType="consumeRecord" useGeneratedKeys="true" keyProperty="id">
+    insert into <include refid="t_consume_record"/>
+    (id, user_id, district, location_name, amount, consume_time, status, create_time, create_user_id, update_time, update_user_id)
+    values (#{id}, #{userId}, #{district}, #{locationName}, #{amount}, #{consumeTime},#{status},
+    #{createTime}, #{createUserId}, #{updateTime}, #{updateUserId})
+  </insert>
+
+  <insert id="insertSelective" parameterType="consumeRecord" >
+    insert into <include refid="t_consume_record"/>
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="district != null" >
+        district,
+      </if>
+      <if test="locationName != null" >
+        location_name,
+      </if>
+      <if test="amount != null" >
+        amount,
+      </if>
+      <if test="consumeTime != null" >
+        consume_time,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="createUserId != null" >
+        create_user_id,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="updateUserId != null" >
+        update_user_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id},
+      </if>
+      <if test="userId != null" >
+        #{user_id},
+      </if>
+      <if test="district != null" >
+        #{district},
+      </if>
+      <if test="locationName != null" >
+        #{location_name},
+      </if>
+      <if test="amount != null" >
+        #{amount},
+      </if>
+      <if test="consumeTime != null" >
+        #{consume_time},
+      </if>
+      <if test="status != null" >
+        #{status},
+      </if>
+      <if test="createTime != null" >
+        #{createTime},
+      </if>
+      <if test="createUserId != null" >
+        #{createUserId},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime},
+      </if>
+      <if test="updateUserId != null" >
+        #{updateUserId},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="consumeRecord" >
+    update <include refid="t_consume_record"/>
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId},
+      </if>
+      <if test="district != null" >
+        district = #{district},
+      </if>
+      <if test="locationName != null" >
+        location_name = #{locationName},
+      </if>
+      <if test="amount != null" >
+        amount = #{amount},
+      </if>
+      <if test="consumeTime != null" >
+        consume_time = #{consumeTime},
+      </if>
+      <if test="status != null" >
+        status = #{status},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime},
+      </if>
+      <if test="createUserId != null" >
+        create_user_id = #{createUserId},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime},
+      </if>
+      <if test="updateUserId != null" >
+        update_user_id = #{updateUserId},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="consumeRecord" >
+    update <include refid="t_consume_record"/>
+    set `user_id` = #{userId},
+      district = #{district},
+      location_name = #{locationName},
+      amount = #{amount},
+      consume_time = #{consumeTime},
+      status = #{status},
+      create_time = #{createTime},
+      create_user_id = #{createUserId},
+      update_time = #{updateTime},
+      update_user_id = #{updateUserId}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <!--查询所有会员等级列表，不分页-->
+</mapper>

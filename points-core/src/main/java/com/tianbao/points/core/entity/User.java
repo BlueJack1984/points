@@ -89,5 +89,9 @@ public class User extends ObjectPO<Long> {
      * 地址
      */
     private String address;
+    /**
+     * 发证时间
+     */
+    private Date certificationTime;
 
 }

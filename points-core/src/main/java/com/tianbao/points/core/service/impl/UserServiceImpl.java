@@ -512,6 +512,27 @@ public class UserServiceImpl implements IUserService {
     }
 
     /**
+     * @desc 新建保存一条会员用户信息
+     * @author lushusheng 2018-12-17
+     * @param currentId 当前用户id
+     * @param user 实体参数
+     * @return 返回数据
+     * @throws ApplicationException 保存异常
+     */
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public UserDTO save(User user, Long currentId) throws ApplicationException {
+        user.setId(IdWorker.getId());
+        user.setStatus(StatusCode.NORMAL.getCode());
+        user.setCreateTime(new Date());
+        user.setCreateUserId(currentId);
+        user.setUpdateTime(new Date());
+        user.setUpdateUserId(currentId);
+        iUserDao.insert(user);
+        return getPersonalInfo(user.getId());
+    }
+
+    /**
      * @desc 插入一条管理员信息
      * @author lushusheng 2018-12-06
      * @param currentId 当前用户id
@@ -538,7 +559,7 @@ public class UserServiceImpl implements IUserService {
 
     }
 
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void save(User record) throws ApplicationException {
 
@@ -555,7 +576,7 @@ public class UserServiceImpl implements IUserService {
         return user;
     }
 
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void updateByIdSelective(User record) throws ApplicationException {
 
@@ -568,7 +589,7 @@ public class UserServiceImpl implements IUserService {
      * @return 返回无，出错抛出异常
      * @update
      */
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void updateById(User record) throws ApplicationException {
         iUserDao.updateByPrimaryKey(record);

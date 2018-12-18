@@ -24,7 +24,7 @@ import java.util.List;
 /**
  * @desc 股票证券指数服务入口
  * @author lushusheng
- * @date 2018-11-27
+ * @date 2018-12-17
  */
 
 @Api(value = "stock", description = "股票证券指数")

@@ -165,4 +165,14 @@ public interface IUserService extends IBaseService<User, Long> {
      * @throws ApplicationException 保存异常
      */
     User getByAccount(String account) throws ApplicationException;
+
+    /**
+     * @desc 新建保存一条会员用户信息
+     * @author lushusheng 2018-12-17
+     * @param currentId 当前用户id
+     * @param user 实体参数
+     * @return 返回数据
+     * @throws ApplicationException 保存异常
+     */
+    UserDTO save(User user, Long currentId) throws ApplicationException;
 }
