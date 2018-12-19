@@ -3,6 +3,7 @@ package com.tianbao.points.app.controller.exception;
 import com.tianbao.points.core.exception.ApplicationException;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.SignatureException;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -33,21 +34,25 @@ public class JwtFilterExceptionController implements ErrorController {
             throw new ApplicationException(ApplicationException.INNER_ERROR, "");
         }
         Throwable cause = exception.getCause();
-        if (cause instanceof ExpiredJwtException) {
-            response.setStatus(HttpStatus.GATEWAY_TIMEOUT.value());
+        if(cause instanceof SignatureException) {
+            /**
+             * 在解析JWT字符串时，如果密钥不正确，将会解析失败
+             * 抛出SignatureException异常，说明该JWT字符串是伪造的
+             */
+            //response.setStatus(HttpStatus.BAD_REQUEST.value());
+            throw new ApplicationException(ApplicationException.JWT_SIGN, cause.getMessage());
+        }else if(cause instanceof ExpiredJwtException) {
+            /**
+             * 在解析JWT字符串时，如果‘过期时间字段’已经早于当前时间
+             * 将会抛出ExpiredJwtException异常，说明本次请求已经失效
+             */
+            //response.setStatus(HttpStatus.GATEWAY_TIMEOUT.value());
             throw new ApplicationException(ApplicationException.JWT_EXPIRE, cause.getMessage());
-        }
-        if (cause instanceof MalformedJwtException) {
-            response.setStatus(HttpStatus.FORBIDDEN.value());
+        }else if(cause instanceof MalformedJwtException) {
+            //response.setStatus(HttpStatus.FORBIDDEN.value());
             throw new ApplicationException(ApplicationException.JWT_FORMAT, cause.getMessage());
         }
         throw new ApplicationException(ApplicationException.JWT_FORMAT, cause.getMessage());
         //throw new ApplicationException(cause.getCause().getMessage(), cause.getMessage());
     }
-
-    //在解析JWT字符串时，如果密钥不正确，将会解析失败，抛出SignatureException异常，说明该JWT字符串是伪造的
-    //在解析JWT字符串时，如果‘过期时间字段’已经早于当前时间，将会抛出ExpiredJwtException异常，说明本次请求已经失效
-//        catch (SignatureException | ExpiredJwtException e) {
-//        return false;
-//    }
 }
