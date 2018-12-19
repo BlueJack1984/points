@@ -52,11 +52,13 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
     @Override
     protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) {
 
-        log.info("****____#######&************YGYUG*******这里经过了过滤器@@@@￥￥￥%%%……&&&*************************");
-        //判断用户是否是登录还是已经登录的正常访问，通过判断是否携带Authorization实现
-        //判断请求的请求头是否带上 "Token"
+        log.info("**********************这里经过了JwtFilter过滤器*************************");
+        /**
+         * 判断用户是否是登录还是已经登录的正常访问，通过判断是否携带Authorization实现
+         * 判断请求的请求头是否带上 "Token"
+         */
         if(isLoginAttempt(request, response)) {
-            //如果存在，则进入 executeLogin 方法执行登入，检查 token 是否正确
+            //存在，则进入 executeLogin 方法执行登入，检查 token 是否正确
             try {
                 executeLogin(request, response);
                 return true;
@@ -64,7 +66,7 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
                 return false;
             }
         }
-        //如果请求头不存在 Token，则可能是执行登陆操作或者是游客状态访问，无需检查 token，直接返回 true
+        //请求头不存在 Token，则可能是执行登陆操作或者是游客状态访问，无需检查 token，直接返回 true
         return true;
     }
 
@@ -75,8 +77,8 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
     protected boolean executeLogin(ServletRequest request, ServletResponse response) throws Exception {
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
         String token = httpServletRequest.getHeader("Authorization");
-        Long id = Long.parseLong(httpServletRequest.getHeader("_current_id"));
-        JwtToken jwtToken = new JwtToken(id, token);
+        Long currentId = Long.parseLong(httpServletRequest.getHeader("_current_id"));
+        JwtToken jwtToken = new JwtToken(currentId, token);
         // 提交给realm进行登入，如果错误他会抛出异常并被捕获
         getSubject(request, response).login(jwtToken);
         // 如果没有抛出异常则代表登入成功，返回true

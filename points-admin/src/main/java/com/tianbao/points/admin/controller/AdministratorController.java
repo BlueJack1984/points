@@ -17,6 +17,8 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.authz.annotation.Logical;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -55,6 +57,8 @@ public class AdministratorController {
         @ApiImplicitParam(paramType = "query", dataType = "Integer", name = "pageSize", value = "数据条数", required = false)})
     @CrossOrigin
     @GetMapping("/list/page")
+    //@RequiresPermissions(logical = Logical.OR, value = {"sys:role:save", "sys:role:update"})
+    @RequiresPermissions({"sys:role:save"})
     public OutputListResult<UserDTO> getAdminListPage(
             @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
             @RequestParam(value = "pageNo", required = false, defaultValue = "1")Integer pageNo,
