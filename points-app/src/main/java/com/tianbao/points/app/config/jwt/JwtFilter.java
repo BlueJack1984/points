@@ -1,8 +1,11 @@
 package com.tianbao.points.app.config.jwt;
 
 import com.tianbao.points.app.security.JwtToken;
+import com.tianbao.points.core.exception.ApplicationException;
 import com.tianbao.points.core.exception.shiro.UnauthorizedException;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.web.filter.authc.BasicHttpAuthenticationFilter;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -53,22 +56,34 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
     @Override
     protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue){
 
-        log.info("****____#######&************YGYUG*******这里经过了过滤器@@@@￥￥￥%%%……&&&*************************");
-        //判断用户是否是登录还是已经登录的正常访问，通过判断是否携带Authorization实现
-        //判断请求的请求头是否带上 "Token"
+        log.info("***********************这里经过了过滤器*************************");
+        /**
+         * 判断用户是否是登录还是已经登录的正常访问，通过判断是否携带Authorization实现
+         * 请求是否已经登录（携带token）
+         */
         if(isLoginAttempt(request, response)) {
             //如果存在，则进入 executeLogin 方法执行登入，检查 token 是否正确
             try {
                 executeLogin(request, response);
                 return true;
             } catch (Exception e) {
-                //return false;
-                throw new UnauthorizedException("认证不通过");
+                //response401
+                return false;
             }
         }
-        //如果请求头不存在 Token，则可能是执行登陆操作或者是游客状态访问，无需检查 token，直接返回 true
-        //return false;
-        throw new UnauthorizedException("认证不通过");
+
+        /**
+         * 將請求返回到 /401
+         */
+//        private void response401(ServletRequest request, ServletResponse response)throws Exception{
+//            HttpServletResponse httpServletResponse = (HttpServletResponse) response;
+//            httpServletResponse.sendRedirect("/401");
+//        }
+        /**
+         * 如果请求头不存在Token，则可能是执行登陆操作或者是游客状态访问
+         * 无需检查token，直接返回true
+         */
+        return false;
     }
     /**
      * 从请求头获取token并验证，验证通过后交给realm进行登录
@@ -80,15 +95,15 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
      */
     @Override
     protected boolean onAccessDenied(ServletRequest servletRequest, ServletResponse servletResponse) throws Exception {
-        log.info("on access denied");
-        HttpServletRequest request = (HttpServletRequest) servletRequest;
-        String jwt = request.getHeader("Authorization");
-        redirectToLogin(servletRequest,servletResponse);
-        return false;
+        log.info("***********************on access denied method*************************");
+        throw new ApplicationException(ApplicationException.PARAM_ERROR, "认证不通过");
     }
 
     /**
-     *
+     *处理JWT异常
+     * 这是个坑，因为是在filter内发生的异常，@ExceptionHandler是截获不到的。
+     * filter层的异常不受exceptionAdvice控制,这里返回401,把返回的json丢到response中
+     * Shiro中鑑權失敗時不能夠直接返回401信息，而是通過跳轉到 /401 地址實現。
      */
     @Override
     protected boolean executeLogin(ServletRequest request, ServletResponse response) throws Exception {
@@ -119,4 +134,23 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
         }
         return super.preHandle(request, response);
     }
+
+//    @Override
+//    protected boolean onLoginFailure(AuthenticationToken token, AuthenticationException ae, ServletRequest request,
+//                                     ServletResponse response) {
+//        HttpServletResponse servletResponse = (HttpServletResponse) response;
+//        JSONObject jsonObject = new JSONObject();
+//        jsonObject.put("code", HttpServletResponse.SC_UNAUTHORIZED);
+//        jsonObject.put("msg","登录失败，无权访问");
+//        jsonObject.put("timestamp", System.currentTimeMillis());
+//        try {
+//            servletResponse.setCharacterEncoding("UTF-8");
+//            servletResponse.setContentType("application/json;charset=UTF-8");
+//            servletResponse.setHeader("Access-Control-Allow-Origin","*");
+//            ObjectMapper objectMapper = new ObjectMapper();
+//            response.getWriter().write(objectMapper.writeValueAsString(jsonObject));
+//        } catch (IOException e) {
+//        }
+//        return false;
+//    }
 }
