@@ -21,11 +21,17 @@ public class JwtToken implements AuthenticationToken {
     /**
      * 令牌id
      */
-    private long id;
+    private Long id;
     /**
      * 令牌数据
      */
     private String token;
+    /**
+     * 令牌有效期，毫秒
+     */
+    public JwtToken(String token) {
+        this(null, token);
+    }
     /**
      * 令牌有效期，毫秒
      */

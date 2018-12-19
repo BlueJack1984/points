@@ -91,4 +91,14 @@ public class SecurityController {
     public void logout() {
 
     }
+//    @GetMapping(value = "/logout")
+//    public ResponseEntity<Void> logout() {
+//        Subject subject = SecurityUtils.getSubject();
+//        if(subject.getPrincipals() != null) {
+//            UserDto user = (UserDto)subject.getPrincipals().getPrimaryPrincipal();
+//            userService.deleteLoginInfo(user.getUsername());
+//        }
+//        SecurityUtils.getSubject().logout();
+//        return ResponseEntity.ok().build();
+//    }
 }

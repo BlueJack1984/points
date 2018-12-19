@@ -55,10 +55,15 @@ public class AdministratorController {
         @ApiImplicitParam(paramType = "header", dataType = "Long", name = "currentId", value = "当前用户id", required = true),
         @ApiImplicitParam(paramType = "query", dataType = "Integer", name = "pageNo", value = "当前页码", required = false),
         @ApiImplicitParam(paramType = "query", dataType = "Integer", name = "pageSize", value = "数据条数", required = false)})
+    /**
+     * @RequiresPermissions：需要哪些权限
+     * @RequiresRoles：需要哪些角色
+     * @RequiresUser：需要哪个用户
+     */
     @CrossOrigin
     @GetMapping("/list/page")
     //@RequiresPermissions(logical = Logical.OR, value = {"sys:role:save", "sys:role:update"})
-    @RequiresPermissions({"sys:role:save"})
+    @RequiresPermissions({"admin:role:save"})
     public OutputListResult<UserDTO> getAdminListPage(
             @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
             @RequestParam(value = "pageNo", required = false, defaultValue = "1")Integer pageNo,

@@ -137,7 +137,7 @@ public class CustomRealm extends AuthorizingRealm {
             return null;
         }
         if(user == null) {
-            return null;
+            throw new AuthenticationException("token过期，请重新登录");
         }
         if (!JwtUtil.verify(token, username, user.getPassword())) {
             throw new AuthenticationException("用户名或密码错误");

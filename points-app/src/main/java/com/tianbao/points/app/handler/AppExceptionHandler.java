@@ -1,8 +1,9 @@
-package com.tianbao.points.admin.handler;
+package com.tianbao.points.app.handler;
 
 
 import com.tianbao.points.core.dto.response.OutputError;
 import com.tianbao.points.core.exception.ApplicationException;
+import com.tianbao.points.core.exception.shiro.UnauthorizedException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
@@ -18,8 +19,18 @@ import java.lang.reflect.UndeclaredThrowableException;
  */
 @RestControllerAdvice
 @Slf4j
-public class GlobalExceptionHandler {
+public class AppExceptionHandler {
 
+    /**
+     * 拦截捕捉异常 UnauthorizedException.class
+     * @param ex
+     * @return
+     */
+    @ExceptionHandler(value = UnauthorizedException.class)
+    public OutputError unauthorizedExceptionHandler(UnauthorizedException ex) {
+        String message = "应用异常";
+        return new OutputError(2, message, ex.getMessage());
+    }
     /**
      * 拦截捕捉异常 UnknownAccountException.class
      * @param ex

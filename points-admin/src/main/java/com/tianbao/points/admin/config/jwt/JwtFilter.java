@@ -1,6 +1,7 @@
 package com.tianbao.points.admin.config.jwt;
 
 import com.tianbao.points.admin.security.JwtToken;
+import com.tianbao.points.core.utils.jwt.JwtUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.web.filter.authc.BasicHttpAuthenticationFilter;
 import org.springframework.http.HttpStatus;
@@ -102,4 +103,23 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
         }
         return super.preHandle(request, response);
     }
+
+
+    /**
+     * 从请求头获取token并验证，验证通过后交给realm进行登录
+     * 这个是在isAccessAllowed方法返回false执行
+     * @param servletRequest
+     * @param servletResponse
+     * @return 返回结果为true表明登录通过
+     * @throws Exception
+     */
+    @Override
+    protected boolean onAccessDenied(ServletRequest servletRequest, ServletResponse servletResponse) throws Exception {
+        log.info("on access denied");
+        HttpServletRequest request = (HttpServletRequest) servletRequest;
+        String jwt = request.getHeader("Authorization");
+        redirectToLogin(servletRequest,servletResponse);
+        return false;
+    }
+
 }

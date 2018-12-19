@@ -1,6 +1,7 @@
 package com.tianbao.points.app.config.jwt;
 
 import com.tianbao.points.app.security.JwtToken;
+import com.tianbao.points.core.exception.shiro.UnauthorizedException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.web.filter.authc.BasicHttpAuthenticationFilter;
 import org.springframework.http.HttpStatus;
@@ -50,7 +51,7 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
      * @return
      */
     @Override
-    protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) {
+    protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue){
 
         log.info("****____#######&************YGYUG*******这里经过了过滤器@@@@￥￥￥%%%……&&&*************************");
         //判断用户是否是登录还是已经登录的正常访问，通过判断是否携带Authorization实现
@@ -61,11 +62,29 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
                 executeLogin(request, response);
                 return true;
             } catch (Exception e) {
-                return false;
+                //return false;
+                throw new UnauthorizedException("认证不通过");
             }
         }
         //如果请求头不存在 Token，则可能是执行登陆操作或者是游客状态访问，无需检查 token，直接返回 true
-        return true;
+        //return false;
+        throw new UnauthorizedException("认证不通过");
+    }
+    /**
+     * 从请求头获取token并验证，验证通过后交给realm进行登录
+     * 这个是在isAccessAllowed方法返回false执行
+     * @param servletRequest
+     * @param servletResponse
+     * @return 返回结果为true表明登录通过
+     * @throws Exception
+     */
+    @Override
+    protected boolean onAccessDenied(ServletRequest servletRequest, ServletResponse servletResponse) throws Exception {
+        log.info("on access denied");
+        HttpServletRequest request = (HttpServletRequest) servletRequest;
+        String jwt = request.getHeader("Authorization");
+        redirectToLogin(servletRequest,servletResponse);
+        return false;
     }
 
     /**
