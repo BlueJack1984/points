@@ -14,6 +14,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 /**
  * 程序逻辑:
@@ -67,23 +68,27 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
                 executeLogin(request, response);
                 return true;
             } catch (Exception e) {
-                //response401
+                response401(request, response);
                 return false;
             }
         }
-
-        /**
-         * 將請求返回到 /401
-         */
-//        private void response401(ServletRequest request, ServletResponse response)throws Exception{
-//            HttpServletResponse httpServletResponse = (HttpServletResponse) response;
-//            httpServletResponse.sendRedirect("/401");
-//        }
         /**
          * 如果请求头不存在Token，则可能是执行登陆操作或者是游客状态访问
          * 无需检查token，直接返回true
          */
         return false;
+    }
+
+    /**
+     * 將請求返回到 /401
+     */
+    private void response401(ServletRequest request, ServletResponse response) {
+        HttpServletResponse httpServletResponse = (HttpServletResponse) response;
+        try {
+            httpServletResponse.sendRedirect("/401");
+        } catch (IOException e) {
+            log.info(e.getMessage());
+        }
     }
     /**
      * 从请求头获取token并验证，验证通过后交给realm进行登录
@@ -96,7 +101,7 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
     @Override
     protected boolean onAccessDenied(ServletRequest servletRequest, ServletResponse servletResponse) throws Exception {
         log.info("***********************on access denied method*************************");
-        throw new ApplicationException(ApplicationException.PARAM_ERROR, "认证不通过");
+        return true;
     }
 
     /**

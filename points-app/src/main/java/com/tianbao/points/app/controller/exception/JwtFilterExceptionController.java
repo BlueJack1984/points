@@ -29,6 +29,9 @@ public class JwtFilterExceptionController implements ErrorController {
 
         // 错误处理逻辑
         Exception exception = (Exception) request.getAttribute("javax.servlet.error.exception");
+        if(exception == null) {
+            throw new ApplicationException(ApplicationException.INNER_ERROR, "");
+        }
         Throwable cause = exception.getCause();
         if (cause instanceof ExpiredJwtException) {
             response.setStatus(HttpStatus.GATEWAY_TIMEOUT.value());
@@ -38,6 +41,7 @@ public class JwtFilterExceptionController implements ErrorController {
             response.setStatus(HttpStatus.FORBIDDEN.value());
             throw new ApplicationException(ApplicationException.JWT_FORMAT, cause.getMessage());
         }
+        throw new ApplicationException(ApplicationException.JWT_FORMAT, cause.getMessage());
         //throw new ApplicationException(cause.getCause().getMessage(), cause.getMessage());
     }
 
