@@ -31,8 +31,8 @@ public class JwtFilterExceptionController implements ErrorController {
     /**
      * @desc 获取会员自己的留言列表,分页展示
      * @author lushusheng 2018-12-17
-     * @param currentId 当前用户id
-     * @param pageNo 当前页码
+     * @param request 当前用户id
+     * @param response 当前页码
      * @return 返回实体数据列表
      * @throws ApplicationException 保存异常
      */
@@ -42,7 +42,7 @@ public class JwtFilterExceptionController implements ErrorController {
         // 错误处理逻辑
         Exception exception = (Exception) request.getAttribute("javax.servlet.error.exception");
         if(exception == null) {
-            throw new ApplicationException(ApplicationException.INNER_ERROR, "");
+            throw new ApplicationException(ApplicationException.SC_NO_AUTHORITY, "没有权限访问资源");
         }
         Throwable cause = exception.getCause();
         if(cause instanceof SignatureException) {
@@ -51,17 +51,17 @@ public class JwtFilterExceptionController implements ErrorController {
              * 抛出SignatureException异常，说明该JWT字符串是伪造的
              */
             //response.setStatus(HttpStatus.BAD_REQUEST.value());
-            throw new ApplicationException(ApplicationException.JWT_SIGN, cause.getMessage());
+            throw new ApplicationException(ApplicationException.JWT_SIGN, "签名错误，token秘钥不正确");
         }else if(cause instanceof ExpiredJwtException) {
             /**
              * 在解析JWT字符串时，如果‘过期时间字段’已经早于当前时间
              * 将会抛出ExpiredJwtException异常，说明本次请求已经失效
              */
             //response.setStatus(HttpStatus.GATEWAY_TIMEOUT.value());
-            throw new ApplicationException(ApplicationException.JWT_EXPIRE, cause.getMessage());
+            throw new ApplicationException(ApplicationException.JWT_EXPIRE, "token令牌有效时间已过期");
         }else if(cause instanceof MalformedJwtException) {
             //response.setStatus(HttpStatus.FORBIDDEN.value());
-            throw new ApplicationException(ApplicationException.JWT_FORMAT, cause.getMessage());
+            throw new ApplicationException(ApplicationException.JWT_FORMAT, "token令牌格式错误");
         }else {
             throw new ApplicationException(ApplicationException.JWT_BASE, cause.getMessage());
         }
