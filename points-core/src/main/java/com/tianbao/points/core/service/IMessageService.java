@@ -4,6 +4,7 @@ import com.github.pagehelper.PageInfo;
 import com.tianbao.points.core.dto.MessageDTO;
 import com.tianbao.points.core.dto.UserMessageDTO;
 import com.tianbao.points.core.entity.Message;
+import com.tianbao.points.core.entity.User;
 import com.tianbao.points.core.exception.ApplicationException;
 import com.tianbao.points.core.service.base.IBaseService;
 
@@ -50,5 +51,16 @@ public interface IMessageService extends IBaseService<Message, Long> {
      * @throws ApplicationException 保存异常
      */
     Message save(String title, String content, Long currentId, List<Long> idList)throws ApplicationException;
+
+    /**
+     * @desc 根据id查询一条留言数据
+     * @author lushusheng 2018-11-28
+     * @param id 要查询的留言id
+     * @param currentId 当前用户id
+     * @param receiverId 接收者id
+     * @return 返回查询的留言实体数据
+     * @throws ApplicationException 查询异常
+     */
+    UserMessageDTO selectById(Long id, Long currentId, Long receiverId) throws ApplicationException;
 
 }

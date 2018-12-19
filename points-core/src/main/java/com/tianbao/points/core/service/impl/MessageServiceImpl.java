@@ -14,6 +14,7 @@ import com.tianbao.points.core.exception.ApplicationException;
 import com.tianbao.points.core.service.IMessageService;
 import com.tianbao.points.core.service.IUserMessageService;
 import com.tianbao.points.core.service.IUserService;
+import com.tianbao.points.core.utils.BeanHelper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -120,6 +121,7 @@ public class MessageServiceImpl implements IMessageService {
         List<UserMessageDTO> userMessageDTOList = new ArrayList<>();
         for(UserMessage userMessage: userMessageList) {
             UserMessageDTO userMessageDTO = new UserMessageDTO();
+            BeanHelper.copyProperties(userMessageDTO, userMessage);
             userMessageDTO.setSender(sender);
             for(Message message: messageList) {
                 if(message.getId().equals(userMessage.getMessageId())) {
@@ -156,6 +158,22 @@ public class MessageServiceImpl implements IMessageService {
         insertUserMessage(message.getId(), currentId, idList);
         return message;
     }
+
+    /**
+     * @desc 根据id查询一条留言数据
+     * @author lushusheng 2018-11-28
+     * @param id 要查询的留言id
+     * @param currentId 当前用户id
+     * @param receiverId 接收者id
+     * @return 返回查询的留言实体数据
+     * @throws ApplicationException 查询异常
+     */
+    @Override
+    public UserMessageDTO selectById(Long id, Long currentId, Long receiverId) throws ApplicationException {
+        UserMessageDTO userMessageDTO = userMessageServer.getById(id, receiverId);
+        return userMessageDTO;
+    }
+
     /**
      * @desc 单独插入一条留言数据，完成事务
      * @author lushusheng 2018-12-17

@@ -69,26 +69,29 @@ public class MessageController {
     }
 
     /**
-     * @desc 根据id查询一条公告数据
+     * @desc 根据id查询一条留言数据
      * @author lushusheng 2018-11-28
-     * @param id 要查询的公告id
+     * @param id 要查询的留言id
      * @param currentId 当前用户id
-     * @return 返回查询的公告实体数据
+     * @param receiverId 接收者id
+     * @return 返回查询的留言实体数据
      * @throws ApplicationException 查询异常
      */
-    @ApiOperation(value = "查询首页公告数据", notes = "根据id查询一条公告数据")
+    @ApiOperation(value = "查询留言数据", notes = "根据id查询一条留言数据")
     @ApiImplicitParams({
-            @ApiImplicitParam(paramType = "query", dataType = "Long", name = "id", value = "首页公告实体id", required = true),
-            @ApiImplicitParam(paramType = "header", dataType = "Long", name = "currentId", value = "当前用户id", required = true)
+        @ApiImplicitParam(paramType = "query", dataType = "Long", name = "id", value = "留言实体id", required = true),
+        @ApiImplicitParam(paramType = "query", dataType = "Long", name = "receiverId", value = "接收者id", required = true),
+        @ApiImplicitParam(paramType = "header", dataType = "Long", name = "currentId", value = "当前用户id", required = true)
     })
     @CrossOrigin
     @GetMapping("/get/{id}")
-    public OutputResult<MessageDTO> get(
+    public OutputResult<UserMessageDTO> get(
             @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
-            @PathVariable Long id)throws ApplicationException {
+            @RequestParam(value = "receiverId") Long receiverId,
+            @PathVariable("id") Long id)throws ApplicationException {
 
-        //MessageDTO messageDTO = messageServer.selectById(id);
-        return new OutputResult<>(null);
+        UserMessageDTO userMessageDTO = messageServer.selectById(id, currentId, receiverId);
+        return new OutputResult<>(userMessageDTO);
     }
 
     /**

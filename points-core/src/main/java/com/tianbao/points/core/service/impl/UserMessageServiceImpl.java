@@ -168,8 +168,10 @@ public class UserMessageServiceImpl implements IUserMessageService {
         UserMessage userMessage = iUserMessageDao.selectById(id, currentId);
         UserMessageDTO userMessageDTO = new UserMessageDTO();
         BeanHelper.copyProperties(userMessageDTO, userMessage);
-        User user = userServer.selectById(userMessage.getSenderId());
-        userMessageDTO.setSender(user);
+        User sender = userServer.selectById(userMessage.getSenderId());
+        userMessageDTO.setSender(sender);
+        User receiver = userServer.selectById(userMessage.getReceiverId());
+        userMessageDTO.setReceiver(receiver);
         Message message = messageServer.selectById(userMessage.getMessageId());
         userMessageDTO.setMessage(message);
         return userMessageDTO;
@@ -198,6 +200,7 @@ public class UserMessageServiceImpl implements IUserMessageService {
         iUserMessageDao.updateByPrimaryKey(userMessage);
         Message message = messageServer.selectById(userMessage.getMessageId());
         message.setReply(reply);
+        message.setReplyTime(new Date());
         message.setUpdateTime(new Date());
         message.setUpdateUserId(currentId);
         messageServer.updateById(message);
