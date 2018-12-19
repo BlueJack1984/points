@@ -5,7 +5,7 @@
   <!-- 留言实体对象的持久化 -->
   <sql id="c_message">
       _message.id, _message.title, _message.content, _message.status,
-      _message.url, _message.reply, _message.url_type urlType,
+      _message.url, _message.reply, _message.url_type urlType, _message.reply_time replyTime,
       _message.create_time createTime, _message.create_user_id createUserId,
       _message.update_time updateTime, _message.update_user_id updateUserId
   </sql>
@@ -24,8 +24,8 @@
 
   <insert id="insert" parameterType="message" >
     insert into <include refid="t_message"/>
-    (id, title, content, url_type, url, reply, status, create_time, create_user_id, update_time, update_user_id)
-    values (#{id}, #{title}, #{content}, #{urlType}, #{url}, #{reply}, #{status},
+    (id, title, content, url_type, url, reply, reply_time, status, create_time, create_user_id, update_time, update_user_id)
+    values (#{id}, #{title}, #{content}, #{urlType}, #{url}, #{reply}, #{replyTime}, #{status},
     #{createTime}, #{createUserId}, #{updateTime}, #{updateUserId})
   </insert>
 
@@ -49,6 +49,9 @@
       </if>
       <if test="reply != null" >
         reply,
+      </if>
+      <if test="replyTime != null" >
+        reply_time,
       </if>
       <if test="status != null" >
         status,
@@ -84,6 +87,9 @@
       </if>
       <if test="reply != null" >
         #{reply},
+      </if>
+      <if test="replyTime != null" >
+        #{replyTime},
       </if>
       <if test="status != null" >
         #{status},
@@ -121,6 +127,9 @@
       <if test="reply != null" >
         reply = #{reply},
       </if>
+      <if test="replyTime != null" >
+        reply_time = #{replyTime},
+      </if>
       <if test="status != null" >
         status = #{status},
       </if>
@@ -146,6 +155,7 @@
       url_type = #{urlType},
       url = #{url},
       reply = #{reply},
+      reply_time = #{replyTime},
       status = #{status},
       create_time = #{createTime},
       create_user_id = #{createUserId},

@@ -6,12 +6,14 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.tianbao.points.core.constant.StatusCode;
 import com.tianbao.points.core.dao.IMessageDao;
-import com.tianbao.points.core.dto.MessageDTO;
+import com.tianbao.points.core.dto.UserMessageDTO;
 import com.tianbao.points.core.entity.Message;
+import com.tianbao.points.core.entity.User;
 import com.tianbao.points.core.entity.UserMessage;
 import com.tianbao.points.core.exception.ApplicationException;
 import com.tianbao.points.core.service.IMessageService;
 import com.tianbao.points.core.service.IUserMessageService;
+import com.tianbao.points.core.service.IUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -41,6 +43,7 @@ public class MessageServiceImpl implements IMessageService {
     @Autowired
     @Lazy
     private IUserMessageService userMessageServer;
+    private final IUserService userServer;
 
     @Override
     public void deleteById(Long id) throws ApplicationException {
@@ -90,15 +93,50 @@ public class MessageServiceImpl implements IMessageService {
      * @desc 获取会员自己的留言列表,分页展示
      * @author lushusheng 2018-12-17
      * @param currentId 当前用户id
+     * @param receiverId 接收者id，如果不传值，则搜索全部
      * @param pageNo 当前页码
      * @param pageSize 每页显示条数
      * @return 返回实体数据列表
      * @throws ApplicationException 保存异常
      */
     @Override
-    public PageInfo<MessageDTO> getListPage(Long currentId, Integer pageNo, Integer pageSize) throws ApplicationException {
-
-        return null;
+    public PageInfo<UserMessageDTO> getListPage(Long currentId, Long receiverId, Integer pageNo, Integer pageSize) throws ApplicationException {
+        PageHelper.startPage(pageNo, pageSize);
+        List<UserMessage> userMessageList = userMessageServer.getListPage(currentId, receiverId);
+        List<Long> messageIds = new ArrayList<>();
+        List<Long> receiverIds = new ArrayList<>();
+        for(UserMessage userMessage: userMessageList) {
+            messageIds.add(userMessage.getMessageId());
+            receiverIds.add(userMessage.getReceiverId());
+        }
+        //接收者id不为空，只查询一个id
+        if(receiverId != null) {
+            receiverIds = new ArrayList<>();
+            receiverIds.add(receiverId);
+        }
+        List<Message> messageList = iMessageDao.getListByIds(messageIds);
+        List<User> receiverList = userServer.getListByIds(receiverIds);
+        User sender = userServer.selectById(currentId);
+        List<UserMessageDTO> userMessageDTOList = new ArrayList<>();
+        for(UserMessage userMessage: userMessageList) {
+            UserMessageDTO userMessageDTO = new UserMessageDTO();
+            userMessageDTO.setSender(sender);
+            for(Message message: messageList) {
+                if(message.getId().equals(userMessage.getMessageId())) {
+                    userMessageDTO.setMessage(message);
+                    break;
+                }
+            }
+            for(User receiver: receiverList) {
+                if(receiver.getId().equals(userMessage.getReceiverId())) {
+                    userMessageDTO.setReceiver(receiver);
+                    break;
+                }
+            }
+            userMessageDTOList.add(userMessageDTO);
+        }
+        PageInfo<UserMessageDTO> pageInfo = new PageInfo<>(userMessageDTOList);
+        return pageInfo;
     }
     /**
      * @desc 发送（保存）一条留言数据

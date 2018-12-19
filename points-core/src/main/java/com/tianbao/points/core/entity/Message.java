@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.persistence.Table;
+import java.util.Date;
 
 /**
  * @desc 留言实体
@@ -36,4 +37,8 @@ public class Message extends ObjectPO<Long> {
      * 留言的回复
      */
     private String reply;
+    /**
+     * 回复时间
+     */
+    private Date replyTime;
 }

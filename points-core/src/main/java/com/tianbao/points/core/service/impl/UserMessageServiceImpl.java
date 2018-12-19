@@ -141,7 +141,7 @@ public class UserMessageServiceImpl implements IUserMessageService {
             BeanHelper.copyProperties(userMessageDTO, userMessage);
             for(User user: userList) {
                 if(user.getId().equals(userMessage.getSenderId())) {
-                    userMessageDTO.setUser(user);
+                    userMessageDTO.setSender(user);
                     break;
                 }
             }
@@ -169,7 +169,7 @@ public class UserMessageServiceImpl implements IUserMessageService {
         UserMessageDTO userMessageDTO = new UserMessageDTO();
         BeanHelper.copyProperties(userMessageDTO, userMessage);
         User user = userServer.selectById(userMessage.getSenderId());
-        userMessageDTO.setUser(user);
+        userMessageDTO.setSender(user);
         Message message = messageServer.selectById(userMessage.getMessageId());
         userMessageDTO.setMessage(message);
         return userMessageDTO;
@@ -216,5 +216,19 @@ public class UserMessageServiceImpl implements IUserMessageService {
     @Override
     public void insertBatch(List<UserMessage> userMessageList) throws ApplicationException {
         iUserMessageDao.insertBatch(userMessageList);
+    }
+
+    /**
+     * @desc 获取会员自己的留言列表
+     * @author lushusheng 2018-12-17
+     * @param currentId 当前用户id
+     * @param receiverId 接收者id，如果不传值，则搜索全部
+     * @return 返回实体数据列表
+     * @throws ApplicationException 保存异常
+     */
+    @Override
+    public List<UserMessage> getListPage(Long currentId, Long receiverId) throws ApplicationException {
+        List<UserMessage> userMessageList = iUserMessageDao.getListPage(currentId, receiverId);
+        return userMessageList;
     }
 }

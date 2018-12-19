@@ -19,10 +19,15 @@ import lombok.NoArgsConstructor;
 public class UserMessageDTO extends UserMessage {
 
     /**
-     * 包装用户实体
+     * 包装发送者实体
      *
      */
-    private User user;
+    private User sender;
+    /**
+     * 包装接收者实体
+     *
+     */
+    private User receiver;
     /**
      * 包装留言实体
      *

@@ -3,6 +3,7 @@ package com.tianbao.points.app.controller;
 import com.github.pagehelper.PageInfo;
 import com.tianbao.points.app.dto.request.MessageInput;
 import com.tianbao.points.core.dto.MessageDTO;
+import com.tianbao.points.core.dto.UserMessageDTO;
 import com.tianbao.points.core.dto.response.OutputListResult;
 import com.tianbao.points.core.dto.response.OutputResult;
 import com.tianbao.points.core.entity.Message;
@@ -45,22 +46,25 @@ public class MessageController {
      * @param currentId 当前用户id
      * @param pageNo 当前页码
      * @param pageSize 每页显示条数
+     * @param receiverId 接收者id，如果不传值，则搜索全部
      * @return 返回实体数据列表
      * @throws ApplicationException 保存异常
      */
     @ApiOperation(value = "获取会员自己的留言列表,分页展示", notes = "获取会员自己的留言列表,分页展示")
     @ApiImplicitParams({
         @ApiImplicitParam(paramType = "header", dataType = "Long", name = "currentId", value = "当前用户id", required = true),
+        @ApiImplicitParam(paramType = "query", dataType = "Long", name = "receiverId", value = "接收者id", required = false),
         @ApiImplicitParam(paramType = "query", dataType = "Integer", name = "pageNo", value = "显示页码", required = false),
         @ApiImplicitParam(paramType = "query", dataType = "Integer", name = "pageSize", value = "每页显示数据条数", required = false)})
     @CrossOrigin
     @GetMapping("/list/page")
-    public OutputListResult<MessageDTO> getListPage(
+    public OutputListResult<UserMessageDTO> getListPage(
             @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
+            @RequestParam(value = "receiverId", required = false) Long receiverId,
             @RequestParam(value = "pageNo", required = false, defaultValue = "1") Integer pageNo,
             @RequestParam(value = "pageSize", required = false, defaultValue = "20") Integer pageSize) throws Exception {
 
-        PageInfo<MessageDTO> pageInfo = messageServer.getListPage(currentId, pageNo, pageSize);
+        PageInfo<UserMessageDTO> pageInfo = messageServer.getListPage(currentId, receiverId, pageNo, pageSize);
         return new OutputListResult<>(pageInfo);
     }
 
