@@ -20,11 +20,22 @@ import javax.servlet.http.HttpServletResponse;
 @Controller
 public class JwtFilterExceptionController implements ErrorController {
 
+    /**
+     * @desc 获取会员自己的留言列表,分页展示
+     * @author lushusheng 2018-12-17
+     */
     @Override
     public String getErrorPath() {
         return "/error";
     }
-
+    /**
+     * @desc 获取会员自己的留言列表,分页展示
+     * @author lushusheng 2018-12-17
+     * @param currentId 当前用户id
+     * @param pageNo 当前页码
+     * @return 返回实体数据列表
+     * @throws ApplicationException 保存异常
+     */
     @RequestMapping(value = "/error")
     public void error(HttpServletRequest request, HttpServletResponse response) throws ApplicationException {
 
@@ -51,8 +62,8 @@ public class JwtFilterExceptionController implements ErrorController {
         }else if(cause instanceof MalformedJwtException) {
             //response.setStatus(HttpStatus.FORBIDDEN.value());
             throw new ApplicationException(ApplicationException.JWT_FORMAT, cause.getMessage());
+        }else {
+            throw new ApplicationException(ApplicationException.JWT_BASE, cause.getMessage());
         }
-        throw new ApplicationException(ApplicationException.JWT_FORMAT, cause.getMessage());
-        //throw new ApplicationException(cause.getCause().getMessage(), cause.getMessage());
     }
 }
