@@ -182,6 +182,26 @@ import java.util.Map;
 public class ShiroConfig {
 
     /**
+     *
+     */
+    @Bean(name = "lifecycleBeanPostProcessor")
+    public LifecycleBeanPostProcessor lifecycleBeanPostProcessor() {
+        return new LifecycleBeanPostProcessor();
+    }
+    /**
+     * 下面的代码是添加注解支持
+     */
+    @Bean
+    @DependsOn("lifecycleBeanPostProcessor")
+    public DefaultAdvisorAutoProxyCreator defaultAdvisorAutoProxyCreator() {
+        DefaultAdvisorAutoProxyCreator defaultAdvisorAutoProxyCreator = new DefaultAdvisorAutoProxyCreator();
+        // 强制使用cglib，防止重复代理和可能引起代理出错的问题
+        // https://zhuanlan.zhihu.com/p/29161098
+        defaultAdvisorAutoProxyCreator.setProxyTargetClass(true);
+        return defaultAdvisorAutoProxyCreator;
+    }
+
+    /**
      * @author lushusheng
      * @description 创建ShiroFilterFactoryBean
      * @date 2018-12-10
@@ -208,13 +228,13 @@ public class ShiroConfig {
         //LinkedHashMap是有序的，进行顺序拦截器配置
         Map<String, String> filterRuleMap = new LinkedHashMap<>();
         //添加shiro内置过滤器,可以实现权限相关的拦截器
-        filterRuleMap.put("/announcement/list/page", "authc");
-        //filterRuleMap.put("/security/login", "anon");
+        //filterRuleMap.put("/announcement/list/page", "authc");
+        filterRuleMap.put("/security/login", "anon");
         //filterRuleMap.put("/**", "anon");
         //filterMap.put("/*", "authc");
         //授权过滤器
         //注意，当授权未通过时，会跳转到默认的未授权页面
-        //filterMap.put("/add", "perms[user:add]");
+        filterRuleMap.put("/announcement/list/page", "perms[announcement:list]");
         //修改登录页面
         //shiroFilterFactoryBean.setLoginUrl();
         //设置未授权的提示错误页面
@@ -253,25 +273,6 @@ public class ShiroConfig {
         return new CustomRealm();
     }
 
-    /**
-     * 下面的代码是添加注解支持
-     */
-    @Bean
-    @DependsOn("lifecycleBeanPostProcessor")
-    public DefaultAdvisorAutoProxyCreator defaultAdvisorAutoProxyCreator() {
-        DefaultAdvisorAutoProxyCreator defaultAdvisorAutoProxyCreator = new DefaultAdvisorAutoProxyCreator();
-        // 强制使用cglib，防止重复代理和可能引起代理出错的问题
-        // https://zhuanlan.zhihu.com/p/29161098
-        defaultAdvisorAutoProxyCreator.setProxyTargetClass(true);
-        return defaultAdvisorAutoProxyCreator;
-    }
-    /**
-     *
-     */
-    @Bean
-    public LifecycleBeanPostProcessor lifecycleBeanPostProcessor() {
-        return new LifecycleBeanPostProcessor();
-    }
     /**
      *
      */

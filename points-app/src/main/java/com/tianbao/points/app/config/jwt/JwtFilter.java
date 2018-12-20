@@ -68,7 +68,6 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
                 executeLogin(request, response);
                 return true;
             } catch (Exception e) {
-                response401(request, response);
                 return false;
             }
         }
@@ -82,14 +81,14 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
     /**
      * 將請求返回到 /401
      */
-    private void response401(ServletRequest request, ServletResponse response) {
-        HttpServletResponse httpServletResponse = (HttpServletResponse) response;
-        try {
-            httpServletResponse.sendRedirect("/401");
-        } catch (IOException e) {
-            log.info(e.getMessage());
-        }
-    }
+//    private void response401(ServletRequest request, ServletResponse response) {
+//        HttpServletResponse httpServletResponse = (HttpServletResponse) response;
+//        try {
+//            httpServletResponse.sendRedirect("/401");
+//        } catch (IOException e) {
+//            log.info(e.getMessage());
+//        }
+//    }
     /**
      * 从请求头获取token并验证，验证通过后交给realm进行登录
      * 这个是在isAccessAllowed方法返回false执行
@@ -98,11 +97,11 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
      * @return 返回结果为true表明登录通过
      * @throws Exception
      */
-    @Override
-    protected boolean onAccessDenied(ServletRequest servletRequest, ServletResponse servletResponse) throws Exception {
-        log.info("***********************on access denied method*************************");
-        return true;
-    }
+//    @Override
+//    protected boolean onAccessDenied(ServletRequest servletRequest, ServletResponse servletResponse) throws Exception {
+//        log.info("***********************on access denied method*************************");
+//        return true;
+//    }
 
     /**
      *处理JWT异常

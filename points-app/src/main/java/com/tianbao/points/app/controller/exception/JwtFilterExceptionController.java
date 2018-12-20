@@ -42,7 +42,7 @@ public class JwtFilterExceptionController implements ErrorController {
         // 错误处理逻辑
         Exception exception = (Exception) request.getAttribute("javax.servlet.error.exception");
         if(exception == null) {
-            throw new ApplicationException(ApplicationException.SC_NO_AUTHORITY, "没有权限访问资源");
+            throw new ApplicationException(ApplicationException.SC_NO_AUTHORITY, "没有权限访问该资源");
         }
         Throwable cause = exception.getCause();
         if(cause instanceof SignatureException) {

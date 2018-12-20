@@ -142,7 +142,7 @@ public class CustomRealm extends AuthorizingRealm {
             return null;
         }
         if (!JwtUtil.verify(token, username, user.getPassword())) {
-            throw new AuthenticationException("用户名或密码错误");
+            throw new AuthenticationException("token令牌认证时用户名或密码错误");
         }
         //如果身份认证的时候没有传入User对象，这里只能取到userName
         //也就是SimpleAuthenticationInfo构造的时候第一个参数传递需要User对象

@@ -66,7 +66,8 @@ public class AuthorityServiceImpl implements IAuthorityService {
      */
     @Override
     public List<Authority> getListByUserId(Long userId) throws ApplicationException {
-        return null;
+        List<Authority> authorityList = iAuthorityDao.getListByUserId(userId);
+        return authorityList;
     }
 
     /**
