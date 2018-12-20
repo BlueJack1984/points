@@ -42,34 +42,34 @@ public class JwtResponseErrorController {
     public void getResponse402(HttpServletRequest request, HttpServletResponse response) throws ApplicationException {
 
         // 抛出错误异常，统一捕获处理
-        throw new ApplicationException(ApplicationException.JWT_BASE, "");
+        throw new ApplicationException(ApplicationException.PASSWORD_ERROR, "用户登录密码错误");
     }
     /**
-     * @desc 截取/401错误页面的请求
+     * @desc 截取/403错误页面的请求
      * @author lushusheng 2018-12-19
      * @param request 当前http请求
      * @param response 当前http响应
-     * @return 返回实体数据列表
+     * @return 返回无
      * @throws ApplicationException 保存异常
      */
     @RequestMapping(value = "/403")
     public void getResponse403(HttpServletRequest request, HttpServletResponse response) throws ApplicationException {
 
         // 抛出错误异常，统一捕获处理
-        throw new ApplicationException(ApplicationException.JWT_BASE, "");
+        throw new ApplicationException(ApplicationException.SC_NO_AUTHORITY, "token令牌认证异常");
     }
     /**
-     * @desc 截取/401错误页面的请求
+     * @desc 截取/404错误页面的请求
      * @author lushusheng 2018-12-19
      * @param request 当前http请求
      * @param response 当前http响应
-     * @return 返回实体数据列表
+     * @return 返回无
      * @throws ApplicationException 保存异常
      */
     @RequestMapping(value = "/404")
     public void getResponse404(HttpServletRequest request, HttpServletResponse response) throws ApplicationException {
 
         // 抛出错误异常，统一捕获处理
-        throw new ApplicationException(ApplicationException.JWT_BASE, "");
+        throw new ApplicationException(ApplicationException.INNER_ERROR, "非认证权限异常");
     }
 }
