@@ -6,6 +6,8 @@ import com.tianbao.points.core.exception.shiro.UnauthorizedException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationToken;
+import org.apache.shiro.authc.IncorrectCredentialsException;
+import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.web.filter.authc.BasicHttpAuthenticationFilter;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -67,9 +69,15 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
             try {
                 executeLogin(request, response);
                 return true;
-            } catch (Exception e) {
+            } catch (UnknownAccountException ex) {
+                responseException(request, response, "/401");
+            }catch (IncorrectCredentialsException ex) {
+                responseException(request, response, "/402");
+            }catch (AuthenticationException ex) {
+                responseException(request, response, "/403");
+            } catch (Exception ex) {
                 //return false;
-                response401(request, response);
+                responseException(request, response, "/404");
             }
         }
         /**
@@ -80,12 +88,12 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
     }
 
     /**
-     * 將請求返回到 /401
+     * 將請求返回到controller
      */
-    private void response401(ServletRequest request, ServletResponse response) {
+    private void responseException(ServletRequest request, ServletResponse response, String url) {
         HttpServletResponse httpServletResponse = (HttpServletResponse) response;
         try {
-            httpServletResponse.sendRedirect("/401");
+            httpServletResponse.sendRedirect(url);
         } catch (IOException e) {
             log.info(e.getMessage());
         }

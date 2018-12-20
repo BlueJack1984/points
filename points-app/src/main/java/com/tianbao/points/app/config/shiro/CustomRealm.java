@@ -99,7 +99,7 @@ public class CustomRealm extends AuthorizingRealm {
             log.info(e.getDetailMsg());
             return simpleAuthorizationInfo;
         }
-        //授权列表
+        //获取授权列表
         Set<String> permissionSet = new HashSet<>();
         for(Authority authority: authorityList) {
             if(authority == null) {
@@ -144,24 +144,6 @@ public class CustomRealm extends AuthorizingRealm {
         if (!JwtUtil.verify(token, username, user.getPassword())) {
             throw new AuthenticationException("token令牌认证时用户名或密码错误");
         }
-        // 用户不会空
-//        if (member != null) {
-//            // 判断是否禁用
-//            if (member.getStatus().equals(MemberStatus.disableStatus)) {
-//                throw new DisabledAccountException("901");
-//            }
-//
-//            // 密码验证
-//            if (!JWTUtil.verify(token, username, member.getLoginPassword())) {
-//                throw new UnknownAccountException("900");
-//            }
-//
-//            return new SimpleAuthenticationInfo(token, token, "realm");
-//        } else {
-//            throw new UnknownAccountException("900");
-//        }
-        //如果身份认证的时候没有传入User对象，这里只能取到userName
-        //也就是SimpleAuthenticationInfo构造的时候第一个参数传递需要User对象
         return new SimpleAuthenticationInfo(token, token, getName());
     }
 }

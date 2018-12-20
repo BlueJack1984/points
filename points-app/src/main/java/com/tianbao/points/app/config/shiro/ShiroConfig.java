@@ -237,7 +237,6 @@ public class ShiroConfig {
         //filterMap.put("/*", "authc");
         //授权过滤器
         //注意，当授权未通过时，会跳转到默认的未授权页面
-        filterRuleMap.put("/announcement/list/page", "perms[announcement:list]");
         //修改登录页面
         //shiroFilterFactoryBean.setLoginUrl();
         //设置未授权的提示错误页面

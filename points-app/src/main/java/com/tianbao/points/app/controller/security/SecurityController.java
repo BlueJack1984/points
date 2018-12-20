@@ -90,8 +90,8 @@ public class SecurityController {
 
     /**
      * @author lushusheng
-     * @description 用户退出登录
-     * @date 2018-12-11
+     * @description 查询用户是否认证登录
+     * @date 2018-12-19
      * @time 12:12
      */
     @GetMapping("/article")
@@ -110,18 +110,14 @@ public class SecurityController {
      * @date 2018-12-11
      * @time 12:12
      */
-    @PostMapping("/logout")
-    public void logout() {
-
-    }
-//    @GetMapping(value = "/logout")
-//    public ResponseEntity<Void> logout() {
-//        Subject subject = SecurityUtils.getSubject();
-//        if(subject.getPrincipals() != null) {
+    @GetMapping(value = "/logout")
+    public OutputResult<String> logout() {
+        Subject subject = SecurityUtils.getSubject();
+        if(subject.getPrincipals() != null) {
 //            UserDto user = (UserDto)subject.getPrincipals().getPrimaryPrincipal();
 //            userService.deleteLoginInfo(user.getUsername());
-//        }
-//        SecurityUtils.getSubject().logout();
-//        return ResponseEntity.ok().build();
-//    }
+        }
+        SecurityUtils.getSubject().logout();
+        return new OutputResult<>("用户成功退出");
+    }
 }
