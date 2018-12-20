@@ -230,6 +230,9 @@ public class ShiroConfig {
         //添加shiro内置过滤器,可以实现权限相关的拦截器
         //filterRuleMap.put("/announcement/list/page", "authc");
         filterRuleMap.put("/security/login", "anon");
+        filterRuleMap.put("/security/article", "anon");
+        filterRuleMap.put("/error", "anon");
+        filterRuleMap.put("/401", "anon");
         //filterRuleMap.put("/**", "anon");
         //filterMap.put("/*", "authc");
         //授权过滤器
@@ -238,7 +241,7 @@ public class ShiroConfig {
         //修改登录页面
         //shiroFilterFactoryBean.setLoginUrl();
         //设置未授权的提示错误页面
-        //shiroFilterFactoryBean.setUnauthorizedUrl();
+        //shiroFilterFactoryBean.setUnauthorizedUrl("/401");
         // 添加自己的过滤器并且取名为jwt
         Map<String, Filter> filterMap = new LinkedHashMap<>();
         filterMap.put("jwt", new JwtFilter());

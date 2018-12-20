@@ -11,11 +11,13 @@ import com.tianbao.points.core.utils.jwt.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.IncorrectCredentialsException;
+import org.apache.shiro.authc.UnknownAccountException;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -71,9 +73,35 @@ public class SecurityController {
             throw new ApplicationException(ApplicationException.PARAM_ERROR, "用户登录密码参数输入错误");
         }
         //返回得到的jwttoken给前端
+        Subject subject = SecurityUtils.getSubject();
         String token = JwtUtil.sign(account, user.getPassword());
         JwtToken jwtToken = new JwtToken(user.getId(), token);
+        try {
+            subject.login(jwtToken);
+        } catch (UnknownAccountException ex) {
+            throw new ApplicationException(ApplicationException.USER_NOT_EXISTS, "根据账号查询用户不存在");
+        } catch (IncorrectCredentialsException ex) {
+            throw new ApplicationException(ApplicationException.PASSWORD_ERROR, "登录密码校验错误");
+        } catch (AuthenticationException ae) {
+            throw new ApplicationException(ApplicationException.SC_NO_AUTHORITY, "用户认证失败，未知错误");
+        }
         return new OutputResult<>(jwtToken);
+    }
+
+    /**
+     * @author lushusheng
+     * @description 用户退出登录
+     * @date 2018-12-11
+     * @time 12:12
+     */
+    @GetMapping("/article")
+    public OutputResult<String> article() {
+        Subject subject = SecurityUtils.getSubject();
+        if (subject.isAuthenticated()) {
+            return new OutputResult<>("You are already logged in");
+        } else {
+            return new OutputResult("You are guest");
+        }
     }
 
     /**

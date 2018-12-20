@@ -5,6 +5,7 @@ import com.tianbao.points.core.dto.response.OutputError;
 import com.tianbao.points.core.exception.ApplicationException;
 import com.tianbao.points.core.exception.shiro.UnauthorizedException;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -38,7 +39,7 @@ public class AppExceptionHandler {
      */
     @ExceptionHandler(value = UnknownAccountException.class)
     public OutputError unknownAccountExceptionHandler(UnknownAccountException ex) {
-        String message = "应用异常";
+        String message = "shiro认证授权异常";
         return new OutputError(2, message, ex.getMessage());
     }
 
@@ -49,11 +50,20 @@ public class AppExceptionHandler {
      */
     @ExceptionHandler(value = IncorrectCredentialsException.class)
     public OutputError incorrectCredentialsExceptionHandler(IncorrectCredentialsException ex) {
-        String message = "应用异常";
+        String message = "shiro认证授权异常";
         return new OutputError(1, message, ex.getMessage());
     }
 
-
+    /**
+     * 拦截捕捉异常 AuthenticationException.class
+     * @param ex
+     * @return
+     */
+    @ExceptionHandler(value = AuthenticationException.class)
+    public OutputError authenticationExceptionHandler(AuthenticationException ex) {
+        String message = "shiro认证授权异常";
+        return new OutputError(1, message, ex.getMessage());
+    }
     /**
      * 拦截捕捉自定义异常 ApplicationException.class
      * @param ex

@@ -55,6 +55,7 @@ public class AnnouncementController {
     @CrossOrigin
     @GetMapping("/list/page")
     @RequiresPermissions({"announcement:list"})
+    @RequiresAuthentication
     public OutputListResult<AnnouncementDTO> getListPage(
             @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
             @RequestParam(value = "pageNo", required = false, defaultValue = "1") Integer pageNo,

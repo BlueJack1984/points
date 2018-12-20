@@ -68,27 +68,28 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
                 executeLogin(request, response);
                 return true;
             } catch (Exception e) {
-                return false;
+                //return false;
+                response401(request, response);
             }
         }
         /**
          * 如果请求头不存在Token，则可能是执行登陆操作或者是游客状态访问
          * 无需检查token，直接返回true
          */
-        return false;
+        return true;
     }
 
     /**
      * 將請求返回到 /401
      */
-//    private void response401(ServletRequest request, ServletResponse response) {
-//        HttpServletResponse httpServletResponse = (HttpServletResponse) response;
-//        try {
-//            httpServletResponse.sendRedirect("/401");
-//        } catch (IOException e) {
-//            log.info(e.getMessage());
-//        }
-//    }
+    private void response401(ServletRequest request, ServletResponse response) {
+        HttpServletResponse httpServletResponse = (HttpServletResponse) response;
+        try {
+            httpServletResponse.sendRedirect("/401");
+        } catch (IOException e) {
+            log.info(e.getMessage());
+        }
+    }
     /**
      * 从请求头获取token并验证，验证通过后交给realm进行登录
      * 这个是在isAccessAllowed方法返回false执行
