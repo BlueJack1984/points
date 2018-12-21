@@ -29,9 +29,16 @@ public class LoginInput {
     @Size(min=6, max=18, message="密码长度有误,长度：6-18位")
     private String password;
     /**
-     * 图形验证码
+     * 用户输入的图形验证码
      */
-    @NotBlank(message="请填写图形验证码")
-    @Size(min=4, max=4, message="图形验证码有误,长度：4位")
-    private String captcha;
+    @NotBlank(message="用户图形验证码不能为空")
+    @Size(min=4, max=4, message="填写的图形验证码有误,长度：4位")
+    private String userCaptcha;
+
+    /**
+     * 系统产生的图形验证码
+     */
+    @NotBlank(message="系统图形验证码不能为空")
+    @Size(min=4, max=4, message="系统图形验证码有误,长度：4位")
+    private String sysCaptcha;
 }

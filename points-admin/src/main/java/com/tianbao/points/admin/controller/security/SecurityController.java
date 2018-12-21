@@ -48,8 +48,11 @@ public class SecurityController {
     @PostMapping("/login")
     public OutputResult<JwtToken> login(@RequestBody @Valid LoginInput loginInput) throws ApplicationException {
         //判断验证码是否正确
-        if (!StringUtils.isEmpty(loginInput.getCaptcha())) {
-            log.info("-----------------------------------> 图形验证码正确");
+        String userCaptcha = loginInput.getUserCaptcha();
+        String sysCaptcha = loginInput.getSysCaptcha();
+        if (! userCaptcha.equals(sysCaptcha)) {
+            log.info("-----------------------------------> 图形验证码错误");
+            throw new ApplicationException(ApplicationException.PARAM_ERROR, "图形验证码校验错误");
         }
         /**
          * 使用shiro编写认证（登录）操作
