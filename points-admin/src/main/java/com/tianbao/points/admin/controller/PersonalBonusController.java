@@ -129,7 +129,7 @@ public class PersonalBonusController {
         @ApiImplicitParam(paramType = "query", dataType = "Integer", name = "pageNo", value = "显示页码"),
         @ApiImplicitParam(paramType = "query", dataType = "Integer", name = "pageSize", value = "每页显示数据条数")})
     @CrossOrigin
-    @GetMapping("/list/page/condition/{sysBonusId}")
+    @GetMapping("/list/page/{sysBonusId}/condition")
     public OutputListResult<PersonalBonusDTO> getByCondition(
             @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
             @RequestParam(value = "pageNo", required = false, defaultValue = "1") Integer pageNo,
