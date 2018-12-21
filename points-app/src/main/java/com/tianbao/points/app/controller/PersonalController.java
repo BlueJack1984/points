@@ -70,36 +70,4 @@ public class PersonalController {
                 passwordInput.getNewPassword(), passwordInput.getSureNewPassword());
         return new OutputResult<>();
     }
-
-    /**
-     * @author lushusheng
-     * @Date 2018-11-28
-     * @Desc 更新管理员的超级密码，只有一个，顶级管理员，所以要先判断身份
-     * @return 无返回，操作错误抛出异常
-     * @update
-     */
-    @ApiOperation(value = "更新顶级管理员的超级密码", notes = "更新顶级管理员的超级密码")
-    @ApiImplicitParams({@ApiImplicitParam(paramType = "header", dataType = "Long", name = "currentId", value = "当前用户id", required = true)})
-    @CrossOrigin
-    @PostMapping("/super/password")
-    public OutputResult<Void> updateSuperPassword(
-            @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
-            @RequestBody @Valid PasswordInput passwordInput)throws ApplicationException {
-        userServer.updateSuperPassword(currentId, passwordInput.getOldPassword(),
-                passwordInput.getNewPassword(), passwordInput.getSureNewPassword());
-        return new OutputResult<>();
-    }
-
-
-    /**
-     * @desc 保存一条用户管理员数据
-     * @author lushusheng 2018-11-29
-     * @return 是否保存成功
-     * @throws ApplicationException 保存异常
-     */
-    @CrossOrigin
-    @PostMapping("/save")
-    public OutputResult<Void> save() {
-        return new OutputResult<>();
-    }
 }
