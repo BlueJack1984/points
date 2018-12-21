@@ -24,7 +24,7 @@ import java.util.List;
 
 /**
  * @desc 用户留言关联服务入口
- * &&&&&&&&&&最重要的一点@@@@@@@@一个留言id只能对应一个发送者￥￥￥￥￥一定要记住
+ * 一个留言id只能对应一个发送者
  * @author lushusheng
  * @date 2018-11-27
  */
@@ -141,13 +141,12 @@ public class UserMessageController {
         @ApiImplicitParam(paramType = "query", dataType = "Long", name = "id", value = "实体id", required = true),
         @ApiImplicitParam(paramType = "body", dataType = "ReplyInput", name = "replyInput", value = "回复实体", required = true)})
     @CrossOrigin
-    @PostMapping("/update/{id}")
-    public OutputResult<UserMessageDTO> updateById(
+    @PostMapping("/reply")
+    public OutputResult<UserMessageDTO> reply(
             @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
-            @RequestBody @Valid ReplyInput replyInput,
-            @PathVariable("id") Long id)throws ApplicationException {
+            @RequestBody @Valid ReplyInput replyInput)throws ApplicationException {
 
-        UserMessageDTO userMessageDTO = userMessageServer.updateById(id, currentId,
+        UserMessageDTO userMessageDTO = userMessageServer.updateById(replyInput.getId(), currentId,
                 replyInput.getReply(), replyInput.getStatus());
         return new OutputResult<>(userMessageDTO);
     }

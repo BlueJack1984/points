@@ -20,6 +20,11 @@ import javax.validation.constraints.NotNull;
 public class ReplyInput {
 
     /**
+     * 留言实体id
+     */
+    @NotNull(message = "留言实体id不能为空")
+    private Long id;
+    /**
      * 回复内容
      */
     @NotBlank(message = "回复内容不能为空")
