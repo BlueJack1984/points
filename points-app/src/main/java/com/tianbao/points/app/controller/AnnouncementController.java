@@ -80,6 +80,8 @@ public class AnnouncementController {
     })
     @CrossOrigin
     @GetMapping("/get/{id}")
+    @RequiresPermissions({"announcement:query"})
+    @RequiresAuthentication
     public OutputResult<Announcement> get(
             @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
             @PathVariable Long id)throws ApplicationException {

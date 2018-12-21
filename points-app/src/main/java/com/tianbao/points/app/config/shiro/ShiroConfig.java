@@ -156,6 +156,8 @@ package com.tianbao.points.app.config.shiro;
 //}
 
 import com.tianbao.points.app.config.jwt.JwtFilter;
+import org.apache.shiro.mgt.DefaultSessionStorageEvaluator;
+import org.apache.shiro.mgt.DefaultSubjectDAO;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
@@ -231,11 +233,14 @@ public class ShiroConfig {
         //filterRuleMap.put("/announcement/list/page", "authc");
         filterRuleMap.put("/security/login", "anon");
         filterRuleMap.put("/security/article", "anon");
-        filterRuleMap.put("/error", "anon");
         filterRuleMap.put("/401", "anon");
+        filterRuleMap.put("/402", "anon");
+        filterRuleMap.put("/403", "anon");
+        filterRuleMap.put("/404", "anon");
         //filterRuleMap.put("/**", "anon");
         //filterMap.put("/*", "authc");
         //授权过滤器
+        //filterRuleMap.put("/announcement/list/page", "perms[announcement:list]");
         //注意，当授权未通过时，会跳转到默认的未授权页面
         //修改登录页面
         //shiroFilterFactoryBean.setLoginUrl();
@@ -262,6 +267,16 @@ public class ShiroConfig {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
         //设置realm
         securityManager.setRealm(customRealm);
+        /*
+         * 关闭shiro自带的session，详情见文档
+         * http://shiro.apache.org/session-management.html#SessionManagement-StatelessApplications%28Sessionless%29
+         */
+        DefaultSubjectDAO subjectDAO = new DefaultSubjectDAO();
+        DefaultSessionStorageEvaluator defaultSessionStorageEvaluator = new DefaultSessionStorageEvaluator();
+        defaultSessionStorageEvaluator.setSessionStorageEnabled(false);
+        subjectDAO.setSessionStorageEvaluator(defaultSessionStorageEvaluator);
+        securityManager.setSubjectDAO(subjectDAO);
+
         return securityManager;
     }
     /**

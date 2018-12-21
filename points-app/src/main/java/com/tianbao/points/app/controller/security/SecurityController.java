@@ -77,7 +77,7 @@ public class SecurityController {
         String token = JwtUtil.sign(account, user.getPassword());
         JwtToken jwtToken = new JwtToken(user.getId(), token);
         try {
-            subject.login(jwtToken);
+            //subject.login(jwtToken);
         } catch (UnknownAccountException ex) {
             throw new ApplicationException(ApplicationException.USER_NOT_EXISTS, "根据账号查询用户不存在");
         } catch (IncorrectCredentialsException ex) {
