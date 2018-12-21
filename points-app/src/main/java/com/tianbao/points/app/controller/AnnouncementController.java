@@ -54,7 +54,7 @@ public class AnnouncementController {
         @ApiImplicitParam(paramType = "query", dataType = "Integer", name = "pageSize", value = "每页显示数据条数", required = false)})
     @CrossOrigin
     @GetMapping("/list/page")
-    @RequiresPermissions({"announcement:list"})
+    @RequiresPermissions({"app:announcement:list"})
     @RequiresAuthentication
     public OutputListResult<AnnouncementDTO> getListPage(
             @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
@@ -80,7 +80,7 @@ public class AnnouncementController {
     })
     @CrossOrigin
     @GetMapping("/get/{id}")
-    @RequiresPermissions({"announcement:query"})
+    @RequiresPermissions({"app:announcement:query"})
     @RequiresAuthentication
     public OutputResult<Announcement> get(
             @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,

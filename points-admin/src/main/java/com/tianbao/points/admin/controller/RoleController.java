@@ -17,6 +17,8 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.authz.annotation.RequiresAuthentication;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -55,6 +57,8 @@ public class RoleController {
         @ApiImplicitParam(paramType = "query", dataType = "Integer", name = "pageSize", value = "数据条数", required = false)})
     @CrossOrigin
     @GetMapping("/list/page")
+    @RequiresPermissions({"admin:role:list"})
+    @RequiresAuthentication
     public OutputListResult<Role> getListPage(
             @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
             @RequestParam(value = "pageNo", required = false, defaultValue = "1") Integer pageNo,
@@ -77,6 +81,8 @@ public class RoleController {
         @ApiImplicitParam(paramType = "query", dataType = "Long", name = "id", value = "角色实体id", required = true)})
     @CrossOrigin
     @GetMapping("/get/{id}")
+    @RequiresPermissions({"admin:role:query"})
+    @RequiresAuthentication
     public OutputResult<Role> get(
             @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
             @PathVariable Long id)throws ApplicationException {
@@ -98,6 +104,8 @@ public class RoleController {
         @ApiImplicitParam(paramType = "body", dataType = "RoleUpdateInput", name = "roleUpdateInput", value = "需要更新的数据实体", required = true)})
     @CrossOrigin
     @PostMapping("/update")
+    @RequiresPermissions({"admin:role:update"})
+    @RequiresAuthentication
     public OutputResult<Role> update(
             @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
             @RequestBody @Valid RoleUpdateInput roleUpdateInput)throws ApplicationException {
@@ -128,6 +136,8 @@ public class RoleController {
         @ApiImplicitParam(paramType = "query", dataType = "Long", name = "id", value = "实体id", required = true)})
     @CrossOrigin
     @GetMapping("/delete/{id}")
+    @RequiresPermissions({"admin:role:delete"})
+    @RequiresAuthentication
     public OutputResult<Void> delete(
             @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
             @PathVariable Long id)throws ApplicationException {
@@ -149,7 +159,9 @@ public class RoleController {
         @ApiImplicitParam(paramType = "body", dataType = "RoleInput", name = "roleInput", value = "需要保存的数据实体", required = true)})
     @CrossOrigin
     @PostMapping("/save")
-    public OutputResult<Role> update(
+    @RequiresPermissions({"admin:role:save"})
+    @RequiresAuthentication
+    public OutputResult<Role> save(
             @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
             @RequestBody @Valid RoleInput roleInput)throws ApplicationException {
 

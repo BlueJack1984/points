@@ -14,6 +14,8 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.authz.annotation.RequiresAuthentication;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -52,6 +54,8 @@ public class StockController {
         @ApiImplicitParam(paramType = "query", dataType = "Integer", name = "pageSize", value = "数据条数", required = false)})
     @CrossOrigin
     @GetMapping("/list/page")
+    @RequiresPermissions({"app:stock:list"})
+    @RequiresAuthentication
     public OutputListResult<Stock> getListPage(
             @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
             @RequestParam(value = "pageNo", required = false, defaultValue = "1")Integer pageNo,
@@ -73,6 +77,8 @@ public class StockController {
         @ApiImplicitParam(paramType = "query", dataType = "Long", name = "id", value = "证券指数实体id", required = true)})
     @CrossOrigin
     @GetMapping("/get/{id}")
+    @RequiresPermissions({"app:stock:query"})
+    @RequiresAuthentication
     public OutputResult<Stock> get(
             @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
             @PathVariable("id") Long id)throws ApplicationException {
@@ -94,6 +100,8 @@ public class StockController {
         @ApiImplicitParam(paramType = "query", dataType = "Integer", name = "num", value = "列表数据条数", required = true)})
     @CrossOrigin
     @GetMapping("/list/{num}")
+    @RequiresPermissions({"app:stock:list:num"})
+    @RequiresAuthentication
     public OutputListResult<Stock> getListNum(
             @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
             @PathVariable("num") Integer num)throws ApplicationException {

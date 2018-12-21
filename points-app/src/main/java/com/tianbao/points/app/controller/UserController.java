@@ -12,6 +12,8 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.authz.annotation.RequiresAuthentication;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -51,6 +53,8 @@ public class UserController {
         @ApiImplicitParam(paramType = "body", dataType = "UserInput", name = "userInput", value = "实体参数", required = true)})
     @CrossOrigin
     @PostMapping("/save")
+    @RequiresPermissions({"app:user:save"})
+    @RequiresAuthentication
     public OutputResult<UserDTO> save(
             @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
             @RequestBody @Valid UserInput userInput)throws ApplicationException {

@@ -12,6 +12,8 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.authz.annotation.RequiresAuthentication;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -45,6 +47,8 @@ public class PersonalController {
     @ApiImplicitParams({@ApiImplicitParam(paramType = "header", dataType = "Long", name = "currentId", value = "当前用户id", required = true)})
     @CrossOrigin
     @GetMapping("/info")
+    @RequiresPermissions({"admin:personal:info"})
+    @RequiresAuthentication
     public OutputResult<UserDTO> getPersonalInfo(
             @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId)throws ApplicationException {
         UserDTO userDTO = userServer.getPersonalInfo(currentId);
@@ -64,6 +68,8 @@ public class PersonalController {
     @ApiImplicitParams({@ApiImplicitParam(paramType = "header", dataType = "Long", name = "currentId", value = "当前用户id", required = true)})
     @CrossOrigin
     @PostMapping("/password")
+    @RequiresPermissions({"admin:personal:password"})
+    @RequiresAuthentication
     public OutputResult<Void> updatePassword(
             @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
             @RequestBody @Valid PasswordInput passwordInput)throws ApplicationException {
@@ -83,24 +89,13 @@ public class PersonalController {
     @ApiImplicitParams({@ApiImplicitParam(paramType = "header", dataType = "Long", name = "currentId", value = "当前用户id", required = true)})
     @CrossOrigin
     @PostMapping("/super/password")
+    @RequiresPermissions({"admin:personal:super:password"})
+    @RequiresAuthentication
     public OutputResult<Void> updateSuperPassword(
             @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
             @RequestBody @Valid PasswordInput passwordInput)throws ApplicationException {
         userServer.updateSuperPassword(currentId, passwordInput.getOldPassword(),
                 passwordInput.getNewPassword(), passwordInput.getSureNewPassword());
-        return new OutputResult<>();
-    }
-
-
-    /**
-     * @desc 保存一条用户管理员数据
-     * @author lushusheng 2018-11-29
-     * @return 是否保存成功
-     * @throws ApplicationException 保存异常
-     */
-    @CrossOrigin
-    @PostMapping("/save")
-    public OutputResult<Void> save() {
         return new OutputResult<>();
     }
 }

@@ -12,6 +12,8 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.authz.annotation.RequiresAuthentication;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -45,6 +47,8 @@ public class ConsumeRecordController {
         @ApiImplicitParam(paramType = "query", dataType = "Integer", name = "pageSize", value = "每页显示数据条数", required = false)})
     @CrossOrigin
     @GetMapping("/list/page")
+    @RequiresPermissions({"app:consume:record:list"})
+    @RequiresAuthentication
     public OutputListResult<ConsumeRecord> getListPage(
             @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
             @RequestParam(value = "pageNo", required = false, defaultValue = "1") Integer pageNo,

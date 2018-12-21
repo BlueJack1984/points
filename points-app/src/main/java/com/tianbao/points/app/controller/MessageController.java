@@ -16,6 +16,8 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.authz.annotation.RequiresAuthentication;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -58,6 +60,8 @@ public class MessageController {
         @ApiImplicitParam(paramType = "query", dataType = "Integer", name = "pageSize", value = "每页显示数据条数", required = false)})
     @CrossOrigin
     @GetMapping("/list/page")
+    @RequiresPermissions({"app:message:list"})
+    @RequiresAuthentication
     public OutputListResult<UserMessageDTO> getListPage(
             @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
             @RequestParam(value = "receiverId", required = false) Long receiverId,
@@ -85,6 +89,8 @@ public class MessageController {
     })
     @CrossOrigin
     @GetMapping("/get/{id}")
+    @RequiresPermissions({"app:message:query"})
+    @RequiresAuthentication
     public OutputResult<UserMessageDTO> get(
             @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
             @RequestParam(value = "receiverId") Long receiverId,
@@ -109,6 +115,8 @@ public class MessageController {
     })
     @CrossOrigin
     @PostMapping("/save")
+    @RequiresPermissions({"app:message:save"})
+    @RequiresAuthentication
     public OutputResult<Message> save(
             @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
             @RequestBody @Valid MessageInput messageInput) throws ApplicationException {

@@ -1,10 +1,8 @@
 package com.tianbao.points.admin.controller;
 
 
-import com.tianbao.points.admin.dto.request.AnnouncementInput;
 import com.tianbao.points.admin.dto.request.AuthorityInput;
 import com.tianbao.points.core.dto.response.OutputResult;
-import com.tianbao.points.core.entity.Announcement;
 import com.tianbao.points.core.entity.Authority;
 import com.tianbao.points.core.exception.ApplicationException;
 import com.tianbao.points.core.service.IAuthorityService;
@@ -15,11 +13,11 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.authz.annotation.RequiresAuthentication;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.text.ParseException;
-import java.util.Date;
 
 /**
  * @desc 权限入口
@@ -54,6 +52,8 @@ public class AuthorityController {
     })
     @CrossOrigin
     @PostMapping("/save")
+    @RequiresPermissions({"admin:authority:save"})
+    @RequiresAuthentication
     public OutputResult<Authority> save(
             @RequestBody @Valid AuthorityInput authorityInput,
             @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId) throws ApplicationException {

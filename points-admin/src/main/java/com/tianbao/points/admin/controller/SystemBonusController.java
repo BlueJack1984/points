@@ -14,6 +14,8 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.time.DateUtils;
+import org.apache.shiro.authz.annotation.RequiresAuthentication;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
@@ -52,6 +54,8 @@ public class SystemBonusController {
     @ApiImplicitParams({@ApiImplicitParam(paramType = "header", dataType = "Long", name = "currentId", value = "当前用户id", required = true)})
     @CrossOrigin
     @GetMapping("/balance")
+    @RequiresPermissions({"admin:system:bonus:balance"})
+    @RequiresAuthentication
     public OutputResult<SystemBonusOutput> balance(
             @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId)throws ApplicationException {
 
@@ -75,6 +79,8 @@ public class SystemBonusController {
         @ApiImplicitParam(paramType = "query", dataType = "Double", name = "systemRatio", value = "系统权重比率", required = true)})
     @CrossOrigin
     @GetMapping("/checkout")
+    @RequiresPermissions({"admin:system:bonus:checkout"})
+    @RequiresAuthentication
     public OutputResult<Void> checkout(
             @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
             @RequestParam("systemRatio") Double systemRatio)throws ApplicationException {
@@ -104,6 +110,8 @@ public class SystemBonusController {
         @ApiImplicitParam(paramType = "query", dataType = "Integer", name = "pageSize", value = "每页显示数据条数")})
     @CrossOrigin
     @GetMapping("/list/page")
+    @RequiresPermissions({"admin:system:bonus:list"})
+    @RequiresAuthentication
     public OutputListResult<SystemBonus> getListPage(
             @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
             @RequestParam(value = "pageNo", required = false, defaultValue = "1") Integer pageNo,
@@ -128,6 +136,8 @@ public class SystemBonusController {
         @ApiImplicitParam(paramType = "query", dataType = "Long", name = "id", value = "系统积分增值id", required = true)})
     @CrossOrigin
     @GetMapping("/visible/{id}")
+    @RequiresPermissions({"admin:system:bonus:visible"})
+    @RequiresAuthentication
     public OutputResult<Void> setVisibility(
             @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
             @PathVariable("id") Long id)throws ApplicationException {
@@ -151,6 +161,8 @@ public class SystemBonusController {
         @ApiImplicitParam(paramType = "query", dataType = "Long", name = "id", value = "系统积分增值id", required = true)})
     @CrossOrigin
     @GetMapping("/delete/{id}")
+    @RequiresPermissions({"admin:system:bonus:delete"})
+    @RequiresAuthentication
     public OutputResult<Void> delete(
             @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
             @PathVariable("id") Long id)throws ApplicationException {
