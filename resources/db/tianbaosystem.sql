@@ -11,7 +11,7 @@
  Target Server Version : 50723
  File Encoding         : 65001
 
- Date: 18/12/2018 17:59:57
+ Date: 21/12/2018 14:34:04
 */
 
 SET NAMES utf8mb4;
@@ -70,32 +70,32 @@ CREATE TABLE `authority`  (
 -- ----------------------------
 -- Records of authority
 -- ----------------------------
-INSERT INTO `authority` VALUES (1, '暂无使用', '权限实体保存', '/authority/save', 'authority:save', 0, '权限实体保存', 0, '2018-12-17 07:00:43', 110, '2018-12-17 07:00:43', 110);
-INSERT INTO `authority` VALUES (2, '暂无使用', '获取管理员用户列表', '/admin/list/page', 'admin:list', 0, '获取管理员用户列表，分页展示', 0, '2018-12-18 01:45:26', 110, '2018-12-18 01:45:26', 110);
-INSERT INTO `authority` VALUES (3, '暂无使用', '根据id获取管理员用户信息', '/admin/get/\\d+{1,}', 'admin:query', 0, '根据id获取管理员用户信息', 0, '2018-12-18 02:20:00', 110, '2018-12-18 02:20:00', 110);
-INSERT INTO `authority` VALUES (4, '暂无使用', '根据id删除管理员用户', '/admin/delete/\\d+{1,}', 'admin:delete', 0, '根据id删除管理员用户', 0, '2018-12-18 02:23:04', 110, '2018-12-18 02:23:04', 110);
-INSERT INTO `authority` VALUES (5, '暂无使用', '根据id修改管理员用户信息', '/admin/update', 'admin:update', 0, '根据id修改管理员用户信息', 0, '2018-12-18 02:27:07', 110, '2018-12-18 02:27:07', 110);
-INSERT INTO `authority` VALUES (6, '暂无使用', '新建保存管理员用户', '/admin/save', 'admin:save', 0, '新建保存管理员用户', 0, '2018-12-18 02:28:16', 110, '2018-12-18 02:28:16', 110);
-INSERT INTO `authority` VALUES (7, '暂无使用', '获取首页公告列表', '/announcement/list/page', 'announcement:list', 0, '获取首页公告列表，分页展示', 0, '2018-12-18 02:33:37', 110, '2018-12-18 02:33:37', 110);
-INSERT INTO `authority` VALUES (8, '暂无使用', '保存一条首页公告信息', '/announcement/save', 'announcement:save', 0, '保存一条首页公告信息', 0, '2018-12-18 02:39:13', 110, '2018-12-18 02:39:13', 110);
-INSERT INTO `authority` VALUES (9, '暂无使用', '根据id查询一条首页公告信息', '/announcement/get/\\d+{1,}', 'announcement:query', 0, '根据id查询一条首页公告信息', 0, '2018-12-18 02:54:41', 110, '2018-12-18 02:54:41', 110);
-INSERT INTO `authority` VALUES (10, '暂无使用', '根据id集合批量删除首页公告信息', '/announcement/delete', 'announcement:delete', 0, '根据id集合批量删除首页公告信息', 0, '2018-12-18 03:01:40', 110, '2018-12-18 03:01:40', 110);
-INSERT INTO `authority` VALUES (11, '暂无使用', '根据系统积分id查询个人积分列表', '/personal/bonus/list/page/\\d+{1,}', 'personal:bonus:list', 0, '根据系统积分id查询个人积分列表', 0, '2018-12-18 03:08:13', 110, '2018-12-18 03:08:13', 110);
-INSERT INTO `authority` VALUES (12, '暂无使用', '根据id删除个人积分数据', '/personal/bonus/delete/\\d+{1,}', 'personal:bonus:delete', 0, '根据id删除个人积分数据', 0, '2018-12-18 03:10:17', 110, '2018-12-18 03:10:17', 110);
-INSERT INTO `authority` VALUES (13, '暂无使用', '根据id更改个人积分数据可见性', '/personal/bonus/visible/\\d+{1,}', 'personal:bonus:visible', 0, '根据id更改个人积分数据可见性', 0, '2018-12-18 03:13:53', 110, '2018-12-18 03:13:53', 110);
-INSERT INTO `authority` VALUES (14, '暂无使用', '根据系统积分id模糊条件查询个人积分数据', '/personal/bonus/list/page/condition/\\d+{1,}', 'personal:bonus:list:condition', 0, '根据系统积分id模糊条件查询个人积分数据，分页展示', 0, '2018-12-18 03:18:08', 110, '2018-12-18 03:18:08', 110);
-INSERT INTO `authority` VALUES (15, '暂无使用', '获取当前管理员用户的个人信息', '/admin/personal/info', 'admin:personal:info', 0, '获取当前管理员用户的个人信息', 0, '2018-12-18 03:21:38', 110, '2018-12-18 03:21:38', 110);
-INSERT INTO `authority` VALUES (16, '暂无使用', '修改当前管理员用户的登录密码', '/admin/personal/password', 'admin:personal:password', 0, '修改当前管理员用户的登录密码', 0, '2018-12-18 03:23:43', 110, '2018-12-18 03:23:43', 110);
-INSERT INTO `authority` VALUES (17, '暂无使用', '修改超级管理员用户的超级密码', '/admin/personal/super/password', 'admin:personal:super:password', 0, '修改超级管理员用户的超级密码', 0, '2018-12-18 03:25:28', 110, '2018-12-18 03:25:28', 110);
-INSERT INTO `authority` VALUES (18, '暂无使用', '获取会员等级列表', '/rank/list/page', 'rank:list', 0, '获取会员等级列表，分页展示', 0, '2018-12-18 03:31:01', 110, '2018-12-18 03:31:01', 110);
-INSERT INTO `authority` VALUES (19, '暂无使用', '根据id查询会员等级信息', '/rank/get/\\d+{1,}', 'rank:query', 0, '根据id查询会员等级信息', 0, '2018-12-18 03:32:37', 110, '2018-12-18 03:32:37', 110);
-INSERT INTO `authority` VALUES (20, '暂无使用', '根据id修改会员等级信息', '/rank/update', 'rank:update', 0, '根据id修改会员等级信息', 0, '2018-12-18 03:34:09', 110, '2018-12-18 03:34:09', 110);
-INSERT INTO `authority` VALUES (21, '暂无使用', '新建保存一条会员等级信息', '/rank/save', 'rank:save', 0, '新建保存一条会员等级信息', 0, '2018-12-18 03:35:00', 110, '2018-12-18 03:35:00', 110);
-INSERT INTO `authority` VALUES (22, '暂无使用', '获取角色列表', '/role/list/page', 'role:list', 0, '获取角色列表，分页展示', 0, '2018-12-18 03:43:27', 110, '2018-12-18 03:43:27', 110);
-INSERT INTO `authority` VALUES (23, '暂无使用', '根据id查询相关角色信息', '/role/get/\\d+{1,}', 'role:query', 0, '根据id查询相关角色信息', 0, '2018-12-18 03:51:46', 110, '2018-12-18 03:51:46', 110);
-INSERT INTO `authority` VALUES (24, '暂无使用', '根据id删除相关角色信息', '/role/delete/\\d+{1,}', 'role:delete', 0, '根据id删除相关角色信息', 0, '2018-12-18 03:54:24', 110, '2018-12-18 03:54:24', 110);
-INSERT INTO `authority` VALUES (25, '暂无使用', '根据id修改相关角色信息', '/role/update', 'role:update', 0, '根据id修改相关角色信息', 0, '2018-12-18 03:55:23', 110, '2018-12-18 03:55:23', 110);
-INSERT INTO `authority` VALUES (26, '暂无使用', '新建保存一条角色数据', '/role/save', 'role:save', 0, '新建保存一条角色数据', 0, '2018-12-18 03:56:06', 110, '2018-12-18 03:56:06', 110);
+INSERT INTO `authority` VALUES (1, 'admin', '权限实体保存', '/authority/save', 'authority:save', 0, '权限实体保存', 0, '2018-12-17 07:00:43', 110, '2018-12-17 07:00:43', 110);
+INSERT INTO `authority` VALUES (2, 'admin', '获取管理员用户列表', '/admin/list/page', 'admin:list', 0, '获取管理员用户列表，分页展示', 0, '2018-12-18 01:45:26', 110, '2018-12-18 01:45:26', 110);
+INSERT INTO `authority` VALUES (3, 'admin', '根据id获取管理员用户信息', '/admin/get/\\d+{1,}', 'admin:query', 0, '根据id获取管理员用户信息', 0, '2018-12-18 02:20:00', 110, '2018-12-18 02:20:00', 110);
+INSERT INTO `authority` VALUES (4, 'admin', '根据id删除管理员用户', '/admin/delete/\\d+{1,}', 'admin:delete', 0, '根据id删除管理员用户', 0, '2018-12-18 02:23:04', 110, '2018-12-18 02:23:04', 110);
+INSERT INTO `authority` VALUES (5, 'admin', '根据id修改管理员用户信息', '/admin/update', 'admin:update', 0, '根据id修改管理员用户信息', 0, '2018-12-18 02:27:07', 110, '2018-12-18 02:27:07', 110);
+INSERT INTO `authority` VALUES (6, 'admin', '新建保存管理员用户', '/admin/save', 'admin:save', 0, '新建保存管理员用户', 0, '2018-12-18 02:28:16', 110, '2018-12-18 02:28:16', 110);
+INSERT INTO `authority` VALUES (7, 'admin', '获取首页公告列表', '/announcement/list/page', 'announcement:list', 0, '获取首页公告列表，分页展示', 0, '2018-12-18 02:33:37', 110, '2018-12-18 02:33:37', 110);
+INSERT INTO `authority` VALUES (8, 'admin', '保存一条首页公告信息', '/announcement/save', 'announcement:save', 0, '保存一条首页公告信息', 0, '2018-12-18 02:39:13', 110, '2018-12-18 02:39:13', 110);
+INSERT INTO `authority` VALUES (9, 'admin', '根据id查询一条首页公告信息', '/announcement/get/\\d+{1,}', 'announcement:query', 0, '根据id查询一条首页公告信息', 0, '2018-12-18 02:54:41', 110, '2018-12-18 02:54:41', 110);
+INSERT INTO `authority` VALUES (10, 'admin', '根据id集合批量删除首页公告信息', '/announcement/delete', 'announcement:delete', 0, '根据id集合批量删除首页公告信息', 0, '2018-12-18 03:01:40', 110, '2018-12-18 03:01:40', 110);
+INSERT INTO `authority` VALUES (11, 'admin', '根据系统积分id查询个人积分列表', '/personal/bonus/list/page/\\d+{1,}', 'personal:bonus:list', 0, '根据系统积分id查询个人积分列表', 0, '2018-12-18 03:08:13', 110, '2018-12-18 03:08:13', 110);
+INSERT INTO `authority` VALUES (12, 'admin', '根据id删除个人积分数据', '/personal/bonus/delete/\\d+{1,}', 'personal:bonus:delete', 0, '根据id删除个人积分数据', 0, '2018-12-18 03:10:17', 110, '2018-12-18 03:10:17', 110);
+INSERT INTO `authority` VALUES (13, 'admin', '根据id更改个人积分数据可见性', '/personal/bonus/visible/\\d+{1,}', 'personal:bonus:visible', 0, '根据id更改个人积分数据可见性', 0, '2018-12-18 03:13:53', 110, '2018-12-18 03:13:53', 110);
+INSERT INTO `authority` VALUES (14, 'admin', '根据系统积分id模糊条件查询个人积分数据', '/personal/bonus/list/page/condition/\\d+{1,}', 'personal:bonus:list:condition', 0, '根据系统积分id模糊条件查询个人积分数据，分页展示', 0, '2018-12-18 03:18:08', 110, '2018-12-18 03:18:08', 110);
+INSERT INTO `authority` VALUES (15, 'admin', '获取当前管理员用户的个人信息', '/admin/personal/info', 'admin:personal:info', 0, '获取当前管理员用户的个人信息', 0, '2018-12-18 03:21:38', 110, '2018-12-18 03:21:38', 110);
+INSERT INTO `authority` VALUES (16, 'admin', '修改当前管理员用户的登录密码', '/admin/personal/password', 'admin:personal:password', 0, '修改当前管理员用户的登录密码', 0, '2018-12-18 03:23:43', 110, '2018-12-18 03:23:43', 110);
+INSERT INTO `authority` VALUES (17, 'admin', '修改超级管理员用户的超级密码', '/admin/personal/super/password', 'admin:personal:super:password', 0, '修改超级管理员用户的超级密码', 0, '2018-12-18 03:25:28', 110, '2018-12-18 03:25:28', 110);
+INSERT INTO `authority` VALUES (18, 'admin', '获取会员等级列表', '/rank/list/page', 'rank:list', 0, '获取会员等级列表，分页展示', 0, '2018-12-18 03:31:01', 110, '2018-12-18 03:31:01', 110);
+INSERT INTO `authority` VALUES (19, 'admin', '根据id查询会员等级信息', '/rank/get/\\d+{1,}', 'rank:query', 0, '根据id查询会员等级信息', 0, '2018-12-18 03:32:37', 110, '2018-12-18 03:32:37', 110);
+INSERT INTO `authority` VALUES (20, 'admin', '根据id修改会员等级信息', '/rank/update', 'rank:update', 0, '根据id修改会员等级信息', 0, '2018-12-18 03:34:09', 110, '2018-12-18 03:34:09', 110);
+INSERT INTO `authority` VALUES (21, 'admin', '新建保存一条会员等级信息', '/rank/save', 'rank:save', 0, '新建保存一条会员等级信息', 0, '2018-12-18 03:35:00', 110, '2018-12-18 03:35:00', 110);
+INSERT INTO `authority` VALUES (22, 'admin', '获取角色列表', '/role/list/page', 'role:list', 0, '获取角色列表，分页展示', 0, '2018-12-18 03:43:27', 110, '2018-12-18 03:43:27', 110);
+INSERT INTO `authority` VALUES (23, 'admin', '根据id查询相关角色信息', '/role/get/\\d+{1,}', 'role:query', 0, '根据id查询相关角色信息', 0, '2018-12-18 03:51:46', 110, '2018-12-18 03:51:46', 110);
+INSERT INTO `authority` VALUES (24, 'admin', '根据id删除相关角色信息', '/role/delete/\\d+{1,}', 'role:delete', 0, '根据id删除相关角色信息', 0, '2018-12-18 03:54:24', 110, '2018-12-18 03:54:24', 110);
+INSERT INTO `authority` VALUES (25, 'admin', '根据id修改相关角色信息', '/role/update', 'role:update', 0, '根据id修改相关角色信息', 0, '2018-12-18 03:55:23', 110, '2018-12-18 03:55:23', 110);
+INSERT INTO `authority` VALUES (26, 'admin', '新建保存一条角色数据', '/role/save', 'role:save', 0, '新建保存一条角色数据', 0, '2018-12-18 03:56:06', 110, '2018-12-18 03:56:06', 110);
 
 -- ----------------------------
 -- Table structure for consume_record
@@ -154,15 +154,16 @@ CREATE TABLE `message`  (
   `create_user_id` bigint(20) NOT NULL COMMENT '创建人id',
   `update_time` datetime(0) NULL DEFAULT NULL COMMENT '最后修改时间',
   `update_user_id` bigint(20) NULL DEFAULT NULL COMMENT '修改人id',
+  `reply_time` datetime(0) NULL DEFAULT NULL COMMENT '回复时间',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of message
 -- ----------------------------
-INSERT INTO `message` VALUES (12321, '今天天冷', '零下20度', 2, '', '已处理', 0, '2018-12-11 17:41:23', 110, '2018-12-12 02:50:07', 110);
-INSERT INTO `message` VALUES (34232, 'happy', '哈哈啊啪啪啪啪', 2, '', '完成', 0, '2018-12-11 17:42:19', 110, '2018-12-11 17:42:28', 110);
-INSERT INTO `message` VALUES (12341434423, '什么玩意', '测试用的东西', 2, NULL, NULL, 0, '2018-12-11 17:43:19', 110, '2018-12-11 17:43:26', 110);
+INSERT INTO `message` VALUES (12321, '今天天冷', '零下20度', 2, '', '已处理', 0, '2018-12-11 17:41:23', 110, '2018-12-12 02:50:07', 110, NULL);
+INSERT INTO `message` VALUES (34232, 'happy', '哈哈啊啪啪啪啪', 2, '', '完成', 0, '2018-12-11 17:42:19', 110, '2018-12-11 17:42:28', 110, NULL);
+INSERT INTO `message` VALUES (12341434423, '什么玩意', '测试用的东西', 2, NULL, NULL, 0, '2018-12-11 17:43:19', 110, '2018-12-11 17:43:26', 110, NULL);
 
 -- ----------------------------
 -- Table structure for personal_bonus
@@ -286,6 +287,12 @@ CREATE TABLE `role_authority`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
+-- Records of role_authority
+-- ----------------------------
+INSERT INTO `role_authority` VALUES (1, 1, 7, 0, '2018-12-20 11:25:18', 110, '2018-12-20 11:25:30', 110);
+INSERT INTO `role_authority` VALUES (2, 1, 18, 0, '2018-12-20 13:27:45', 110, '2018-12-20 13:27:50', 110);
+
+-- ----------------------------
 -- Table structure for stock
 -- ----------------------------
 DROP TABLE IF EXISTS `stock`;
@@ -405,8 +412,8 @@ CREATE TABLE `user_message`  (
 -- ----------------------------
 -- Records of user_message
 -- ----------------------------
-INSERT INTO `user_message` VALUES (1, 12321, 110, 110, 6, '2018-12-12 09:20:06', 110, '2018-12-12 02:49:48', 110);
-INSERT INTO `user_message` VALUES (2, 12341434423, 110, 110, 6, '2018-12-12 09:35:08', 110, '2018-12-12 02:24:42', 110);
+INSERT INTO `user_message` VALUES (1, 12321, 110, 110, 5, '2018-12-12 09:20:06', 110, '2018-12-12 02:49:48', 110);
+INSERT INTO `user_message` VALUES (2, 12341434423, 110, 12, 6, '2018-12-12 09:35:08', 110, '2018-12-12 02:24:42', 110);
 
 -- ----------------------------
 -- Table structure for user_position
