@@ -64,8 +64,8 @@ public class AdministratorController {
     @CrossOrigin
     @GetMapping("/list/page")
     //@RequiresPermissions(logical = Logical.OR, value = {"sys:role:save", "sys:role:update"})
-    @RequiresPermissions({"admin:list"})
-    @RequiresAuthentication
+    //@RequiresPermissions({"admin:list"})
+    //@RequiresAuthentication
     public OutputListResult<UserDTO> getAdminListPage(
             @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
             @RequestParam(value = "pageNo", required = false, defaultValue = "1")Integer pageNo,
@@ -89,8 +89,8 @@ public class AdministratorController {
         @ApiImplicitParam(paramType = "query", dataType = "Long", name = "id", value = "实体id", required = false)})
     @CrossOrigin
     @GetMapping("/get/{id}")
-    @RequiresPermissions({"admin:query"})
-    @RequiresAuthentication
+    //@RequiresPermissions({"admin:query"})
+    //@RequiresAuthentication
     public OutputResult<UserDTO> get(
             @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
             @PathVariable("id") Long id)throws ApplicationException {
@@ -113,8 +113,8 @@ public class AdministratorController {
         @ApiImplicitParam(paramType = "query", dataType = "Long", name = "id", value = "实体id", required = false)})
     @CrossOrigin
     @GetMapping("/delete/{id}")
-    @RequiresPermissions({"admin:delete"})
-    @RequiresAuthentication
+    //@RequiresPermissions({"admin:delete"})
+    //@RequiresAuthentication
     public OutputResult<Void> delete(
             @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
             @PathVariable("id") Long id)throws ApplicationException {
@@ -137,8 +137,8 @@ public class AdministratorController {
         @ApiImplicitParam(paramType = "body", dataType = "AdminInput", name = "adminInput", value = "实体参数", required = true)})
     @CrossOrigin
     @PostMapping("/save")
-    @RequiresPermissions({"admin:save"})
-    @RequiresAuthentication
+    //@RequiresPermissions({"admin:save"})
+    //@RequiresAuthentication
     public OutputResult<UserDTO> save(
             @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
             @RequestBody @Valid AdminInput adminInput)throws ApplicationException {
@@ -170,8 +170,8 @@ public class AdministratorController {
             @ApiImplicitParam(paramType = "body", dataType = "AdminUpdateInput", name = "adminUpdateInput", value = "实体参数", required = true)})
     @CrossOrigin
     @PostMapping("/update")
-    @RequiresPermissions({"admin:update"})
-    @RequiresAuthentication
+    //@RequiresPermissions({"admin:update"})
+    //@RequiresAuthentication
     public OutputResult<UserDTO> update(
             @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
             @RequestBody @Valid AdminUpdateInput adminUpdateInput)throws ApplicationException {

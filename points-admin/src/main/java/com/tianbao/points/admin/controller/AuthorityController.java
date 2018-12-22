@@ -52,8 +52,8 @@ public class AuthorityController {
     })
     @CrossOrigin
     @PostMapping("/save")
-    @RequiresPermissions({"admin:authority:save"})
-    @RequiresAuthentication
+    //@RequiresPermissions({"admin:authority:save"})
+    //@RequiresAuthentication
     public OutputResult<Authority> save(
             @RequestBody @Valid AuthorityInput authorityInput,
             @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId) throws ApplicationException {

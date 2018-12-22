@@ -56,8 +56,8 @@ public class PersonalBonusController {
             @ApiImplicitParam(paramType = "query", dataType = "Integer", name = "pageSize", value = "每页显示数据条数")})
     @CrossOrigin
     @GetMapping("/list/page/{sysBonusId}")
-    @RequiresPermissions({"admin:personal:bonus:list"})
-    @RequiresAuthentication
+    //@RequiresPermissions({"admin:personal:bonus:list"})
+    //@RequiresAuthentication
     public OutputListResult<PersonalBonusDTO> getListBySysBonusIdPage(
             @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
             @RequestParam(value = "pageNo", required = false, defaultValue = "1") Integer pageNo,
@@ -83,8 +83,8 @@ public class PersonalBonusController {
         @ApiImplicitParam(paramType = "query", dataType = "Long", name = "id", value = "个人积分增值id", required = true)})
     @CrossOrigin
     @GetMapping("/delete/{id}")
-    @RequiresPermissions({"admin:personal:bonus:delete"})
-    @RequiresAuthentication
+    //@RequiresPermissions({"admin:personal:bonus:delete"})
+    //@RequiresAuthentication
     public OutputResult<Void> delete(
             @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
             @PathVariable("id") Long id)throws ApplicationException {
@@ -107,8 +107,8 @@ public class PersonalBonusController {
         @ApiImplicitParam(paramType = "query", dataType = "Long", name = "id", value = "个人积分增值id", required = true)})
     @CrossOrigin
     @GetMapping("/visible/{id}")
-    @RequiresPermissions({"admin:personal:bonus:visible"})
-    @RequiresAuthentication
+    //@RequiresPermissions({"admin:personal:bonus:visible"})
+    //@RequiresAuthentication
     public OutputResult<Void> setVisibility(
             @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
             @PathVariable("id") Long id)throws ApplicationException {
@@ -138,8 +138,8 @@ public class PersonalBonusController {
         @ApiImplicitParam(paramType = "query", dataType = "Integer", name = "pageSize", value = "每页显示数据条数")})
     @CrossOrigin
     @GetMapping("/list/page/{sysBonusId}/condition")
-    @RequiresPermissions({"admin:personal:bonus:list:condition"})
-    @RequiresAuthentication
+    //@RequiresPermissions({"admin:personal:bonus:list:condition"})
+    //@RequiresAuthentication
     public OutputListResult<PersonalBonusDTO> getByCondition(
             @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
             @RequestParam(value = "pageNo", required = false, defaultValue = "1") Integer pageNo,

@@ -59,8 +59,8 @@ public class AnnouncementController {
         @ApiImplicitParam(paramType = "query", dataType = "Integer", name = "pageSize", value = "每页显示数据条数", required = false)})
     @CrossOrigin
     @GetMapping("/list/page")
-    @RequiresPermissions({"admin:announcement:list"})
-    @RequiresAuthentication
+    //@RequiresPermissions({"admin:announcement:list"})
+    //@RequiresAuthentication
     public OutputListResult<AnnouncementDTO> getListPage(
             @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
             @RequestParam(value = "pageNo", required = false, defaultValue = "1") Integer pageNo,
@@ -85,8 +85,8 @@ public class AnnouncementController {
     })
     @CrossOrigin
     @PostMapping("/save")
-    @RequiresPermissions({"admin:announcement:save"})
-    @RequiresAuthentication
+    //@RequiresPermissions({"admin:announcement:save"})
+    //@RequiresAuthentication
     public OutputResult<Announcement> save(
             @RequestBody @Valid AnnouncementInput announcementInput,
             @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId) throws ApplicationException {
@@ -118,8 +118,8 @@ public class AnnouncementController {
     })
     @CrossOrigin
     @GetMapping("/get/{id}")
-    @RequiresPermissions({"admin:announcement:query"})
-    @RequiresAuthentication
+    //@RequiresPermissions({"admin:announcement:query"})
+    //@RequiresAuthentication
     public OutputResult<Announcement> get(
             @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
             @PathVariable Long id)throws ApplicationException {
@@ -143,8 +143,8 @@ public class AnnouncementController {
     })
     @CrossOrigin
     @PostMapping("/delete")
-    @RequiresPermissions({"admin:announcement:delete"})
-    @RequiresAuthentication
+    //@RequiresPermissions({"admin:announcement:delete"})
+    //@RequiresAuthentication
     public OutputResult<Void> delete(
             @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
             @RequestBody EntityIdsInput idsInput)throws ApplicationException {
