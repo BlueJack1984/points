@@ -204,9 +204,9 @@ public class ShiroConfig {
         //LinkedHashMap是有序的，进行顺序拦截器配置
         Map<String, String> filterRuleMap = new LinkedHashMap<>();
         //添加shiro内置过滤器,可以实现权限相关的拦截器
-        filterRuleMap.put("/announcement/list/page", "authc");
+        //filterRuleMap.put("/announcement/list/page", "authc");
         //filterRuleMap.put("/security/login", "anon");
-        //filterRuleMap.put("/**", "anon");
+        filterRuleMap.put("/**", "anon");
         //filterMap.put("/*", "authc");
         //授权过滤器
         //注意，当授权未通过时，会跳转到默认的未授权页面
@@ -220,7 +220,7 @@ public class ShiroConfig {
         filterMap.put("jwt", new JwtFilter());
         shiroFilterFactoryBean.setFilters(filterMap);
         // 所有请求通过我们自己的JWT Filter
-        filterRuleMap.put("/**", "jwt");
+        //filterRuleMap.put("/**", "jwt");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterRuleMap);
         return shiroFilterFactoryBean;
     }
