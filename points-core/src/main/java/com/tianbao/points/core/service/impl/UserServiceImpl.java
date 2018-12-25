@@ -2,6 +2,7 @@ package com.tianbao.points.core.service.impl;
 
 
 import com.baomidou.mybatisplus.toolkit.IdWorker;
+import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.tianbao.points.core.constant.StatusCode;
@@ -237,7 +238,7 @@ public class UserServiceImpl implements IUserService {
      */
     @Override
     public PageInfo<UserDTO> getListPage(Integer pageNo, Integer pageSize) throws ApplicationException {
-        PageHelper.startPage(pageNo, pageSize);
+        Page page = PageHelper.startPage(pageNo, pageSize);
         List<User> userList = iUserDao.selectListPage();
         if(userList == null || userList.size() <= 0) {
             throw new ApplicationException(ApplicationException.USER_NOT_EXISTS, "已审核用户列表为空");
@@ -245,6 +246,7 @@ public class UserServiceImpl implements IUserService {
         List<Rank> rankList = rankServer.getList();
         List<UserDTO> userDTOList = copyRankProperties(userList, rankList);
         PageInfo<UserDTO> pageInfo = new PageInfo<>(userDTOList);
+        pageInfo.setTotal(page.getTotal());
         return pageInfo;
     }
 
