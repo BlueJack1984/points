@@ -47,8 +47,8 @@ public class PersonalController {
     @ApiImplicitParams({@ApiImplicitParam(paramType = "header", dataType = "Long", name = "currentId", value = "当前用户id", required = true)})
     @CrossOrigin
     @GetMapping("/info")
-    @RequiresPermissions({"admin:personal:info"})
-    @RequiresAuthentication
+    //@RequiresPermissions({"admin:personal:info"})
+    //@RequiresAuthentication
     public OutputResult<UserDTO> getPersonalInfo(
             @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId)throws ApplicationException {
         UserDTO userDTO = userServer.getPersonalInfo(currentId);
@@ -68,8 +68,8 @@ public class PersonalController {
     @ApiImplicitParams({@ApiImplicitParam(paramType = "header", dataType = "Long", name = "currentId", value = "当前用户id", required = true)})
     @CrossOrigin
     @PostMapping("/password")
-    @RequiresPermissions({"admin:personal:password"})
-    @RequiresAuthentication
+    //@RequiresPermissions({"admin:personal:password"})
+    //@RequiresAuthentication
     public OutputResult<Void> updatePassword(
             @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
             @RequestBody @Valid PasswordInput passwordInput)throws ApplicationException {
@@ -89,8 +89,8 @@ public class PersonalController {
     @ApiImplicitParams({@ApiImplicitParam(paramType = "header", dataType = "Long", name = "currentId", value = "当前用户id", required = true)})
     @CrossOrigin
     @PostMapping("/super/password")
-    @RequiresPermissions({"admin:personal:super:password"})
-    @RequiresAuthentication
+    //@RequiresPermissions({"admin:personal:super:password"})
+    //@RequiresAuthentication
     public OutputResult<Void> updateSuperPassword(
             @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
             @RequestBody @Valid PasswordInput passwordInput)throws ApplicationException {

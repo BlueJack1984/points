@@ -55,8 +55,8 @@ public class RankController {
         @ApiImplicitParam(paramType = "query", dataType = "Integer", name = "pageSize", value = "数据条数", required = false)})
     @CrossOrigin
     @GetMapping("/list/page")
-    @RequiresPermissions({"admin:rank:list"})
-    @RequiresAuthentication
+    //@RequiresPermissions({"admin:rank:list"})
+    //@RequiresAuthentication
     public OutputListResult<Rank> getListPage(
             @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
             @RequestParam(value = "pageNo", required = false, defaultValue = "1") Integer pageNo,
@@ -79,8 +79,8 @@ public class RankController {
         @ApiImplicitParam(paramType = "query", dataType = "Long", name = "id", value = "实体id", required = true)})
     @CrossOrigin
     @GetMapping("/get/{id}")
-    @RequiresPermissions({"admin:rank:query"})
-    @RequiresAuthentication
+    //@RequiresPermissions({"admin:rank:query"})
+    //@RequiresAuthentication
     public OutputResult<Rank> get(
             @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
             @PathVariable Long id)throws ApplicationException {
@@ -101,8 +101,8 @@ public class RankController {
         @ApiImplicitParam(paramType = "query", dataType = "RankUpdateInput", name = "rankUpdateInput", value = "实体参数", required = true)})
     @CrossOrigin
     @PostMapping("/update")
-    @RequiresPermissions({"admin:rank:update"})
-    @RequiresAuthentication
+    //@RequiresPermissions({"admin:rank:update"})
+    //@RequiresAuthentication
     public OutputResult<Rank> update(
             @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
             @RequestBody @Valid RankUpdateInput rankUpdateInput)throws ApplicationException {
@@ -152,8 +152,8 @@ public class RankController {
         @ApiImplicitParam(paramType = "query", dataType = "RankInput", name = "rankInput", value = "实体参数", required = true)})
     @CrossOrigin
     @PostMapping("/save")
-    @RequiresPermissions({"admin:rank:save"})
-    @RequiresAuthentication
+    //@RequiresPermissions({"admin:rank:save"})
+    //@RequiresAuthentication
     public OutputResult<Rank> save(
             @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
             @RequestBody @Valid RankInput rankInput)throws ApplicationException {
