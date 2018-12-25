@@ -8,6 +8,9 @@ import com.tianbao.points.core.exception.ApplicationException;
 import com.tianbao.points.core.service.IUserService;
 import com.tianbao.points.core.utils.MD5;
 import com.tianbao.points.core.utils.jwt.JwtUtil;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -20,6 +23,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.util.Date;
 
 /**
  * @author lushusheng
@@ -113,9 +119,38 @@ public class SecurityController {
      * @date 2018-12-11
      * @time 12:12
      */
+    /**
+     * @desc 修改特定管理员信息
+     * @author lushusheng 2018-12-03
+     * @param currentId 当前用户id
+     * @param adminUpdateInput 实体参数
+     * @return 返回数据
+     * @throws ApplicationException 修改异常
+     */
+    @ApiOperation(value = "修改特定管理员信息", notes = "修改特定管理员信息")
+    @ApiImplicitParams({
+            @ApiImplicitParam(paramType = "header", dataType = "Long", name = "currentId", value = "当前用户id", required = true),
+            @ApiImplicitParam(paramType = "body", dataType = "AdminUpdateInput", name = "adminUpdateInput", value = "实体参数", required = true)})
+    @CrossOrigin
+    @PostMapping("/update")
     @GetMapping(value = "/logout")
-    public OutputResult<String> logout() {
+    public OutputResult<String> logout(@RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId) throws ApplicationException{
         Subject subject = SecurityUtils.getSubject();
+        InetAddress inetAddress = null;
+        String lastLoginIP = null;
+        try {
+            inetAddress = InetAddress.getLocalHost();
+            lastLoginIP = inetAddress.getHostAddress();
+        } catch (UnknownHostException e) {
+            log.info(e.getMessage());
+            lastLoginIP = "127.0.0.1";
+        }
+        User user = userServer.selectById(currentId);
+        user.setLastLoginIp(lastLoginIP);
+        user.setLastLoginTime(new Date());
+        user.setUpdateUserId(currentId);
+        user.setUpdateTime(new Date());
+        userServer.save(user);
         if(subject.getPrincipals() != null) {
 //            UserDto user = (UserDto)subject.getPrincipals().getPrimaryPrincipal();
 //            userService.deleteLoginInfo(user.getUsername());
