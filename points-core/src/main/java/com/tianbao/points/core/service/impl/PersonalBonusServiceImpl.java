@@ -1,6 +1,7 @@
 package com.tianbao.points.core.service.impl;
 
 
+import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.tianbao.points.core.dao.IPersonalBonusDao;
@@ -84,10 +85,11 @@ public class PersonalBonusServiceImpl extends VisibilityService implements IPers
      */
     @Override
     public PageInfo<PersonalBonusDTO> getListBySysBonusIdPage(Long sysBonusId, Integer pageNo, Integer pageSize) throws ApplicationException {
-        PageHelper.startPage(pageNo, pageSize);
+        Page page = PageHelper.startPage(pageNo, pageSize);
         List<PersonalBonus> personalBonusList = iPersonalBonusDao.selectListBySysBonusIdPage(sysBonusId);
         List<PersonalBonusDTO> personalBonusDTOList = loadUserProperties(personalBonusList);
         PageInfo<PersonalBonusDTO> pageInfo = new PageInfo<>(personalBonusDTOList);
+        pageInfo.setTotal(page.getTotal());
         return pageInfo;
     }
 
@@ -100,6 +102,9 @@ public class PersonalBonusServiceImpl extends VisibilityService implements IPers
      * @update
      */
     private List<PersonalBonusDTO> loadUserProperties(List<PersonalBonus> personalBonusList) throws ApplicationException{
+        if(personalBonusList == null || personalBonusList.size() <= 0) {
+            return new ArrayList<>();
+        }
         List<Long> userIds = new ArrayList<>();
         for(PersonalBonus personalBonus: personalBonusList) {
             userIds.add(personalBonus.getUserId());
