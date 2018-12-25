@@ -116,26 +116,19 @@ public class SecurityController {
     /**
      * @author lushusheng
      * @description 用户退出登录
+     * @param currentId 当前用户id
+     * @return 返回数据
+     * @throws ApplicationException 修改异常
      * @date 2018-12-11
      * @time 12:12
      */
-    /**
-     * @desc 修改特定管理员信息
-     * @author lushusheng 2018-12-03
-     * @param currentId 当前用户id
-     * @param adminUpdateInput 实体参数
-     * @return 返回数据
-     * @throws ApplicationException 修改异常
-     */
-    @ApiOperation(value = "修改特定管理员信息", notes = "修改特定管理员信息")
+    @ApiOperation(value = "用户退出登录", notes = "用户退出登录")
     @ApiImplicitParams({
-            @ApiImplicitParam(paramType = "header", dataType = "Long", name = "currentId", value = "当前用户id", required = true),
-            @ApiImplicitParam(paramType = "body", dataType = "AdminUpdateInput", name = "adminUpdateInput", value = "实体参数", required = true)})
+        @ApiImplicitParam(paramType = "header", dataType = "Long", name = "currentId", value = "当前用户id", required = true)})
     @CrossOrigin
-    @PostMapping("/update")
     @GetMapping(value = "/logout")
     public OutputResult<String> logout(@RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId) throws ApplicationException{
-        Subject subject = SecurityUtils.getSubject();
+        //Subject subject = SecurityUtils.getSubject();
         InetAddress inetAddress = null;
         String lastLoginIP = null;
         try {
@@ -151,11 +144,11 @@ public class SecurityController {
         user.setUpdateUserId(currentId);
         user.setUpdateTime(new Date());
         userServer.save(user);
-        if(subject.getPrincipals() != null) {
+//        if(subject.getPrincipals() != null) {
 //            UserDto user = (UserDto)subject.getPrincipals().getPrimaryPrincipal();
 //            userService.deleteLoginInfo(user.getUsername());
-        }
-        SecurityUtils.getSubject().logout();
+//        }
+        //SecurityUtils.getSubject().logout();
         return new OutputResult<>("用户成功退出");
     }
 }
