@@ -144,10 +144,6 @@ public class SecurityController {
         user.setUpdateUserId(currentId);
         user.setUpdateTime(new Date());
         userServer.save(user);
-//        if(subject.getPrincipals() != null) {
-//            UserDto user = (UserDto)subject.getPrincipals().getPrimaryPrincipal();
-//            userService.deleteLoginInfo(user.getUsername());
-//        }
         //SecurityUtils.getSubject().logout();
         return new OutputResult<>("用户成功退出");
     }
