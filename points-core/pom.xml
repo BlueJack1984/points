@@ -73,12 +73,6 @@
             <artifactId>reflectasm</artifactId>
             <version>1.11.7</version>
         </dependency>
-        <!--JWT-->
-        <!--<dependency>-->
-            <!--<groupId>com.auth0</groupId>-->
-            <!--<artifactId>java-jwt</artifactId>-->
-            <!--<version>3.4.0</version>-->
-        <!--</dependency>-->
         <!-- 使用redis做数据缓存，如果不需要可不依赖 -->
         <!--<dependency>-->
             <!--<groupId>org.springframework.boot</groupId>-->

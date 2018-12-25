@@ -1,7 +1,5 @@
 package com.tianbao.points.core.entity.base;
 
-import com.alibaba.fastjson.annotation.JSONField;
-import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,7 +22,6 @@ public class BasicPO<K> implements Serializable {
      * 主键
      */
     @Id
-    @JSONField(serializeUsing = ToStringSerializer.class)
     protected K id;
     /**
      * 状态，0表示正常，1表示禁用
