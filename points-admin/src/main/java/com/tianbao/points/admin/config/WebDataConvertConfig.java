@@ -11,9 +11,27 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 
 import java.util.List;
 
+/**
+ * Created with IntelliJ IDEA
+ *
+ * @author lushusheng
+ * @description 自定义Realm
+ * @date 2018-12-10
+ * @time 14:12
+ */
+
 //@EnableWebMvc
 //@Configuration
 public class WebDataConvertConfig extends WebMvcConfigurerAdapter {
+
+    /**
+     * Created with IntelliJ IDEA
+     *
+     * @author lushusheng
+     * @description 自定义Realm
+     * @date 2018-12-10
+     * @time 14:12
+     */
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
         MappingJackson2HttpMessageConverter jackson2HttpMessageConverter = new MappingJackson2HttpMessageConverter();
         ObjectMapper objectMapper = new ObjectMapper();

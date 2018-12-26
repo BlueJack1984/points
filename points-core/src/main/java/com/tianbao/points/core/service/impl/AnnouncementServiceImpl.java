@@ -1,6 +1,7 @@
 package com.tianbao.points.core.service.impl;
 
 
+import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.tianbao.points.core.constant.StatusCode;
@@ -95,7 +96,7 @@ public class AnnouncementServiceImpl implements IAnnouncementService {
      */
     @Override
     public PageInfo<AnnouncementDTO> getListPage(Integer pageNo, Integer pageSize) throws ApplicationException {
-        PageHelper.startPage(pageNo, pageSize);
+        Page page = PageHelper.startPage(pageNo, pageSize);
         List<Announcement> announcementList = iAnnouncementDao.getListPage();
         if(announcementList == null) {
             return new PageInfo<>(null);
@@ -123,6 +124,7 @@ public class AnnouncementServiceImpl implements IAnnouncementService {
             announcementDTOList.add(announcementDTO);
         }
         PageInfo<AnnouncementDTO> pageInfo = new PageInfo<>(announcementDTOList);
+        pageInfo.setTotal(page.getTotal());
         return pageInfo;
     }
 
