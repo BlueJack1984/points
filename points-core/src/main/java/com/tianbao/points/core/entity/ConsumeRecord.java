@@ -14,7 +14,7 @@ import java.util.Date;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@Table(name = "authority")
+@Table(name = "consume_record")
 public class ConsumeRecord extends ObjectPO<Long> {
     /**
      * 用户id
