@@ -197,10 +197,10 @@
   </select>
 
   <select id="getListPage" resultType="userMessage">
-    <!--select distinct <include refid="c_user_message"/>-->
-    <!--from <include refid="t_user_message"/> _user_message-->
-    <!--where _user_message.status != 1-->
-    <!--and (_user_message.sender_id = #{currentId} or _user_message.receiver_id = #{currentId})-->
-    <!--order by _user_message.create_time desc-->
+    select distinct <include refid="c_user_message"/>
+    from <include refid="t_user_message"/> _user_message
+    where _user_message.status != 1
+    and (_user_message.sender_id = #{currentId} or _user_message.receiver_id = #{currentId})
+    order by _user_message.create_time desc
   </select>
 </mapper>
