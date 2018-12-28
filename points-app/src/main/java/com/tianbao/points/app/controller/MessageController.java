@@ -48,14 +48,12 @@ public class MessageController {
      * @param currentId 当前用户id
      * @param pageNo 当前页码
      * @param pageSize 每页显示条数
-     * @param receiverId 接收者id，如果不传值，则搜索全部
      * @return 返回实体数据列表
      * @throws ApplicationException 保存异常
      */
     @ApiOperation(value = "获取会员自己的留言列表,分页展示", notes = "获取会员自己的留言列表,分页展示")
     @ApiImplicitParams({
         @ApiImplicitParam(paramType = "header", dataType = "Long", name = "currentId", value = "当前用户id", required = true),
-        @ApiImplicitParam(paramType = "query", dataType = "Long", name = "receiverId", value = "接收者id", required = false),
         @ApiImplicitParam(paramType = "query", dataType = "Integer", name = "pageNo", value = "显示页码", required = false),
         @ApiImplicitParam(paramType = "query", dataType = "Integer", name = "pageSize", value = "每页显示数据条数", required = false)})
     @CrossOrigin
@@ -64,11 +62,10 @@ public class MessageController {
     @RequiresAuthentication
     public OutputListResult<UserMessageDTO> getListPage(
             @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
-            @RequestParam(value = "receiverId", required = false) Long receiverId,
             @RequestParam(value = "pageNo", required = false, defaultValue = "1") Integer pageNo,
             @RequestParam(value = "pageSize", required = false, defaultValue = "20") Integer pageSize) throws Exception {
 
-        PageInfo<UserMessageDTO> pageInfo = messageServer.getListPage(currentId, receiverId, pageNo, pageSize);
+        PageInfo<UserMessageDTO> pageInfo = messageServer.getListPage(currentId, pageNo, pageSize);
         return new OutputListResult<>(pageInfo);
     }
 

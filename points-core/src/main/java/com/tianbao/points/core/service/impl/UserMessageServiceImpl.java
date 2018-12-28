@@ -230,8 +230,8 @@ public class UserMessageServiceImpl implements IUserMessageService {
      * @throws ApplicationException 保存异常
      */
     @Override
-    public List<UserMessage> getListPage(Long currentId, Long receiverId) throws ApplicationException {
-        List<UserMessage> userMessageList = iUserMessageDao.getListPage(currentId, receiverId);
+    public List<UserMessage> getListPage(Long currentId) throws ApplicationException {
+        List<UserMessage> userMessageList = iUserMessageDao.getListPage(currentId);
         return userMessageList;
     }
 }

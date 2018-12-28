@@ -76,9 +76,8 @@ public interface IUserMessageService extends IBaseService<UserMessage, Long> {
      * @desc 获取会员自己的留言列表
      * @author lushusheng 2018-12-17
      * @param currentId 当前用户id
-     * @param receiverId 接收者id，如果不传值，则搜索全部
      * @return 返回实体数据列表
      * @throws ApplicationException 保存异常
      */
-    List<UserMessage> getListPage(Long currentId, Long receiverId)throws ApplicationException;
+    List<UserMessage> getListPage(Long currentId)throws ApplicationException;
 }

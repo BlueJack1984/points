@@ -31,13 +31,12 @@ public interface IMessageService extends IBaseService<Message, Long> {
      * @desc 获取会员自己的留言列表,分页展示
      * @author lushusheng 2018-12-17
      * @param currentId 当前用户id
-     * @param receiverId 接收者id，如果不传值，则搜索全部
      * @param pageNo 当前页码
      * @param pageSize 每页显示条数
      * @return 返回实体数据列表
      * @throws ApplicationException 保存异常
      */
-    PageInfo<UserMessageDTO> getListPage(Long currentId, Long receiverId, Integer pageNo, Integer pageSize)throws ApplicationException;
+    PageInfo<UserMessageDTO> getListPage(Long currentId, Integer pageNo, Integer pageSize)throws ApplicationException;
 
 
     /**

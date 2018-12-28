@@ -2,6 +2,7 @@ package com.tianbao.points.core.service.impl;
 
 
 import com.baomidou.mybatisplus.toolkit.IdWorker;
+import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.tianbao.points.core.constant.StatusCode;
@@ -94,35 +95,33 @@ public class MessageServiceImpl implements IMessageService {
      * @desc 获取会员自己的留言列表,分页展示
      * @author lushusheng 2018-12-17
      * @param currentId 当前用户id
-     * @param receiverId 接收者id，如果不传值，则搜索全部
      * @param pageNo 当前页码
      * @param pageSize 每页显示条数
      * @return 返回实体数据列表
      * @throws ApplicationException 保存异常
      */
     @Override
-    public PageInfo<UserMessageDTO> getListPage(Long currentId, Long receiverId, Integer pageNo, Integer pageSize) throws ApplicationException {
-        PageHelper.startPage(pageNo, pageSize);
-        List<UserMessage> userMessageList = userMessageServer.getListPage(currentId, receiverId);
+    public PageInfo<UserMessageDTO> getListPage(Long currentId, Integer pageNo, Integer pageSize) throws ApplicationException {
+        Page page = PageHelper.startPage(pageNo, pageSize);
+        List<UserMessage> userMessageList = userMessageServer.getListPage(currentId);
+        if(userMessageList == null || userMessageList.size() <= 0) {
+            return new PageInfo<>(new ArrayList<>());
+        }
         List<Long> messageIds = new ArrayList<>();
         List<Long> receiverIds = new ArrayList<>();
+        List<Long> senderIds = new ArrayList<>();
         for(UserMessage userMessage: userMessageList) {
             messageIds.add(userMessage.getMessageId());
             receiverIds.add(userMessage.getReceiverId());
-        }
-        //接收者id不为空，只查询一个id
-        if(receiverId != null) {
-            receiverIds = new ArrayList<>();
-            receiverIds.add(receiverId);
+            senderIds.add(userMessage.getSenderId());
         }
         List<Message> messageList = iMessageDao.getListByIds(messageIds);
         List<User> receiverList = userServer.getListByIds(receiverIds);
-        User sender = userServer.selectById(currentId);
+        List<User> senderList = userServer.getListByIds(senderIds);
         List<UserMessageDTO> userMessageDTOList = new ArrayList<>();
         for(UserMessage userMessage: userMessageList) {
             UserMessageDTO userMessageDTO = new UserMessageDTO();
             BeanHelper.copyProperties(userMessageDTO, userMessage);
-            userMessageDTO.setSender(sender);
             for(Message message: messageList) {
                 if(message.getId().equals(userMessage.getMessageId())) {
                     userMessageDTO.setMessage(message);
@@ -135,9 +134,16 @@ public class MessageServiceImpl implements IMessageService {
                     break;
                 }
             }
+            for(User sender: senderList) {
+                if(sender.getId().equals(userMessage.getSenderId())) {
+                    userMessageDTO.setSender(sender);
+                    break;
+                }
+            }
             userMessageDTOList.add(userMessageDTO);
         }
         PageInfo<UserMessageDTO> pageInfo = new PageInfo<>(userMessageDTOList);
+        pageInfo.setTotal(page.getTotal());
         return pageInfo;
     }
     /**
