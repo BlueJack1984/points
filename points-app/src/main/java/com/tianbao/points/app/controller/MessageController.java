@@ -58,8 +58,8 @@ public class MessageController {
         @ApiImplicitParam(paramType = "query", dataType = "Integer", name = "pageSize", value = "每页显示数据条数", required = false)})
     @CrossOrigin
     @GetMapping("/list/page")
-    //@RequiresPermissions({"app:message:list"})
-    //@RequiresAuthentication
+    @RequiresPermissions({"app:message:list"})
+    @RequiresAuthentication
     public OutputListResult<UserMessageDTO> getListPage(
             @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
             @RequestParam(value = "pageNo", required = false, defaultValue = "1") Integer pageNo,
