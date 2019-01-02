@@ -7,8 +7,8 @@
      _consume_record.id, _consume_record.user_id userId, _consume_record.district,
      _consume_record.location_name locationName,
      _consume_record.amount, _consume_record.status, _consume_record.consume_time consumeTime,
-     _rank.create_time createTime, _rank.create_user_id createUserId,
-     _rank.update_time updateTime, _rank.update_user_id updateUserId
+     _consume_record.create_time createTime, _consume_record.create_user_id createUserId,
+     _consume_record.update_time updateTime, _consume_record.update_user_id updateUserId
   </sql>
   <sql id="t_consume_record">consume_record</sql>
 
