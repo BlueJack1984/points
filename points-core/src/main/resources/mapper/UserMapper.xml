@@ -10,7 +10,8 @@
      `_user`.question_id questionId, `_user`.answer, `_user`.last_login_ip lastLoginIp, `_user`.last_login_time lastLoginTime,
      `_user`.create_time createTime, `_user`.create_user_id createUserId,
      `_user`.update_time updateTime, `_user`.update_user_id updateUserId,
-     `_user`.province, `_user`.city, `_user`.address
+     `_user`.province, `_user`.city, `_user`.address,
+     `_user`.current_login_ip currentLoginIp, `_user`.current_login_time currentLoginTime
   </sql>
   <sql id="t_user">`user`</sql>
 
@@ -29,11 +30,11 @@
     insert into <include refid="t_user"/>
     (id, account, password, super_password, real_name, identity_number, nick_name, head_image, phone,
     email, gender, rank_id, status, question_id, answer, last_login_ip, last_login_time, create_time,
-    create_user_id, update_time, update_user_id, province, city, address)
+    create_user_id, update_time, update_user_id, province, city, address, current_login_ip, current_login_time)
     values (#{id}, #{account}, #{password}, #{superPassword}, #{realName}, #{identityNumber}, #{nickName},
     #{headImage}, #{phone}, #{email}, #{gender}, #{rankId}, #{status}, #{questionId}, #{answer},
     #{lastLoginIp}, #{lastLoginTime}, #{createTime}, #{createUserId}, #{updateTime}, #{updateUserId},
-    #{province}, #{city}, #{address})
+    #{province}, #{city}, #{address}, #{currentLoginIp}, #{currentLoginTime})
   </insert>
 
   <insert id="insertSelective" parameterType="user" >
@@ -111,6 +112,12 @@
       <if test="address != null">
         address,
       </if>
+      <if test="currentLoginIp != null">
+        current_login_ip,
+      </if>
+      <if test="currentLoginTime != null">
+        current_login_time,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -184,6 +191,12 @@
       </if>
       <if test="address != null">
         #{address},
+      </if>
+      <if test="currentLoginIp != null">
+        #{currentLoginIp},
+      </if>
+      <if test="currentLoginTime != null">
+        #{currentLoginTime},
       </if>
     </trim>
   </insert>
@@ -260,6 +273,12 @@
       <if test="address != null">
         address = #{address},
       </if>
+      <if test="currentLoginIp != null">
+        current_login_ip = #{currentLoginIp},
+      </if>
+      <if test="currentLoginTime != null">
+        current_login_time = #{currentLoginTime},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -288,7 +307,9 @@
       update_user_id = #{updateUserId},
       province = #{province},
       city = #{city},
-      address = #{address}
+      address = #{address},
+      current_login_ip = #{currentLoginIp},
+      current_login_time = #{currentLoginTime}
     where id = #{id,jdbcType=BIGINT}
   </update>
 

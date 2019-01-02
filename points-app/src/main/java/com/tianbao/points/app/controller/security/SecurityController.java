@@ -26,6 +26,7 @@ import javax.validation.Valid;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Date;
+import java.util.Random;
 
 /**
  * @author lushusheng
@@ -42,6 +43,38 @@ public class SecurityController {
     private final IUserService userServer;
     @Value("${password.encrypt.key}")
     private String PASSWORD_SECRET_KEY;
+    private static String CODE = "";
+    /**
+     * 设置要产生的验证码位数
+     */
+    private static final Integer CAPTCHA_BITS = 4;
+
+    /**
+     * @desc 随机产生4个数字，组成一个字符串返回
+     * @author lushusheng 2018-12-21
+     * @param
+     * @return 返回一个包含4个数字（0-9之间）的字符串
+     * @throws ApplicationException 生成异常
+     */
+    @ApiOperation(value = "随机产生4个数字，组成一个字符串返回", notes = "随机产生4个数字，组成一个字符串返回")
+    @ApiImplicitParams({})
+    @CrossOrigin
+    @GetMapping("/captcha/generate")
+    public OutputResult<String> generateCaptcha() throws ApplicationException {
+        //String str="0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        String container = "0123456789";
+        StringBuilder captcha = new StringBuilder(CAPTCHA_BITS);
+        for(int i = 0; i < CAPTCHA_BITS; i ++) {
+            Random random = new Random();
+            /**
+             * nextInt(int n) 该方法的作用是生成一个随机的int值，该值介于[0,n)的区间，也就是0到n之间的随机int值，包含0而不包含n。
+             */
+            char single = container.charAt(random.nextInt(container.length()));
+            captcha.append(single);
+        }
+        CODE = captcha.toString();
+        return new OutputResult<>(CODE);
+    }
     /**
      * @author lushusheng
      * @description 用户登录
@@ -52,8 +85,7 @@ public class SecurityController {
     public OutputResult<JwtToken> login(@RequestBody @Valid LoginInput loginInput) throws ApplicationException {
         //判断验证码是否正确
         String userCaptcha = loginInput.getUserCaptcha();
-        String sysCaptcha = loginInput.getSysCaptcha();
-        if (! userCaptcha.equals(sysCaptcha)) {
+        if (! userCaptcha.equals(CODE)) {
             log.info("-----------------------------------> 图形验证码错误");
             throw new ApplicationException(ApplicationException.PARAM_ERROR, "图形验证码校验错误");
         }
@@ -82,7 +114,7 @@ public class SecurityController {
             throw new ApplicationException(ApplicationException.PARAM_ERROR, "用户登录密码参数输入错误");
         }
         //返回得到的jwttoken给前端
-        Subject subject = SecurityUtils.getSubject();
+        //Subject subject = SecurityUtils.getSubject();
         String token = JwtUtil.sign(account, user.getPassword());
         JwtToken jwtToken = new JwtToken(user.getId(), token);
         try {
@@ -94,6 +126,25 @@ public class SecurityController {
         } catch (AuthenticationException ae) {
             throw new ApplicationException(ApplicationException.SC_NO_AUTHORITY, "用户认证失败，未知错误");
         }
+
+        //获取当前ip
+        InetAddress inetAddress = null;
+        String currentLoginIP = null;
+        try {
+            inetAddress = InetAddress.getLocalHost();
+            currentLoginIP = inetAddress.getHostAddress();
+        } catch (UnknownHostException e) {
+            log.info(e.getMessage());
+            currentLoginIP = "127.0.0.1";
+        }
+        //登录成功
+        user.setLastLoginTime(user.getCurrentLoginTime());
+        user.setLastLoginIp(user.getCurrentLoginIp());
+        user.setCurrentLoginIp(currentLoginIP);
+        user.setCurrentLoginTime(new Date());
+        user.setUpdateTime(new Date());
+        user.setUpdateUserId(user.getId());
+        userServer.save(user);
         return new OutputResult<>(jwtToken);
     }
 
@@ -129,21 +180,12 @@ public class SecurityController {
     @GetMapping(value = "/logout")
     public OutputResult<String> logout(@RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId) throws ApplicationException{
         //Subject subject = SecurityUtils.getSubject();
-        InetAddress inetAddress = null;
-        String lastLoginIP = null;
-        try {
-            inetAddress = InetAddress.getLocalHost();
-            lastLoginIP = inetAddress.getHostAddress();
-        } catch (UnknownHostException e) {
-            log.info(e.getMessage());
-            lastLoginIP = "127.0.0.1";
-        }
-        User user = userServer.selectById(currentId);
-        user.setLastLoginIp(lastLoginIP);
-        user.setLastLoginTime(new Date());
-        user.setUpdateUserId(currentId);
-        user.setUpdateTime(new Date());
-        userServer.save(user);
+//        User user = userServer.selectById(currentId);
+//        user.setLastLoginIp(lastLoginIP);
+//        user.setLastLoginTime(new Date());
+//        user.setUpdateUserId(currentId);
+//        user.setUpdateTime(new Date());
+//        userServer.save(user);
         //SecurityUtils.getSubject().logout();
         return new OutputResult<>("用户成功退出");
     }

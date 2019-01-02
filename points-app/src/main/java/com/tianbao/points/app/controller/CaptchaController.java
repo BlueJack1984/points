@@ -30,7 +30,7 @@ public class CaptchaController {
     /**
      * 设置要产生的验证码位数
      */
-    private static final Integer CAPTCHA_BITS = 4;
+    //private static final Integer CAPTCHA_BITS = 4;
 
     /**
      * @desc 随机产生4个数字，组成一个字符串返回
@@ -39,22 +39,22 @@ public class CaptchaController {
      * @return 返回一个包含4个数字（0-9之间）的字符串
      * @throws ApplicationException 生成异常
      */
-    @ApiOperation(value = "随机产生4个数字，组成一个字符串返回", notes = "随机产生4个数字，组成一个字符串返回")
-    @ApiImplicitParams({})
-    @CrossOrigin
-    @GetMapping("/generate")
-    public OutputResult<String> generate() throws ApplicationException {
-        //String str="0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        String container = "0123456789";
-        StringBuilder captcha = new StringBuilder(CAPTCHA_BITS);
-        for(int i = 0; i < CAPTCHA_BITS; i ++) {
-            Random random = new Random();
-            /**
-             * nextInt(int n) 该方法的作用是生成一个随机的int值，该值介于[0,n)的区间，也就是0到n之间的随机int值，包含0而不包含n。
-             */
-            char single = container.charAt(random.nextInt(container.length()));
-            captcha.append(single);
-        }
-        return new OutputResult<>(captcha.toString());
-    }
+//    @ApiOperation(value = "随机产生4个数字，组成一个字符串返回", notes = "随机产生4个数字，组成一个字符串返回")
+//    @ApiImplicitParams({})
+//    @CrossOrigin
+//    @GetMapping("/generate")
+//    public OutputResult<String> generate() throws ApplicationException {
+//        //String str="0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+//        String container = "0123456789";
+//        StringBuilder captcha = new StringBuilder(CAPTCHA_BITS);
+//        for(int i = 0; i < CAPTCHA_BITS; i ++) {
+//            Random random = new Random();
+//            /**
+//             * nextInt(int n) 该方法的作用是生成一个随机的int值，该值介于[0,n)的区间，也就是0到n之间的随机int值，包含0而不包含n。
+//             */
+//            char single = container.charAt(random.nextInt(container.length()));
+//            captcha.append(single);
+//        }
+//        return new OutputResult<>(captcha.toString());
+//    }
 }
