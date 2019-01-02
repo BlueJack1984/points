@@ -55,8 +55,8 @@ public class UserController {
         @ApiImplicitParam(paramType = "query", dataType = "Integer", name = "pageSize", value = "数据条数", required = false)})
     @CrossOrigin
     @GetMapping("/list/page/audited")
-    //@RequiresPermissions({"admin:user:list:audited"})
-    //@RequiresAuthentication
+    @RequiresPermissions({"admin:user:list:audited"})
+    @RequiresAuthentication
     public OutputListResult<UserDTO> getListPage(
             @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
             @RequestParam(value = "pageNo", required = false, defaultValue = "1")Integer pageNo,
@@ -76,12 +76,12 @@ public class UserController {
      */
     @ApiOperation(value = "通过会员id查询会员信息", notes = "通过会员id查询会员信息")
     @ApiImplicitParams({
-            @ApiImplicitParam(paramType = "header", dataType = "Long", name = "currentId", value = "当前用户id", required = true),
-            @ApiImplicitParam(paramType = "query", dataType = "Long", name = "memberId", value = "会员id", required = true)})
+        @ApiImplicitParam(paramType = "header", dataType = "Long", name = "currentId", value = "当前用户id", required = true),
+        @ApiImplicitParam(paramType = "query", dataType = "Long", name = "memberId", value = "会员id", required = true)})
     @CrossOrigin
     @GetMapping("/get/{id}")
-    //@RequiresPermissions({"admin:user:query"})
-    //@RequiresAuthentication
+    @RequiresPermissions({"admin:user:query"})
+    @RequiresAuthentication
     public OutputResult<UserDTO> get(
             @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
             @PathVariable Long id)throws ApplicationException {
@@ -102,8 +102,8 @@ public class UserController {
         @ApiImplicitParam(paramType = "body", dataType = "UserInput", name = "userInput", value = "更新内容", required = true)})
     @CrossOrigin
     @PostMapping("/update")
-    //@RequiresPermissions({"admin:user:update"})
-    //@RequiresAuthentication
+    @RequiresPermissions({"admin:user:update"})
+    @RequiresAuthentication
     public OutputResult<User> update(
             @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
             @RequestBody @Valid UserInput userInput)throws ApplicationException {
@@ -157,8 +157,8 @@ public class UserController {
         @ApiImplicitParam(paramType = "query", dataType = "Long", name = "id", value = "会员id", required = true)})
     @CrossOrigin
     @GetMapping("/reset/password/{id}")
-    //@RequiresPermissions({"admin:user:reset:password"})
-    //@RequiresAuthentication
+    @RequiresPermissions({"admin:user:reset:password"})
+    @RequiresAuthentication
     public OutputResult<Void> reset(
             @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
             @PathVariable Long id)throws ApplicationException {
@@ -187,8 +187,8 @@ public class UserController {
         @ApiImplicitParam(paramType = "query", dataType = "Integer", name = "pageSize", value = "数据条数", required = false)})
     @CrossOrigin
     @GetMapping("/list/page/condition")
-    //@RequiresPermissions({"admin:user:list:condition"})
-    //@RequiresAuthentication
+    @RequiresPermissions({"admin:user:list:condition"})
+    @RequiresAuthentication
     public OutputListResult<UserDTO> getListByConditionPage(
             @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
             @RequestParam(value = "pageNo", required = false, defaultValue = "1")Integer pageNo,
@@ -217,8 +217,8 @@ public class UserController {
         @ApiImplicitParam(paramType = "query", dataType = "EntityIdsInput", name = "idsInput", value = "会员id列表", required = true)})
     @CrossOrigin
     @PostMapping("/forbid/login")
-    //@RequiresPermissions({"admin:user:forbid"})
-    //@RequiresAuthentication
+    @RequiresPermissions({"admin:user:forbid"})
+    @RequiresAuthentication
     public OutputResult<Void> forbid(
             @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
             @RequestBody @Valid EntityIdsInput idsInput)throws ApplicationException {

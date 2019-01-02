@@ -54,8 +54,8 @@ public class StockController {
         @ApiImplicitParam(paramType = "query", dataType = "Integer", name = "pageSize", value = "数据条数", required = false)})
     @CrossOrigin
     @GetMapping("/list/page")
-    //@RequiresPermissions({"admin:stock:list"})
-    //@RequiresAuthentication
+    @RequiresPermissions({"admin:stock:list"})
+    @RequiresAuthentication
     public OutputListResult<Stock> getListPage(
             @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
             @RequestParam(value = "pageNo", required = false, defaultValue = "1")Integer pageNo,
@@ -77,8 +77,8 @@ public class StockController {
         @ApiImplicitParam(paramType = "query", dataType = "Long", name = "id", value = "证券指数实体id", required = true)})
     @CrossOrigin
     @GetMapping("/get/{id}")
-    //@RequiresPermissions({"admin:stock:query"})
-    //@RequiresAuthentication
+    @RequiresPermissions({"admin:stock:query"})
+    @RequiresAuthentication
     public OutputResult<Stock> get(
             @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
             @PathVariable("id") Long id)throws ApplicationException {
@@ -99,8 +99,8 @@ public class StockController {
         @ApiImplicitParam(paramType = "query", dataType = "Long", name = "id", value = "证券指数实体id", required = true)})
     @CrossOrigin
     @GetMapping("/delete/{id}")
-    //@RequiresPermissions({"admin:stock:delete"})
-    //@RequiresAuthentication
+    @RequiresPermissions({"admin:stock:delete"})
+    @RequiresAuthentication
     public OutputResult<Void> delete(
             @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
             @PathVariable("id") Long id)throws ApplicationException {
@@ -122,8 +122,8 @@ public class StockController {
         @ApiImplicitParam(paramType = "body", dataType = "StockInput", name = "stockInput", value = "证券指数实体更新属性", required = true)})
     @CrossOrigin
     @PostMapping("/update")
-    //@RequiresPermissions({"admin:stock:update"})
-    //@RequiresAuthentication
+    @RequiresPermissions({"admin:stock:update"})
+    @RequiresAuthentication
     public OutputResult<Stock> update(
             @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
             @RequestBody StockInput stockInput)throws ApplicationException {
@@ -196,8 +196,8 @@ public class StockController {
         @ApiImplicitParam(paramType = "body", dataType = "StockInput", name = "stockInput", value = "新建证券指数实体属性", required = true)})
     @CrossOrigin
     @PostMapping("/save")
-    //@RequiresPermissions({"admin:stock:save"})
-    //@RequiresAuthentication
+    @RequiresPermissions({"admin:stock:save"})
+    @RequiresAuthentication
     public OutputResult<Stock> save(
             @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
             @RequestBody @Valid StockInput stockInput)throws ApplicationException {
@@ -221,8 +221,8 @@ public class StockController {
         @ApiImplicitParam(paramType = "query", dataType = "Integer", name = "num", value = "列表数据条数", required = true)})
     @CrossOrigin
     @GetMapping("/list/{num}")
-    //@RequiresPermissions({"admin:stock:list:num"})
-    //@RequiresAuthentication
+    @RequiresPermissions({"admin:stock:list:num"})
+    @RequiresAuthentication
     public OutputListResult<Stock> getListNum(
             @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
             @PathVariable("num") Integer num)throws ApplicationException {
