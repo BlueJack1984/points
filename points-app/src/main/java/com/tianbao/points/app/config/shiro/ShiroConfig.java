@@ -232,6 +232,7 @@ public class ShiroConfig {
         //添加shiro内置过滤器,可以实现权限相关的拦截器
         //filterRuleMap.put("/announcement/list/page", "authc");
         filterRuleMap.put("/security/login", "anon");
+        filterRuleMap.put("/security/captcha/generate", "anon");
         filterRuleMap.put("/security/article", "anon");
         filterRuleMap.put("/401", "anon");
         filterRuleMap.put("/402", "anon");

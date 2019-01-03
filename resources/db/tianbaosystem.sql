@@ -11,7 +11,7 @@
  Target Server Version : 50723
  File Encoding         : 65001
 
- Date: 03/01/2019 09:12:51
+ Date: 03/01/2019 14:51:55
 */
 
 SET NAMES utf8mb4;
@@ -501,6 +501,9 @@ CREATE TABLE `user`  (
 -- ----------------------------
 -- Records of user
 -- ----------------------------
+INSERT INTO `user` VALUES (1, 'lilong', 'T/vD2pMEqpNZEaLYcB6Lkw==', NULL, '李隆', '11034543593405345', '贱人', '', '2904852934', 'lilong@163.com', 0, 2, 0, 3, '无', '127.0.0.1', '2019-01-03 14:36:46', '2019-01-03 14:36:49', 110, '2019-01-03 14:36:55', 110, '北京', '北京', '团结湖', '2019-01-03 14:37:25', NULL, '2019-01-03 14:37:34');
+INSERT INTO `user` VALUES (2, 'harden', 'T/vD2pMEqpNZEaLYcB6Lkw==', NULL, '哈登', '52495243953045', '大胡子', NULL, '45738945', 'harden@163.com', 0, 4, 0, 4, '火箭', '127.0.0.1', '2019-01-03 14:40:08', '2019-01-03 14:40:11', 110, '2019-01-03 14:40:17', 110, '美国休斯敦', '美国休斯敦', '火箭队', '2019-01-03 14:41:00', NULL, '2019-01-03 14:41:07');
+INSERT INTO `user` VALUES (3, 'mayun', 'T/vD2pMEqpNZEaLYcB6Lkw==', NULL, '马云', '23049530845', '外星人', NULL, '3948539453', 'mayun@163.com', 0, 3, 0, 2, '阿里巴巴', '127.0.0.1', '2019-01-03 14:44:15', '2019-01-03 14:44:21', 110, '2019-01-03 14:44:26', 110, '杭州', '杭州', '阿里', '2019-01-03 14:45:07', NULL, '2019-01-03 14:45:20');
 INSERT INTO `user` VALUES (12, 'durant', 'WzXkKCAtRn6E9O1ZrBq2xQ==', '', 'green', '2454243535434', 'death', NULL, '66666666', 'durant@gmail.com', 0, 3, 0, 2, 'funny', '127.0.0.1', '2018-12-12 11:32:32', '2018-12-12 11:32:43', 110, '2018-12-12 05:35:29', 110, '北京', '北京', '呼家楼32号', NULL, NULL, NULL);
 INSERT INTO `user` VALUES (110, 'curry', 'T/vD2pMEqpNZEaLYcB6Lkw==', 'T/vD2pMEqpNZEaLYcB6Lkw==', 'curry', '123456789', 'curry', NULL, '12345678911', 'curry@facebook.com', 0, 1, 0, 1, '答案', '127.0.0.1', '2018-11-20 17:09:05', '2018-11-28 17:08:57', 110, '2018-12-08 10:59:05', 110, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `user` VALUES (1073061220271620096, '赵丽颖', 'CK3lybfMbkuD23jgrbTvXQ==', NULL, '林志玲', '11011011101349348', NULL, NULL, '199998843345', 'zhiling@gmail.com', NULL, 3, 0, NULL, NULL, NULL, NULL, '2018-12-13 03:45:07', 110, '2018-12-13 04:47:55', 110, NULL, NULL, NULL, NULL, NULL, NULL);
