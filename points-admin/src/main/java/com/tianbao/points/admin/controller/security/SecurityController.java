@@ -8,25 +8,25 @@ import com.tianbao.points.core.exception.ApplicationException;
 import com.tianbao.points.core.service.IUserService;
 import com.tianbao.points.core.utils.MD5;
 import com.tianbao.points.core.utils.jwt.JwtUtil;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.io.UnsupportedEncodingException;
-import java.security.NoSuchAlgorithmException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.util.Date;
+import java.util.Random;
 
 /**
  * @author lushusheng
- * @description 安全管理模块，包括用户登录和退出等
+ * @description 安全管理模块，包括用户登录和退出，产生图形验证码等
  * @date 2018-12-11
  * @time 11:12
  */
@@ -39,34 +39,64 @@ public class SecurityController {
     private final IUserService userServer;
     @Value("${password.encrypt.key}")
     private String PASSWORD_SECRET_KEY;
+    private static String CODE = "";
     /**
-     * @author lushusheng
-     * @description 用户登录
-     * @date 2018-12-11
-     * @time 11:12
+     * 设置要产生的验证码位数
      */
+    private static final Integer CAPTCHA_BITS = 4;
+
+    /**
+     * @desc 随机产生4个数字，组成一个字符串返回
+     * @author lushusheng 2018-12-21
+     * @param
+     * @return 返回一个包含4个数字（0-9之间）的字符串
+     * @throws ApplicationException 生成异常
+     */
+    @ApiOperation(value = "随机产生4个数字，组成一个字符串返回", notes = "随机产生4个数字，组成一个字符串返回")
+    @ApiImplicitParams({})
+    @CrossOrigin
+    @GetMapping("/captcha/generate")
+    public OutputResult<String> generateCaptcha() throws ApplicationException {
+        //String str="0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        String container = "0123456789";
+        StringBuilder captcha = new StringBuilder(CAPTCHA_BITS);
+        for(int i = 0; i < CAPTCHA_BITS; i ++) {
+            Random random = new Random();
+            /**
+             * nextInt(int n) 该方法的作用是生成一个随机的int值，该值介于[0,n)的区间，也就是0到n之间的随机int值，包含0而不包含n。
+             */
+            char single = container.charAt(random.nextInt(container.length()));
+            captcha.append(single);
+        }
+        CODE = captcha.toString();
+        return new OutputResult<>(CODE);
+    }
+
+    /**
+     * @desc 用户登录功能实现
+     * @author lushusheng
+     * @date 2018-12-21
+     * @param loginInput 用户登录信息，包括用户名，密码，图形验证码等
+     * @return 返回用户登录后生产的jwt令牌
+     * @throws ApplicationException 生成异常
+     */
+    @ApiOperation(value = "用户登录功能实现", notes = "用户登录功能实现")
+    @ApiImplicitParams({@ApiImplicitParam(paramType = "body", dataType = "LoginInput", name = "loginInput", value = "登录输入参数", required = true)})
+    @CrossOrigin
     @PostMapping("/login")
     public OutputResult<JwtToken> login(@RequestBody @Valid LoginInput loginInput) throws ApplicationException {
         //判断验证码是否正确
         String userCaptcha = loginInput.getUserCaptcha();
-        String sysCaptcha = loginInput.getSysCaptcha();
-        if (! userCaptcha.equals(sysCaptcha)) {
+        if (! userCaptcha.equals(CODE)) {
             log.info("-----------------------------------> 图形验证码错误");
             throw new ApplicationException(ApplicationException.PARAM_ERROR, "图形验证码校验错误");
         }
-        /**
-         * 使用shiro编写认证（登录）操作
-         */
         String account = loginInput.getAccount();
         String password = loginInput.getPassword();
-        //Subject subject = SecurityUtils.getSubject();
-        //UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(account, password);
-        //subject.login(usernamePasswordToken);
-
         //从数据库中查询用户
         User user = userServer.getByAccount(account);
         if(user == null) {
-            throw new ApplicationException(ApplicationException.PARAM_ERROR, "用户账号参数错误");
+            throw new ApplicationException(ApplicationException.PARAM_ERROR, "用户账号参数输入错误");
         }
         String encoded = null;
         try {
@@ -76,32 +106,68 @@ public class SecurityController {
             throw new ApplicationException(ApplicationException.INNER_ERROR, "用户登录密码加密错误");
         }
         if(! encoded.equals(user.getPassword())) {
-            throw new ApplicationException(ApplicationException.PARAM_ERROR, "用户登录密码参数错误");
+            throw new ApplicationException(ApplicationException.PARAM_ERROR, "用户登录密码参数输入错误");
         }
         //返回得到的jwttoken给前端
         String token = JwtUtil.sign(account, user.getPassword());
         JwtToken jwtToken = new JwtToken(user.getId(), token);
+        //获取当前ip
+        InetAddress inetAddress = null;
+        String currentLoginIp = null;
+        try {
+            inetAddress = InetAddress.getLocalHost();
+            currentLoginIp = inetAddress.getHostAddress();
+        } catch (UnknownHostException e) {
+            log.info(e.getMessage());
+            currentLoginIp = "127.0.0.1";
+        }
+        //登录成功后，更新登录ip
+        user.setLastLoginTime(user.getCurrentLoginTime());
+        user.setLastLoginIp(user.getCurrentLoginIp());
+        user.setCurrentLoginIp(currentLoginIp);
+        user.setCurrentLoginTime(new Date());
+        user.setUpdateTime(new Date());
+        user.setUpdateUserId(user.getId());
+        userServer.save(user);
         return new OutputResult<>(jwtToken);
+    }
+
+    /**
+     * @desc 查询用户是否认证登录
+     * @author lushusheng
+     * @date 2018-12-21
+     * @return 返回用户登录后生产的jwt令牌
+     * @throws ApplicationException 生成异常
+     */
+    @ApiOperation(value = "查询用户是否认证登录", notes = "查询用户是否认证登录")
+    @ApiImplicitParams({})
+    @CrossOrigin
+    @GetMapping("/article")
+    public OutputResult<String> article() {
+        Subject subject = SecurityUtils.getSubject();
+        if (subject.isAuthenticated()) {
+            return new OutputResult<>("You are already logged in");
+        } else {
+            return new OutputResult("You are guest");
+        }
     }
 
     /**
      * @author lushusheng
      * @description 用户退出登录
+     * @param currentId 当前用户id
+     * @return 返回数据
+     * @throws ApplicationException 修改异常
      * @date 2018-12-11
      * @time 12:12
      */
-    @PostMapping("/logout")
-    public void logout() {
-
+    @ApiOperation(value = "用户退出登录", notes = "用户退出登录")
+    @ApiImplicitParams({@ApiImplicitParam(paramType = "header", dataType = "Long", name = "currentId", value = "当前用户id", required = true)})
+    @CrossOrigin
+    @GetMapping(value = "/logout")
+    public OutputResult<String> logout(@RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId) throws ApplicationException{
+        //暂时没有业务
+        //这里应该进行使token失效的操作
+        return new OutputResult<>("用户成功退出");
     }
-//    @GetMapping(value = "/logout")
-//    public ResponseEntity<Void> logout() {
-//        Subject subject = SecurityUtils.getSubject();
-//        if(subject.getPrincipals() != null) {
-//            UserDto user = (UserDto)subject.getPrincipals().getPrimaryPrincipal();
-//            userService.deleteLoginInfo(user.getUsername());
-//        }
-//        SecurityUtils.getSubject().logout();
-//        return ResponseEntity.ok().build();
-//    }
 }
