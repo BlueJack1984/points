@@ -86,7 +86,12 @@ package com.tianbao.points.admin.config.shiro;
 ////        return myShiroRealm;
 ////    }
 //
-
+////    @Bean
+////    public SecurityManager securityManager() {
+////        DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
+////        securityManager.setRealm(myShiroRealm());
+////        return securityManager;
+////    }
 //
 //
 //    @Bean
@@ -149,7 +154,8 @@ package com.tianbao.points.admin.config.shiro;
 //    }
 //
 //}
-import com.tianbao.points.admin.config.jwt.JwtFilter;
+
+import com.tianbao.points.app.config.jwt.JwtFilter;
 import org.apache.shiro.mgt.DefaultSessionStorageEvaluator;
 import org.apache.shiro.mgt.DefaultSubjectDAO;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
@@ -176,6 +182,26 @@ import java.util.Map;
  */
 @Configuration
 public class ShiroConfig {
+
+    /**
+     *
+     */
+    @Bean(name = "lifecycleBeanPostProcessor")
+    public LifecycleBeanPostProcessor lifecycleBeanPostProcessor() {
+        return new LifecycleBeanPostProcessor();
+    }
+    /**
+     * 下面的代码是添加注解支持
+     */
+    @Bean
+    @DependsOn("lifecycleBeanPostProcessor")
+    public DefaultAdvisorAutoProxyCreator defaultAdvisorAutoProxyCreator() {
+        DefaultAdvisorAutoProxyCreator defaultAdvisorAutoProxyCreator = new DefaultAdvisorAutoProxyCreator();
+        // 强制使用cglib，防止重复代理和可能引起代理出错的问题
+        // https://zhuanlan.zhihu.com/p/29161098
+        defaultAdvisorAutoProxyCreator.setProxyTargetClass(true);
+        return defaultAdvisorAutoProxyCreator;
+    }
 
     /**
      * @author lushusheng
@@ -205,22 +231,28 @@ public class ShiroConfig {
         Map<String, String> filterRuleMap = new LinkedHashMap<>();
         //添加shiro内置过滤器,可以实现权限相关的拦截器
         //filterRuleMap.put("/announcement/list/page", "authc");
-        //filterRuleMap.put("/security/login", "anon");
-        filterRuleMap.put("/**", "anon");
+        filterRuleMap.put("/security/login", "anon");
+        filterRuleMap.put("/security/captcha/generate", "anon");
+        filterRuleMap.put("/security/article", "anon");
+        filterRuleMap.put("/401", "anon");
+        filterRuleMap.put("/402", "anon");
+        filterRuleMap.put("/403", "anon");
+        filterRuleMap.put("/404", "anon");
+        //filterRuleMap.put("/**", "anon");
         //filterMap.put("/*", "authc");
         //授权过滤器
+        //filterRuleMap.put("/announcement/list/page", "perms[announcement:list]");
         //注意，当授权未通过时，会跳转到默认的未授权页面
-        //filterMap.put("/add", "perms[user:add]");
         //修改登录页面
         //shiroFilterFactoryBean.setLoginUrl();
         //设置未授权的提示错误页面
-        //shiroFilterFactoryBean.setUnauthorizedUrl();
+        //shiroFilterFactoryBean.setUnauthorizedUrl("/401");
         // 添加自己的过滤器并且取名为jwt
         Map<String, Filter> filterMap = new LinkedHashMap<>();
         filterMap.put("jwt", new JwtFilter());
         shiroFilterFactoryBean.setFilters(filterMap);
         // 所有请求通过我们自己的JWT Filter
-        //filterRuleMap.put("/**", "jwt");
+        filterRuleMap.put("/**", "jwt");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterRuleMap);
         return shiroFilterFactoryBean;
     }
@@ -236,7 +268,7 @@ public class ShiroConfig {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
         //设置realm
         securityManager.setRealm(customRealm);
-        /**
+        /*
          * 关闭shiro自带的session，详情见文档
          * http://shiro.apache.org/session-management.html#SessionManagement-StatelessApplications%28Sessionless%29
          */
@@ -245,6 +277,7 @@ public class ShiroConfig {
         defaultSessionStorageEvaluator.setSessionStorageEnabled(false);
         subjectDAO.setSessionStorageEvaluator(defaultSessionStorageEvaluator);
         securityManager.setSubjectDAO(subjectDAO);
+
         return securityManager;
     }
     /**
@@ -259,27 +292,6 @@ public class ShiroConfig {
     }
 
     /**
-     * 下面的代码是添加注解支持
-     */
-    @Bean
-    @DependsOn("lifecycleBeanPostProcessor")
-    public DefaultAdvisorAutoProxyCreator defaultAdvisorAutoProxyCreator() {
-        DefaultAdvisorAutoProxyCreator defaultAdvisorAutoProxyCreator = new DefaultAdvisorAutoProxyCreator();
-        /**
-         * 强制使用cglib，防止重复代理和可能引起代理出错的问题
-         * https://zhuanlan.zhihu.com/p/29161098
-         */
-        defaultAdvisorAutoProxyCreator.setProxyTargetClass(true);
-        return defaultAdvisorAutoProxyCreator;
-    }
-    /**
-     *
-     */
-    @Bean
-    public LifecycleBeanPostProcessor lifecycleBeanPostProcessor() {
-        return new LifecycleBeanPostProcessor();
-    }
-    /**
      *
      */
     @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
@@ -289,4 +301,5 @@ public class ShiroConfig {
         advisor.setSecurityManager(securityManager);
         return advisor;
     }
+
 }

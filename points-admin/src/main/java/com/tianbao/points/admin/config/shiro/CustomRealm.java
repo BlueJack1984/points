@@ -8,13 +8,15 @@ import com.tianbao.points.core.service.IAuthorityService;
 import com.tianbao.points.core.service.IUserService;
 import com.tianbao.points.core.utils.jwt.JwtUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.shiro.authc.*;
+import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.AuthenticationInfo;
+import org.apache.shiro.authc.AuthenticationToken;
+import org.apache.shiro.authc.SimpleAuthenticationInfo;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
 import java.util.List;
@@ -97,7 +99,7 @@ public class CustomRealm extends AuthorizingRealm {
             log.info(e.getDetailMsg());
             return simpleAuthorizationInfo;
         }
-        //授权列表
+        //获取授权列表
         Set<String> permissionSet = new HashSet<>();
         for(Authority authority: authorityList) {
             if(authority == null) {
@@ -137,13 +139,11 @@ public class CustomRealm extends AuthorizingRealm {
             return null;
         }
         if(user == null) {
-            throw new AuthenticationException("token过期，请重新登录");
+            return null;
         }
         if (!JwtUtil.verify(token, username, user.getPassword())) {
-            throw new AuthenticationException("用户名或密码错误");
+            throw new AuthenticationException("token令牌认证时用户名或密码错误");
         }
-        //如果身份认证的时候没有传入User对象，这里只能取到userName
-        //也就是SimpleAuthenticationInfo构造的时候第一个参数传递需要User对象
         return new SimpleAuthenticationInfo(token, token, getName());
     }
 }

@@ -7,26 +7,10 @@ import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import org.springframework.boot.jackson.JsonComponent;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
-/**
- * Created with IntelliJ IDEA
- *
- * @author lushusheng
- * @description 自定义Realm
- * @date 2018-12-10
- * @time 14:12
- */
 
 @JsonComponent
 public class JsonWebConvertConfig {
 
-    /**
-     * Created with IntelliJ IDEA
-     *
-     * @author lushusheng
-     * @description 自定义Realm
-     * @date 2018-12-10
-     * @time 14:12
-     */
     @Bean
     public ObjectMapper jacksonObjectMapper(Jackson2ObjectMapperBuilder builder) {
         ObjectMapper objectMapper = builder.createXmlMapper(false).build();

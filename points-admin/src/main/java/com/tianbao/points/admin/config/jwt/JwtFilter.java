@@ -1,8 +1,10 @@
 package com.tianbao.points.admin.config.jwt;
 
 import com.tianbao.points.admin.security.JwtToken;
-import com.tianbao.points.core.utils.jwt.JwtUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.IncorrectCredentialsException;
+import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.web.filter.authc.BasicHttpAuthenticationFilter;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -11,6 +13,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 /**
  * 程序逻辑:
@@ -51,35 +54,73 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
      * @return
      */
     @Override
-    protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) {
+    protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue){
 
-        log.info("**********************这里经过了JwtFilter过滤器*************************");
+        log.info("***********************这里经过了过滤器*************************");
         /**
          * 判断用户是否是登录还是已经登录的正常访问，通过判断是否携带Authorization实现
-         * 判断请求的请求头是否带上 "Token"
+         * 请求是否已经登录（携带token）
          */
         if(isLoginAttempt(request, response)) {
-            //存在，则进入 executeLogin 方法执行登入，检查 token 是否正确
+            //如果存在，则进入 executeLogin 方法执行登入，检查 token 是否正确
             try {
                 executeLogin(request, response);
                 return true;
-            } catch (Exception e) {
-                return false;
+            } catch (UnknownAccountException ex) {
+                responseException(request, response, "/401");
+            }catch (IncorrectCredentialsException ex) {
+                responseException(request, response, "/402");
+            }catch (AuthenticationException ex) {
+                responseException(request, response, "/403");
+            } catch (Exception ex) {
+                //return false;
+                responseException(request, response, "/404");
             }
         }
-        //请求头不存在 Token，则可能是执行登陆操作或者是游客状态访问，无需检查 token，直接返回 true
+        /**
+         * 如果请求头不存在Token，则可能是执行登陆操作或者是游客状态访问
+         * 无需检查token，直接返回true
+         */
         return true;
     }
 
     /**
-     *
+     * 將請求返回到controller
+     */
+    private void responseException(ServletRequest request, ServletResponse response, String url) {
+        HttpServletResponse httpServletResponse = (HttpServletResponse) response;
+        try {
+            httpServletResponse.sendRedirect(url);
+        } catch (IOException e) {
+            log.info(e.getMessage());
+        }
+    }
+    /**
+     * 从请求头获取token并验证，验证通过后交给realm进行登录
+     * 这个是在isAccessAllowed方法返回false执行
+     * @param servletRequest
+     * @param servletResponse
+     * @return 返回结果为true表明登录通过
+     * @throws Exception
+     */
+//    @Override
+//    protected boolean onAccessDenied(ServletRequest servletRequest, ServletResponse servletResponse) throws Exception {
+//        log.info("***********************on access denied method*************************");
+//        return true;
+//    }
+
+    /**
+     *处理JWT异常
+     * 这是个坑，因为是在filter内发生的异常，@ExceptionHandler是截获不到的。
+     * filter层的异常不受exceptionAdvice控制,这里返回401,把返回的json丢到response中
+     * Shiro中鑑權失敗時不能夠直接返回401信息，而是通過跳轉到 /401 地址實現。
      */
     @Override
     protected boolean executeLogin(ServletRequest request, ServletResponse response) throws Exception {
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
         String token = httpServletRequest.getHeader("Authorization");
-        Long currentId = Long.parseLong(httpServletRequest.getHeader("_current_id"));
-        JwtToken jwtToken = new JwtToken(currentId, token);
+        Long id = Long.parseLong(httpServletRequest.getHeader("_current_id"));
+        JwtToken jwtToken = new JwtToken(id, token);
         // 提交给realm进行登入，如果错误他会抛出异常并被捕获
         getSubject(request, response).login(jwtToken);
         // 如果没有抛出异常则代表登入成功，返回true
@@ -104,22 +145,22 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
         return super.preHandle(request, response);
     }
 
-
-    /**
-     * 从请求头获取token并验证，验证通过后交给realm进行登录
-     * 这个是在isAccessAllowed方法返回false执行
-     * @param servletRequest
-     * @param servletResponse
-     * @return 返回结果为true表明登录通过
-     * @throws Exception
-     */
-    @Override
-    protected boolean onAccessDenied(ServletRequest servletRequest, ServletResponse servletResponse) throws Exception {
-        log.info("on access denied");
-        HttpServletRequest request = (HttpServletRequest) servletRequest;
-        String jwt = request.getHeader("Authorization");
-        redirectToLogin(servletRequest,servletResponse);
-        return false;
-    }
-
+//    @Override
+//    protected boolean onLoginFailure(AuthenticationToken token, AuthenticationException ae, ServletRequest request,
+//                                     ServletResponse response) {
+//        HttpServletResponse servletResponse = (HttpServletResponse) response;
+//        JSONObject jsonObject = new JSONObject();
+//        jsonObject.put("code", HttpServletResponse.SC_UNAUTHORIZED);
+//        jsonObject.put("msg","登录失败，无权访问");
+//        jsonObject.put("timestamp", System.currentTimeMillis());
+//        try {
+//            servletResponse.setCharacterEncoding("UTF-8");
+//            servletResponse.setContentType("application/json;charset=UTF-8");
+//            servletResponse.setHeader("Access-Control-Allow-Origin","*");
+//            ObjectMapper objectMapper = new ObjectMapper();
+//            response.getWriter().write(objectMapper.writeValueAsString(jsonObject));
+//        } catch (IOException e) {
+//        }
+//        return false;
+//    }
 }
