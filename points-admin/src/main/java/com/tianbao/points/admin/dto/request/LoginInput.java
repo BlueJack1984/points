@@ -39,7 +39,7 @@ public class LoginInput {
     /**
      * 系统产生的图形验证码
      */
-    @NotBlank(message="系统图形验证码不能为空")
-    @Size(min=4, max=4, message="系统图形验证码有误,长度：4位")
-    private String sysCaptcha;
+//    @NotBlank(message="系统图形验证码不能为空")
+//    @Size(min=4, max=4, message="系统图形验证码有误,长度：4位")
+//    private String sysCaptcha;
 }
