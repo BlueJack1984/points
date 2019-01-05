@@ -1,17 +1,5 @@
 package com.tianbao.points.admin.config.shiro;
 
-//import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
-//import org.apache.shiro.spring.LifecycleBeanPostProcessor;
-//import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
-//import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
-//import org.springframework.context.annotation.Bean;
-//import org.springframework.context.annotation.Configuration;
-//import org.springframework.web.bind.annotation.ExceptionHandler;
-//import org.springframework.web.servlet.HandlerExceptionResolver;
-//
-//import java.util.LinkedHashMap;
-//import java.util.Map;
-//
 ///**
 // * <P></P>
 // *
@@ -155,7 +143,7 @@ package com.tianbao.points.admin.config.shiro;
 //
 //}
 
-import com.tianbao.points.app.config.jwt.JwtFilter;
+import com.tianbao.points.admin.config.jwt.JwtFilter;
 import org.apache.shiro.mgt.DefaultSessionStorageEvaluator;
 import org.apache.shiro.mgt.DefaultSubjectDAO;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;

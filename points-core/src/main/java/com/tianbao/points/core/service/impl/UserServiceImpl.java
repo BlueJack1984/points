@@ -531,6 +531,8 @@ public class UserServiceImpl implements IUserService {
         user.setUpdateTime(new Date());
         user.setUpdateUserId(currentId);
         iUserDao.insert(user);
+        //普通会员用户
+        insert(user, new Long(4), currentId);
         return getPersonalInfo(user.getId());
     }
 
