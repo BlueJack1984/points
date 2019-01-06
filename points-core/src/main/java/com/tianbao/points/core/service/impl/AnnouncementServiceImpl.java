@@ -14,6 +14,7 @@ import com.tianbao.points.core.service.IAnnouncementService;
 import com.tianbao.points.core.service.IUserService;
 import com.tianbao.points.core.utils.BeanHelper;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.dialect.CUBRIDDialect;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -171,5 +172,20 @@ public class AnnouncementServiceImpl implements IAnnouncementService {
             announcement.setUpdateTime(new Date());
         }
         iAnnouncementDao.updateBatch(announcementList);
+    }
+
+    @Override
+    public Announcement update(Long id, String title, String content, Date publishTime, Long currentId) throws ApplicationException {
+        Announcement announcement = iAnnouncementDao.selectByPrimaryKey(id);
+        if(announcement == null) {
+            throw new ApplicationException(1, "id参数错误");
+        }
+        announcement.setTitle(title);
+        announcement.setContent(content);
+        announcement.setPublishTime(publishTime);
+        announcement.setUpdateTime(new Date());
+        announcement.setUpdateUserId(currentId);
+        iAnnouncementDao.updateByPrimaryKey(announcement);
+        return announcement;
     }
 }

@@ -3,6 +3,7 @@ package com.tianbao.points.admin.controller;
 
 import com.github.pagehelper.PageInfo;
 import com.tianbao.points.admin.dto.request.AnnouncementInput;
+import com.tianbao.points.admin.dto.request.AnnouncementUpdateInput;
 import com.tianbao.points.admin.dto.request.EntityIdsInput;
 import com.tianbao.points.core.dto.AnnouncementDTO;
 import com.tianbao.points.core.dto.response.OutputListResult;
@@ -155,5 +156,40 @@ public class AnnouncementController {
         }
         announcementServer.deleteByIds(idList, currentId);
         return new OutputResult<>();
+    }
+
+
+
+    /**
+     * @desc 修改一条公告数据
+     * @author lushusheng 2019-01-06
+     * @param announcementUpdateInput 首页公告实体属性：标题内容等
+     * @param currentId 当前用户id
+     * @return 修改成功实体数据
+     * @throws ApplicationException 修改异常
+     */
+    @ApiOperation(value = "首页公告实体修改", notes = "根据announcementInput和当前用户currentId进行修改操作")
+    @ApiImplicitParams({
+        @ApiImplicitParam(paramType = "body", dataType = "AnnouncementUpdateInput", name = "announcementUpdateInput", value = "首页公告输入实体", required = true),
+        @ApiImplicitParam(paramType = "header", dataType = "Long", name = "currentId", value = "当前用户id", required = true)
+    })
+    @CrossOrigin
+    @PostMapping("/update")
+    @RequiresPermissions({"admin:announcement:update"})
+    @RequiresAuthentication
+    public OutputResult<Announcement> update(
+            @RequestBody @Valid AnnouncementUpdateInput announcementUpdateInput,
+            @RequestHeader(value = "_current_id") Long currentId) throws ApplicationException {
+
+        Date publishTime = null;
+        try {
+            publishTime = SDF.parse(announcementUpdateInput.getPublishTime());
+        } catch (ParseException e) {
+            log.info(e.getMessage());
+            throw new ApplicationException(ApplicationException.PARAM_ERROR, "公告发布日期参数格式错误");
+        }
+        Announcement announcement = announcementServer.update(announcementUpdateInput.getId(), announcementUpdateInput.getTitle(),
+                announcementUpdateInput.getContent(), publishTime, currentId);
+        return new OutputResult<>(announcement);
     }
 }

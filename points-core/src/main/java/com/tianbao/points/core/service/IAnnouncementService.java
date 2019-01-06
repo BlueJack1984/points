@@ -36,6 +36,7 @@ public interface IAnnouncementService extends IBaseService<Announcement, Long> {
      * @param title 标题
      * @param content 内容
      * @param publishTime 发布时间
+     * @param currentId 当前用户id
      * @return 返回保存后的实体数据
      * @update
      */
@@ -50,4 +51,18 @@ public interface IAnnouncementService extends IBaseService<Announcement, Long> {
      * @throws ApplicationException 查询异常
      */
     void deleteByIds(List<Long> idList, Long currentId)throws ApplicationException;
+    /**
+     * @author lushusheng
+     * @Date 2019-01-06
+     * @Desc 修改一条公告数据
+     * @param id 首页公告id
+     * @param title 标题
+     * @param content 内容
+     * @param publishTime 发布时间
+     * @param currentId 当前用户id
+     * @return 修改成功实体数据
+     * @update
+     */
+    Announcement update(Long id, String title, String content, Date publishTime, Long currentId) throws ApplicationException;
+
 }

@@ -139,7 +139,7 @@
   <select id="selectListByIds" resultType="userMessage">
     select <include refid="c_user_message"/>
     from <include refid="t_user_message"/> _user_message
-    where _user_message.status != 1 and _user_message.receiver_id = #{currentId}
+    where _user_message.status != 1 and (_user_message.receiver_id = #{currentId} or _user_message.sender_id = #{currentId})
     and _user_message.message_id in
     <foreach item="id" index="index" collection="ids" open="(" separator="," close=")">
       #{id}

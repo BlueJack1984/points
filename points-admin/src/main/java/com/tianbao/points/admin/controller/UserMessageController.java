@@ -66,8 +66,8 @@ public class UserMessageController {
             @ApiImplicitParam(paramType = "query", dataType = "Integer", name = "pageSize", value = "每页显示数据条数", required = false)})
     @CrossOrigin
     @GetMapping("/list/page/condition")
-    //@RequiresPermissions({"admin:message:list"})
-    //@RequiresAuthentication
+    @RequiresPermissions({"admin:message:list"})
+    @RequiresAuthentication
     public OutputListResult<UserMessageDTO> getListByCondition(
             @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
             @RequestParam(value = "id", required = false) Long id,
@@ -94,8 +94,8 @@ public class UserMessageController {
         @ApiImplicitParam(paramType = "query", dataType = "EntityIdsInput", name = "idsInput", value = "删除的id列表", required = true)})
     @CrossOrigin
     @PostMapping("/delete")
-    @RequiresPermissions({"admin:message:delete"})
-    @RequiresAuthentication
+    //@RequiresPermissions({"admin:message:delete"})
+    //@RequiresAuthentication
     public OutputResult<Void> deleteByIds(
             @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
             @RequestBody EntityIdsInput idsInput)throws ApplicationException {
