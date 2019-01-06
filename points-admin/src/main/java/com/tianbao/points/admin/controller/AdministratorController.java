@@ -1,6 +1,5 @@
 package com.tianbao.points.admin.controller;
 
-
 import com.github.pagehelper.PageInfo;
 import com.tianbao.points.admin.dto.request.AdminInput;
 import com.tianbao.points.admin.dto.request.AdminUpdateInput;
@@ -17,7 +16,6 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.web.bind.annotation.*;

@@ -180,12 +180,10 @@ public class AnnouncementController {
     public OutputResult<Announcement> update(
             @RequestBody @Valid AnnouncementUpdateInput announcementUpdateInput,
             @RequestHeader(value = "_current_id") Long currentId) throws ApplicationException {
-
         Date publishTime = null;
         try {
             publishTime = SDF.parse(announcementUpdateInput.getPublishTime());
         } catch (ParseException e) {
-            log.info(e.getMessage());
             throw new ApplicationException(ApplicationException.PARAM_ERROR, "公告发布日期参数格式错误");
         }
         Announcement announcement = announcementServer.update(announcementUpdateInput.getId(), announcementUpdateInput.getTitle(),

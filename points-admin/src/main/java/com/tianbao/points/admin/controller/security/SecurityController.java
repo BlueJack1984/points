@@ -166,8 +166,7 @@ public class SecurityController {
     @CrossOrigin
     @GetMapping(value = "/logout")
     public OutputResult<String> logout(@RequestHeader(value = "_current_id") Long currentId) throws ApplicationException{
-        //暂时没有业务
-        //这里应该进行使token失效的操作
+        //暂时没有业务，这里应该进行使token失效的操作
         return new OutputResult<>("用户成功退出：" + currentId);
     }
 }
