@@ -66,10 +66,10 @@ public class UserMessageController {
             @ApiImplicitParam(paramType = "query", dataType = "Integer", name = "pageSize", value = "每页显示数据条数", required = false)})
     @CrossOrigin
     @GetMapping("/list/page/condition")
-    @RequiresPermissions({"admin:message:list"})
-    @RequiresAuthentication
+    //@RequiresPermissions({"admin:message:list"})
+    //@RequiresAuthentication
     public OutputListResult<UserMessageDTO> getListByCondition(
-            @RequestHeader(value = "_current_id") Long currentId,
+            @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
             @RequestParam(value = "id", required = false) Long id,
             @RequestParam(value = "type", required = false, defaultValue = "0") Integer type,
             @RequestParam(value = "pageNo", required = false, defaultValue = "1") Integer pageNo,

@@ -115,6 +115,9 @@ public class UserMessageServiceImpl implements IUserMessageService {
     public PageInfo<UserMessageDTO> getListByCondition(String keyword, Integer type, Long id, Long currentId, Integer pageNo, Integer pageSize) throws ApplicationException {
         Page page = PageHelper.startPage(pageNo, pageSize);
         List<UserMessage> userMessageList = iUserMessageDao.selectListByCondition(keyword, type, id, currentId);
+        if(userMessageList == null) {
+            return new PageInfo<>(new ArrayList<>());
+        }
         List<UserMessageDTO> userMessageDTOList = loadUserAndMessageProperties(userMessageList);
         PageInfo<UserMessageDTO> pageInfo = new PageInfo<>(userMessageDTOList);
         pageInfo.setTotal(page.getTotal());
