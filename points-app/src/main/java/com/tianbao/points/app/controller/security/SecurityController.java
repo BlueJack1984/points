@@ -165,9 +165,9 @@ public class SecurityController {
     @ApiImplicitParams({@ApiImplicitParam(paramType = "header", dataType = "Long", name = "currentId", value = "当前用户id", required = true)})
     @CrossOrigin
     @GetMapping(value = "/logout")
-    public OutputResult<String> logout(@RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId) throws ApplicationException{
+    public OutputResult<String> logout(@RequestHeader(value = "_current_id") Long currentId) throws ApplicationException{
         //暂时没有业务
         //这里应该进行使token失效的操作
-        return new OutputResult<>("用户成功退出");
+        return new OutputResult<>("用户成功退出:" + currentId);
     }
 }

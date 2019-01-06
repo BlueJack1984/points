@@ -49,7 +49,7 @@ public class PersonalController {
     @RequiresPermissions({"app:user:personal:info"})
     @RequiresAuthentication
     public OutputResult<UserDTO> getPersonalInfo(
-            @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId)throws ApplicationException {
+            @RequestHeader(value = "_current_id") Long currentId)throws ApplicationException {
         UserDTO userDTO = userServer.getPersonalInfo(currentId);
         return new OutputResult<>(userDTO);
     }
@@ -70,7 +70,7 @@ public class PersonalController {
     @RequiresPermissions({"app:user:personal:password"})
     @RequiresAuthentication
     public OutputResult<Void> updatePassword(
-            @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
+            @RequestHeader(value = "_current_id") Long currentId,
             @RequestBody @Valid PasswordInput passwordInput)throws ApplicationException {
         userServer.updatePassword(currentId, passwordInput.getOldPassword(),
                 passwordInput.getNewPassword(), passwordInput.getSureNewPassword());

@@ -61,7 +61,7 @@ public class MessageController {
     @RequiresPermissions({"app:message:list"})
     @RequiresAuthentication
     public OutputListResult<UserMessageDTO> getListPage(
-            @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
+            @RequestHeader(value = "_current_id") Long currentId,
             @RequestParam(value = "pageNo", required = false, defaultValue = "1") Integer pageNo,
             @RequestParam(value = "pageSize", required = false, defaultValue = "20") Integer pageSize) throws Exception {
 
@@ -89,7 +89,7 @@ public class MessageController {
     @RequiresPermissions({"app:message:query"})
     @RequiresAuthentication
     public OutputResult<UserMessageDTO> get(
-            @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
+            @RequestHeader(value = "_current_id") Long currentId,
             @RequestParam(value = "receiverId") Long receiverId,
             @PathVariable("id") Long id)throws ApplicationException {
 
@@ -115,7 +115,7 @@ public class MessageController {
     @RequiresPermissions({"app:message:save"})
     @RequiresAuthentication
     public OutputResult<Message> save(
-            @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
+            @RequestHeader(value = "_current_id") Long currentId,
             @RequestBody @Valid MessageInput messageInput) throws ApplicationException {
 
         List<Long> idList = messageInput.getIdList();

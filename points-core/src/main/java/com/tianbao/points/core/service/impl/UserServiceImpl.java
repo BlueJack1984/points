@@ -86,7 +86,7 @@ public class UserServiceImpl implements IUserService {
         //获取用户基本信息
         User user = iUserDao.selectByPrimaryKey(id);
         if(user == null) {
-            return null;
+            return userDTO;
         }
         BeanHelper.copyProperties(userDTO, user);
         //根据管理员id获取相关职位信息
@@ -172,7 +172,7 @@ public class UserServiceImpl implements IUserService {
         try {
             encodedPassword = MD5.EncoderByMd5(oldPassword + PASSWORD_SECRET_KEY);
         } catch (Exception e) {
-            throw new ApplicationException(ApplicationException.PARAM_ERROR, "密码加密错误");
+            throw new ApplicationException(ApplicationException.PARAM_ERROR, "原密码加密错误");
         }
         User user = iUserDao.selectByPrimaryKey(currentId);
         if(operation == 0) {
@@ -566,7 +566,7 @@ public class UserServiceImpl implements IUserService {
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void save(User record) throws ApplicationException {
-
+        iUserDao.insert(record);
     }
 
     @Override

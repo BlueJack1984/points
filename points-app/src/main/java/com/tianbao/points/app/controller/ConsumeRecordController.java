@@ -47,10 +47,10 @@ public class ConsumeRecordController {
         @ApiImplicitParam(paramType = "query", dataType = "Integer", name = "pageSize", value = "每页显示数据条数", required = false)})
     @CrossOrigin
     @GetMapping("/list/page")
-    //@RequiresPermissions({"app:consume:record:list"})
-    //@RequiresAuthentication
+    @RequiresPermissions({"app:consume:record:list"})
+    @RequiresAuthentication
     public OutputListResult<ConsumeRecord> getListPage(
-            @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
+            @RequestHeader(value = "_current_id") Long currentId,
             @RequestParam(value = "pageNo", required = false, defaultValue = "1") Integer pageNo,
             @RequestParam(value = "pageSize", required = false, defaultValue = "20") Integer pageSize) throws Exception {
 

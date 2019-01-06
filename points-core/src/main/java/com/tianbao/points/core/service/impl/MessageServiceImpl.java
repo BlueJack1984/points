@@ -116,8 +116,17 @@ public class MessageServiceImpl implements IMessageService {
             senderIds.add(userMessage.getSenderId());
         }
         List<Message> messageList = iMessageDao.getListByIds(messageIds);
+        if(messageList == null || messageList.size() <= 0) {
+            throw new ApplicationException(1, "");
+        }
         List<User> receiverList = userServer.getListByIds(receiverIds);
+        if(receiverList == null || receiverList.size() <= 0) {
+            throw new ApplicationException(1, "");
+        }
         List<User> senderList = userServer.getListByIds(senderIds);
+        if(senderList == null || senderList.size() <= 0) {
+            throw new ApplicationException(1, "");
+        }
         List<UserMessageDTO> userMessageDTOList = new ArrayList<>();
         for(UserMessage userMessage: userMessageList) {
             UserMessageDTO userMessageDTO = new UserMessageDTO();

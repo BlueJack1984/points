@@ -57,7 +57,7 @@ public class StockController {
     @RequiresPermissions({"app:stock:list"})
     @RequiresAuthentication
     public OutputListResult<Stock> getListPage(
-            @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
+            @RequestHeader(value = "_current_id") Long currentId,
             @RequestParam(value = "pageNo", required = false, defaultValue = "1")Integer pageNo,
             @RequestParam(value = "pageSize", required = false, defaultValue = "25")Integer pageSize)throws ApplicationException {
         PageInfo<Stock> pageInfo = stockServer.getListPage(pageNo, pageSize);
@@ -80,7 +80,7 @@ public class StockController {
     @RequiresPermissions({"app:stock:query"})
     @RequiresAuthentication
     public OutputResult<Stock> get(
-            @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
+            @RequestHeader(value = "_current_id") Long currentId,
             @PathVariable("id") Long id)throws ApplicationException {
         Stock stock = stockServer.selectById(id);
         return new OutputResult<>(stock);
@@ -103,7 +103,7 @@ public class StockController {
     @RequiresPermissions({"app:stock:list:num"})
     @RequiresAuthentication
     public OutputListResult<Stock> getListNum(
-            @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
+            @RequestHeader(value = "_current_id") Long currentId,
             @PathVariable("num") Integer num)throws ApplicationException {
         if(num == null || num.intValue() <= 0) {
             throw new ApplicationException(ApplicationException.PARAM_ERROR, "获取的证券数据条数参数错误");

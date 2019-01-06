@@ -14,13 +14,11 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.SimpleDateFormat;
-import java.util.List;
 
 /**
  * @desc 首页公告入口
@@ -57,7 +55,7 @@ public class AnnouncementController {
     @RequiresPermissions({"app:announcement:list"})
     @RequiresAuthentication
     public OutputListResult<AnnouncementDTO> getListPage(
-            @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
+            @RequestHeader(value = "_current_id") Long currentId,
             @RequestParam(value = "pageNo", required = false, defaultValue = "1") Integer pageNo,
             @RequestParam(value = "pageSize", required = false, defaultValue = "20") Integer pageSize) throws Exception {
 
@@ -83,7 +81,7 @@ public class AnnouncementController {
     @RequiresPermissions({"app:announcement:query"})
     @RequiresAuthentication
     public OutputResult<Announcement> get(
-            @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
+            @RequestHeader(value = "_current_id") Long currentId,
             @PathVariable Long id)throws ApplicationException {
 
         Announcement announcement = announcementServer.selectById(id);

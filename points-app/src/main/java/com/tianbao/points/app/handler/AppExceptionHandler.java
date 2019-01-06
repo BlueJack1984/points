@@ -8,6 +8,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
+import org.springframework.http.converter.HttpMessageConversionException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -22,6 +24,36 @@ import java.lang.reflect.UndeclaredThrowableException;
 @Slf4j
 public class AppExceptionHandler {
 
+    /**
+     * 用于处理通用异常
+     */
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    //@ResponseStatus(HttpStatus.BAD_REQUEST)
+    public OutputError validationBodyException(MethodArgumentNotValidException ex) {
+//        BindingResult bindingResult = e.getBindingResult();
+//
+//        String errorMesssage = "校验失败:";
+//
+//        for (FieldError fieldError : bindingResult.getFieldErrors()) {
+//            errorMesssage += fieldError.getDefaultMessage() + ", ";
+//        }
+//
+//        return new OutputError("00000010", errorMesssage);
+        return null;
+    }
+    /**
+     * 参数类型转换错误
+     *
+     * @param exception 错误
+     * @return 错误信息
+     */
+    @ExceptionHandler(HttpMessageConversionException.class)
+    public OutputError parameterTypeException(HttpMessageConversionException exception){
+
+//        logger.error(exception.getCause().getLocalizedMessage());
+//        return ServiceResult.error("类型转换错误");
+        return null;
+    }
     /**
      * 拦截捕捉异常 UnauthorizedException.class
      * @param ex

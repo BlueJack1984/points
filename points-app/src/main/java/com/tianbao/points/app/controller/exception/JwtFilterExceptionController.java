@@ -16,6 +16,10 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * 截获spring boot Error页面
  * 主要捕捉jwt异常返回界面
+ * 说三遍：：：：：
+ * 这个异常捕捉controller没有使用
+ * 这个异常捕捉controller没有使用
+ * 这个异常捕捉controller没有使用
  */
 //@Controller
 public class JwtFilterExceptionController implements ErrorController {

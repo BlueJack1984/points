@@ -99,7 +99,7 @@ public class AnnouncementServiceImpl implements IAnnouncementService {
         Page page = PageHelper.startPage(pageNo, pageSize);
         List<Announcement> announcementList = iAnnouncementDao.getListPage();
         if(announcementList == null) {
-            return new PageInfo<>(null);
+            return new PageInfo<>(new ArrayList<>());
         }
         List<Long> ids = new ArrayList<>();
         for(Announcement announcement: announcementList) {

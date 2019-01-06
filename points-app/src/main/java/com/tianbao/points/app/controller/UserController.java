@@ -56,11 +56,11 @@ public class UserController {
     @RequiresPermissions({"app:user:save"})
     @RequiresAuthentication
     public OutputResult<UserDTO> save(
-            @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
+            @RequestHeader(value = "_current_id") Long currentId,
             @RequestBody @Valid UserInput userInput)throws ApplicationException {
 
         if(! userInput.getPassword().equals(userInput.getSurePassword())) {
-            throw new ApplicationException(ApplicationException.PARAM_ERROR, "登录密码与确认密码输入不一致");
+            throw new ApplicationException(ApplicationException.PARAM_ERROR, "设置的登录密码与确认密码不一致");
         }
         User user = new User();
         copyProperties(user, userInput);
