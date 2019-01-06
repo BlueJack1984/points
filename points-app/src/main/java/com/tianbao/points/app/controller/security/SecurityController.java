@@ -128,7 +128,7 @@ public class SecurityController {
         user.setCurrentLoginTime(new Date());
         user.setUpdateTime(new Date());
         user.setUpdateUserId(user.getId());
-        userServer.save(user);
+        userServer.updateById(user);
         return new OutputResult<>(jwtToken);
     }
 
