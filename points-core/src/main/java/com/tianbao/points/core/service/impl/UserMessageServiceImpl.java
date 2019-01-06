@@ -1,5 +1,6 @@
 package com.tianbao.points.core.service.impl;
 
+import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.tianbao.points.core.constant.StatusCode;
@@ -112,10 +113,11 @@ public class UserMessageServiceImpl implements IUserMessageService {
      */
     @Override
     public PageInfo<UserMessageDTO> getListByCondition(String keyword, Integer type, Long id, Long currentId, Integer pageNo, Integer pageSize) throws ApplicationException {
-        PageHelper.startPage(pageNo, pageSize);
+        Page page = PageHelper.startPage(pageNo, pageSize);
         List<UserMessage> userMessageList = iUserMessageDao.selectListByCondition(keyword, type, id, currentId);
         List<UserMessageDTO> userMessageDTOList = loadUserAndMessageProperties(userMessageList);
         PageInfo<UserMessageDTO> pageInfo = new PageInfo<>(userMessageDTOList);
+        pageInfo.setTotal(page.getTotal());
         return pageInfo;
     }
 

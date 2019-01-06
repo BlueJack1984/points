@@ -57,7 +57,7 @@ public class SystemBonusController {
     @RequiresPermissions({"admin:system:bonus:balance"})
     @RequiresAuthentication
     public OutputResult<SystemBonusOutput> balance(
-            @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId)throws ApplicationException {
+            @RequestHeader(value = "_current_id") Long currentId)throws ApplicationException {
 
         SystemBonusOutput systemBonusOutput = systemBonusServer.balance();
         return new OutputResult<>(systemBonusOutput);
@@ -82,7 +82,7 @@ public class SystemBonusController {
     @RequiresPermissions({"admin:system:bonus:checkout"})
     @RequiresAuthentication
     public OutputResult<Void> checkout(
-            @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
+            @RequestHeader(value = "_current_id") Long currentId,
             @RequestParam("systemRatio") Double systemRatio)throws ApplicationException {
         Date today = new Date();
         //数据库中查询最新的一条数据日期
@@ -113,7 +113,7 @@ public class SystemBonusController {
     @RequiresPermissions({"admin:system:bonus:list"})
     @RequiresAuthentication
     public OutputListResult<SystemBonus> getListPage(
-            @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
+            @RequestHeader(value = "_current_id") Long currentId,
             @RequestParam(value = "pageNo", required = false, defaultValue = "1") Integer pageNo,
             @RequestParam(value = "pageSize", required = false, defaultValue = "20") Integer pageSize)throws ApplicationException {
 
@@ -139,7 +139,7 @@ public class SystemBonusController {
     @RequiresPermissions({"admin:system:bonus:visible"})
     @RequiresAuthentication
     public OutputResult<Void> setVisibility(
-            @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
+            @RequestHeader(value = "_current_id") Long currentId,
             @PathVariable("id") Long id)throws ApplicationException {
 
         systemBonusServer.setVisibility(id, currentId);
@@ -164,7 +164,7 @@ public class SystemBonusController {
     @RequiresPermissions({"admin:system:bonus:delete"})
     @RequiresAuthentication
     public OutputResult<Void> delete(
-            @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
+            @RequestHeader(value = "_current_id") Long currentId,
             @PathVariable("id") Long id)throws ApplicationException {
         //逻辑删除
         systemBonusServer.deleteById(id, currentId);

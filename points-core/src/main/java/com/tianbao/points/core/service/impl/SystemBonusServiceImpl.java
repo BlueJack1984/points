@@ -261,7 +261,7 @@ public class SystemBonusServiceImpl extends VisibilityService implements ISystem
         return systemBonus.getId();
     }
 
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public void savePersonalBonusList(Long systemBonusId, List<PersonalBonus> personalBonusList)throws ApplicationException {
         for(PersonalBonus personalBonus: personalBonusList) {
             personalBonus.setSystemBonusId(systemBonusId);

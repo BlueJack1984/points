@@ -69,7 +69,7 @@ public class UserMessageController {
     @RequiresPermissions({"admin:message:list"})
     @RequiresAuthentication
     public OutputListResult<UserMessageDTO> getListByCondition(
-            @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
+            @RequestHeader(value = "_current_id") Long currentId,
             @RequestParam(value = "id", required = false) Long id,
             @RequestParam(value = "type", required = false, defaultValue = "0") Integer type,
             @RequestParam(value = "pageNo", required = false, defaultValue = "1") Integer pageNo,
@@ -99,10 +99,10 @@ public class UserMessageController {
     public OutputResult<Void> deleteByIds(
             @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
             @RequestBody EntityIdsInput idsInput)throws ApplicationException {
-        if(StringUtils.isEmpty(idsInput.getIds())) {
+        List<Long> idList = idsInput.getIdList();
+        if(idList == null || idList.size() <= 0) {
             throw new ApplicationException(ApplicationException.PARAM_ERROR, "实体id集合字符串不能为空");
         }
-        List<Long> idList = idsInput.getIdList();
         userMessageServer.deleteByIds(idList, currentId);
         return new OutputResult<>();
     }
@@ -125,7 +125,7 @@ public class UserMessageController {
     @RequiresPermissions({"admin:message:query"})
     @RequiresAuthentication
     public OutputResult<UserMessageDTO> getById(
-            @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
+            @RequestHeader(value = "_current_id") Long currentId,
             @PathVariable("id") Long id)throws ApplicationException {
         if(id == null) {
             throw new ApplicationException(ApplicationException.PARAM_ERROR, "查询留言实体id不能为空");
@@ -151,7 +151,7 @@ public class UserMessageController {
     @RequiresPermissions({"admin:message:reply"})
     @RequiresAuthentication
     public OutputResult<UserMessageDTO> reply(
-            @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
+            @RequestHeader(value = "_current_id") Long currentId,
             @RequestBody @Valid ReplyInput replyInput)throws ApplicationException {
 
         UserMessageDTO userMessageDTO = userMessageServer.updateById(replyInput.getId(), currentId,

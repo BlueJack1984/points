@@ -58,7 +58,7 @@ public class UserController {
     @RequiresPermissions({"admin:user:list:audited"})
     @RequiresAuthentication
     public OutputListResult<UserDTO> getListPage(
-            @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
+            @RequestHeader(value = "_current_id") Long currentId,
             @RequestParam(value = "pageNo", required = false, defaultValue = "1")Integer pageNo,
             @RequestParam(value = "pageSize", required = false, defaultValue = "25")Integer pageSize)throws ApplicationException {
         PageInfo<UserDTO> pageInfo = userServer.getListPage(pageNo, pageSize);
@@ -83,7 +83,7 @@ public class UserController {
     @RequiresPermissions({"admin:user:query"})
     @RequiresAuthentication
     public OutputResult<UserDTO> get(
-            @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
+            @RequestHeader(value = "_current_id") Long currentId,
             @PathVariable Long id)throws ApplicationException {
         UserDTO userDTO = userServer.getById(id);
         return new OutputResult<>(userDTO);
@@ -105,7 +105,7 @@ public class UserController {
     @RequiresPermissions({"admin:user:update"})
     @RequiresAuthentication
     public OutputResult<User> update(
-            @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
+            @RequestHeader(value = "_current_id") Long currentId,
             @RequestBody @Valid UserInput userInput)throws ApplicationException {
         User user = userServer.selectById(userInput.getId());
         if(user == null) {
@@ -160,7 +160,7 @@ public class UserController {
     @RequiresPermissions({"admin:user:reset:password"})
     @RequiresAuthentication
     public OutputResult<Void> reset(
-            @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
+            @RequestHeader(value = "_current_id") Long currentId,
             @PathVariable Long id)throws ApplicationException {
         userServer.resetPassword(id, currentId);
         return new OutputResult<>();
@@ -190,7 +190,7 @@ public class UserController {
     @RequiresPermissions({"admin:user:list:condition"})
     @RequiresAuthentication
     public OutputListResult<UserDTO> getListByConditionPage(
-            @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
+            @RequestHeader(value = "_current_id") Long currentId,
             @RequestParam(value = "pageNo", required = false, defaultValue = "1")Integer pageNo,
             @RequestParam(value = "pageSize", required = false, defaultValue = "25")Integer pageSize,
             @RequestParam(value = "keyword", required = false) String keyword,
@@ -224,6 +224,9 @@ public class UserController {
             @RequestBody @Valid EntityIdsInput idsInput)throws ApplicationException {
 
         List<Long> idList = idsInput.getIdList();
+        if(idList == null || idList.size() <= 0) {
+            throw new ApplicationException(1, "");
+        }
         userServer.forbidBatch(idList, currentId);
         return new OutputResult<>();
     }

@@ -60,7 +60,7 @@ public class RoleController {
     @RequiresPermissions({"admin:role:list"})
     @RequiresAuthentication
     public OutputListResult<Role> getListPage(
-            @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
+            @RequestHeader(value = "_current_id") Long currentId,
             @RequestParam(value = "pageNo", required = false, defaultValue = "1") Integer pageNo,
             @RequestParam(value = "pageSize", required = false, defaultValue = "25") Integer pageSize)throws ApplicationException {
         PageInfo<Role> pageInfo = roleServer.getListPage(pageNo, pageSize);
@@ -84,7 +84,7 @@ public class RoleController {
     @RequiresPermissions({"admin:role:query"})
     @RequiresAuthentication
     public OutputResult<Role> get(
-            @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
+            @RequestHeader(value = "_current_id") Long currentId,
             @PathVariable Long id)throws ApplicationException {
         Role role = roleServer.selectById(id);
         return new OutputResult<>(role);
@@ -107,7 +107,7 @@ public class RoleController {
     @RequiresPermissions({"admin:role:update"})
     @RequiresAuthentication
     public OutputResult<Role> update(
-            @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
+            @RequestHeader(value = "_current_id") Long currentId,
             @RequestBody @Valid RoleUpdateInput roleUpdateInput)throws ApplicationException {
         Role role = roleServer.selectById(roleUpdateInput.getId());
         if(role == null) {
@@ -139,7 +139,7 @@ public class RoleController {
     @RequiresPermissions({"admin:role:delete"})
     @RequiresAuthentication
     public OutputResult<Void> delete(
-            @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
+            @RequestHeader(value = "_current_id") Long currentId,
             @PathVariable Long id)throws ApplicationException {
         roleServer.delete(id, currentId);
         return new OutputResult<>();
@@ -162,7 +162,7 @@ public class RoleController {
     @RequiresPermissions({"admin:role:save"})
     @RequiresAuthentication
     public OutputResult<Role> save(
-            @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
+            @RequestHeader(value = "_current_id") Long currentId,
             @RequestBody @Valid RoleInput roleInput)throws ApplicationException {
 
         Role role = roleServer.insert(roleInput.getName(), roleInput.getDescription(), currentId);

@@ -57,7 +57,7 @@ public class StockController {
     @RequiresPermissions({"admin:stock:list"})
     @RequiresAuthentication
     public OutputListResult<Stock> getListPage(
-            @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
+            @RequestHeader(value = "_current_id") Long currentId,
             @RequestParam(value = "pageNo", required = false, defaultValue = "1")Integer pageNo,
             @RequestParam(value = "pageSize", required = false, defaultValue = "25")Integer pageSize)throws ApplicationException {
         PageInfo<Stock> pageInfo = stockServer.getListPage(pageNo, pageSize);
@@ -80,7 +80,7 @@ public class StockController {
     @RequiresPermissions({"admin:stock:query"})
     @RequiresAuthentication
     public OutputResult<Stock> get(
-            @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
+            @RequestHeader(value = "_current_id") Long currentId,
             @PathVariable("id") Long id)throws ApplicationException {
         Stock stock = stockServer.selectById(id);
         return new OutputResult<>(stock);
@@ -102,7 +102,7 @@ public class StockController {
     @RequiresPermissions({"admin:stock:delete"})
     @RequiresAuthentication
     public OutputResult<Void> delete(
-            @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
+            @RequestHeader(value = "_current_id") Long currentId,
             @PathVariable("id") Long id)throws ApplicationException {
         stockServer.deleteById(id);
         return new OutputResult<>();
@@ -125,7 +125,7 @@ public class StockController {
     @RequiresPermissions({"admin:stock:update"})
     @RequiresAuthentication
     public OutputResult<Stock> update(
-            @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
+            @RequestHeader(value = "_current_id") Long currentId,
             @RequestBody StockInput stockInput)throws ApplicationException {
         //首先将实体查询出来
         if(stockInput.getId() == null) {
@@ -199,7 +199,7 @@ public class StockController {
     @RequiresPermissions({"admin:stock:save"})
     @RequiresAuthentication
     public OutputResult<Stock> save(
-            @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
+            @RequestHeader(value = "_current_id") Long currentId,
             @RequestBody @Valid StockInput stockInput)throws ApplicationException {
         Stock stock = new Stock();
         copyProperties(stock, stockInput);
@@ -224,7 +224,7 @@ public class StockController {
     @RequiresPermissions({"admin:stock:list:num"})
     @RequiresAuthentication
     public OutputListResult<Stock> getListNum(
-            @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
+            @RequestHeader(value = "_current_id") Long currentId,
             @PathVariable("num") Integer num)throws ApplicationException {
         if(num == null || num.intValue() <= 0) {
             throw new ApplicationException(1, "");

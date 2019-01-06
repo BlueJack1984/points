@@ -174,7 +174,7 @@ public class AdministratorController {
     @RequiresAuthentication
     public OutputResult<UserDTO> update(
             @RequestHeader(value = "_current_id") Long currentId,
-            @RequestBody @Valid AdminUpdateInput adminUpdateInput)throws ApplicationException {
+            @RequestBody AdminUpdateInput adminUpdateInput)throws ApplicationException {
         String password = adminUpdateInput.getPassword();
         String surePassword = adminUpdateInput.getSurePassword();
         if(!(password == null && surePassword == null || password != null && password.equals(surePassword))) {
