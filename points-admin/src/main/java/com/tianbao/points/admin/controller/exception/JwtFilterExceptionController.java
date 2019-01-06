@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * 截获spring boot Error页面
  * 主要捕捉jwt异常返回界面
+ * 目前这个拦截异常处理器没有使用
  */
 //@Controller
 public class JwtFilterExceptionController implements ErrorController {
