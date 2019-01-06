@@ -128,8 +128,6 @@ public class CustomRealm extends AuthorizingRealm {
         if (username == null) {
             throw new AuthenticationException("token无效");
         }
-        //UsernamePasswordToken usernamePasswordToken = (UsernamePasswordToken)authenticationToken;
-        //String username = usernamePasswordToken.getUsername();
         //从数据库中查询用户名和密码信息
         User user = null;
         try {

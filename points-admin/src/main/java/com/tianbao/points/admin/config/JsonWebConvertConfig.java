@@ -7,6 +7,12 @@ import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import org.springframework.boot.jackson.JsonComponent;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
+/**
+ * @author lushusheng
+ * @description 设置前端数据传输过程中Long类型id在json格式的精度损失问题
+ * @date 2018-12-10
+ * @time 14:12
+ */
 
 @JsonComponent
 public class JsonWebConvertConfig {
@@ -27,5 +33,4 @@ public class JsonWebConvertConfig {
         objectMapper.registerModule(module);
         return objectMapper;
     }
-
 }

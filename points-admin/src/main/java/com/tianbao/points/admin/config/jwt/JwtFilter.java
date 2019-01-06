@@ -95,19 +95,6 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
             log.info(e.getMessage());
         }
     }
-    /**
-     * 从请求头获取token并验证，验证通过后交给realm进行登录
-     * 这个是在isAccessAllowed方法返回false执行
-     * @param servletRequest
-     * @param servletResponse
-     * @return 返回结果为true表明登录通过
-     * @throws Exception
-     */
-//    @Override
-//    protected boolean onAccessDenied(ServletRequest servletRequest, ServletResponse servletResponse) throws Exception {
-//        log.info("***********************on access denied method*************************");
-//        return true;
-//    }
 
     /**
      *处理JWT异常
@@ -144,23 +131,4 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
         }
         return super.preHandle(request, response);
     }
-
-//    @Override
-//    protected boolean onLoginFailure(AuthenticationToken token, AuthenticationException ae, ServletRequest request,
-//                                     ServletResponse response) {
-//        HttpServletResponse servletResponse = (HttpServletResponse) response;
-//        JSONObject jsonObject = new JSONObject();
-//        jsonObject.put("code", HttpServletResponse.SC_UNAUTHORIZED);
-//        jsonObject.put("msg","登录失败，无权访问");
-//        jsonObject.put("timestamp", System.currentTimeMillis());
-//        try {
-//            servletResponse.setCharacterEncoding("UTF-8");
-//            servletResponse.setContentType("application/json;charset=UTF-8");
-//            servletResponse.setHeader("Access-Control-Allow-Origin","*");
-//            ObjectMapper objectMapper = new ObjectMapper();
-//            response.getWriter().write(objectMapper.writeValueAsString(jsonObject));
-//        } catch (IOException e) {
-//        }
-//        return false;
-//    }
 }
