@@ -87,16 +87,16 @@ public class CustomRealm extends AuthorizingRealm {
         User user = null;
         try {
             user = userServer.getByAccount(account);
-        } catch (ApplicationException e) {
-            log.info(e.getDetailMsg());
+        } catch (ApplicationException ex) {
+            log.info(ex.getMessage());
             return simpleAuthorizationInfo;
         }
         //查询用户的权限列表
         List<Authority> authorityList = null;
         try {
             authorityList = authorityServer.getListByUserId(user.getId());
-        } catch (ApplicationException e) {
-            log.info(e.getDetailMsg());
+        } catch (ApplicationException ex) {
+            log.info(ex.getMessage());
             return simpleAuthorizationInfo;
         }
         //获取授权列表
@@ -132,8 +132,8 @@ public class CustomRealm extends AuthorizingRealm {
         User user = null;
         try {
             user = userServer.getByAccount(username);
-        } catch (ApplicationException e) {
-            log.info(e.getDetailMsg());
+        } catch (ApplicationException ex) {
+            log.info(ex.getMessage());
             return null;
         }
         if(user == null) {
