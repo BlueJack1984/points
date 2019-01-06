@@ -67,7 +67,7 @@ public class AdministratorController {
     @RequiresPermissions({"admin:list"})
     @RequiresAuthentication
     public OutputListResult<UserDTO> getAdminListPage(
-            @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
+            @RequestHeader(value = "_current_id") Long currentId,
             @RequestParam(value = "pageNo", required = false, defaultValue = "1")Integer pageNo,
             @RequestParam(value = "pageSize", required = false, defaultValue = "25")Integer pageSize)throws ApplicationException {
 
@@ -92,7 +92,7 @@ public class AdministratorController {
     @RequiresPermissions({"admin:query"})
     @RequiresAuthentication
     public OutputResult<UserDTO> get(
-            @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
+            @RequestHeader(value = "_current_id") Long currentId,
             @PathVariable("id") Long id)throws ApplicationException {
 
         UserDTO userDTO = userServer.getPersonalInfo(id);
@@ -116,7 +116,7 @@ public class AdministratorController {
     @RequiresPermissions({"admin:delete"})
     @RequiresAuthentication
     public OutputResult<Void> delete(
-            @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
+            @RequestHeader(value = "_current_id") Long currentId,
             @PathVariable("id") Long id)throws ApplicationException {
 
        userServer.deleteById(id, currentId);
@@ -140,7 +140,7 @@ public class AdministratorController {
     @RequiresPermissions({"admin:save"})
     @RequiresAuthentication
     public OutputResult<UserDTO> save(
-            @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
+            @RequestHeader(value = "_current_id") Long currentId,
             @RequestBody @Valid AdminInput adminInput)throws ApplicationException {
         if(StringUtils.isEmpty(adminInput.getPassword()) || StringUtils.isEmpty(adminInput.getSurePassword())
                 || ! adminInput.getPassword().equals(adminInput.getSurePassword())) {
@@ -173,7 +173,7 @@ public class AdministratorController {
     @RequiresPermissions({"admin:update"})
     @RequiresAuthentication
     public OutputResult<UserDTO> update(
-            @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
+            @RequestHeader(value = "_current_id") Long currentId,
             @RequestBody @Valid AdminUpdateInput adminUpdateInput)throws ApplicationException {
         String password = adminUpdateInput.getPassword();
         String surePassword = adminUpdateInput.getSurePassword();

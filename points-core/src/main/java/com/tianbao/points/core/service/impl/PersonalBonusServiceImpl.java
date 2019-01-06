@@ -213,10 +213,11 @@ public class PersonalBonusServiceImpl extends VisibilityService implements IPers
      */
     @Override
     public PageInfo<PersonalBonusDTO> getByCondition(String keyword, Long sysBonusId, Integer pageNo, Integer pageSize) throws ApplicationException {
-        PageHelper.startPage(pageNo, pageSize);
+        Page page = PageHelper.startPage(pageNo, pageSize);
         List<PersonalBonus> personalBonusList = iPersonalBonusDao.getByCondition(keyword, sysBonusId);
         List<PersonalBonusDTO> personalBonusDTOList = loadUserProperties(personalBonusList);
         PageInfo<PersonalBonusDTO> pageInfo = new PageInfo<>(personalBonusDTOList);
+        pageInfo.setTotal(page.getTotal());
         return pageInfo;
     }
 

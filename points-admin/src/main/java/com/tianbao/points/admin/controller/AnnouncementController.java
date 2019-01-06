@@ -62,7 +62,7 @@ public class AnnouncementController {
     @RequiresPermissions({"admin:announcement:list"})
     @RequiresAuthentication
     public OutputListResult<AnnouncementDTO> getListPage(
-            @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
+            @RequestHeader(value = "_current_id") Long currentId,
             @RequestParam(value = "pageNo", required = false, defaultValue = "1") Integer pageNo,
             @RequestParam(value = "pageSize", required = false, defaultValue = "20") Integer pageSize) throws Exception {
 
@@ -89,7 +89,7 @@ public class AnnouncementController {
     @RequiresAuthentication
     public OutputResult<Announcement> save(
             @RequestBody @Valid AnnouncementInput announcementInput,
-            @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId) throws ApplicationException {
+            @RequestHeader(value = "_current_id") Long currentId) throws ApplicationException {
 
         Date publishTime = null;
         try {
@@ -121,7 +121,7 @@ public class AnnouncementController {
     @RequiresPermissions({"admin:announcement:query"})
     @RequiresAuthentication
     public OutputResult<Announcement> get(
-            @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
+            @RequestHeader(value = "_current_id") Long currentId,
             @PathVariable Long id)throws ApplicationException {
 
         Announcement announcement = announcementServer.selectById(id);
@@ -146,13 +146,13 @@ public class AnnouncementController {
     @RequiresPermissions({"admin:announcement:delete"})
     @RequiresAuthentication
     public OutputResult<Void> delete(
-            @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
-            @RequestBody EntityIdsInput idsInput)throws ApplicationException {
+            @RequestHeader(value = "_current_id") Long currentId,
+            @RequestBody @Valid EntityIdsInput idsInput)throws ApplicationException {
 
-        if(StringUtils.isEmpty(idsInput.getIds())) {
+        List<Long> idList = idsInput.getIdList();
+        if(idList == null || idList.size() <= 0) {
             throw new ApplicationException(ApplicationException.PARAM_ERROR, "删除的公告实体id列表参数不能为空");
         }
-        List<Long> idList = idsInput.getIdList();
         announcementServer.deleteByIds(idList, currentId);
         return new OutputResult<>();
     }

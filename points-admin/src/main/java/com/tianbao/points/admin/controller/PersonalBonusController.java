@@ -59,7 +59,7 @@ public class PersonalBonusController {
     @RequiresPermissions({"admin:personal:bonus:list"})
     @RequiresAuthentication
     public OutputListResult<PersonalBonusDTO> getListBySysBonusIdPage(
-            @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
+            @RequestHeader(value = "_current_id") Long currentId,
             @RequestParam(value = "pageNo", required = false, defaultValue = "1") Integer pageNo,
             @RequestParam(value = "pageSize", required = false, defaultValue = "20") Integer pageSize,
             @PathVariable("sysBonusId") Long sysBonusId)throws ApplicationException {
@@ -86,7 +86,7 @@ public class PersonalBonusController {
     @RequiresPermissions({"admin:personal:bonus:delete"})
     @RequiresAuthentication
     public OutputResult<Void> delete(
-            @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
+            @RequestHeader(value = "_current_id") Long currentId,
             @PathVariable("id") Long id)throws ApplicationException {
 
         return new OutputResult<>();
@@ -110,7 +110,7 @@ public class PersonalBonusController {
     @RequiresPermissions({"admin:personal:bonus:visible"})
     @RequiresAuthentication
     public OutputResult<Void> setVisibility(
-            @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
+            @RequestHeader(value = "_current_id") Long currentId,
             @PathVariable("id") Long id)throws ApplicationException {
 
         personalBonusServer.setVisibility(id, currentId);
@@ -141,7 +141,7 @@ public class PersonalBonusController {
     @RequiresPermissions({"admin:personal:bonus:list:condition"})
     @RequiresAuthentication
     public OutputListResult<PersonalBonusDTO> getByCondition(
-            @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
+            @RequestHeader(value = "_current_id") Long currentId,
             @RequestParam(value = "pageNo", required = false, defaultValue = "1") Integer pageNo,
             @RequestParam(value = "pageSize", required = false, defaultValue = "20") Integer pageSize,
             @RequestParam("keyword") String keyword,

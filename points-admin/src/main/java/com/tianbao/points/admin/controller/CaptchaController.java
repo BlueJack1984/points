@@ -15,6 +15,10 @@ import java.util.Random;
  * @desc 图片验证码随机生成入口
  * @author lushusheng
  * @date 2018-12-21
+ * 重要的事说三遍：：：
+ * 这个controller没有使用
+ * 这个controller没有使用
+ * 这个controller没有使用
  */
 
 @Api(value = "captcha", description = "图片验证码")

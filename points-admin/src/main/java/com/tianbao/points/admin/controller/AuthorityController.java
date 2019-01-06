@@ -56,7 +56,7 @@ public class AuthorityController {
     @RequiresAuthentication
     public OutputResult<Authority> save(
             @RequestBody @Valid AuthorityInput authorityInput,
-            @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId) throws ApplicationException {
+            @RequestHeader(value = "_current_id") Long currentId) throws ApplicationException {
 
         Authority authority = new Authority();
         copyProperties(authority, authorityInput);

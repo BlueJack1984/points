@@ -357,11 +357,17 @@ public class UserServiceImpl implements IUserService {
      */
     @Override
     public PageInfo<UserDTO> getAdminListPage(Integer pageNo, Integer pageSize) throws ApplicationException {
-        PageHelper.startPage(pageNo, pageSize);
+        Page page = PageHelper.startPage(pageNo, pageSize);
         List<User> adminList = iUserDao.getAdminListPage();
+        if(adminList == null || adminList.size() <= 0) {
+            return new PageInfo<>(new ArrayList<>());
+        }
         List<UserDTO> userDTOList = new ArrayList<>();
         //后期可以优化，管理员数据量大时较慢
         for(User admin: adminList) {
+            if(admin == null) {
+                continue;
+            }
             UserDTO userDTO = new UserDTO();
             BeanHelper.copyProperties(userDTO, admin);
             List<Role> roleList = roleServer.getListByUserId(admin.getId());
@@ -371,6 +377,7 @@ public class UserServiceImpl implements IUserService {
             userDTOList.add(userDTO);
         }
         PageInfo<UserDTO> pageInfo = new PageInfo<>(userDTOList);
+        pageInfo.setTotal(page.getTotal());
         return pageInfo;
     }
     /**
