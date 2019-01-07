@@ -26,9 +26,8 @@ public class JwtResponseErrorController {
      */
     @RequestMapping(value = "/401")
     public void getResponse401(HttpServletRequest request, HttpServletResponse response) throws ApplicationException {
-
         // 抛出错误异常，统一捕获处理
-        throw new ApplicationException(ApplicationException.USER_NOT_EXISTS, "查询的用户不存在");
+        throw new ApplicationException(ApplicationException.SHIRO_ACCOUNT_UNKNOWN, "认证用户账号不存在");
     }
     /**
      * @desc 截取/402错误页面的请求
@@ -42,7 +41,7 @@ public class JwtResponseErrorController {
     public void getResponse402(HttpServletRequest request, HttpServletResponse response) throws ApplicationException {
 
         // 抛出错误异常，统一捕获处理
-        throw new ApplicationException(ApplicationException.PASSWORD_ERROR, "用户登录密码错误");
+        throw new ApplicationException(ApplicationException.SHIRO_CREDENTIALS_INCORRECT, "认证用户登录密码错误");
     }
     /**
      * @desc 截取/403错误页面的请求
@@ -56,7 +55,7 @@ public class JwtResponseErrorController {
     public void getResponse403(HttpServletRequest request, HttpServletResponse response) throws ApplicationException {
 
         // 抛出错误异常，统一捕获处理
-        throw new ApplicationException(ApplicationException.SC_NO_AUTHORITY, "token令牌认证异常");
+        throw new ApplicationException(ApplicationException.SHIRO_AUTHENTICATION_ERROR, "token令牌过期失效");
     }
     /**
      * @desc 截取/404错误页面的请求
@@ -70,6 +69,6 @@ public class JwtResponseErrorController {
     public void getResponse404(HttpServletRequest request, HttpServletResponse response) throws ApplicationException {
 
         // 抛出错误异常，统一捕获处理
-        throw new ApplicationException(ApplicationException.INNER_ERROR, "非认证权限异常");
+        throw new ApplicationException(ApplicationException.SHIRO_AUTHORITY_ERROR, "会员用户权限异常");
     }
 }

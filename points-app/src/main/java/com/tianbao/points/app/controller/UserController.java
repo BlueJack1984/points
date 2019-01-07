@@ -60,7 +60,7 @@ public class UserController {
             @RequestBody @Valid UserInput userInput)throws ApplicationException {
 
         if(! userInput.getPassword().equals(userInput.getSurePassword())) {
-            throw new ApplicationException(ApplicationException.PARAM_ERROR, "设置的登录密码与确认密码不一致");
+            throw new ApplicationException(ApplicationException.PASSWORD_NEW_SURE_NOT_EQUAL, "设置登录密码与确认密码不一致");
         }
         User user = new User();
         copyProperties(user, userInput);
@@ -82,7 +82,7 @@ public class UserController {
             certificationTime = SDF.parse(source.getCertificationTime());
         } catch (ParseException e) {
             log.info(e.getMessage());
-            throw new ApplicationException(ApplicationException.PARAM_ERROR, "发证日期参数格式错误");
+            throw new ApplicationException(ApplicationException.DATE_PARAM_FORMAT_ERROR, "发证日期参数格式错误");
         }
         target.setAccount(source.getAccount());
         target.setRealName(source.getRealName());

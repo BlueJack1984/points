@@ -8,6 +8,11 @@ import org.springframework.boot.jackson.JsonComponent;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 
+/**
+ * @desc 解决Long型数据在前后端传输时json格式的损失精度问题
+ * @author lushusheng
+ * @date 2018-12-17
+ */
 @JsonComponent
 public class JsonWebConvertConfig {
 

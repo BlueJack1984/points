@@ -88,7 +88,7 @@ public class CustomRealm extends AuthorizingRealm {
         try {
             user = userServer.getByAccount(account);
         } catch (ApplicationException e) {
-            log.info(e.getDetailMsg());
+            log.info(e.getMessage());
             return simpleAuthorizationInfo;
         }
         //查询用户的权限列表
@@ -96,7 +96,7 @@ public class CustomRealm extends AuthorizingRealm {
         try {
             authorityList = authorityServer.getListByUserId(user.getId());
         } catch (ApplicationException e) {
-            log.info(e.getDetailMsg());
+            log.info(e.getMessage());
             return simpleAuthorizationInfo;
         }
         //获取授权列表
@@ -126,16 +126,14 @@ public class CustomRealm extends AuthorizingRealm {
         // 解密获得username，用于和数据库进行对比
         String username = JwtUtil.getUsername(token);
         if (username == null) {
-            throw new AuthenticationException("token无效");
+            throw new AuthenticationException("token令牌过期无效");
         }
-        //UsernamePasswordToken usernamePasswordToken = (UsernamePasswordToken)authenticationToken;
-        //String username = usernamePasswordToken.getUsername();
         //从数据库中查询用户名和密码信息
         User user = null;
         try {
             user = userServer.getByAccount(username);
         } catch (ApplicationException e) {
-            log.info(e.getDetailMsg());
+            log.info(e.getMessage());
             return null;
         }
         if(user == null) {

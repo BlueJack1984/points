@@ -88,7 +88,7 @@ public class AdminExceptionHandler {
      */
     @ExceptionHandler(value = AuthenticationException.class)
     public OutputError authenticationExceptionHandler(AuthenticationException ex) {
-        return new OutputError(ApplicationException.SHIRO_AUTHENTICATION_ERROR, "用户认证错误");
+        return new OutputError(ApplicationException.SHIRO_AUTHENTICATION_ERROR, ex.getMessage());
     }
 
 

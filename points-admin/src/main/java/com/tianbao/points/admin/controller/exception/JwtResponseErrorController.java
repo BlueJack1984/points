@@ -55,7 +55,7 @@ public class JwtResponseErrorController {
     public void getResponse403(HttpServletRequest request, HttpServletResponse response) throws ApplicationException {
 
         // 抛出错误异常，统一捕获处理
-        throw new ApplicationException(ApplicationException.SHIRO_AUTHENTICATION_ERROR, "管理员用户认证异常");
+        throw new ApplicationException(ApplicationException.SHIRO_AUTHENTICATION_ERROR, "管理员用户token令牌过期失效");
     }
     /**
      * @desc 截取/404错误页面的请求

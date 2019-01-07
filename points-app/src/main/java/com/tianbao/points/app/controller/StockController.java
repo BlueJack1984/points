@@ -106,7 +106,7 @@ public class StockController {
             @RequestHeader(value = "_current_id") Long currentId,
             @PathVariable("num") Integer num)throws ApplicationException {
         if(num == null || num.intValue() <= 0) {
-            throw new ApplicationException(ApplicationException.PARAM_ERROR, "获取的证券数据条数参数错误");
+            throw new ApplicationException(ApplicationException.COMMON_PARAM_ERROR, "获取证券数据列表参数错误");
         }
         List<Stock> stockList = stockServer.getListNum(num);
         return new OutputListResult<>(stockList);

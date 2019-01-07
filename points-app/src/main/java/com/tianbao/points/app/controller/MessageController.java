@@ -120,7 +120,7 @@ public class MessageController {
 
         List<Long> idList = messageInput.getIdList();
         if(idList == null) {
-            throw new ApplicationException(ApplicationException.PARAM_ERROR, "接收者id集合参数错误");
+            throw new ApplicationException(ApplicationException.ENTITY_ID_PARAM_ERROR, "留言接收者ids参数错误");
         }
         Message message = messageServer.save(messageInput.getTitle(), messageInput.getContent(),
                 currentId, idList);

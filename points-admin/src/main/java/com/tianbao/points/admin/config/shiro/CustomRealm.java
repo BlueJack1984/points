@@ -126,7 +126,7 @@ public class CustomRealm extends AuthorizingRealm {
         // 解密获得username，用于和数据库进行对比
         String username = JwtUtil.getUsername(token);
         if (username == null) {
-            throw new AuthenticationException("token无效");
+            throw new AuthenticationException("token令牌过期无效");
         }
         //从数据库中查询用户名和密码信息
         User user = null;
