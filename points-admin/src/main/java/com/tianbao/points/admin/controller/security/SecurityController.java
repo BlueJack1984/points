@@ -88,8 +88,8 @@ public class SecurityController {
         //判断验证码是否正确
         String userCaptcha = loginInput.getUserCaptcha();
         if (! userCaptcha.equals(CODE)) {
-            log.info("-----------------------------------> 图形验证码错误");
-            throw new ApplicationException(ApplicationException.CAPTCHA_PARAM_ERROR, "图形验证码填写错误");
+            log.info("-----------------------------------> 验证码错误");
+            throw new ApplicationException(ApplicationException.CAPTCHA_PARAM_ERROR, "验证码填写错误");
         }
         String account = loginInput.getAccount();
         String password = loginInput.getPassword();
