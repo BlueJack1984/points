@@ -139,7 +139,11 @@
   <select id="selectListByIds" resultType="userMessage">
     select <include refid="c_user_message"/>
     from <include refid="t_user_message"/> _user_message
-    where _user_message.status != 1 and (_user_message.receiver_id = #{currentId} or _user_message.sender_id = #{currentId})
+    where _user_message.status != 1 and _user_message.receiver_id = #{currentId}
+    <!--这个暂时不用-->
+    <if test="0 != 0">
+      or _user_message.sender_id = #{currentId}
+    </if>
     and _user_message.message_id in
     <foreach item="id" index="index" collection="ids" open="(" separator="," close=")">
       #{id}
@@ -152,7 +156,11 @@
     from <include refid="t_user_message"/> _user_message
     left join <include refid="com.tianbao.points.core.dao.IUserDao.t_user"/> _user
     on _user.id = _user_message.sender_id and _user.status = 0
-    where 1 = 1 and (_user_message.receiver_id = #{currentId} or _user_message.sender_id = #{currentId})
+    where 1 = 1 and _user_message.receiver_id = #{currentId}
+    <!--这个暂时不用-->
+    <if test="0 != 0">
+      or _user_message.sender_id = #{currentId}
+    </if>
     <!--未处理状态-->
     <if test="type == 1">and _user_message.status = 5</if>
     <if test="type == 2">and _user_message.status = 6</if>
@@ -200,7 +208,11 @@
     select distinct <include refid="c_user_message"/>
     from <include refid="t_user_message"/> _user_message
     where _user_message.status != 1
-    and (_user_message.sender_id = #{currentId} or _user_message.receiver_id = #{currentId})
+    and _user_message.sender_id = #{currentId}
+    <!--这个暂时不用-->
+    <if test="0 != 0">
+      or _user_message.sender_id = #{currentId}
+    </if>
     order by _user_message.create_time desc
   </select>
 </mapper>
