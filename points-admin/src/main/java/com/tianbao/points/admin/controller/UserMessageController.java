@@ -67,7 +67,7 @@ public class UserMessageController {
     @RequiresPermissions({"admin:message:list"})
     @RequiresAuthentication
     public OutputListResult<UserMessageDTO> getListByCondition(
-            @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
+            @RequestHeader(value = "_current_id") Long currentId,
             @RequestParam(value = "id", required = false) Long id,
             @RequestParam(value = "type", required = false, defaultValue = "0") Integer type,
             @RequestParam(value = "pageNo", required = false, defaultValue = "1") Integer pageNo,
@@ -95,7 +95,7 @@ public class UserMessageController {
     @RequiresPermissions({"admin:message:delete"})
     @RequiresAuthentication
     public OutputResult<Void> deleteByIds(
-            @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
+            @RequestHeader(value = "_current_id") Long currentId,
             @RequestBody EntityIdsInput idsInput)throws ApplicationException {
         List<Long> idList = idsInput.getIdList();
         if(idList == null || idList.size() <= 0) {
