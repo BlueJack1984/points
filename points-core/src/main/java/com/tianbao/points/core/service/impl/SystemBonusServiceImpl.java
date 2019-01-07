@@ -125,7 +125,7 @@ public class SystemBonusServiceImpl extends VisibilityService implements ISystem
     public void setVisibility(Long id, Long currentId) throws ApplicationException {
         SystemBonus systemBonus = iSystemBonusDao.selectByPrimaryKey(id);
         if(systemBonus == null) {
-            throw new ApplicationException(ApplicationException.PARAM_ERROR,"系统积分实体id参数错误");
+            throw new ApplicationException(ApplicationException.SYSTEM_BONUS_NOT_EXISTS,"系统积分实体不存在");
         }
         change(systemBonus, currentId);
         iSystemBonusDao.updateByPrimaryKey(systemBonus);
@@ -227,18 +227,21 @@ public class SystemBonusServiceImpl extends VisibilityService implements ISystem
     public void deleteById(Long id, Long currentId) throws ApplicationException {
         SystemBonus systemBonus = iSystemBonusDao.selectByPrimaryKey(id);
         if(systemBonus == null) {
-            throw new ApplicationException(1, "无法删除，参数错误");
+            throw new ApplicationException(ApplicationException.SYSTEM_BONUS_NOT_EXISTS, "系统积分实体不存在");
         }
         //逻辑删除，将status状态值置为禁用
         systemBonus.setStatus(StatusCode.FORBIDDEN.getCode());
         systemBonus.setUpdateTime(new Date());
         systemBonus.setUpdateUserId(currentId);
-        //无法把updateUserId赋值
         iSystemBonusDao.updateByPrimaryKey(systemBonus);
         //还要把与这个关联的个人积分增值的属性system_bonus_id清空
         List<PersonalBonus> personalBonusList = personalBonusServer.getListBySysBonusId(id);
+        if(personalBonusList == null || personalBonusList.size() <= 0) {
+            return;
+        }
         for(PersonalBonus personalBonus: personalBonusList) {
             personalBonus.setSystemBonusId(null);
+            personalBonus.setStatus(StatusCode.FORBIDDEN.getCode());
             personalBonus.setUpdateTime(new Date());
             personalBonus.setUpdateUserId(currentId);
         }
@@ -280,7 +283,7 @@ public class SystemBonusServiceImpl extends VisibilityService implements ISystem
         //获取所有合法用户列表,包含会员等级信息
         List<UserDTO> userDTOList = userServer.getList();
         if (userDTOList == null) {
-            throw new ApplicationException(1, "");
+            throw new ApplicationException(ApplicationException.MEMBER_USER_NOT_EXISTS, "已审核会员用户列表为空");
         }
         List<Long> userIds = new ArrayList<>();
         for(UserDTO userDTO: userDTOList) {

@@ -178,7 +178,7 @@ public class AnnouncementServiceImpl implements IAnnouncementService {
     public Announcement update(Long id, String title, String content, Date publishTime, Long currentId) throws ApplicationException {
         Announcement announcement = iAnnouncementDao.selectByPrimaryKey(id);
         if(announcement == null) {
-            throw new ApplicationException(1, "id参数错误");
+            throw new ApplicationException(ApplicationException.ANNOUNCEMENT_NOT_EXISTS, "修改首页公告实体不存在");
         }
         announcement.setTitle(title);
         announcement.setContent(content);

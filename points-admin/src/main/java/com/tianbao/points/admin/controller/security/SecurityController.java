@@ -89,24 +89,24 @@ public class SecurityController {
         String userCaptcha = loginInput.getUserCaptcha();
         if (! userCaptcha.equals(CODE)) {
             log.info("-----------------------------------> 图形验证码错误");
-            throw new ApplicationException(ApplicationException.PARAM_ERROR, "图形验证码校验错误");
+            throw new ApplicationException(ApplicationException.CAPTCHA_PARAM_ERROR, "图形验证码填写错误");
         }
         String account = loginInput.getAccount();
         String password = loginInput.getPassword();
         //从数据库中查询用户
         User user = userServer.getByAccount(account);
         if(user == null) {
-            throw new ApplicationException(ApplicationException.PARAM_ERROR, "用户账号参数输入错误");
+            throw new ApplicationException(ApplicationException.ACCOUNT_PARAM_ERROR, "用户账号填写错误");
         }
         String encoded = null;
         try {
             encoded = MD5.EncoderByMd5(password + PASSWORD_SECRET_KEY);
         } catch (Exception e) {
             log.info(e.getMessage());
-            throw new ApplicationException(ApplicationException.INNER_ERROR, "用户登录密码加密错误");
+            throw new ApplicationException(ApplicationException.PASSWORD_ENCRYPT_ERROR, "用户登录密码加密错误");
         }
         if(! encoded.equals(user.getPassword())) {
-            throw new ApplicationException(ApplicationException.PARAM_ERROR, "用户登录密码参数输入错误");
+            throw new ApplicationException(ApplicationException.PASSWORD_PARAM_ERROR, "用户登录密码填写错误");
         }
         //返回得到的jwttoken给前端
         String token = JwtUtil.sign(account, user.getPassword());

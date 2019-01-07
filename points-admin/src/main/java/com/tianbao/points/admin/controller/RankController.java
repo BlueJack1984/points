@@ -109,7 +109,7 @@ public class RankController {
 
         Rank rank = rankServer.selectById(rankUpdateInput.getId());
         if(rank == null) {
-            throw new ApplicationException(1, "查询会员等级实体不存在");
+            throw new ApplicationException(ApplicationException.RANK_NOT_EXISTS, "会员等级实体不存在");
         }
         copyProperties(rank, rankUpdateInput);
         rank.setUpdateTime(new Date());
@@ -126,6 +126,9 @@ public class RankController {
      * @throws ApplicationException 更新异常
      */
     private void copyProperties(Rank target, RankInput rankInput) {
+        if(target == null || rankInput == null) {
+            return;
+        }
         target.setName(rankInput.getName());
         target.setBaseMoney(rankInput.getBaseMoney());
         target.setBasePoints(rankInput.getBasePoints());

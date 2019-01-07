@@ -110,6 +110,9 @@ public class PersonalBonusServiceImpl extends VisibilityService implements IPers
             userIds.add(personalBonus.getUserId());
         }
         List<User> userList = userServer.getListByIds(userIds);
+        if(userList == null || userList.size() <= 0) {
+            throw new ApplicationException(ApplicationException.MEMBER_USER_NOT_EXISTS, "会员用户列表为空");
+        }
         List<PersonalBonusDTO> personalBonusDTOList = new ArrayList<>();
         for(PersonalBonus personalBonus: personalBonusList) {
             PersonalBonusDTO personalBonusDTO = new PersonalBonusDTO();
@@ -140,7 +143,7 @@ public class PersonalBonusServiceImpl extends VisibilityService implements IPers
     public void setVisibility(Long id, Long currentId) throws ApplicationException {
         PersonalBonus personalBonus = iPersonalBonusDao.selectByPrimaryKey(id);
         if(personalBonus == null) {
-            throw new ApplicationException(ApplicationException.PARAM_ERROR,"个人积分实体id参数错误");
+            throw new ApplicationException(ApplicationException.PERSONAL_BONUS_NOT_EXISTS,"个人积分实体不存在");
         }
         change(personalBonus, currentId);
         iPersonalBonusDao.updateByPrimaryKey(personalBonus);

@@ -111,7 +111,7 @@ public class RoleController {
             @RequestBody @Valid RoleUpdateInput roleUpdateInput)throws ApplicationException {
         Role role = roleServer.selectById(roleUpdateInput.getId());
         if(role == null) {
-            throw new ApplicationException(1, "");
+            throw new ApplicationException(ApplicationException.ROLE_NOT_EXISTS, "角色实体不存在");
         }
         role.setName(roleUpdateInput.getName());
         if(! StringUtils.isEmpty(roleUpdateInput.getDescription())) {

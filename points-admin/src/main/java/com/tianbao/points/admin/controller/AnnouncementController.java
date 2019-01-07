@@ -97,7 +97,7 @@ public class AnnouncementController {
             publishTime = SDF.parse(announcementInput.getPublishTime());
         } catch (ParseException e) {
             log.info(e.getMessage());
-            throw new ApplicationException(ApplicationException.PARAM_ERROR, "公告发布日期参数格式错误");
+            throw new ApplicationException(ApplicationException.DATE_PARAM_FORMAT_ERROR, "发布日期格式填写错误");
         }
         Announcement announcement = announcementServer.save(announcementInput.getTitle(),
                 announcementInput.getContent(), publishTime, currentId);
@@ -152,7 +152,7 @@ public class AnnouncementController {
 
         List<Long> idList = idsInput.getIdList();
         if(idList == null || idList.size() <= 0) {
-            throw new ApplicationException(ApplicationException.PARAM_ERROR, "删除的公告实体id列表参数不能为空");
+            throw new ApplicationException(ApplicationException.ENTITY_ID_PARAM_ERROR, "删除实体不能为空");
         }
         announcementServer.deleteByIds(idList, currentId);
         return new OutputResult<>();
@@ -184,7 +184,7 @@ public class AnnouncementController {
         try {
             publishTime = SDF.parse(announcementUpdateInput.getPublishTime());
         } catch (ParseException e) {
-            throw new ApplicationException(ApplicationException.PARAM_ERROR, "公告发布日期参数格式错误");
+            throw new ApplicationException(ApplicationException.DATE_PARAM_FORMAT_ERROR, "发布日期格式填写错误");
         }
         Announcement announcement = announcementServer.update(announcementUpdateInput.getId(), announcementUpdateInput.getTitle(),
                 announcementUpdateInput.getContent(), publishTime, currentId);

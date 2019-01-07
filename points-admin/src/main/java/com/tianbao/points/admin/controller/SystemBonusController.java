@@ -88,7 +88,7 @@ public class SystemBonusController {
         //数据库中查询最新的一条数据日期
         SystemBonus systemBonus = systemBonusServer.getLatest();
         if(systemBonus != null && DateUtils.isSameDay(today, systemBonus.getCreateTime())) {
-            throw new ApplicationException(1,"同一天不能结算两次，今天已经结算过");
+            throw new ApplicationException(ApplicationException.DUPLICATE_CHECKOUT_ERROR,"同一天系统积分不能结算两次及以上");
         }
         systemBonusServer.checkout(systemRatio, currentId);
         return new OutputResult<>();

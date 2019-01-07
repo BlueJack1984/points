@@ -136,12 +136,15 @@ public class UserServiceImpl implements IUserService {
 
         //查看角色是否为超级管理员
         List<Role> roleList = roleServer.getListByUserId(currentId);
+        if(roleList == null || roleList.size() <= 0) {
+            throw new ApplicationException(ApplicationException.USER_ROLE_NOT_ASSOCIATES, "该用户没有关联角色");
+        }
         List<Long> roleIds = new ArrayList<>();
         for(Role role: roleList) {
             roleIds.add(role.getId());
         }
         if(! roleIds.contains(Long.parseLong(SUPER_ADMIN_ROLE_ID))) {
-            throw new ApplicationException(1, "");
+            throw new ApplicationException(ApplicationException.ROLE_NOT_EXISTS, "该用户没有顶级管理员角色权限");
         }
         //修改超级密码的操作operation值为1
         checkPassword(currentId, oldPassword, newPassword, sureNewPassword, 1);
@@ -162,33 +165,33 @@ public class UserServiceImpl implements IUserService {
     private void checkPassword(Long currentId, String oldPassword, String newPassword,
                                String sureNewPassword, Integer operation)throws ApplicationException {
         if(! newPassword.equals(sureNewPassword)) {
-            throw new ApplicationException(ApplicationException.PARAM_ERROR, "新密码与确认密码不同");
+            throw new ApplicationException(ApplicationException.PASSWORD_NEW_SURE_NOT_EQUAL, "新密码与确认密码不一致");
         }
         if(oldPassword.equals(newPassword)) {
-            throw new ApplicationException(ApplicationException.PARAM_ERROR, "原密码与新密码相同，请输入不同的新密码");
+            throw new ApplicationException(ApplicationException.PASSWORD_OLD_NEW_EQUAL, "原密码与新密码相同");
         }
-        //byte[] encoded = DES.encrypt(PASSWORD_SECRET_KEY.getBytes(), oldPassword.getBytes());
+
         String encodedPassword = null;
         try {
             encodedPassword = MD5.EncoderByMd5(oldPassword + PASSWORD_SECRET_KEY);
         } catch (Exception e) {
-            throw new ApplicationException(ApplicationException.PARAM_ERROR, "原密码加密错误");
+            throw new ApplicationException(ApplicationException.PASSWORD_ENCRYPT_ERROR, "管理员用户原密码加密错误");
         }
         User user = iUserDao.selectByPrimaryKey(currentId);
         if(operation == 0) {
             if(user == null || ! encodedPassword.equals(user.getPassword())) {
-                throw new ApplicationException(1, "");
+                throw new ApplicationException(ApplicationException.PASSWORD_PARAM_ERROR, "原登录密码填写错误");
             }
         }else {
             //超级密码
             if(user == null || ! encodedPassword.equals(user.getSuperPassword())) {
-                throw new ApplicationException(1, "");
+                throw new ApplicationException(ApplicationException.PASSWORD_PARAM_ERROR, "原超级密码填写错误");
             }
         }
         try {
             encodedPassword = MD5.EncoderByMd5(newPassword + PASSWORD_SECRET_KEY);
         } catch (Exception e) {
-            throw new ApplicationException(ApplicationException.PARAM_ERROR, "密码加密错误");
+            throw new ApplicationException(ApplicationException.PASSWORD_ENCRYPT_ERROR, "管理员用户新密码加密错误");
         }
         if(operation == 0) {
             user.setPassword(encodedPassword);
@@ -241,7 +244,7 @@ public class UserServiceImpl implements IUserService {
         Page page = PageHelper.startPage(pageNo, pageSize);
         List<User> userList = iUserDao.selectListPage();
         if(userList == null || userList.size() <= 0) {
-            throw new ApplicationException(ApplicationException.USER_NOT_EXISTS, "已审核用户列表为空");
+            throw new ApplicationException(ApplicationException.MEMBER_USER_NOT_EXISTS, "已审核会员用户列表为空");
         }
         List<Rank> rankList = rankServer.getList();
         List<UserDTO> userDTOList = copyRankProperties(userList, rankList);
@@ -259,6 +262,9 @@ public class UserServiceImpl implements IUserService {
      */
     private List<UserDTO> copyRankProperties(List<User> userList, List<Rank> rankList) throws ApplicationException{
         List<UserDTO> userDTOList = new ArrayList<>();
+        if(userList == null || rankList == null) {
+            return userDTOList;
+        }
         for(User user: userList) {
             UserDTO userDTO = new UserDTO();
             BeanHelper.copyProperties(userDTO, user);
@@ -285,7 +291,7 @@ public class UserServiceImpl implements IUserService {
     public UserDTO getById(Long id) throws ApplicationException {
         User user = iUserDao.selectByPrimaryKey(id);
         if(user == null) {
-            throw new ApplicationException(1, "查询的会员实体不存在");
+            throw new ApplicationException(ApplicationException.MEMBER_USER_NOT_EXISTS, "会员用户实体不存在");
         }
         Rank rank = rankServer.selectById(user.getRankId());
         UserDTO userDTO = new UserDTO();
@@ -306,7 +312,7 @@ public class UserServiceImpl implements IUserService {
     public void resetPassword(Long id, Long currentId) throws ApplicationException {
         User user = iUserDao.selectByPrimaryKey(id);
         if(user == null) {
-            throw new ApplicationException(1, "查询的会员实体不存在");
+            throw new ApplicationException(ApplicationException.MEMBER_USER_NOT_EXISTS, "会员用户实体不存在");
         }
         user.setUpdateTime(new Date());
         user.setUpdateUserId(currentId);
@@ -315,10 +321,8 @@ public class UserServiceImpl implements IUserService {
             user.setPassword(commonPassword);
         } catch (Exception e) {
             log.info(e.getMessage());
-            throw new ApplicationException(1, "设置通用密码发生加密错误");
+            throw new ApplicationException(ApplicationException.PASSWORD_ENCRYPT_ERROR, "重置会员通用密码加密错误");
         }
-        //byte[] encoded = DES.encrypt(PASSWORD_SECRET_KEY.getBytes(), MEMBER_COMMON_PASSWORD.getBytes());
-        //String commonPassword = new String(encoded);
         iUserDao.updateByPrimaryKey(user);
     }
 
@@ -336,14 +340,15 @@ public class UserServiceImpl implements IUserService {
     @Override
     public PageInfo<UserDTO> getListByConditionPage(Integer type, String keyword, Integer pageNo, Integer pageSize) throws ApplicationException {
 
-        PageHelper.startPage(pageNo, pageSize);
+        Page page = PageHelper.startPage(pageNo, pageSize);
         List<User> userList = iUserDao.selectListByConditionPage(type, keyword);
         if(userList == null) {
-            throw new ApplicationException(2,"");
+            throw new ApplicationException(ApplicationException.MEMBER_USER_NOT_EXISTS,"搜索会员用户列表为空");
         }
         List<Rank> rankList = rankServer.getList();
         List<UserDTO> userDTOList = copyRankProperties(userList, rankList);
         PageInfo<UserDTO> pageInfo = new PageInfo<>(userDTOList);
+        pageInfo.setTotal(page.getTotal());
         return pageInfo;
     }
 
@@ -455,15 +460,16 @@ public class UserServiceImpl implements IUserService {
             encoded = MD5.EncoderByMd5(password + PASSWORD_SECRET_KEY);
         } catch (Exception e) {
             log.info(e.getMessage());
-            throw new ApplicationException(1, "新增管理员用户密码加密错误");
+            throw new ApplicationException(ApplicationException.PASSWORD_ENCRYPT_ERROR, "管理员用户密码加密错误");
         }
-        //byte[] encoded = DES.encrypt(PASSWORD_SECRET_KEY.getBytes(), password.getBytes());
-        //String encodedPassword = new String(encoded);
         user.setPassword(encoded);
         user.setUpdateTime(new Date());
         user.setUpdateUserId(currentId);
         //插入会员等级关联
         Rank rank = rankServer.getByOrder(order);
+        if(rank == null) {
+            throw new ApplicationException(ApplicationException.COMMON_PARAM_ERROR, "会员等级序号填写错误");
+        }
         user.setRankId(rank.getId());
         if(operation == 0) {
             iUserDao.insert(user);
@@ -498,7 +504,7 @@ public class UserServiceImpl implements IUserService {
     public void forbidBatch(List<Long> ids, Long currentId) throws ApplicationException {
         List<User> userList = iUserDao.getListByIds(ids);
         if(userList == null) {
-            throw new ApplicationException(1, "查询的会员实体列表不存在");
+            throw new ApplicationException(ApplicationException.MEMBER_USER_NOT_EXISTS, "会员用户实体列表不存在");
         }
         for(User user: userList) {
             user.setStatus(StatusCode.FORBIDDEN.getCode());

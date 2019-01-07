@@ -142,7 +142,7 @@ public class AdministratorController {
             @RequestBody @Valid AdminInput adminInput)throws ApplicationException {
         if(StringUtils.isEmpty(adminInput.getPassword()) || StringUtils.isEmpty(adminInput.getSurePassword())
                 || ! adminInput.getPassword().equals(adminInput.getSurePassword())) {
-            throw new ApplicationException(ApplicationException.PARAM_ERROR, "密码或者确认密码不能为空，并且要相同");
+            throw new ApplicationException(ApplicationException.PASSWORD_NEW_SURE_NOT_EQUAL, "密码与确认密码要相同且均不能为空");
         }
         User user = new User();
         user.setAccount(adminInput.getAccount());
@@ -172,11 +172,11 @@ public class AdministratorController {
     @RequiresAuthentication
     public OutputResult<UserDTO> update(
             @RequestHeader(value = "_current_id") Long currentId,
-            @RequestBody AdminUpdateInput adminUpdateInput)throws ApplicationException {
+            @RequestBody @Valid AdminUpdateInput adminUpdateInput)throws ApplicationException {
         String password = adminUpdateInput.getPassword();
         String surePassword = adminUpdateInput.getSurePassword();
         if(!(password == null && surePassword == null || password != null && password.equals(surePassword))) {
-            throw new ApplicationException(ApplicationException.PARAM_ERROR, "修改管理员用户信息密码输入错误");
+            throw new ApplicationException(ApplicationException.PASSWORD_NEW_SURE_NOT_EQUAL, "修改管理员用户密码填写错误");
         }
         User user = userServer.selectById(adminUpdateInput.getId());
         copyProperties(user, adminUpdateInput);

@@ -16,10 +16,9 @@ public class OutputError {
     /**
      * 错误码，0表示成功
      */
-    protected int code;
+    private int code;
     /**
      * 错误消息
      */
-    protected String msg;
-    protected String detailMsg;
+    private String message;
 }

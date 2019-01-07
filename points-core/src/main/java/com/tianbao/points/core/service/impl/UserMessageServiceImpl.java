@@ -87,7 +87,7 @@ public class UserMessageServiceImpl implements IUserMessageService {
         //首先根据三个id查询出来关联信息
         List<UserMessage> userMessageList = iUserMessageDao.selectListByIds(ids, currentId);
         if(userMessageList == null) {
-            throw new ApplicationException(1, "不存在相关用户留言");
+            throw new ApplicationException(ApplicationException.USER_MESSAGE_NOT_ASSOCIATES, "用户留言关联实体不存在");
         }
         //逻辑删除
         for(UserMessage userMessage: userMessageList) {
@@ -171,6 +171,9 @@ public class UserMessageServiceImpl implements IUserMessageService {
     @Override
     public UserMessageDTO getById(Long id, Long currentId)throws ApplicationException {
         UserMessage userMessage = iUserMessageDao.selectById(id, currentId);
+        if(userMessage == null) {
+            throw new ApplicationException(ApplicationException.USER_MESSAGE_NOT_ASSOCIATES, "用户留言关联实体不存在");
+        }
         UserMessageDTO userMessageDTO = new UserMessageDTO();
         BeanHelper.copyProperties(userMessageDTO, userMessage);
         User sender = userServer.selectById(userMessage.getSenderId());
@@ -197,13 +200,16 @@ public class UserMessageServiceImpl implements IUserMessageService {
     public UserMessageDTO updateById(Long id, Long currentId, String reply, Integer status) throws ApplicationException {
         UserMessage userMessage = iUserMessageDao.selectById(id, currentId);
         if(userMessage == null) {
-            throw new ApplicationException(2, "查询的用户留言关联实体信息不存在");
+            throw new ApplicationException(ApplicationException.USER_MESSAGE_NOT_ASSOCIATES, "用户留言关联实体不存在");
         }
         userMessage.setStatus(status);
         userMessage.setUpdateUserId(currentId);
         userMessage.setUpdateTime(new Date());
         iUserMessageDao.updateByPrimaryKey(userMessage);
         Message message = messageServer.selectById(userMessage.getMessageId());
+        if(message == null) {
+            throw new ApplicationException(ApplicationException.MESSAGE_NOT_EXISTS, "留言实体不存在");
+        }
         message.setReply(reply);
         message.setReplyTime(new Date());
         message.setUpdateTime(new Date());

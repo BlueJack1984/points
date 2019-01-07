@@ -129,11 +129,11 @@ public class StockController {
             @RequestBody StockInput stockInput)throws ApplicationException {
         //首先将实体查询出来
         if(stockInput.getId() == null) {
-            throw new ApplicationException(1,"实体id不能为空");
+            throw new ApplicationException(ApplicationException.ENTITY_ID_PARAM_ERROR,"证券指数实体id不能为空");
         }
         Stock stock = stockServer.selectById(stockInput.getId());
         if(stock == null) {
-            throw new ApplicationException(1, "修改证券指数实体id参数错误");
+            throw new ApplicationException(ApplicationException.STOCK_NOT_EXISTS, "证券指数实体不存在");
         }
         copyProperties(stock, stockInput);
         stock.setUpdateUserId(currentId);
@@ -154,7 +154,7 @@ public class StockController {
             publishTime = SDF.parse(source.getPublishTime());
         }catch(Exception e) {
             log.info(e.getMessage());
-            throw new ApplicationException(1, "");
+            throw new ApplicationException(ApplicationException.DATE_PARAM_FORMAT_ERROR, "证券指数发布日期格式错误");
         }
         target.setPublishTime(publishTime);
         if(source.getShOpenExponent() != null && source.getShOpenExponent().doubleValue() >= 0) {
@@ -227,7 +227,7 @@ public class StockController {
             @RequestHeader(value = "_current_id") Long currentId,
             @PathVariable("num") Integer num)throws ApplicationException {
         if(num == null || num.intValue() <= 0) {
-            throw new ApplicationException(1, "");
+            throw new ApplicationException(ApplicationException.COMMON_PARAM_ERROR, "查询证券指数列表参数错误");
         }
         List<Stock> stockList = stockServer.getListNum(num);
         return new OutputListResult<>(stockList);

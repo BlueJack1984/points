@@ -87,15 +87,15 @@ public class ApplicationException extends Exception {
 	public static final int USER_POSITION_NOT_ASSOCIATES = 304;
 
 	/**
-	 * JWT登录时签名错误code值设置
+	 * JWT登录时签名令牌错误code值设置
 	 */
 	public static final int JWT_SIGNATURE_ERROR = 401;
 	/**
-	 * JWT登录的token过期错误code值设置
+	 * JWT登录的token令牌过期错误code值设置
 	 */
 	public static final int JWT_EXPIRED_ERROR = 402;
 	/**
-	 * JWT的token格式错误code值设置
+	 * JWT的token令牌格式错误code值设置
 	 */
 	public static final int JWT_MALFORMED_ERROR = 403;
 	/**

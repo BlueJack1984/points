@@ -148,7 +148,7 @@ public class PersonalBonusController {
             @PathVariable("sysBonusId") Long sysBonusId)throws ApplicationException {
 
         if(StringUtils.isEmpty(keyword)) {
-            throw new ApplicationException(1, "输入关键词不能为空");
+            throw new ApplicationException(ApplicationException.KEYWORD_PARAM_ERROR, "搜索关键词不能为空");
         }
         PageInfo<PersonalBonusDTO> pageInfo = personalBonusServer.getByCondition(keyword, sysBonusId, pageNo, pageSize);
         return new OutputListResult<>(pageInfo);

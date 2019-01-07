@@ -109,7 +109,7 @@ public class UserController {
             @RequestBody @Valid UserInput userInput)throws ApplicationException {
         User user = userServer.selectById(userInput.getId());
         if(user == null) {
-            throw new ApplicationException(1, "查询的会员实体不存在");
+            throw new ApplicationException(ApplicationException.MEMBER_USER_NOT_EXISTS, "会员用户实体不存在");
         }
         copyProperties(user, userInput);
         user.setUpdateTime(new Date());
@@ -126,6 +126,9 @@ public class UserController {
      */
     private void  copyProperties(User target, UserInput source) throws ApplicationException {
 
+        if(target == null || source == null) {
+            return;
+        }
         target.setRealName(source.getRealName());
         target.setRankId(source.getRankId());
         target.setIdentityNumber(source.getIdentityNumber());
@@ -197,7 +200,7 @@ public class UserController {
             @RequestParam("type") Integer type)throws ApplicationException {
 
         if(type == null || type.intValue() < 0 || type.intValue() > 2) {
-            throw new ApplicationException(ApplicationException.PARAM_ERROR, "会员搜索类型参数错误");
+            throw new ApplicationException(ApplicationException.COMMON_PARAM_ERROR, "会员搜索的类型参数错误");
         }
         PageInfo<UserDTO> pageInfo = userServer.getListByConditionPage(type ,keyword, pageNo, pageSize);
         return new OutputListResult<>(pageInfo);
@@ -225,7 +228,7 @@ public class UserController {
 
         List<Long> idList = idsInput.getIdList();
         if(idList == null || idList.size() <= 0) {
-            throw new ApplicationException(1, "");
+            throw new ApplicationException(ApplicationException.ENTITY_ID_PARAM_ERROR, "禁用会员实体id列表参数错误");
         }
         userServer.forbidBatch(idList, currentId);
         return new OutputResult<>();

@@ -92,14 +92,14 @@ public class UserMessageController {
         @ApiImplicitParam(paramType = "query", dataType = "EntityIdsInput", name = "idsInput", value = "删除的id列表", required = true)})
     @CrossOrigin
     @PostMapping("/delete")
-    //@RequiresPermissions({"admin:message:delete"})
-    //@RequiresAuthentication
+    @RequiresPermissions({"admin:message:delete"})
+    @RequiresAuthentication
     public OutputResult<Void> deleteByIds(
             @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
             @RequestBody EntityIdsInput idsInput)throws ApplicationException {
         List<Long> idList = idsInput.getIdList();
         if(idList == null || idList.size() <= 0) {
-            throw new ApplicationException(ApplicationException.PARAM_ERROR, "实体id集合字符串不能为空");
+            throw new ApplicationException(ApplicationException.ENTITY_ID_PARAM_ERROR, "删除留言实体id参数错误");
         }
         userMessageServer.deleteByIds(idList, currentId);
         return new OutputResult<>();
@@ -126,7 +126,7 @@ public class UserMessageController {
             @RequestHeader(value = "_current_id") Long currentId,
             @PathVariable("id") Long id)throws ApplicationException {
         if(id == null) {
-            throw new ApplicationException(ApplicationException.PARAM_ERROR, "查询留言实体id不能为空");
+            throw new ApplicationException(ApplicationException.ENTITY_ID_PARAM_ERROR, "留言实体id不能为空");
         }
         UserMessageDTO userMessageDTO = userMessageServer.getById(id, currentId);
         return new OutputResult<>(userMessageDTO);
