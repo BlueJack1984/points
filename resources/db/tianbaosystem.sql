@@ -1,17 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : work
+ Source Server         : localhost
  Source Server Type    : MySQL
- Source Server Version : 50724
+ Source Server Version : 50723
  Source Host           : localhost:3306
  Source Schema         : tianbaosystem
 
  Target Server Type    : MySQL
- Target Server Version : 50724
+ Target Server Version : 50723
  File Encoding         : 65001
 
- Date: 05/01/2019 12:40:19
+ Date: 07/01/2019 13:29:42
 */
 
 SET NAMES utf8mb4;
@@ -23,15 +23,15 @@ SET FOREIGN_KEY_CHECKS = 0;
 DROP TABLE IF EXISTS `announcement`;
 CREATE TABLE `announcement`  (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
-  `title` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '留言标题',
-  `content` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '留言内容',
+  `title` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '留言标题',
+  `content` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '留言内容',
   `user_id` bigint(20) NOT NULL COMMENT '发布人id',
   `publish_time` datetime(0) NOT NULL COMMENT '发布时间',
-  `status` int(10) DEFAULT NULL COMMENT '状态：0表示正常，1表示禁用该数据',
+  `status` int(10) NULL DEFAULT NULL COMMENT '状态：0表示正常，1表示禁用该数据',
   `create_time` datetime(0) NOT NULL COMMENT '最后创建时间',
   `create_user_id` bigint(20) NOT NULL COMMENT '创建人id',
-  `update_time` datetime(0) DEFAULT NULL COMMENT '最后修改时间',
-  `update_user_id` bigint(20) DEFAULT NULL COMMENT '修改人id',
+  `update_time` datetime(0) NULL DEFAULT NULL COMMENT '最后修改时间',
+  `update_user_id` bigint(20) NULL DEFAULT NULL COMMENT '修改人id',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
@@ -53,19 +53,19 @@ INSERT INTO `announcement` VALUES (8, '元旦快乐', '马上要过元旦了！'
 DROP TABLE IF EXISTS `authority`;
 CREATE TABLE `authority`  (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
-  `code` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '权限编号',
-  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '权限名称',
-  `url` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '权限请求对应的url地址',
-  `permission` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '权限允许的名称',
-  `type` int(10) DEFAULT NULL COMMENT '权限类型，0表示菜单，1表示按钮',
-  `description` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '权限描述',
-  `status` int(10) DEFAULT NULL COMMENT '状态：0表示正常，1表示用户禁用此权限',
+  `code` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '权限编号',
+  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '权限名称',
+  `url` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '权限请求对应的url地址',
+  `permission` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '权限允许的名称',
+  `type` int(10) NULL DEFAULT NULL COMMENT '权限类型，0表示菜单，1表示按钮',
+  `description` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '权限描述',
+  `status` int(10) NULL DEFAULT NULL COMMENT '状态：0表示正常，1表示用户禁用此权限',
   `create_time` datetime(0) NOT NULL COMMENT '最后创建时间',
   `create_user_id` bigint(20) NOT NULL COMMENT '创建人id',
-  `update_time` datetime(0) DEFAULT NULL COMMENT '最后修改时间',
-  `update_user_id` bigint(20) DEFAULT NULL COMMENT '修改人id',
+  `update_time` datetime(0) NULL DEFAULT NULL COMMENT '最后修改时间',
+  `update_user_id` bigint(20) NULL DEFAULT NULL COMMENT '修改人id',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 61 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 62 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of authority
@@ -130,6 +130,7 @@ INSERT INTO `authority` VALUES (57, 'app', '新建保存一条会员信息(居�
 INSERT INTO `authority` VALUES (58, 'app', '获取最新num数量的股票证券指数数据', '/stock/list/\\d+{1,}', 'app:stock:list:num', 0, '获取最新num数量的股票证券指数数据', 0, '2019-01-01 15:25:08', 110, '2019-01-01 15:25:14', 110);
 INSERT INTO `authority` VALUES (59, 'app', '获取股票证券指数列表', '/stock/list/page', 'app:stock:list', 0, '获取股票证券指数列表', 0, '2019-01-01 15:26:11', 110, '2019-01-01 15:26:17', 110);
 INSERT INTO `authority` VALUES (60, 'app', '根据id查询一条股票证券指数数据', '/stock/get/\\d+{1,}', 'app:stock:query', 0, '根据id查询一条股票证券指数数据', 0, '2019-01-01 15:27:09', 110, '2019-01-01 15:27:16', 110);
+INSERT INTO `authority` VALUES (61, 'admin', '根据id更新一条首页公告数据', '/announcement/update', 'admin:announcement:update', 0, '根据id更新一条首页公告数据', 0, '2019-01-07 13:28:43', 110, '2019-01-07 13:28:49', 110);
 
 -- ----------------------------
 -- Table structure for consume_record
@@ -138,15 +139,15 @@ DROP TABLE IF EXISTS `consume_record`;
 CREATE TABLE `consume_record`  (
   `id` bigint(20) NOT NULL COMMENT '主键',
   `user_id` bigint(20) NOT NULL COMMENT '用户id',
-  `district` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '地区',
-  `location_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '基地名称',
-  `amount` double(16, 2) DEFAULT NULL COMMENT '消费金额',
+  `district` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '地区',
+  `location_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '基地名称',
+  `amount` double(16, 2) NULL DEFAULT NULL COMMENT '消费金额',
   `consume_time` datetime(0) NOT NULL COMMENT '消费时间',
-  `status` int(10) DEFAULT NULL COMMENT '状态：0表示正常，1表示禁用该数据',
+  `status` int(10) NULL DEFAULT NULL COMMENT '状态：0表示正常，1表示禁用该数据',
   `create_time` datetime(0) NOT NULL COMMENT '最后创建时间',
   `create_user_id` bigint(20) NOT NULL COMMENT '创建人id',
-  `update_time` datetime(0) DEFAULT NULL COMMENT '最后修改时间',
-  `update_user_id` bigint(20) DEFAULT NULL COMMENT '修改人id',
+  `update_time` datetime(0) NULL DEFAULT NULL COMMENT '最后修改时间',
+  `update_user_id` bigint(20) NULL DEFAULT NULL COMMENT '修改人id',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
@@ -167,14 +168,14 @@ INSERT INTO `consume_record` VALUES (7, 12, '沈阳', '冰雪城', 656.00, '2018
 DROP TABLE IF EXISTS `department`;
 CREATE TABLE `department`  (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
-  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '部门名称',
-  `parent_id` bigint(20) DEFAULT NULL COMMENT '直属上级部门id',
-  `description` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '部门描述',
-  `status` int(10) DEFAULT NULL COMMENT '状态：0表示正常，1表示用户禁用该部门',
+  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '部门名称',
+  `parent_id` bigint(20) NULL DEFAULT NULL COMMENT '直属上级部门id',
+  `description` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '部门描述',
+  `status` int(10) NULL DEFAULT NULL COMMENT '状态：0表示正常，1表示用户禁用该部门',
   `create_time` datetime(0) NOT NULL COMMENT '最后创建时间',
   `create_user_id` bigint(20) NOT NULL COMMENT '创建人id',
-  `update_time` datetime(0) DEFAULT NULL COMMENT '最后修改时间',
-  `update_user_id` bigint(20) DEFAULT NULL COMMENT '修改人id',
+  `update_time` datetime(0) NULL DEFAULT NULL COMMENT '最后修改时间',
+  `update_user_id` bigint(20) NULL DEFAULT NULL COMMENT '修改人id',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
@@ -189,17 +190,17 @@ INSERT INTO `department` VALUES (1, '研发部', 0, '研发技术部门', 0, '20
 DROP TABLE IF EXISTS `message`;
 CREATE TABLE `message`  (
   `id` bigint(20) NOT NULL COMMENT '主键',
-  `title` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '留言标题',
-  `content` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '留言内容',
-  `url_type` int(10) DEFAULT NULL COMMENT '跳转url类型：0表示内部跳转链接，1表示外部跳转链接，2表示无跳转',
-  `url` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT 'url地址',
-  `reply` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '管理员回复',
-  `status` int(10) DEFAULT NULL COMMENT '状态：0表示正常，1表示禁用该数据',
+  `title` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '留言标题',
+  `content` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '留言内容',
+  `url_type` int(10) NULL DEFAULT NULL COMMENT '跳转url类型：0表示内部跳转链接，1表示外部跳转链接，2表示无跳转',
+  `url` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT 'url地址',
+  `reply` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '管理员回复',
+  `status` int(10) NULL DEFAULT NULL COMMENT '状态：0表示正常，1表示禁用该数据',
   `create_time` datetime(0) NOT NULL COMMENT '最后创建时间',
   `create_user_id` bigint(20) NOT NULL COMMENT '创建人id',
-  `update_time` datetime(0) DEFAULT NULL COMMENT '最后修改时间',
-  `update_user_id` bigint(20) DEFAULT NULL COMMENT '修改人id',
-  `reply_time` datetime(0) DEFAULT NULL COMMENT '回复时间',
+  `update_time` datetime(0) NULL DEFAULT NULL COMMENT '最后修改时间',
+  `update_user_id` bigint(20) NULL DEFAULT NULL COMMENT '修改人id',
+  `reply_time` datetime(0) NULL DEFAULT NULL COMMENT '回复时间',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
@@ -216,18 +217,18 @@ INSERT INTO `message` VALUES (12341434423, '什么玩意', '测试用的东西',
 DROP TABLE IF EXISTS `personal_bonus`;
 CREATE TABLE `personal_bonus`  (
   `id` bigint(20) NOT NULL COMMENT '主键',
-  `user_id` bigint(20) DEFAULT NULL COMMENT '用户id',
-  `parent_id` bigint(20) DEFAULT NULL COMMENT '上次结算的id',
-  `system_bonus_id` bigint(20) DEFAULT NULL COMMENT '系统积分表id',
-  `start_points` double(16, 2) DEFAULT NULL COMMENT '用户当日结算前积分值',
-  `end_points` double(16, 2) DEFAULT NULL COMMENT '用户当日结算后积分值',
-  `ratio` double(16, 6) DEFAULT NULL COMMENT '用户当日权重比率',
-  `visible` int(10) DEFAULT NULL COMMENT '在会员客户端是否可见：0表示正常可见，1表示不可见',
-  `status` int(10) DEFAULT NULL COMMENT '状态：0表示正常，1表示禁用该数据',
+  `user_id` bigint(20) NULL DEFAULT NULL COMMENT '用户id',
+  `parent_id` bigint(20) NULL DEFAULT NULL COMMENT '上次结算的id',
+  `system_bonus_id` bigint(20) NULL DEFAULT NULL COMMENT '系统积分表id',
+  `start_points` double(16, 2) NULL DEFAULT NULL COMMENT '用户当日结算前积分值',
+  `end_points` double(16, 2) NULL DEFAULT NULL COMMENT '用户当日结算后积分值',
+  `ratio` double(16, 6) NULL DEFAULT NULL COMMENT '用户当日权重比率',
+  `visible` int(10) NULL DEFAULT NULL COMMENT '在会员客户端是否可见：0表示正常可见，1表示不可见',
+  `status` int(10) NULL DEFAULT NULL COMMENT '状态：0表示正常，1表示禁用该数据',
   `create_time` datetime(0) NOT NULL COMMENT '最后创建时间',
   `create_user_id` bigint(20) NOT NULL COMMENT '创建人id',
-  `update_time` datetime(0) DEFAULT NULL COMMENT '最后修改时间',
-  `update_user_id` bigint(20) DEFAULT NULL COMMENT '修改人id',
+  `update_time` datetime(0) NULL DEFAULT NULL COMMENT '最后修改时间',
+  `update_user_id` bigint(20) NULL DEFAULT NULL COMMENT '修改人id',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
@@ -246,14 +247,14 @@ INSERT INTO `personal_bonus` VALUES (1072402877638516736, 110, 10724018945020477
 DROP TABLE IF EXISTS `position`;
 CREATE TABLE `position`  (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
-  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '职位名称',
-  `department_id` bigint(20) DEFAULT NULL COMMENT '所属部门id',
-  `description` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '职位描述',
-  `status` int(10) DEFAULT NULL COMMENT '状态：0表示正常，1表示用户禁用该职位',
+  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '职位名称',
+  `department_id` bigint(20) NULL DEFAULT NULL COMMENT '所属部门id',
+  `description` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '职位描述',
+  `status` int(10) NULL DEFAULT NULL COMMENT '状态：0表示正常，1表示用户禁用该职位',
   `create_time` datetime(0) NOT NULL COMMENT '最后创建时间',
   `create_user_id` bigint(20) NOT NULL COMMENT '创建人id',
-  `update_time` datetime(0) DEFAULT NULL COMMENT '最后修改时间',
-  `update_user_id` bigint(20) DEFAULT NULL COMMENT '修改人id',
+  `update_time` datetime(0) NULL DEFAULT NULL COMMENT '最后修改时间',
+  `update_user_id` bigint(20) NULL DEFAULT NULL COMMENT '修改人id',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
@@ -268,18 +269,18 @@ INSERT INTO `position` VALUES (1, '助理', 1, '研发部助理', 0, '2018-11-29
 DROP TABLE IF EXISTS `rank`;
 CREATE TABLE `rank`  (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
-  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '级别名称',
-  `alias` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '别名',
-  `base_points` int(10) DEFAULT NULL COMMENT '基准积分',
-  `base_money` double(16, 2) DEFAULT NULL COMMENT '基准金额',
-  `color` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '识别颜色',
-  `max_bonus` double(16, 2) DEFAULT NULL COMMENT '奖金封顶',
-  `order` int(10) DEFAULT NULL COMMENT '编排序号，这个唯一标识会员等级',
-  `status` int(10) DEFAULT NULL COMMENT '状态：0表示正常，1表示禁用该数据',
+  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '级别名称',
+  `alias` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '别名',
+  `base_points` int(10) NULL DEFAULT NULL COMMENT '基准积分',
+  `base_money` double(16, 2) NULL DEFAULT NULL COMMENT '基准金额',
+  `color` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '识别颜色',
+  `max_bonus` double(16, 2) NULL DEFAULT NULL COMMENT '奖金封顶',
+  `order` int(10) NULL DEFAULT NULL COMMENT '编排序号，这个唯一标识会员等级',
+  `status` int(10) NULL DEFAULT NULL COMMENT '状态：0表示正常，1表示禁用该数据',
   `create_time` datetime(0) NOT NULL COMMENT '最后创建时间',
   `create_user_id` bigint(20) NOT NULL COMMENT '创建人id',
-  `update_time` datetime(0) DEFAULT NULL COMMENT '最后修改时间',
-  `update_user_id` bigint(20) DEFAULT NULL COMMENT '修改人id',
+  `update_time` datetime(0) NULL DEFAULT NULL COMMENT '最后修改时间',
+  `update_user_id` bigint(20) NULL DEFAULT NULL COMMENT '修改人id',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
@@ -296,15 +297,15 @@ INSERT INTO `rank` VALUES (3, '金卡会员', '金卡会员', 9500, 100000.00, '
 DROP TABLE IF EXISTS `role`;
 CREATE TABLE `role`  (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
-  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '角色名称',
-  `description` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '角色描述',
-  `status` int(10) DEFAULT NULL COMMENT '状态：0表示正常，1表示禁用该角色',
-  `domain` int(10) DEFAULT NULL COMMENT '平台作用域：0表示管理后台，1表示会员客户端app',
-  `type` int(10) DEFAULT NULL COMMENT '平台用户类型：具体参照设计文档',
+  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '角色名称',
+  `description` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '角色描述',
+  `status` int(10) NULL DEFAULT NULL COMMENT '状态：0表示正常，1表示禁用该角色',
+  `domain` int(10) NULL DEFAULT NULL COMMENT '平台作用域：0表示管理后台，1表示会员客户端app',
+  `type` int(10) NULL DEFAULT NULL COMMENT '平台用户类型：具体参照设计文档',
   `create_time` datetime(0) NOT NULL COMMENT '最后创建时间',
   `create_user_id` bigint(20) NOT NULL COMMENT '创建人id',
-  `update_time` datetime(0) DEFAULT NULL COMMENT '最后修改时间',
-  `update_user_id` bigint(20) DEFAULT NULL COMMENT '修改人id',
+  `update_time` datetime(0) NULL DEFAULT NULL COMMENT '最后修改时间',
+  `update_user_id` bigint(20) NULL DEFAULT NULL COMMENT '修改人id',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
@@ -322,13 +323,13 @@ INSERT INTO `role` VALUES (4, '普通会员用户', '普通会员用户', 0, 1, 
 DROP TABLE IF EXISTS `role_authority`;
 CREATE TABLE `role_authority`  (
   `id` bigint(20) NOT NULL COMMENT '主键',
-  `role_id` bigint(20) DEFAULT NULL COMMENT '角色id',
-  `authority_id` bigint(20) DEFAULT NULL COMMENT '权限id',
-  `status` int(10) DEFAULT NULL COMMENT '状态：0表示正常，1表示当前角色禁用此权限',
+  `role_id` bigint(20) NULL DEFAULT NULL COMMENT '角色id',
+  `authority_id` bigint(20) NULL DEFAULT NULL COMMENT '权限id',
+  `status` int(10) NULL DEFAULT NULL COMMENT '状态：0表示正常，1表示当前角色禁用此权限',
   `create_time` datetime(0) NOT NULL COMMENT '最后创建时间',
   `create_user_id` bigint(20) NOT NULL COMMENT '创建人id',
-  `update_time` datetime(0) DEFAULT NULL COMMENT '最后修改时间',
-  `update_user_id` bigint(20) DEFAULT NULL COMMENT '修改人id',
+  `update_time` datetime(0) NULL DEFAULT NULL COMMENT '最后修改时间',
+  `update_user_id` bigint(20) NULL DEFAULT NULL COMMENT '修改人id',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
@@ -395,6 +396,7 @@ INSERT INTO `role_authority` VALUES (57, 4, 57, 0, '2019-01-01 16:25:28', 110, '
 INSERT INTO `role_authority` VALUES (58, 4, 58, 0, '2019-01-01 16:25:48', 110, '2019-01-01 16:25:54', 110);
 INSERT INTO `role_authority` VALUES (59, 4, 59, 0, '2019-01-01 16:26:08', 110, '2019-01-01 16:26:12', 110);
 INSERT INTO `role_authority` VALUES (60, 4, 60, 0, '2019-01-01 16:26:27', 110, '2019-01-01 16:26:32', 110);
+INSERT INTO `role_authority` VALUES (61, 1, 61, 0, '2019-01-07 13:29:15', 110, '2019-01-07 13:29:20', 110);
 
 -- ----------------------------
 -- Table structure for stock
@@ -402,20 +404,20 @@ INSERT INTO `role_authority` VALUES (60, 4, 60, 0, '2019-01-01 16:26:27', 110, '
 DROP TABLE IF EXISTS `stock`;
 CREATE TABLE `stock`  (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
-  `publish_time` datetime(0) DEFAULT NULL COMMENT '发布时间',
-  `status` int(10) DEFAULT NULL COMMENT '状态：0表示正常，1表示禁用该数据',
-  `sh_open_exponent` double(16, 2) DEFAULT NULL COMMENT '上证开盘指数',
-  `sh_close_exponent` double(16, 2) DEFAULT NULL COMMENT '上证收盘指数',
-  `sh_max_exponent` double(16, 2) DEFAULT NULL COMMENT '上证最高指数',
-  `sh_min_exponent` double(16, 2) DEFAULT NULL COMMENT '上证最低指数',
-  `tb_open_exponent` double(16, 2) DEFAULT NULL COMMENT '天宝开盘指数',
-  `tb_close_exponent` double(16, 2) DEFAULT NULL COMMENT '天宝收盘指数',
-  `tb_max_exponent` double(16, 2) DEFAULT NULL COMMENT '天宝最高指数',
-  `tb_min_exponent` double(16, 2) DEFAULT NULL COMMENT '天宝最低指数',
+  `publish_time` datetime(0) NULL DEFAULT NULL COMMENT '发布时间',
+  `status` int(10) NULL DEFAULT NULL COMMENT '状态：0表示正常，1表示禁用该数据',
+  `sh_open_exponent` double(16, 2) NULL DEFAULT NULL COMMENT '上证开盘指数',
+  `sh_close_exponent` double(16, 2) NULL DEFAULT NULL COMMENT '上证收盘指数',
+  `sh_max_exponent` double(16, 2) NULL DEFAULT NULL COMMENT '上证最高指数',
+  `sh_min_exponent` double(16, 2) NULL DEFAULT NULL COMMENT '上证最低指数',
+  `tb_open_exponent` double(16, 2) NULL DEFAULT NULL COMMENT '天宝开盘指数',
+  `tb_close_exponent` double(16, 2) NULL DEFAULT NULL COMMENT '天宝收盘指数',
+  `tb_max_exponent` double(16, 2) NULL DEFAULT NULL COMMENT '天宝最高指数',
+  `tb_min_exponent` double(16, 2) NULL DEFAULT NULL COMMENT '天宝最低指数',
   `create_time` datetime(0) NOT NULL COMMENT '最后创建时间',
   `create_user_id` bigint(20) NOT NULL COMMENT '创建人id',
-  `update_time` datetime(0) DEFAULT NULL COMMENT '最后修改时间',
-  `update_user_id` bigint(20) DEFAULT NULL COMMENT '修改人id',
+  `update_time` datetime(0) NULL DEFAULT NULL COMMENT '最后修改时间',
+  `update_user_id` bigint(20) NULL DEFAULT NULL COMMENT '修改人id',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
@@ -439,15 +441,15 @@ INSERT INTO `stock` VALUES (10, '2018-12-08 13:36:03', 0, 33.44, 444.55, 111.21,
 DROP TABLE IF EXISTS `system_bonus`;
 CREATE TABLE `system_bonus`  (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
-  `start_points` double(16, 2) DEFAULT NULL COMMENT '系统当日结算前积分值',
-  `end_points` double(16, 2) DEFAULT NULL COMMENT '系统当日结算后积分值',
-  `ratio` double(16, 6) DEFAULT NULL COMMENT '系统当日权重比率，与当日的个人比率相同',
-  `visible` int(10) DEFAULT NULL COMMENT '在会员客户端是否可见：0表示正常可见，1表示不可见',
-  `status` int(10) DEFAULT NULL COMMENT '状态：0表示正常，1表示禁用该数据',
+  `start_points` double(16, 2) NULL DEFAULT NULL COMMENT '系统当日结算前积分值',
+  `end_points` double(16, 2) NULL DEFAULT NULL COMMENT '系统当日结算后积分值',
+  `ratio` double(16, 6) NULL DEFAULT NULL COMMENT '系统当日权重比率，与当日的个人比率相同',
+  `visible` int(10) NULL DEFAULT NULL COMMENT '在会员客户端是否可见：0表示正常可见，1表示不可见',
+  `status` int(10) NULL DEFAULT NULL COMMENT '状态：0表示正常，1表示禁用该数据',
   `create_time` datetime(0) NOT NULL COMMENT '最后创建时间',
   `create_user_id` bigint(20) NOT NULL COMMENT '创建人id',
-  `update_time` datetime(0) DEFAULT NULL COMMENT '最后修改时间',
-  `update_user_id` bigint(20) DEFAULT NULL COMMENT '修改人id',
+  `update_time` datetime(0) NULL DEFAULT NULL COMMENT '最后修改时间',
+  `update_user_id` bigint(20) NULL DEFAULT NULL COMMENT '修改人id',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
@@ -471,30 +473,30 @@ CREATE TABLE `user`  (
   `id` bigint(20) NOT NULL COMMENT '主键',
   `account` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '登录账号',
   `password` char(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '密码',
-  `super_password` char(32) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '超级密码，只有顶级管理员使用',
-  `real_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '真实姓名',
-  `identity_number` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '身份证号',
-  `nick_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '昵称',
-  `head_image` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '头像url地址',
-  `phone` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '手机电话号码',
-  `email` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '邮箱地址',
-  `gender` int(10) DEFAULT NULL COMMENT '性别',
-  `rank_id` bigint(20) DEFAULT NULL COMMENT '会员等级id',
-  `status` int(10) DEFAULT NULL COMMENT '状态',
-  `question_id` int(10) DEFAULT NULL COMMENT '注册提问，id值为1~5',
-  `answer` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '提问的答案',
-  `last_login_ip` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '上次登录ip地址',
-  `last_login_time` datetime(0) DEFAULT NULL COMMENT '上次登录的时间',
+  `super_password` char(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '超级密码，只有顶级管理员使用',
+  `real_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '真实姓名',
+  `identity_number` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '身份证号',
+  `nick_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '昵称',
+  `head_image` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '头像url地址',
+  `phone` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '手机电话号码',
+  `email` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '邮箱地址',
+  `gender` int(10) NULL DEFAULT NULL COMMENT '性别',
+  `rank_id` bigint(20) NULL DEFAULT NULL COMMENT '会员等级id',
+  `status` int(10) NULL DEFAULT NULL COMMENT '状态',
+  `question_id` int(10) NULL DEFAULT NULL COMMENT '注册提问，id值为1~5',
+  `answer` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '提问的答案',
+  `last_login_ip` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '上次登录ip地址',
+  `last_login_time` datetime(0) NULL DEFAULT NULL COMMENT '上次登录的时间',
   `create_time` datetime(0) NOT NULL COMMENT '最后创建时间',
   `create_user_id` bigint(20) NOT NULL COMMENT '创建人id',
-  `update_time` datetime(0) DEFAULT NULL COMMENT '最后修改时间',
-  `update_user_id` bigint(20) DEFAULT NULL COMMENT '修改人id',
-  `province` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '所属省份',
-  `city` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '所属城市',
-  `address` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '详细地址',
-  `certification_time` datetime(0) DEFAULT NULL COMMENT '发证时间',
-  `current_login_ip` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '本次登录ip地址',
-  `current_login_time` datetime(0) DEFAULT NULL COMMENT '本次登录的时间',
+  `update_time` datetime(0) NULL DEFAULT NULL COMMENT '最后修改时间',
+  `update_user_id` bigint(20) NULL DEFAULT NULL COMMENT '修改人id',
+  `province` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '所属省份',
+  `city` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '所属城市',
+  `address` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '详细地址',
+  `certification_time` datetime(0) NULL DEFAULT NULL COMMENT '发证时间',
+  `current_login_ip` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '本次登录ip地址',
+  `current_login_time` datetime(0) NULL DEFAULT NULL COMMENT '本次登录的时间',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
@@ -514,14 +516,14 @@ INSERT INTO `user` VALUES (1073061220271620096, '赵丽颖', 'CK3lybfMbkuD23jgrb
 DROP TABLE IF EXISTS `user_message`;
 CREATE TABLE `user_message`  (
   `id` bigint(20) NOT NULL COMMENT '主键',
-  `message_id` bigint(20) DEFAULT NULL COMMENT '留言id',
-  `sender_id` bigint(20) DEFAULT NULL COMMENT '发送留言者id',
-  `receiver_id` bigint(20) DEFAULT NULL COMMENT '接收留言者id',
-  `status` int(10) DEFAULT NULL COMMENT '状态：0表示正常，1表示禁用此数据',
+  `message_id` bigint(20) NULL DEFAULT NULL COMMENT '留言id',
+  `sender_id` bigint(20) NULL DEFAULT NULL COMMENT '发送留言者id',
+  `receiver_id` bigint(20) NULL DEFAULT NULL COMMENT '接收留言者id',
+  `status` int(10) NULL DEFAULT NULL COMMENT '状态：0表示正常，1表示禁用此数据',
   `create_time` datetime(0) NOT NULL COMMENT '最后创建时间',
   `create_user_id` bigint(20) NOT NULL COMMENT '创建人id',
-  `update_time` datetime(0) DEFAULT NULL COMMENT '最后修改时间',
-  `update_user_id` bigint(20) DEFAULT NULL COMMENT '修改人id',
+  `update_time` datetime(0) NULL DEFAULT NULL COMMENT '最后修改时间',
+  `update_user_id` bigint(20) NULL DEFAULT NULL COMMENT '修改人id',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
@@ -537,13 +539,13 @@ INSERT INTO `user_message` VALUES (2, 12341434423, 110, 12, 6, '2018-12-12 09:35
 DROP TABLE IF EXISTS `user_position`;
 CREATE TABLE `user_position`  (
   `id` bigint(20) NOT NULL COMMENT '主键',
-  `user_id` bigint(20) DEFAULT NULL COMMENT '用户id',
-  `position_id` bigint(20) DEFAULT NULL COMMENT '职位id',
-  `status` int(10) DEFAULT NULL COMMENT '状态：0表示正常，1表示用户禁用该职位',
+  `user_id` bigint(20) NULL DEFAULT NULL COMMENT '用户id',
+  `position_id` bigint(20) NULL DEFAULT NULL COMMENT '职位id',
+  `status` int(10) NULL DEFAULT NULL COMMENT '状态：0表示正常，1表示用户禁用该职位',
   `create_time` datetime(0) NOT NULL COMMENT '最后创建时间',
   `create_user_id` bigint(20) NOT NULL COMMENT '创建人id',
-  `update_time` datetime(0) DEFAULT NULL COMMENT '最后修改时间',
-  `update_user_id` bigint(20) DEFAULT NULL COMMENT '修改人id',
+  `update_time` datetime(0) NULL DEFAULT NULL COMMENT '最后修改时间',
+  `update_user_id` bigint(20) NULL DEFAULT NULL COMMENT '修改人id',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
@@ -558,13 +560,13 @@ INSERT INTO `user_position` VALUES (1, 110, 1, 0, '2018-11-29 17:14:12', 110, '2
 DROP TABLE IF EXISTS `user_role`;
 CREATE TABLE `user_role`  (
   `id` bigint(20) NOT NULL COMMENT '主键',
-  `user_id` bigint(20) DEFAULT NULL COMMENT '用户id',
-  `role_id` bigint(20) DEFAULT NULL COMMENT '角色id',
-  `status` int(10) DEFAULT NULL COMMENT '状态：0表示正常，1表示用户禁用该角色',
+  `user_id` bigint(20) NULL DEFAULT NULL COMMENT '用户id',
+  `role_id` bigint(20) NULL DEFAULT NULL COMMENT '角色id',
+  `status` int(10) NULL DEFAULT NULL COMMENT '状态：0表示正常，1表示用户禁用该角色',
   `create_time` datetime(0) NOT NULL COMMENT '最后创建时间',
   `create_user_id` bigint(20) NOT NULL COMMENT '创建人id',
-  `update_time` datetime(0) DEFAULT NULL COMMENT '最后修改时间',
-  `update_user_id` bigint(20) DEFAULT NULL COMMENT '修改人id',
+  `update_time` datetime(0) NULL DEFAULT NULL COMMENT '最后修改时间',
+  `update_user_id` bigint(20) NULL DEFAULT NULL COMMENT '修改人id',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
