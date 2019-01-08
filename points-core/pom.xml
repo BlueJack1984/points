@@ -5,7 +5,7 @@
 
     <groupId>com.tianbao</groupId>
     <artifactId>points-core</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0</version>
     <packaging>jar</packaging>
 
     <name>points-core</name>
@@ -14,8 +14,7 @@
     <parent>
         <groupId>com.tianbao</groupId>
         <artifactId>points</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <version>1.0</version>
     </parent>
 
     <properties>
