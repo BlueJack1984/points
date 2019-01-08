@@ -5,7 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-public class DateFormat {
+public class DateConversion {
 
 	/**
 	 * 字符串转日期
@@ -28,7 +28,7 @@ public class DateFormat {
 
 	public static void main(String[] args) {
 		for (int i = -30; i <= 0; i++) {
-			System.out.println(DateFormat.get30day(i));
+			System.out.println(DateConversion.get30day(i));
 		}
 	}
 	public static String get30day(int num){
@@ -58,8 +58,8 @@ public class DateFormat {
 	/**
 	 * 获取当月第一天
 	 * 
-	 * @param date
-	 * @param formatStr
+	 * @param
+	 * @param
 	 * @return
 	 */
 	public static String DateOfMonthFirst() {
@@ -75,8 +75,8 @@ public class DateFormat {
 	/**
 	 * 获取前月的第一天
 	 * 
-	 * @param date
-	 * @param formatStr
+	 * @param
+	 * @param
 	 * @return
 	 */
 	public static String DateOfLastMonthFirst() {
@@ -92,8 +92,8 @@ public class DateFormat {
 	/**
 	 * 获取当月最后一天
 	 * 
-	 * @param date
-	 * @param formatStr
+	 * @param
+	 * @param
 	 * @return
 	 */
 	public static String DateOfMonthEnd() {
@@ -108,8 +108,7 @@ public class DateFormat {
 	/**
 	 * 获取前月的最后一天
 	 * 
-	 * @param date
-	 * @param formatStr
+	 * @param
 	 * @return
 	 */
 	public static String DateOfLastMonthEnd() {
@@ -122,15 +121,15 @@ public class DateFormat {
 	}
 
 	public static Date beginTimeFormat(Date beginTime) {
-		String begin = DateFormat.DateToString(beginTime, "yyyy-MM-dd");
+		String begin = DateConversion.DateToString(beginTime, "yyyy-MM-dd");
 		begin += " 00:00";
-		return DateFormat.StringToDate(begin, "yyyy-MM-dd HH:mm");
+		return DateConversion.StringToDate(begin, "yyyy-MM-dd HH:mm");
 	}
 
 	public static Date endTimeFormat(Date endTime) {
-		String end = DateFormat.DateToString(endTime, "yyyy-MM-dd");
+		String end = DateConversion.DateToString(endTime, "yyyy-MM-dd");
 		end += " 23:59";
-		return DateFormat.StringToDate(end, "yyyy-MM-dd HH:mm");
+		return DateConversion.StringToDate(end, "yyyy-MM-dd HH:mm");
 	}
 
 	/**
