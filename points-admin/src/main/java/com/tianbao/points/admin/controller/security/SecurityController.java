@@ -39,7 +39,10 @@ public class SecurityController {
     private final IUserService userServer;
     @Value("${password.encrypt.key}")
     private String PASSWORD_SECRET_KEY;
-    private static String CODE = "";
+    /**
+     * 保存产生的图形验证码，用于用户输入验证码在后台对比
+     */
+    private static String generatedCaptcha = "";
     /**
      * 设置要产生的验证码位数
      */
@@ -68,8 +71,8 @@ public class SecurityController {
             char single = container.charAt(random.nextInt(container.length()));
             captcha.append(single);
         }
-        CODE = captcha.toString();
-        return new OutputResult<>(CODE);
+        generatedCaptcha = captcha.toString();
+        return new OutputResult<>(generatedCaptcha);
     }
 
     /**
@@ -87,7 +90,7 @@ public class SecurityController {
     public OutputResult<JwtToken> login(@RequestBody @Valid LoginInput loginInput) throws ApplicationException {
         //判断验证码是否正确
         String userCaptcha = loginInput.getUserCaptcha();
-        if (! userCaptcha.equals(CODE)) {
+        if (! userCaptcha.equals(generatedCaptcha)) {
             log.info("-----------------------------------> 验证码错误");
             throw new ApplicationException(ApplicationException.CAPTCHA_PARAM_ERROR, "验证码填写错误");
         }
