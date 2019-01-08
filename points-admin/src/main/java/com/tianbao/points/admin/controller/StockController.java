@@ -14,6 +14,7 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.web.bind.annotation.*;
@@ -149,14 +150,16 @@ public class StockController {
      * @update
      */
     private void copyProperties(Stock target, StockInput source) throws ApplicationException {
-        Date publishTime = null;
-        try {
-            publishTime = SDF.parse(source.getPublishTime());
-        }catch(Exception e) {
-            log.info(e.getMessage());
-            throw new ApplicationException(ApplicationException.DATE_PARAM_FORMAT_ERROR, "证券指数发布日期格式错误");
+        if(! StringUtils.isEmpty(source.getPublishTime())) {
+            Date publishTime = null;
+            try {
+                publishTime = SDF.parse(source.getPublishTime());
+            }catch(Exception e) {
+                log.info(e.getMessage());
+                throw new ApplicationException(ApplicationException.DATE_PARAM_FORMAT_ERROR, "证券指数发布日期格式错误");
+            }
+            target.setPublishTime(publishTime);
         }
-        target.setPublishTime(publishTime);
         if(source.getShOpenExponent() != null && source.getShOpenExponent().doubleValue() >= 0) {
             target.setShOpenExponent(source.getShOpenExponent());
         }
