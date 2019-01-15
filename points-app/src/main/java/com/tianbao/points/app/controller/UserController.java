@@ -6,6 +6,7 @@ import com.tianbao.points.core.dto.response.OutputResult;
 import com.tianbao.points.core.entity.User;
 import com.tianbao.points.core.exception.ApplicationException;
 import com.tianbao.points.core.service.IUserService;
+import com.tianbao.points.core.utils.MD5;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -14,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -38,6 +40,8 @@ public class UserController {
      */
     private final IUserService userServer;
     private static final SimpleDateFormat SDF = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    @Value("${password.encrypt.key}")
+    private String PASSWORD_SECRET_KEY;
 
     /**
      * @desc 新建保存一条会员用户信息
@@ -89,7 +93,14 @@ public class UserController {
         target.setGender(source.getGender());
         target.setRankId(source.getRankId());
         target.setIdentityNumber(source.getIdentityNumber());
-        target.setPassword(source.getPassword());
+        String encoded = null;
+        try {
+            encoded = MD5.EncoderByMd5(source.getPassword() + PASSWORD_SECRET_KEY);
+        } catch (Exception e) {
+            log.info(e.getMessage());
+            throw new ApplicationException(ApplicationException.PASSWORD_ENCRYPT_ERROR, "用户登录密码加密错误");
+        }
+        target.setPassword(encoded);
         target.setPhone(source.getPhone());
         target.setProvince(source.getProvince());
         target.setCity(source.getCity());
