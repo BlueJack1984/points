@@ -63,7 +63,7 @@ public class AnnouncementController {
     @RequiresPermissions({"admin:announcement:list"})
     @RequiresAuthentication
     public OutputListResult<AnnouncementDTO> getListPage(
-            @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
+            @RequestHeader(value = "_current_id") Long currentId,
             @RequestParam(value = "pageNo", required = false, defaultValue = "1") Integer pageNo,
             @RequestParam(value = "pageSize", required = false, defaultValue = "20") Integer pageSize) throws Exception {
 
