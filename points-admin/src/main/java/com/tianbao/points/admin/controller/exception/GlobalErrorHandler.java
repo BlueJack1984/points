@@ -23,6 +23,9 @@ public class GlobalErrorHandler implements ErrorController {
     public void error(HttpServletRequest request, HttpServletResponse response) throws Exception {
         // 错误处理逻辑
         Exception exception = (Exception) request.getAttribute("javax.servlet.error.exception");
+        if(exception == null) {
+            throw new ApplicationException(ApplicationException.UNKNOWN_ERROR, "未知错误");
+        }
         Throwable cause = exception.getCause();
         if (cause instanceof ExpiredJwtException) {
             //response.setStatus(HttpStatus.GATEWAY_TIMEOUT.value());
