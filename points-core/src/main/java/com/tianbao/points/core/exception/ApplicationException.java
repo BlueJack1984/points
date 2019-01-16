@@ -177,6 +177,10 @@ public class ApplicationException extends Exception {
 	 * 未知错误code值设置
 	 */
 	public static final int UNKNOWN_ERROR = 706;
+	/**
+	 * 登录状态错误code值设置
+	 */
+	public static final int LOGIN_STATUS_ERROR = 707;
 
 
 	private int code;
