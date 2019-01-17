@@ -22,5 +22,5 @@ public class SystemBonusOutput {
     /**
      * 当前系统权重比率
      */
-    private Double systemRatio;
+    private String systemRatio;
 }
