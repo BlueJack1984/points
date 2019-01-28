@@ -35,9 +35,10 @@ public class RoleServiceImpl implements IRoleService {
 
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void save(Role record) throws ApplicationException {
-
+        iRoleDao.insertMigration(record);
     }
 
     @Override

@@ -40,4 +40,13 @@ public interface IRankDao extends IBaseDao<Rank, Long> {
      * @return 返回查询到的数据
      */
     Rank getByOrder(@Param("order") Integer order);
+
+    /**
+     * @desc 数据迁移，插入会员等级数据
+     * @author lushusheng 2019-1-28
+     * @param rank 排序编号
+     * @return
+     */
+    void insertMigration(Rank rank);
+
 }

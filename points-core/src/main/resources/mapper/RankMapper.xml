@@ -22,6 +22,13 @@
     delete from <include refid="t_rank"/>
     where id = #{id,jdbcType=BIGINT}
   </delete>
+  <!--数据迁移使用-->
+  <insert id="insertMigration" parameterType="rank">
+    insert into <include refid="t_rank"/>
+    (id, name, alias, base_points, base_money, status, create_time, create_user_id, update_time, update_user_id, color, `order`, max_bonus)
+    values (#{id}, #{name}, #{alias}, #{basePoints}, #{baseMoney}, #{status},
+    #{createTime}, #{createUserId}, #{updateTime}, #{updateUserId}, #{color}, #{order}, #{maxBonus})
+  </insert>
 
   <insert id="insert" parameterType="rank" useGeneratedKeys="true" keyProperty="id">
     insert into <include refid="t_rank"/>

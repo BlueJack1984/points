@@ -37,8 +37,9 @@ public class RankServiceImpl implements IRankService {
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void save(Rank record) throws ApplicationException {
-
+        iRankDao.insertMigration(record);
     }
+
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void saveSelective(Rank record) throws ApplicationException {

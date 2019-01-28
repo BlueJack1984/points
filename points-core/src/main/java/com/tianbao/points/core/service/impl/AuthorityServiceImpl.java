@@ -8,6 +8,7 @@ import com.tianbao.points.core.exception.ApplicationException;
 import com.tianbao.points.core.service.IAuthorityService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
@@ -31,9 +32,10 @@ public class AuthorityServiceImpl implements IAuthorityService {
 
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void save(Authority record) throws ApplicationException {
-
+        iAuthorityDao.insertMigration(record);
     }
 
     @Override

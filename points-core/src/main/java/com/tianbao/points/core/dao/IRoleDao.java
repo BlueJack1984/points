@@ -33,4 +33,12 @@ public interface IRoleDao extends IBaseDao<Role, Long> {
      *
      */
     List<Role> selectListPage();
+    /**
+     * @desc 数据迁移，存入角色数据
+     * @author lushusheng
+     * @Date 2019-1-28
+     * @return
+     *
+     */
+    void insertMigration(Role role);
 }

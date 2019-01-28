@@ -48,9 +48,10 @@ public class PersonalBonusServiceImpl extends VisibilityService implements IPers
 
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void save(PersonalBonus record) throws ApplicationException {
-
+        iPersonalBonusDao.insert(record);
     }
 
     @Override

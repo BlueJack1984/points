@@ -69,9 +69,10 @@ public class SystemBonusServiceImpl extends VisibilityService implements ISystem
 
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void save(SystemBonus record) throws ApplicationException {
-
+        iSystemBonusDao.insertMigration(record);
     }
 
     @Override

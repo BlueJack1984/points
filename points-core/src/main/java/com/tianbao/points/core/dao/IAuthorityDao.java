@@ -24,4 +24,14 @@ public interface IAuthorityDao extends IBaseDao<Authority, Long> {
      * @update
      */
     List<Authority> getListByUserId(@Param("userId") Long userId);
+
+    /**
+     * @author lushusheng
+     * @Date 2019-1-28
+     * @Desc 数据迁移，插入权限数据
+     * @param authority 一条权限数据
+     * @return
+     * @update
+     */
+    void insertMigration(Authority authority);
 }

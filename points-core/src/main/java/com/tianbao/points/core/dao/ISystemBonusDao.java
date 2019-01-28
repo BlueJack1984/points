@@ -30,4 +30,13 @@ public interface ISystemBonusDao extends IBaseDao<SystemBonus, Long> {
      * @update
      */
     SystemBonus selectLatest();
+    /**
+     * @author lushusheng
+     * @Date 2019-1-28
+     * @Desc 数据迁移，存入系统积分数据
+     * @return
+     * @update
+     */
+    void insertMigration(SystemBonus systemBonus);
+
 }

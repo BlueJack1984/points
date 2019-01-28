@@ -1,11 +1,24 @@
 package com.tianbao.points.app.controller.migration;
 
 
+import com.tianbao.points.app.controller.migration.input.RoleMigrationInput;
+import com.tianbao.points.app.controller.migration.input.SystemBonusMigrationInput;
+import com.tianbao.points.core.constant.StatusCode;
+import com.tianbao.points.core.dto.response.OutputResult;
+import com.tianbao.points.core.entity.Role;
+import com.tianbao.points.core.entity.SystemBonus;
+import com.tianbao.points.core.exception.ApplicationException;
+import com.tianbao.points.core.service.ISystemBonusService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import java.util.Date;
 
 /**
  * @desc 数据迁移的系统积分入口
@@ -19,4 +32,42 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/migration/system/bonus")
 @Slf4j
 public class SystemBonusController {
+
+    private final ISystemBonusService systemBonusService;
+    /**
+     * @desc 新建保存一条系统积分信息
+     * @author lushusheng 2019-1-28
+     * @param currentId 当前用户id
+     * @param systemBonusMigrationInput 实体参数
+     * @return 返回数据
+     * @throws ApplicationException 保存异常
+     */
+    @ApiOperation(value = "新建保存一条系统积分信息", notes = "新建保存一条系统积分信息")
+    @ApiImplicitParams({
+        @ApiImplicitParam(paramType = "header", dataType = "Long", name = "currentId", value = "当前用户id", required = true),
+        @ApiImplicitParam(paramType = "body", dataType = "SystemBonusMigrationInput", name = "systemBonusMigrationInput", value = "实体参数", required = true)})
+    @CrossOrigin
+    @PostMapping("/save")
+    //@RequiresPermissions({"app:user:save"})
+    //@RequiresAuthentication
+    public OutputResult<SystemBonus> save(
+            @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
+            @RequestBody @Valid SystemBonusMigrationInput systemBonusMigrationInput)throws ApplicationException {
+        SystemBonus systemBonus = new SystemBonus();
+        copyProperties(systemBonus, systemBonusMigrationInput);
+        systemBonus.setStatus(StatusCode.NORMAL.getCode());
+        systemBonus.setCreateTime(new Date());
+        systemBonus.setCreateUserId(currentId);
+        systemBonus.setUpdateTime(new Date());
+        systemBonus.setUpdateUserId(currentId);
+        systemBonusService.save(systemBonus);
+        return new OutputResult<>(systemBonus);
+    }
+    private void copyProperties(SystemBonus target, SystemBonusMigrationInput source) {
+        target.setId(source.getId());
+        target.setStartPoints(source.getStartPoints());
+        target.setEndPoints(source.getEndPoints());
+        target.setRatio(source.getRatio());
+        target.setVisible(source.getVisible());
+    }
 }
