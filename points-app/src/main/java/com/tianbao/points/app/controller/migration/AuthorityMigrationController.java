@@ -28,7 +28,7 @@ import java.util.Date;
 @RequiredArgsConstructor
 @RequestMapping("/migration/authority")
 @Slf4j
-public class AuthorityController {
+public class AuthorityMigrationController {
 
     private final IAuthorityService authorityService;
     /**

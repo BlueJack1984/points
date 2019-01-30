@@ -31,7 +31,7 @@ import java.util.Date;
 @RequiredArgsConstructor
 @RequestMapping("/migration/rank")
 @Slf4j
-public class RankController {
+public class RankMigrationController {
 
     private final IRankService rankService;
 

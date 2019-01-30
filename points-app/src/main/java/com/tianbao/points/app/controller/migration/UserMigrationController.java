@@ -32,7 +32,7 @@ import java.util.Date;
 @RequiredArgsConstructor
 @RequestMapping("/migration/user")
 @Slf4j
-public class UserController {
+public class UserMigrationController {
 
     private final IUserService userService;
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd HH:mm:ss");

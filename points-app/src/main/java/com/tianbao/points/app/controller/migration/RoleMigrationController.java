@@ -30,7 +30,7 @@ import java.util.Date;
 @RequiredArgsConstructor
 @RequestMapping("/migration/role")
 @Slf4j
-public class RoleController {
+public class RoleMigrationController {
 
     private final IRoleService roleService;
 

@@ -31,7 +31,7 @@ import java.util.Date;
 @RequiredArgsConstructor
 @RequestMapping("/migration/system/bonus")
 @Slf4j
-public class SystemBonusController {
+public class SystemBonusMigrationController {
 
     private final ISystemBonusService systemBonusService;
     /**

@@ -14,6 +14,8 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -30,10 +32,11 @@ import java.util.Date;
 @RequiredArgsConstructor
 @RequestMapping("/migration/personal/bonus")
 @Slf4j
-public class PersonalBonusController {
+public class PersonalBonusMigrationController {
 
     private final IPersonalBonusService personalBonusService;
-
+    //@Autowired
+    //@Lazy
     private final IUserService userService;
     /**
      * @desc 新建保存一条个人积分信息
@@ -45,8 +48,8 @@ public class PersonalBonusController {
      */
     @ApiOperation(value = "新建保存一条个人积分信息", notes = "新建保存一条个人积分信息")
     @ApiImplicitParams({
-            @ApiImplicitParam(paramType = "header", dataType = "Long", name = "currentId", value = "当前用户id", required = true),
-            @ApiImplicitParam(paramType = "body", dataType = "PersonalBonusMigrationInput", name = "personalBonusMigrationInput", value = "实体参数", required = true)})
+        @ApiImplicitParam(paramType = "header", dataType = "Long", name = "currentId", value = "当前用户id", required = true),
+        @ApiImplicitParam(paramType = "body", dataType = "PersonalBonusMigrationInput", name = "personalBonusMigrationInput", value = "实体参数", required = true)})
     @CrossOrigin
     @PostMapping("/save")
     //@RequiresPermissions({"app:user:save"})
