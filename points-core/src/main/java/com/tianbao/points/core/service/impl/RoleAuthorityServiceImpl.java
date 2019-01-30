@@ -29,7 +29,7 @@ public class RoleAuthorityServiceImpl implements IRoleAuthorityService {
 
     @Override
     public void save(RoleAuthority record) throws ApplicationException {
-
+        iRoleAuthorityDao.insert(record);
     }
 
     @Override
