@@ -249,4 +249,13 @@
     where _personal_bonus.status = 0 and _personal_bonus.user_id = #{userId}
     order by _personal_bonus.create_time desc
   </select>
+
+  <!--根据会员id获取个人积分最新的一条数据-->
+  <select id="getLatestByUserId" resultType="personalBonus">
+    select <include refid="c_personal_bonus"/>
+    from <include refid="t_personal_bonus"/> _personal_bonus
+    where _personal_bonus.status = 0 and _personal_bonus.user_id = #{userId}
+    order by _personal_bonus.create_time desc
+    limit 0,1
+  </select>
 </mapper>

@@ -30,8 +30,8 @@ public class PersonalBonusMigrationInput {
     /**
      * 上次结算的id
      */
-    @NotNull(message = "上次结算的id参数不能为空")
-    private Long parentId;
+    //@NotNull(message = "上次结算的id参数不能为空")
+    //private Long parentId;
     /**
      * 系统积分id
      */
@@ -57,4 +57,10 @@ public class PersonalBonusMigrationInput {
      */
     @NotNull(message = "会员客户端是否可见参数不能为空")
     private Integer visible;
+
+    /**
+     * 创建时间
+     */
+    @NotBlank(message = "创建时间参数不能为空")
+    private String createTime;
 }

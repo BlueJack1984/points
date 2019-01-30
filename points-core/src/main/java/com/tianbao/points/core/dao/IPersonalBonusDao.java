@@ -74,4 +74,14 @@ public interface IPersonalBonusDao extends IBaseDao<PersonalBonus, Long> {
      * @update
      */
     List<PersonalBonus> getPersonalListByUserId(@Param("userId") Long userId);
+
+    /**
+     * @author lushusheng
+     * @Date 2019-1-30
+     * @Desc 根据会员id获取个人积分最新的一条数据
+     * @param userId 表示系统积分增值id
+     * @return 返回操查询到的一条数据
+     * @update
+     */
+    PersonalBonus getLatestByUserId(@Param("userId") Long userId);
 }

@@ -256,4 +256,18 @@ public class PersonalBonusServiceImpl extends VisibilityService implements IPers
         PageInfo<PersonalBonus> pageInfo = new PageInfo<>(personalBonusList);
         return pageInfo;
     }
+
+
+    /**
+     * @author lushusheng
+     * @Date 2019-1-30
+     * @Desc 查询一个用户当前最新的一条数据
+     * @param userId 当前用户id
+     * @return 返回查询到的最新一条个人积分数据
+     * @update
+     */
+    public PersonalBonus getLatestByUserId(Long userId)throws ApplicationException {
+        PersonalBonus personalBonus = iPersonalBonusDao.getLatestByUserId(userId);
+        return personalBonus;
+    }
 }

@@ -19,6 +19,8 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -35,6 +37,7 @@ import java.util.Date;
 public class PersonalBonusMigrationController {
 
     private final IPersonalBonusService personalBonusService;
+    SimpleDateFormat SDF = new SimpleDateFormat("yyyy-mm-dd HH:mm:ss");
     //@Autowired
     //@Lazy
     private final IUserService userService;
@@ -57,24 +60,37 @@ public class PersonalBonusMigrationController {
     public OutputResult<PersonalBonus> save(
             @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
             @RequestBody @Valid PersonalBonusMigrationInput personalBonusMigrationInput)throws ApplicationException {
+
         User user = userService.getByAccount(personalBonusMigrationInput.getAccount());
         if(user == null) {
             throw new ApplicationException(ApplicationException.MEMBER_USER_NOT_EXISTS, "会员用户不存在");
         }
         PersonalBonus personalBonus = new PersonalBonus();
+        PersonalBonus latest = personalBonusService.getLatestByUserId(user.getId());
+        if(latest == null) {
+            //第一次存入
+            personalBonus.setParentId(0L);
+        }else {
+            personalBonus.setParentId(latest.getId());
+        }
         personalBonus.setUserId(user.getId());
         copyProperties(personalBonus, personalBonusMigrationInput);
         personalBonus.setStatus(StatusCode.NORMAL.getCode());
-        personalBonus.setCreateTime(new Date());
         personalBonus.setCreateUserId(currentId);
         personalBonus.setUpdateTime(new Date());
         personalBonus.setUpdateUserId(currentId);
         personalBonusService.save(personalBonus);
         return new OutputResult<>(personalBonus);
     }
-    private void copyProperties(PersonalBonus target, PersonalBonusMigrationInput source) {
+    private void copyProperties(PersonalBonus target, PersonalBonusMigrationInput source)throws ApplicationException {
+        try {
+            Date createTime = SDF.parse(source.getCreateTime());
+            target.setCreateTime(createTime);
+        } catch (ParseException e) {
+            log.info(e.getMessage());
+            throw new ApplicationException(ApplicationException.DATE_PARAM_FORMAT_ERROR, "创建时间格式错误");
+        }
         target.setId(source.getId());
-        target.setParentId(source.getParentId());
         target.setSystemBonusId(source.getSystemBonusId());
         target.setStartPoints(source.getStartPoints());
         target.setEndPoints(source.getEndPoints());
