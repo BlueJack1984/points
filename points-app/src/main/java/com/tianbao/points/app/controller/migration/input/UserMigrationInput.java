@@ -39,47 +39,47 @@ public class UserMigrationInput {
     /**
      * 身份证号
      */
-    @NotBlank(message = "身份证号参数不能为空")
+    //@NotBlank(message = "身份证号参数不能为空")
     private String identityNumber;
     /**
      * 昵称
      */
-    @NotBlank(message = "昵称参数不能为空")
+    //@NotBlank(message = "昵称参数不能为空")
     private String nickName;
     /**
      * 头像url地址
      */
-    @NotBlank(message = "头像url地址参数不能为空")
+    //@NotBlank(message = "头像url地址参数不能为空")
     private String headImage;
     /**
      * 手机号码
      */
-    @NotBlank(message = "手机号码参数不能为空")
+    //@NotBlank(message = "手机号码参数不能为空")
     private String phone;
     /**
      * 邮箱地址
      */
-    @NotBlank(message = "邮箱地址参数不能为空")
+    //@NotBlank(message = "邮箱地址参数不能为空")
     private String email;
     /**
      * 省级地址
      */
-    @NotBlank(message = "省级地址参数不能为空")
+    //@NotBlank(message = "省级地址参数不能为空")
     private String province;
     /**
      * 所属城市
      */
-    @NotBlank(message = "所属城市参数不能为空")
+    //@NotBlank(message = "所属城市参数不能为空")
     private String city;
     /**
      * 详细地址
      */
-    @NotBlank(message = "详细地址参数不能为空")
+    //@NotBlank(message = "详细地址参数不能为空")
     private String address;
     /**
      * 性别
      */
-    @NotNull(message = "性别参数不能为空")
+    //@NotNull(message = "性别参数不能为空")
     private Integer gender;
     /**
      * 会员等级id
@@ -89,32 +89,32 @@ public class UserMigrationInput {
     /**
      * 注册提问，id值为1~5
      */
-    @NotNull(message = "注册提问id参数不能为空")
+    //@NotNull(message = "注册提问id参数不能为空")
     private Integer questionId;
     /**
      * 提问的答案
      */
-    @NotBlank(message = "提问的答案参数不能为空")
+    //@NotBlank(message = "提问的答案参数不能为空")
     private String answer;
     /**
      * 上次登录ip地址
      */
-    @NotBlank(message = "上次登录ip地址参数不能为空")
+    //@NotBlank(message = "上次登录ip地址参数不能为空")
     private String lastLoginIp;
     /**
      * 本次登录ip地址
      */
-    @NotBlank(message = "本次登录ip地址参数不能为空")
+    //@NotBlank(message = "本次登录ip地址参数不能为空")
     private String currentLoginIp;
     /**
      * 上次登录的时间
      */
-    @NotBlank(message = "上次登录的时间参数不能为空")
+    //@NotBlank(message = "上次登录的时间参数不能为空")
     private String lastLoginTime;
     /**
      * 本次登录的时间
      */
-    @NotBlank(message = "本次登录的时间参数不能为空")
+    //@NotBlank(message = "本次登录的时间参数不能为空")
     private String currentLoginTime;
     /**
      * 发证时间

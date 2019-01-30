@@ -14,6 +14,7 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -66,26 +67,33 @@ public class UserMigrationController {
         return new OutputResult<>(user);
     }
     private void copyProperties(User target, UserMigrationInput source)throws ApplicationException {
-        try {
-            Date lastLoginTime = sdf.parse(source.getLastLoginTime());
-            target.setLastLoginTime(lastLoginTime);
-        } catch (ParseException e) {
-            log.info(e.getMessage());
-            throw new ApplicationException(ApplicationException.DATE_PARAM_FORMAT_ERROR, "上次登录时间格式错误");
+        if(! StringUtils.isEmpty(source.getLastLoginTime())) {
+            try {
+                Date lastLoginTime = sdf.parse(source.getLastLoginTime());
+                target.setLastLoginTime(lastLoginTime);
+            } catch (ParseException e) {
+                log.info(e.getMessage());
+                throw new ApplicationException(ApplicationException.DATE_PARAM_FORMAT_ERROR, "上次登录时间格式错误");
+            }
         }
-        try {
-            Date currentLoginTime = sdf.parse(source.getCurrentLoginTime());
-            target.setCurrentLoginTime(currentLoginTime);
-        } catch (ParseException e) {
-            log.info(e.getMessage());
-            throw new ApplicationException(ApplicationException.DATE_PARAM_FORMAT_ERROR, "本次登录时间格式错误");
+
+        if(! StringUtils.isEmpty(source.getCurrentLoginTime())) {
+            try {
+                Date currentLoginTime = sdf.parse(source.getCurrentLoginTime());
+                target.setCurrentLoginTime(currentLoginTime);
+            } catch (ParseException e) {
+                log.info(e.getMessage());
+                throw new ApplicationException(ApplicationException.DATE_PARAM_FORMAT_ERROR, "本次登录时间格式错误");
+            }
         }
-        try {
-            Date certificationTime = sdf.parse(source.getCertificationTime());
-            target.setCertificationTime(certificationTime);
-        } catch (ParseException e) {
-            log.info(e.getMessage());
-            throw new ApplicationException(ApplicationException.DATE_PARAM_FORMAT_ERROR, "发证时间格式错误");
+        if(! StringUtils.isEmpty(source.getCertificationTime())) {
+            try {
+                Date certificationTime = sdf.parse(source.getCertificationTime());
+                target.setCertificationTime(certificationTime);
+            } catch (ParseException e) {
+                log.info(e.getMessage());
+                throw new ApplicationException(ApplicationException.DATE_PARAM_FORMAT_ERROR, "发证时间格式错误");
+            }
         }
         target.setId(source.getId());
         target.setAccount(source.getAccount());
