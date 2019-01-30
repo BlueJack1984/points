@@ -66,7 +66,7 @@ public class UserMigrationController {
         user.setUpdateTime(new Date());
         user.setUpdateUserId(currentId);
         userService.save(user);
-        return new OutputResult<>(user);
+        return new OutputResult<>(userService.selectById(user.getId()));
     }
     private void copyProperties(User target, UserMigrationInput source)throws ApplicationException {
         if(! StringUtils.isEmpty(source.getLastLoginTime())) {

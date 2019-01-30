@@ -11,7 +11,8 @@
      `_user`.create_time createTime, `_user`.create_user_id createUserId,
      `_user`.update_time updateTime, `_user`.update_user_id updateUserId,
      `_user`.province, `_user`.city, `_user`.address,
-     `_user`.current_login_ip currentLoginIp, `_user`.current_login_time currentLoginTime
+     `_user`.current_login_ip currentLoginIp, `_user`.current_login_time currentLoginTime,
+     `_user`.certification_time certificationTime
   </sql>
   <sql id="t_user">`user`</sql>
 
@@ -30,11 +31,11 @@
     insert into <include refid="t_user"/>
     (id, account, password, super_password, real_name, identity_number, nick_name, head_image, phone,
     email, gender, rank_id, status, question_id, answer, last_login_ip, last_login_time, create_time,
-    create_user_id, update_time, update_user_id, province, city, address, current_login_ip, current_login_time)
+    create_user_id, update_time, update_user_id, province, city, address, current_login_ip, current_login_time, certification_time)
     values (#{id}, #{account}, #{password}, #{superPassword}, #{realName}, #{identityNumber}, #{nickName},
     #{headImage}, #{phone}, #{email}, #{gender}, #{rankId}, #{status}, #{questionId}, #{answer},
     #{lastLoginIp}, #{lastLoginTime}, #{createTime}, #{createUserId}, #{updateTime}, #{updateUserId},
-    #{province}, #{city}, #{address}, #{currentLoginIp}, #{currentLoginTime})
+    #{province}, #{city}, #{address}, #{currentLoginIp}, #{currentLoginTime}, #{certificationTime})
   </insert>
 
   <insert id="insertSelective" parameterType="user" >
@@ -118,6 +119,9 @@
       <if test="currentLoginTime != null">
         current_login_time,
       </if>
+      <if test="certificationTime != null">
+        certification_time,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -197,6 +201,9 @@
       </if>
       <if test="currentLoginTime != null">
         #{currentLoginTime},
+      </if>
+      <if test="certificationTime != null">
+        #{certificationTime}
       </if>
     </trim>
   </insert>
@@ -279,6 +286,9 @@
       <if test="currentLoginTime != null">
         current_login_time = #{currentLoginTime},
       </if>
+      <if test="certificationTime != null">
+        certification_time = #{certificationTime}
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -309,7 +319,8 @@
       city = #{city},
       address = #{address},
       current_login_ip = #{currentLoginIp},
-      current_login_time = #{currentLoginTime}
+      current_login_time = #{currentLoginTime},
+      certification_time = #{certificationTime}
     where id = #{id,jdbcType=BIGINT}
   </update>
 
