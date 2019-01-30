@@ -1,13 +1,12 @@
 package com.tianbao.points.app.controller.migration;
 
-import com.tianbao.points.app.controller.migration.input.SystemBonusMigrationInput;
 import com.tianbao.points.app.controller.migration.input.UserMigrationInput;
 import com.tianbao.points.core.constant.StatusCode;
 import com.tianbao.points.core.dto.response.OutputResult;
-import com.tianbao.points.core.entity.SystemBonus;
 import com.tianbao.points.core.entity.User;
 import com.tianbao.points.core.exception.ApplicationException;
 import com.tianbao.points.core.service.IUserService;
+import com.tianbao.points.core.utils.MD5;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -15,6 +14,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -37,6 +37,8 @@ public class UserMigrationController {
 
     private final IUserService userService;
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd HH:mm:ss");
+    @Value("${password.encrypt.key}")
+    private String PASSWORD_SECRET_KEY;
     /**
      * @desc 新建保存一条会员信息
      * @author lushusheng 2019-1-28
@@ -97,7 +99,15 @@ public class UserMigrationController {
         }
         target.setId(source.getId());
         target.setAccount(source.getAccount());
-        target.setPassword(source.getPassword());
+        //密码加密
+        String encoded = null;
+        try {
+            encoded = MD5.EncoderByMd5(source.getPassword() + PASSWORD_SECRET_KEY);
+        } catch (Exception e) {
+            log.info(e.getMessage());
+            throw new ApplicationException(ApplicationException.PASSWORD_ENCRYPT_ERROR, "用户登录密码加密错误");
+        }
+        target.setPassword(encoded);
         target.setRealName(source.getRealName());
         target.setIdentityNumber(source.getIdentityNumber());
         target.setNickName(source.getNickName());
