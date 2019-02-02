@@ -2,6 +2,7 @@ package com.tianbao.points.app.controller.migration;
 
 import com.tianbao.points.app.controller.migration.input.PersonalBonusMigrationInput;
 import com.tianbao.points.core.constant.StatusCode;
+import com.tianbao.points.core.dto.response.OutputError;
 import com.tianbao.points.core.dto.response.OutputResult;
 import com.tianbao.points.core.entity.PersonalBonus;
 import com.tianbao.points.core.entity.User;
@@ -57,7 +58,7 @@ public class PersonalBonusMigrationController {
     @PostMapping("/save")
     //@RequiresPermissions({"app:user:save"})
     //@RequiresAuthentication
-    public OutputResult<PersonalBonus> save(
+    public OutputError save(
             @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
             @RequestBody @Valid PersonalBonusMigrationInput personalBonusMigrationInput)throws ApplicationException {
 
@@ -80,7 +81,7 @@ public class PersonalBonusMigrationController {
         personalBonus.setUpdateTime(new Date());
         personalBonus.setUpdateUserId(currentId);
         personalBonusService.save(personalBonus);
-        return new OutputResult<>(personalBonus);
+        return new OutputError(200, "SUCCESS");
     }
     private void copyProperties(PersonalBonus target, PersonalBonusMigrationInput source)throws ApplicationException {
         try {
