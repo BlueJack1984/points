@@ -263,14 +263,9 @@
   <select id="getLatestByUserIdInMonth" resultType="personalBonus">
     select <include refid="c_personal_bonus"/>
     from <include refid="t_personal_bonus"/> _personal_bonus
-    where _personal_bonus.id in
-    <foreach item="userId" index="index" collection="userIds" separator=","  open="(" close=")">
-      select bonus.id
-      from <include refid="t_personal_bonus"/> bonus
-      where bonus.status = 0 and bonus.user_id = #{userId}
-      and bonus.create_time >= #{aMonthTime}
-      order by bonus.create_time desc
-      limit 0,1
-    </foreach>
+    where _personal_bonus.status = 0 and _personal_bonus.user_id = #{userId}
+    and _personal_bonus.create_time >= #{aMonthTime}
+    order by bonus.create_time desc
+    limit 0,1
   </select>
 </mapper>

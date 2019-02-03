@@ -54,10 +54,10 @@ public class SystemBonusController {
     @ApiImplicitParams({@ApiImplicitParam(paramType = "header", dataType = "Long", name = "currentId", value = "当前用户id", required = true)})
     @CrossOrigin
     @GetMapping("/balance")
-    //@RequiresPermissions({"admin:system:bonus:balance"})
-    //@RequiresAuthentication
+    @RequiresPermissions({"admin:system:bonus:balance"})
+    @RequiresAuthentication
     public OutputResult<SystemBonusOutput> balance(
-            @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId)throws ApplicationException {
+            @RequestHeader(value = "_current_id") Long currentId)throws ApplicationException {
 
         SystemBonusOutput systemBonusOutput = systemBonusServer.balance();
         return new OutputResult<>(systemBonusOutput);

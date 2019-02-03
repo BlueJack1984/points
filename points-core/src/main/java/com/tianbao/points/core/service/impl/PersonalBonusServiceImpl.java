@@ -194,19 +194,19 @@ public class PersonalBonusServiceImpl extends VisibilityService implements IPers
         if(userIds == null ||userIds.size() <= 0) {
             return null;
         }
-        //List<PersonalBonus> personalBonusList = new ArrayList<>();
+        List<PersonalBonus> personalBonusList = new ArrayList<>();
         Date today = new Date();
         Calendar rightNow = Calendar.getInstance();
         rightNow.setTime(today);
-        rightNow.add(Calendar.DATE, -15);
+        rightNow.add(Calendar.MONTH, -1);
         String aMonthTime = SDF.format(rightNow.getTime());
-//        for(Long userId: userIds) {
-//            PersonalBonus personalBonus = iPersonalBonusDao.getLatestByUserIdInMonth(userIds, aMonthTime);
-//            if(personalBonus != null) {
-//                personalBonusList.add(personalBonus);
-//            }
-//        }
-        List<PersonalBonus> personalBonusList = iPersonalBonusDao.getLatestByUserIdInMonth(userIds, aMonthTime);
+        for(Long userId: userIds) {
+            PersonalBonus personalBonus = iPersonalBonusDao.getLatestByUserIdInMonth(userId, aMonthTime);
+            if(personalBonus != null) {
+                personalBonusList.add(personalBonus);
+            }
+        }
+        //List<PersonalBonus> personalBonusList = iPersonalBonusDao.getLatestByUserIdInMonth(userIds, aMonthTime);
         return personalBonusList;
     }
 

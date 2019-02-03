@@ -89,10 +89,10 @@ public interface IPersonalBonusDao extends IBaseDao<PersonalBonus, Long> {
      * @author lushusheng
      * @Date 2019-2-1
      * @Desc 根据会员id获取个人积分距离当前时间最近一个月内最新的一条数据
-     * @param userIds 表示系统积分增值id
+     * @param userId 表示用户id
      * @param aMonthTime 表示当前时间往前一个月
      * @return 返回操查询到的一条数据
      * @update
      */
-    List<PersonalBonus> getLatestByUserIdInMonth(@Param("userIds") List<Long> userIds, @Param("aMonthTime") String aMonthTime);
+    PersonalBonus getLatestByUserIdInMonth(@Param("userId") Long userId, @Param("aMonthTime") String aMonthTime);
 }
