@@ -18,6 +18,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -34,6 +36,8 @@ import java.util.Date;
 public class SystemBonusMigrationController {
 
     private final ISystemBonusService systemBonusService;
+    private SimpleDateFormat SDF = new SimpleDateFormat("yyyy-MM-dd HH:mm:00");
+    private SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm");
     /**
      * @desc 新建保存一条系统积分信息
      * @author lushusheng 2019-1-28
@@ -63,7 +67,19 @@ public class SystemBonusMigrationController {
         systemBonusService.save(systemBonus);
         return new OutputResult<>(systemBonus);
     }
-    private void copyProperties(SystemBonus target, SystemBonusMigrationInput source) {
+    private void copyProperties(SystemBonus target, SystemBonusMigrationInput source)throws ApplicationException {
+        if(target == null || source == null) {
+            return;
+        }
+        try {
+            Date original = sdf.parse(source.getCreateTime());
+            String format = SDF.format(original);
+            Date createTime = SDF.parse(format);
+            target.setCreateTime(createTime);
+        } catch (ParseException e) {
+            log.info(e.getMessage());
+            throw new ApplicationException(ApplicationException.DATE_PARAM_FORMAT_ERROR, "创建时间格式错误");
+        }
         target.setId(source.getId());
         target.setStartPoints(source.getStartPoints());
         target.setEndPoints(source.getEndPoints());

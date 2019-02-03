@@ -41,7 +41,7 @@ public class PersonalBonusMigrationTest {
         String line = null;
         String params = null;
         try {
-            reader = new BufferedReader(new FileReader("C:\\Users\\lushu\\Desktop\\cccc\\point_txt.csv"));
+            reader = new BufferedReader(new FileReader("C:\\Users\\lushu\\Desktop\\cccc\\point_12-17.csv"));
         } catch (FileNotFoundException e) {
             log.info(e.getMessage());
         }

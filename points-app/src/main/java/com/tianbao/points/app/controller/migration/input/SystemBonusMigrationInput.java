@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -41,4 +42,10 @@ public class SystemBonusMigrationInput {
      */
     @NotNull(message = "会员客户端是否可见参数不能为空")
     private Integer visible;
+
+    /**
+     * 创建时间
+     */
+    @NotBlank(message = "创建时间参数不能为空")
+    private String createTime;
 }
