@@ -6,6 +6,7 @@ import com.tianbao.points.core.exception.ApplicationException;
 import com.tianbao.points.core.service.IUserRoleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -29,6 +30,7 @@ public class UserRoleServiceImpl implements IUserRoleService {
 
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void save(UserRole record) throws ApplicationException {
         iUserRoleDao.insert(record);

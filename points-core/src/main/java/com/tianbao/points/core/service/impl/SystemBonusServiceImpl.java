@@ -142,19 +142,25 @@ public class SystemBonusServiceImpl extends VisibilityService implements ISystem
     @Override
     public SystemBonusOutput balance() throws ApplicationException {
 
-        List<UserDTO> userDTOList = loadAllUsers();
+//        List<UserDTO> userDTOList = loadAllUsers();
         SystemBonusOutput systemBonusOutput = new SystemBonusOutput();
-        Double totalPoints = 0.0;
-        for(UserDTO userDTO: userDTOList) {
-            if(userDTO.getPersonalBonus() == null) {
-                continue;
-            }
-            Double points = userDTO.getPersonalBonus().getEndPoints();
-            if(points != null) {
-                totalPoints += points;
-            }
+//        Double totalPoints = 0.0;
+//        for(UserDTO userDTO: userDTOList) {
+//            if(userDTO.getPersonalBonus() == null) {
+//                continue;
+//            }
+//            Double points = userDTO.getPersonalBonus().getEndPoints();
+//            if(points != null) {
+//                totalPoints += points;
+//            }
+//        }
+//        systemBonusOutput.setTotalPoints(totalPoints);
+        SystemBonus systemBonus = iSystemBonusDao.selectLatest();
+        if(systemBonus == null) {
+            systemBonusOutput.setTotalPoints(0.0);
+        }else {
+            systemBonusOutput.setTotalPoints(systemBonus.getEndPoints());
         }
-        systemBonusOutput.setTotalPoints(totalPoints);
         systemBonusOutput.setSystemRatio(RandomGenerator.getRandomRatio());
         return systemBonusOutput;
     }

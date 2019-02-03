@@ -20,7 +20,10 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -36,6 +39,7 @@ public class PersonalBonusServiceImpl extends VisibilityService implements IPers
      * 注入个人积分增值dao
      */
     private final IPersonalBonusDao iPersonalBonusDao;
+    private SimpleDateFormat SDF = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     /**
      * 注入个人信息service
      */
@@ -187,7 +191,22 @@ public class PersonalBonusServiceImpl extends VisibilityService implements IPers
      */
     @Override
     public List<PersonalBonus> getListByUserIds(List<Long> userIds) throws ApplicationException {
-        List<PersonalBonus> personalBonusList = iPersonalBonusDao.getListByUserIds(userIds);
+        if(userIds == null ||userIds.size() <= 0) {
+            return null;
+        }
+        //List<PersonalBonus> personalBonusList = new ArrayList<>();
+        Date today = new Date();
+        Calendar rightNow = Calendar.getInstance();
+        rightNow.setTime(today);
+        rightNow.add(Calendar.DATE, -15);
+        String aMonthTime = SDF.format(rightNow.getTime());
+//        for(Long userId: userIds) {
+//            PersonalBonus personalBonus = iPersonalBonusDao.getLatestByUserIdInMonth(userIds, aMonthTime);
+//            if(personalBonus != null) {
+//                personalBonusList.add(personalBonus);
+//            }
+//        }
+        List<PersonalBonus> personalBonusList = iPersonalBonusDao.getLatestByUserIdInMonth(userIds, aMonthTime);
         return personalBonusList;
     }
 
