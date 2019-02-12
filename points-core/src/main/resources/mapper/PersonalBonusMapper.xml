@@ -265,7 +265,7 @@
     from <include refid="t_personal_bonus"/> _personal_bonus
     where _personal_bonus.status = 0 and _personal_bonus.user_id = #{userId}
     and _personal_bonus.create_time >= #{aMonthTime}
-    order by bonus.create_time desc
+    order by _personal_bonus.create_time desc
     limit 0,1
   </select>
 </mapper>
