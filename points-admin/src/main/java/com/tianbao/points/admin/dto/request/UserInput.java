@@ -40,6 +40,11 @@ public class UserInput {
     @NotBlank(message = "身份证号不能为空")
     private String identityNumber;
     /**
+     * 性别
+     */
+    //@NotBlank(message = "性别不能为空")
+    private Integer gender;
+    /**
      * 手机号
      */
     //@NotBlank(message = "手机号不能为空")

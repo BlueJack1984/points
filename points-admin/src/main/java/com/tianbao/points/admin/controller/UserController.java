@@ -132,6 +132,9 @@ public class UserController {
         target.setRealName(source.getRealName());
         target.setRankId(source.getRankId());
         target.setIdentityNumber(source.getIdentityNumber());
+        if(source.getGender() != null) {
+            target.setGender(source.getGender());
+        }
         if(! StringUtils.isEmpty(source.getPhone())) {
             target.setPhone(source.getPhone());
         }
