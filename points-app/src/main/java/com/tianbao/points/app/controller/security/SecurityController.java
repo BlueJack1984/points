@@ -3,8 +3,10 @@ package com.tianbao.points.app.controller.security;
 import com.tianbao.points.app.dto.request.LoginInput;
 import com.tianbao.points.app.security.JwtToken;
 import com.tianbao.points.core.dto.response.OutputResult;
+import com.tianbao.points.core.entity.Role;
 import com.tianbao.points.core.entity.User;
 import com.tianbao.points.core.exception.ApplicationException;
+import com.tianbao.points.core.service.IRoleService;
 import com.tianbao.points.core.service.IUserService;
 import com.tianbao.points.core.utils.MD5;
 import com.tianbao.points.core.utils.jwt.JwtUtil;
@@ -22,6 +24,7 @@ import javax.validation.Valid;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Date;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -37,6 +40,7 @@ import java.util.Random;
 public class SecurityController {
 
     private final IUserService userServer;
+    private final IRoleService roleServer;
     @Value("${password.encrypt.key}")
     private String PASSWORD_SECRET_KEY;
     private static String CODE = "";
@@ -96,6 +100,12 @@ public class SecurityController {
         //从数据库中查询用户
         User user = userServer.getByAccount(account);
         if(user == null) {
+            throw new ApplicationException(ApplicationException.ACCOUNT_PARAM_ERROR, "用户账号填写错误");
+        }
+        //必须为会员，非会员则返回错误
+        List<Role> roleList = roleServer.getListByUserId(user.getId());
+        if(roleList == null || roleList.size() <= 0 || roleList.get(0) == null ||
+                ! roleList.get(0).getName().contains("会员")) {
             throw new ApplicationException(ApplicationException.ACCOUNT_PARAM_ERROR, "用户账号填写错误");
         }
         String encoded = null;
