@@ -43,7 +43,7 @@ public class UserMigrationTest {
         String line = null;
         String params = null;
         try {
-            reader = new BufferedReader(new FileReader("E:\\work\\files\\tianbao\\莫忘初心服务器\\lss\\user_txt.csv"));
+            reader = new BufferedReader(new FileReader("E:\\work\\files\\tianbao\\莫忘初心服务器\\user_txt.csv"));
         } catch (FileNotFoundException e) {
             log.info(e.getMessage());
         }
@@ -155,8 +155,12 @@ public class UserMigrationTest {
         }
         target.setPhone(source[7]);
         target.setCertificationTime(source[8]);
-        target.setProvince(source[9]);
-        target.setCity(source[10]);
+        if(source[9] != null) {
+            target.setProvince(source[9]);
+        }
+        if(source[10] != null) {
+            target.setCity(source[10]);
+        }
         if(source[11] != null && source[12] != null) {
             target.setAddress(source[11] + source[12]);
         }else if(source[11] != null) {
