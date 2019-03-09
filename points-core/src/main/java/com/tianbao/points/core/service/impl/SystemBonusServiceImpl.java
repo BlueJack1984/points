@@ -25,6 +25,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -195,8 +196,18 @@ public class SystemBonusServiceImpl extends VisibilityService implements ISystem
             personalBonus.setRatio(systemRatio);
             personalBonus.setStatus(StatusCode.NORMAL.getCode());
             personalBonus.setCreateUserId(currentId);
-            personalBonus.setCreateTime(new Date());
-            personalBonus.setUpdateTime(new Date());
+            String string = "2019-02-23 21:59:06";
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Date wantedDate = null;
+            try {
+                wantedDate = sdf.parse(string);
+            }catch (Exception ex) {
+                System.out.println("************************日期格式转换错误******************");
+            }
+            personalBonus.setCreateTime(wantedDate);
+            personalBonus.setUpdateTime(wantedDate);
+            //personalBonus.setCreateTime(new Date());
+            //personalBonus.setUpdateTime(new Date());
             personalBonus.setUpdateUserId(currentId);
             startPoints += userDTO.getPersonalBonus().getEndPoints();
             Double points = userDTO.getPersonalBonus().getEndPoints() + userDTO.getRank().getBasePoints() * systemRatio;
@@ -263,9 +274,19 @@ public class SystemBonusServiceImpl extends VisibilityService implements ISystem
         systemBonus.setRatio(systemRatio);
         systemBonus.setVisible(0);
         systemBonus.setStatus(StatusCode.NORMAL.getCode());
-        systemBonus.setCreateTime(new Date());
+        String string = "2019-02-23 21:59:06";
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date wantedDate = null;
+        try {
+            wantedDate = sdf.parse(string);
+        }catch (Exception ex) {
+            System.out.println("************************日期格式转换错误******************");
+        }
+        systemBonus.setCreateTime(wantedDate);
+        systemBonus.setUpdateTime(wantedDate);
+        //systemBonus.setCreateTime(new Date());
         systemBonus.setCreateUserId(currentId);
-        systemBonus.setUpdateTime(new Date());
+        //systemBonus.setUpdateTime(new Date());
         systemBonus.setUpdateUserId(currentId);
         iSystemBonusDao.insert(systemBonus);
         return systemBonus.getId();
