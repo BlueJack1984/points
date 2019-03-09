@@ -79,10 +79,10 @@ public class SystemBonusController {
         @ApiImplicitParam(paramType = "query", dataType = "Double", name = "systemRatio", value = "系统权重比率", required = true)})
     @CrossOrigin
     @GetMapping("/checkout")
-    @RequiresPermissions({"admin:system:bonus:checkout"})
-    @RequiresAuthentication
+    //@RequiresPermissions({"admin:system:bonus:checkout"})
+    //@RequiresAuthentication
     public OutputResult<Void> checkout(
-            @RequestHeader(value = "_current_id") Long currentId,
+            @RequestHeader(value = "_current_id", required = false, defaultValue = "110") Long currentId,
             @RequestParam("systemRatio") Double systemRatio)throws ApplicationException {
         Date today = new Date();
         //数据库中查询最新的一条数据日期
