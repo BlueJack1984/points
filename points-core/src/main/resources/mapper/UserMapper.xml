@@ -4,7 +4,7 @@
 
   <!-- 用户实体对象的持久化 -->
   <sql id="c_user">
-     `_user`.id, `_user`.account, `_user`.password, `_user`.super_password superPassword,
+     `_user`.account, `_user`.id, `_user`.password, `_user`.super_password superPassword,
      `_user`.real_name realName, `_user`.identity_number identityNumber, `_user`.nick_name nickName, `_user`.head_image headImage,
      `_user`.phone, `_user`.email, `_user`.gender, `_user`.rank_id rankId, `_user`.status,
      `_user`.question_id questionId, `_user`.answer, `_user`.last_login_ip lastLoginIp, `_user`.last_login_time lastLoginTime,
@@ -336,7 +336,7 @@
 
   <!--查询所有用户列表，禁用，待审核用户不在此范围,查询信息包括会员等级信息-->
   <select id="getList" resultType="user">
-    select <include refid="c_user"/>
+    select distinct <include refid="c_user"/>
     from  <include refid="t_user"/> _user
     where _user.status = 0
   </select>
