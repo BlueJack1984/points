@@ -21,6 +21,7 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 /**
  * @desc 管理员用户的管理入口
@@ -143,6 +144,16 @@ public class AdministratorController {
         if(StringUtils.isEmpty(adminInput.getPassword()) || StringUtils.isEmpty(adminInput.getSurePassword())
                 || ! adminInput.getPassword().equals(adminInput.getSurePassword())) {
             throw new ApplicationException(ApplicationException.PASSWORD_NEW_SURE_NOT_EQUAL, "密码与确认密码要相同且均不能为空");
+        }
+        //获取所有合法用户列表,包含会员等级信息
+        List<UserDTO> userDTOList = userServer.getList();
+        if (userDTOList == null) {
+            throw new ApplicationException(ApplicationException.ADMIN_USER_NOT_EXISTS, "管理员列表为空");
+        }
+        for(UserDTO userDTO: userDTOList) {
+            if(adminInput.getAccount().equals(userDTO.getAccount())) {
+                throw new ApplicationException(ApplicationException.ACCOUNT_PARAM_ERROR, "该账户已存在，请重新输入新账号");
+            }
         }
         User user = new User();
         user.setAccount(adminInput.getAccount());

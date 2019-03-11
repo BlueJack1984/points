@@ -22,6 +22,7 @@ import javax.validation.Valid;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @desc 用户管理员入口
@@ -65,6 +66,16 @@ public class UserController {
 
         if(! userInput.getPassword().equals(userInput.getSurePassword())) {
             throw new ApplicationException(ApplicationException.PASSWORD_NEW_SURE_NOT_EQUAL, "设置登录密码与确认密码不一致");
+        }
+        //获取所有合法用户列表,包含会员等级信息
+        List<UserDTO> userDTOList = userServer.getList();
+        if (userDTOList == null) {
+            throw new ApplicationException(ApplicationException.MEMBER_USER_NOT_EXISTS, "已审核会员用户列表为空");
+        }
+        for(UserDTO userDTO: userDTOList) {
+            if(userInput.getAccount().equals(userDTO.getAccount())) {
+                throw new ApplicationException(ApplicationException.ACCOUNT_PARAM_ERROR, "该会员用户已存在，账号输入错误");
+            }
         }
         User user = new User();
         copyProperties(user, userInput);
