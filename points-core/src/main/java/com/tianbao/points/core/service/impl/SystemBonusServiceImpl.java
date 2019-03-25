@@ -201,7 +201,7 @@ public class SystemBonusServiceImpl extends VisibilityService implements ISystem
             personalBonus.setRatio(systemRatio);
             personalBonus.setStatus(StatusCode.NORMAL.getCode());
             personalBonus.setCreateUserId(currentId);
-//            String string = "2019-03-10 21:59:06";
+//            String string = "2019-03-24 21:59:06";
 //            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 //            Date wantedDate = null;
 //            try {
@@ -279,7 +279,7 @@ public class SystemBonusServiceImpl extends VisibilityService implements ISystem
         systemBonus.setRatio(systemRatio);
         systemBonus.setVisible(0);
         systemBonus.setStatus(StatusCode.NORMAL.getCode());
-//        String string = "2019-03-10 21:59:06";
+//        String string = "2019-03-24 21:59:06";
 //        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 //        Date wantedDate = null;
 //        try {
