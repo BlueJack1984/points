@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -36,6 +37,7 @@ public class UserMigrationTest {
     private String PASSWORD_SECRET_KEY;
 
     @Test
+    @Transactional(rollbackFor = Exception.class)
     public void save() throws ApplicationException {
 
         // 读取本地csv文件的Url路径
@@ -43,7 +45,7 @@ public class UserMigrationTest {
         String line = null;
         String params = null;
         try {
-            reader = new BufferedReader(new FileReader("E:\\work\\盛华天宝\\服务器数据文件\\不会选\\user.csv"));
+            reader = new BufferedReader(new FileReader("D:\\学习\\盛华天宝\\不会选--新上线服务器\\user.csv"));
         } catch (FileNotFoundException e) {
             log.info(e.getMessage());
         }
