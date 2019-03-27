@@ -42,7 +42,7 @@ public class SystemBonusMigrationTest {
         String line = null;
         String params = null;
         try {
-            reader = new BufferedReader(new FileReader("E:\\work\\files\\tianbao\\莫忘初心服务器\\数据表\\pointlist_txt_new.csv"));
+            reader = new BufferedReader(new FileReader("E:\\work\\盛华天宝\\服务器数据文件\\不会选\\pointlist.csv"));
         } catch (FileNotFoundException e) {
             log.info(e.getMessage());
         }
