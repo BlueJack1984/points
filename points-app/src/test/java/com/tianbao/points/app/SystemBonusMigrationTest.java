@@ -91,7 +91,7 @@ public class SystemBonusMigrationTest {
         target.setRatio(Double.parseDouble(source[1]));
         target.setStartPoints(Double.parseDouble(source[2]));
         target.setEndPoints(Double.parseDouble(source[3]));
-        if("TRUE".equals(source[4])) {
+        if("TRUE".equals(source[4]) || "true".equals(source[4])) {
             target.setVisible(0);
         }else {
             target.setVisible(1);

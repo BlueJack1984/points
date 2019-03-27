@@ -106,7 +106,7 @@ public class PersonalBonusMigrationTest {
         target.setRatio(Double.parseDouble(source[3]));
         target.setStartPoints(Double.parseDouble(source[4]));
         target.setEndPoints(Double.parseDouble(source[5]));
-        if("TRUE".equals(source[6])) {
+        if("TRUE".equals(source[6]) || "true".equals(source[6])) {
             target.setVisible(0);
         }else {
             target.setVisible(1);
