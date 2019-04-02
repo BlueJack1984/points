@@ -44,7 +44,7 @@ public class UserRoleMigrationTest {
         String line = null;
         String params = null;
         try {
-            reader = new BufferedReader(new FileReader("E:\\work\\盛华天宝\\服务器数据文件\\不会选\\user_role.csv"));
+            reader = new BufferedReader(new FileReader("E:\\work\\盛华天宝\\服务器数据文件\\唯我独尊是我的\\user_role.csv"));
         } catch (FileNotFoundException e) {
             log.info(e.getMessage());
         }

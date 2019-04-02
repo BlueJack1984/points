@@ -188,7 +188,13 @@ public class SystemBonusServiceImpl extends VisibilityService implements ISystem
                 PersonalBonus headBonus = new PersonalBonus();
                 headBonus.setId(0L);
                 headBonus.setStartPoints(0.0);
-                headBonus.setEndPoints(0.0);
+                Rank rank = userDTO.getRank();
+                if(rank == null) {
+                    throw new ApplicationException(ApplicationException.RANK_NOT_EXISTS, "该用户没有设定会员等级");
+                }else if (rank.getOrder() < 1 || rank.getOrder() > 4){
+                    throw new ApplicationException(ApplicationException.PARAM_VALIDATION_ERROR, "会员等级参数错误");
+                }
+                headBonus.setEndPoints(1.0 * rank.getBasePoints());
                 userDTO.setPersonalBonus(headBonus);
                 //continue;
             }
