@@ -1,5 +1,6 @@
 package com.tianbao.points.app.controller;
 
+import com.tianbao.points.app.dto.request.PersonalInfoInput;
 import com.tianbao.points.app.dto.request.UserInput;
 import com.tianbao.points.core.dto.UserDTO;
 import com.tianbao.points.core.dto.response.OutputResult;
@@ -13,6 +14,7 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Value;
@@ -117,5 +119,65 @@ public class UserController {
         target.setCity(source.getCity());
         target.setAddress(source.getAddress());
         target.setCertificationTime(certificationTime);
+    }
+
+    /**
+     * @author lushusheng
+     * @Date 2019-5-9
+     * @Desc 根据会员id更新会员的个人信息
+     * @return 返回更新后的实体
+     * @update
+     */
+    @ApiOperation(value = "根据会员id更新会员的个人信息", notes = "根据会员id更新会员的个人信息")
+    @ApiImplicitParams({
+        @ApiImplicitParam(paramType = "header", dataType = "Long", name = "currentId", value = "当前用户id", required = true),
+        @ApiImplicitParam(paramType = "body", dataType = "UserInput", name = "userInput", value = "更新内容", required = true)})
+    @CrossOrigin
+    @PostMapping("/update")
+    @RequiresPermissions({"app:user:update"})
+    @RequiresAuthentication
+    public OutputResult<User> update(
+            @RequestHeader(value = "_current_id") Long currentId,
+            @RequestBody @Valid PersonalInfoInput personalInfoInput)throws ApplicationException {
+        User user = userServer.selectById(currentId);
+        if(user == null) {
+            throw new ApplicationException(ApplicationException.MEMBER_USER_NOT_EXISTS, "会员用户实体不存在");
+        }
+        updateProperties(user, personalInfoInput);
+        user.setUpdateTime(new Date());
+        user.setUpdateUserId(currentId);
+        userServer.updateById(user);
+        return new OutputResult<>(user);
+    }
+
+    /**
+     * @author lushusheng
+     * @Date 2019-5-9
+     * @Desc 复制更新的属性
+     * @return 无返回
+     * @update
+     */
+    private void  updateProperties(User target, PersonalInfoInput source) throws ApplicationException {
+
+        if(target == null || source == null) {
+            return;
+        }
+        target.setRealName(source.getRealName());
+        target.setIdentityNumber(source.getIdentityNumber());
+        if(source.getGender() != null) {
+            target.setGender(source.getGender());
+        }
+        if(! StringUtils.isEmpty(source.getPhone())) {
+            target.setPhone(source.getPhone());
+        }
+        if(! StringUtils.isEmpty(source.getProvince())) {
+            target.setProvince(source.getProvince());
+        }
+        if(! StringUtils.isEmpty(source.getCity())) {
+            target.setCity(source.getCity());
+        }
+        if(! StringUtils.isEmpty(source.getAddress())) {
+            target.setAddress(source.getAddress());
+        }
     }
 }
