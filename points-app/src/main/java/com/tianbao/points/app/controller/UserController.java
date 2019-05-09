@@ -131,7 +131,7 @@ public class UserController {
     @ApiOperation(value = "根据会员id更新会员的个人信息", notes = "根据会员id更新会员的个人信息")
     @ApiImplicitParams({
         @ApiImplicitParam(paramType = "header", dataType = "Long", name = "currentId", value = "当前用户id", required = true),
-        @ApiImplicitParam(paramType = "body", dataType = "UserInput", name = "userInput", value = "更新内容", required = true)})
+        @ApiImplicitParam(paramType = "body", dataType = "PersonalInfoInput", name = "personalInfoInput", value = "更新内容", required = true)})
     @CrossOrigin
     @PostMapping("/update")
     @RequiresPermissions({"app:user:update"})
