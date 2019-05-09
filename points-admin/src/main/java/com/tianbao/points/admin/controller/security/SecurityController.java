@@ -3,6 +3,7 @@ package com.tianbao.points.admin.controller.security;
 import com.tianbao.points.admin.dto.request.LoginInput;
 import com.tianbao.points.admin.security.JwtToken;
 import com.tianbao.points.core.dto.response.OutputResult;
+import com.tianbao.points.core.dto.response.OutputResultCaptcha;
 import com.tianbao.points.core.entity.Role;
 import com.tianbao.points.core.entity.User;
 import com.tianbao.points.core.exception.ApplicationException;
@@ -23,9 +24,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.Date;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author lushusheng
@@ -46,11 +46,12 @@ public class SecurityController {
     /**
      * 保存产生的图形验证码，用于用户输入验证码在后台对比
      */
-    private static String generatedCaptcha = "";
+    private static final Map<String, String> captchaMap = new ConcurrentHashMap<>();
     /**
      * 设置要产生的验证码位数
      */
     private static final Integer CAPTCHA_BITS = 4;
+
 
     /**
      * @desc 随机产生4个数字，组成一个字符串返回
@@ -63,7 +64,7 @@ public class SecurityController {
     @ApiImplicitParams({})
     @CrossOrigin
     @GetMapping("/captcha/generate")
-    public OutputResult<String> generateCaptcha() throws ApplicationException {
+    public OutputResultCaptcha<String> generateCaptcha() throws ApplicationException {
         //String str="0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         String container = "0123456789";
         StringBuilder captcha = new StringBuilder(CAPTCHA_BITS);
@@ -75,8 +76,11 @@ public class SecurityController {
             char single = container.charAt(random.nextInt(container.length()));
             captcha.append(single);
         }
-        generatedCaptcha = captcha.toString();
-        return new OutputResult<>(generatedCaptcha);
+        String code = captcha.toString();
+        String identityId = UUID.randomUUID().toString();
+        captchaMap.put(identityId, code);
+        OutputResultCaptcha<String> result = new OutputResultCaptcha<>(identityId, code);
+        return result;
     }
 
     /**
@@ -94,7 +98,8 @@ public class SecurityController {
     public OutputResult<JwtToken> login(@RequestBody @Valid LoginInput loginInput) throws ApplicationException {
         //判断验证码是否正确
         String userCaptcha = loginInput.getUserCaptcha();
-        if (! userCaptcha.equals(generatedCaptcha)) {
+        String savedCaptcha = captchaMap.get(loginInput.getIdentityId());
+        if (! userCaptcha.equals(savedCaptcha)) {
             log.info("-----------------------------------> 验证码错误");
             throw new ApplicationException(ApplicationException.CAPTCHA_PARAM_ERROR, "验证码填写错误");
         }
@@ -142,6 +147,8 @@ public class SecurityController {
         user.setUpdateTime(new Date());
         user.setUpdateUserId(user.getId());
         userServer.updateById(user);
+        //删除map中保存的验证码
+        captchaMap.remove(loginInput.getIdentityId());
         return new OutputResult<>(jwtToken);
     }
 
