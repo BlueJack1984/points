@@ -4,10 +4,12 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 @MapperScan(basePackages = {"com.tianbao.points.core.dao"})
 //scanBasePackages可添加多项，以逗号分隔
 @SpringBootApplication(scanBasePackages = {"com.tianbao.points.admin", "com.tianbao.points.core"})
+@EnableScheduling
 public class PointsAdminApplication {
 
     public static void main(String[] args) {
