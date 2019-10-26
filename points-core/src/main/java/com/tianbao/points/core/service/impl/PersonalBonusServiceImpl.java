@@ -75,7 +75,7 @@ public class PersonalBonusServiceImpl extends VisibilityService implements IPers
 
     @Override
     public void updateById(PersonalBonus record) throws ApplicationException {
-
+        iPersonalBonusDao.updateByPrimaryKey(record);
     }
 
     /**

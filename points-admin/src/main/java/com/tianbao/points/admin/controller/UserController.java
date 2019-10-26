@@ -6,8 +6,12 @@ import com.tianbao.points.admin.dto.request.UserInput;
 import com.tianbao.points.core.dto.UserDTO;
 import com.tianbao.points.core.dto.response.OutputListResult;
 import com.tianbao.points.core.dto.response.OutputResult;
+import com.tianbao.points.core.entity.PersonalBonus;
+import com.tianbao.points.core.entity.Rank;
 import com.tianbao.points.core.entity.User;
 import com.tianbao.points.core.exception.ApplicationException;
+import com.tianbao.points.core.service.IPersonalBonusService;
+import com.tianbao.points.core.service.IRankService;
 import com.tianbao.points.core.service.IUserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -40,6 +44,8 @@ public class UserController {
      * 注入用户服务service
      */
     private final IUserService userServer;
+    private final IRankService rankServer;
+    private final IPersonalBonusService personalBonusServer;
 
     /**
      * @author lushusheng
@@ -111,12 +117,37 @@ public class UserController {
         if(user == null) {
             throw new ApplicationException(ApplicationException.MEMBER_USER_NOT_EXISTS, "会员用户实体不存在");
         }
+        //在这判断会员等级是否有变化
+        Long target = userInput.getRankId();
+        Long source = user.getRankId();
+        handleUpdateRankParameter(target, source, user.getId());
         copyProperties(user, userInput);
         user.setUpdateTime(new Date());
         user.setUpdateUserId(currentId);
         userServer.updateById(user);
         return new OutputResult<>(user);
     }
+    public void handleUpdateRankParameter(Long target, Long source, Long userId) throws ApplicationException {
+        if(target <= source) {
+            return;
+        }
+        Rank targetRank = rankServer.selectById(target);
+        Rank sourceRank = rankServer.selectById(source);
+        Integer extraPoints = targetRank.getBasePoints() - sourceRank.getBasePoints();
+        PersonalBonus personalBonus = personalBonusServer.getLatestByUserId(userId);
+        if(null == personalBonus) {
+            log.info("在更改会员等级时，给会员增加积分时出错！");
+            return;
+        }
+        Double newEndPoints = personalBonus.getEndPoints() + extraPoints;
+        personalBonus.setEndPoints(newEndPoints);
+        personalBonus.setUpdateTime(new Date());
+        personalBonus.setUpdateUserId(110L);
+        personalBonusServer.updateById(personalBonus);
+    }
+
+
+
     /**
      * @author lushusheng
      * @Date 2018-12-02
