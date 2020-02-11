@@ -137,7 +137,7 @@ public class UserController {
         PersonalBonus personalBonus = personalBonusServer.getLatestByUserId(userId);
         if(null == personalBonus) {
             log.info("在更改会员等级时，给会员增加积分时出错！");
-            return;
+            throw new ApplicationException(ApplicationException.PERSONAL_BONUS_NOT_EXISTS, "个人积分实体不存在");
         }
         Double newEndPoints = personalBonus.getEndPoints() + extraPoints;
         personalBonus.setEndPoints(newEndPoints);
