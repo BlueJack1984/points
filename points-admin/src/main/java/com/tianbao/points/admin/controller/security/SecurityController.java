@@ -109,14 +109,14 @@ public class SecurityController {
         User user = userServer.getByAccount(account);
         if(user == null) {
             log.info("admin端数据库中查询用户为空，数据库中没有该用户！！！");
-            throw new ApplicationException(ApplicationException.ACCOUNT_PARAM_ERROR, "用户账号填写错误");
+            throw new ApplicationException(ApplicationException.ACCOUNT_PARAM_ERROR, "admin端用户账号错误，无法查询到用户");
         }
         //判断是否是会员，如果是会员则返回错误
         List<Role> roleList = roleServer.getListByUserId(user.getId());
         if(roleList == null || roleList.size() <= 0 || roleList.get(0) == null ||
             ! roleList.get(0).getName().contains("管理员")) {
             log.info("admin端数据库中查询用户的角色相关为空，该用户没有合适的角色！！！");
-            throw new ApplicationException(ApplicationException.ACCOUNT_PARAM_ERROR, "用户账号填写错误");
+            throw new ApplicationException(ApplicationException.ACCOUNT_PARAM_ERROR, "admin端用户账号错误，用户相关角色错误");
         }
         String encoded = null;
         try {
